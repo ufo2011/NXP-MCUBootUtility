@@ -44,6 +44,10 @@ class secBootUi(secBootWin.secBootWin):
         self._initToolRunMode()
         self.setToolRunMode()
 
+        self.isAutoUsbDetection = None
+        self._initUsbDetection()
+        self.setUsbDetection()
+
         self.updateConnectStatus()
 
         self.mcuSeries = None
@@ -75,15 +79,27 @@ class secBootUi(secBootWin.secBootWin):
 
     def _initToolRunMode( self ):
         if self.toolCommDict['isToolRunAsEntryMode']:
-            self.m_menuItem_entryMode.Check(True)
-            self.m_menuItem_masterMode.Check(False)
+            self.m_menuItem_runModeEntry.Check(True)
+            self.m_menuItem_runModeMaster.Check(False)
         else:
-            self.m_menuItem_entryMode.Check(False)
-            self.m_menuItem_masterMode.Check(True)
+            self.m_menuItem_runModeEntry.Check(False)
+            self.m_menuItem_runModeMaster.Check(True)
 
     def setToolRunMode( self ):
-        self.isToolRunAsEntryMode = self.m_menuItem_entryMode.IsChecked()
+        self.isToolRunAsEntryMode = self.m_menuItem_runModeEntry.IsChecked()
         self.toolCommDict['isToolRunAsEntryMode'] = self.isToolRunAsEntryMode
+
+    def _initUsbDetection( self ):
+        if self.toolCommDict['isAutoUsbDetection']:
+            self.m_menuItem_usbDetectionAuto.Check(True)
+            self.m_menuItem_usbDetectionStatic.Check(False)
+        else:
+            self.m_menuItem_usbDetectionAuto.Check(False)
+            self.m_menuItem_usbDetectionStatic.Check(True)
+
+    def setUsbDetection( self ):
+        self.isAutoUsbDetection = self.m_menuItem_usbDetectionAuto.IsChecked()
+        self.toolCommDict['isAutoUsbDetection'] = self.isAutoUsbDetection
 
     def _initTargetSetupValue( self ):
         self.m_choice_mcuSeries.Clear()
@@ -140,7 +156,7 @@ class secBootUi(secBootWin.secBootWin):
             # Auto detect USB-HID device
             hidFilter = pywinusb.hid.HidDeviceFilter(vendor_id = int(self.usbhidToConnect[0], 16), product_id = int(self.usbhidToConnect[1], 16))
             hidDevice = hidFilter.get_devices()
-            if len(hidDevice) > 0:
+            if (not self.isAutoUsbDetection) or (len(hidDevice) > 0):
                 self.isUsbhidConnected = True
                 usbVid[0] = self.usbhidToConnect[0]
                 usbPid[0] = self.usbhidToConnect[1]
@@ -151,7 +167,8 @@ class secBootUi(secBootWin.secBootWin):
             else:
                 usbVid[0] = 'N/A - Not Found'
                 usbPid[0] = usbVid[0]
-        if self.m_choice_portVid.GetString(self.m_choice_portVid.GetSelection()) != usbVid[0]:
+        if self.m_choice_portVid.GetString(self.m_choice_portVid.GetSelection()) != usbVid[0] or \
+           self.m_choice_baudPid.GetString(self.m_choice_baudPid.GetSelection()) != usbPid[0]:
             self.m_choice_portVid.Clear()
             self.m_choice_portVid.SetItems(usbVid)
             self.m_choice_portVid.SetSelection(0)

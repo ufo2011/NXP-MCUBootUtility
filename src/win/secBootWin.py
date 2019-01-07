@@ -42,14 +42,23 @@ class secBootWin ( wx.Frame ):
 		self.m_menubar.Append( self.m_menu_view, u"View" )
 
 		self.m_menu_tools = wx.Menu()
-		self.m_menu_option = wx.Menu()
-		self.m_menuItem_entryMode = wx.MenuItem( self.m_menu_option, wx.ID_ANY, u"Entry Mode", wx.EmptyString, wx.ITEM_RADIO )
-		self.m_menu_option.Append( self.m_menuItem_entryMode )
+		self.m_menu_runMode = wx.Menu()
+		self.m_menuItem_runModeEntry = wx.MenuItem( self.m_menu_runMode, wx.ID_ANY, u"Entry", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_runMode.Append( self.m_menuItem_runModeEntry )
 
-		self.m_menuItem_masterMode = wx.MenuItem( self.m_menu_option, wx.ID_ANY, u"Master Mode", wx.EmptyString, wx.ITEM_RADIO )
-		self.m_menu_option.Append( self.m_menuItem_masterMode )
+		self.m_menuItem_runModeMaster = wx.MenuItem( self.m_menu_runMode, wx.ID_ANY, u"Master", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_runMode.Append( self.m_menuItem_runModeMaster )
 
-		self.m_menu_tools.AppendSubMenu( self.m_menu_option, u"Option" )
+		self.m_menu_tools.AppendSubMenu( self.m_menu_runMode, u"Run Mode" )
+
+		self.m_menu_usbDetection = wx.Menu()
+		self.m_menuItem_usbDetectionAuto = wx.MenuItem( self.m_menu_usbDetection, wx.ID_ANY, u"Auto", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_usbDetection.Append( self.m_menuItem_usbDetectionAuto )
+
+		self.m_menuItem_usbDetectionStatic = wx.MenuItem( self.m_menu_usbDetection, wx.ID_ANY, u"Static", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_usbDetection.Append( self.m_menuItem_usbDetectionStatic )
+
+		self.m_menu_tools.AppendSubMenu( self.m_menu_usbDetection, u"USB Detection" )
 
 		self.m_menubar.Append( self.m_menu_tools, u"Tools" )
 
@@ -1700,8 +1709,10 @@ class secBootWin ( wx.Frame ):
 		# Connect Events
 		self.Bind( wx.EVT_CLOSE, self.callbackClose )
 		self.Bind( wx.EVT_MENU, self.callbackExit, id = self.m_menuItem_exit.GetId() )
-		self.Bind( wx.EVT_MENU, self.callbackSetEntryMode, id = self.m_menuItem_entryMode.GetId() )
-		self.Bind( wx.EVT_MENU, self.callbackSetMasterMode, id = self.m_menuItem_masterMode.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsEntry, id = self.m_menuItem_runModeEntry.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsMaster, id = self.m_menuItem_runModeMaster.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsAuto, id = self.m_menuItem_usbDetectionAuto.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsStatic, id = self.m_menuItem_usbDetectionStatic.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowHomePage, id = self.m_menuItem_homePage.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowAboutAuthor, id = self.m_menuItem_aboutAuthor.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowSpecialThanks, id = self.m_menuItem_specialThanks.GetId() )
@@ -1751,10 +1762,16 @@ class secBootWin ( wx.Frame ):
 	def callbackExit( self, event ):
 		event.Skip()
 
-	def callbackSetEntryMode( self, event ):
+	def callbackSetRunModeAsEntry( self, event ):
 		event.Skip()
 
-	def callbackSetMasterMode( self, event ):
+	def callbackSetRunModeAsMaster( self, event ):
+		event.Skip()
+
+	def callbackSetUsbDetectionAsAuto( self, event ):
+		event.Skip()
+
+	def callbackSetUsbDetectionAsStatic( self, event ):
 		event.Skip()
 
 	def callbackShowHomePage( self, event ):

@@ -52,8 +52,7 @@ class secBootMain(memcore.secBootMem):
     def callbackSetMcuDevice( self, event ):
         self.setTargetSetupValue()
         self.createMcuTarget()
-        usbIdList = self.getUsbid()
-        self.adjustPortSetupValue(self.connectStage, usbIdList)
+        self._setUartUsbPort()
         self.applyFuseOperToRunMode()
 
     def callbackSetBootDevice( self, event ):
@@ -655,13 +654,19 @@ class secBootMain(memcore.secBootMem):
         self.setSecureBootButtonColor()
         self.enableOneStepForEntryMode()
 
-    def callbackSetEntryMode( self, event ):
+    def callbackSetRunModeAsEntry( self, event ):
         self.setToolRunMode()
         self._switchToolRunMode()
 
-    def callbackSetMasterMode( self, event ):
+    def callbackSetRunModeAsMaster( self, event ):
         self.setToolRunMode()
         self._switchToolRunMode()
+
+    def callbackSetUsbDetectionAsAuto( self, event ):
+        self.setUsbDetection()
+
+    def callbackSetUsbDetectionAsStatic( self, event ):
+        self.setUsbDetection()
 
     def callbackShowHomePage( self, event ):
         msgText = (('https://github.com/JayHeng/NXP-MCUBootUtility.git \n'))
@@ -697,14 +702,20 @@ class secBootMain(memcore.secBootMem):
                          "    11. Support common eFuse memory operation \n" + \
                          "    12. Support common boot device memory operation \n" + \
                          "    13. Support for reading back and marking bootable image from supported boot devices \n\n"
-        msgText = ((revision_1_0_0.encode('utf-8')))
+        revision_1_1_0 = "【v1.1.0】 \n" + \
+                         "  Feature: \n" + \
+                         "     1. Support i.MXRT1015 \n" + \
+                         "  Improvement: \n" + \
+                         "     1. NSB-14 USB device auto-detection can be disabled \n\n"
+        msgText = ((revision_1_0_0.encode('utf-8')) +
+                   (revision_1_1_0.encode('utf-8')))
         wx.MessageBox(msgText, "Revision History", wx.OK | wx.ICON_INFORMATION)
 
 if __name__ == '__main__':
     app = wx.App()
 
     g_main_win = secBootMain(None)
-    g_main_win.SetTitle(u"NXP MCU Boot Utility v1.0.0")
+    g_main_win.SetTitle(u"NXP MCU Boot Utility v1.1.0")
     g_main_win.Show()
 
     app.MainLoop()

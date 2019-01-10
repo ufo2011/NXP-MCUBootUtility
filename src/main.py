@@ -125,7 +125,6 @@ class secBootMain(memcore.secBootMem):
 
     def callbackSetUsbhidPort( self, event ):
         self._setUartUsbPort()
-        self.periodicUsbhidDetectTask()
 
     def callbackSetOneStep( self, event ):
         if not self.isToolRunAsEntryMode:
@@ -638,8 +637,8 @@ class secBootMain(memcore.secBootMem):
         self.saveLog()
 
     def _deinitToolToExit( self ):
-        if self.usbhidDetectTimer != None:
-            self.usbhidDetectTimer.cancel()
+        if self.periodicCommonTaskTimer != None:
+            self.periodicCommonTaskTimer.cancel()
         uivar.setAdvancedSettings(uidef.kAdvancedSettings_Tool, self.toolCommDict)
         uivar.deinitVar()
         #exit(0)

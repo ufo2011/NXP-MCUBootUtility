@@ -72,8 +72,11 @@ class secBootUi(secBootWin.secBootWin):
         self.isUsbhidConnected = False
         self.usbhidToConnect = [None] * 2
         self._initPortSetupValue()
-        self.usbhidDetectTimer = None
-        self.periodicUsbhidDetectTask()
+
+        self.soundEffectFilenameForTask = None
+        self.periodicCommonTaskTimer = None
+        self.periodicCommonTask()
+
         self.isOneStepConnectMode = None
         self.initOneStepConnectMode()
 
@@ -161,11 +164,14 @@ class secBootUi(secBootWin.secBootWin):
         usbIdList = self.getUsbid()
         self.setPortSetupValue(uidef.kConnectStage_Rom, usbIdList)
 
-    def periodicUsbhidDetectTask( self ):
+    def periodicCommonTask( self ):
+        if self.soundEffectFilenameForTask != None:
+            self._playSoundEffect(self.soundEffectFilenameForTask)
+            self.soundEffectFilenameForTask = None
         if self.isUsbhidPortSelected:
             self._retryToDetectUsbhidDevice(False)
-            self.usbhidDetectTimer = threading.Timer(1, self.periodicUsbhidDetectTask)
-            self.usbhidDetectTimer.start()
+        self.periodicCommonTaskTimer = threading.Timer(1, self.periodicCommonTask)
+        self.periodicCommonTaskTimer.start()
 
     def _retryToDetectUsbhidDevice( self, needToRetry = True ):
         usbVid = [None]
@@ -403,7 +409,7 @@ class secBootUi(secBootWin.secBootWin):
             allInOneSoundEffect = uidef.kSoundEffectFilename_Failure
         if stepName == uidef.kSecureBootSeqStep_AllInOne:
             self.m_button_allInOneAction.SetBackgroundColour( invalidColor )
-            self._playSoundEffect(allInOneSoundEffect)
+            self.soundEffectFilenameForTask = allInOneSoundEffect
         else:
             if stepName == uidef.kSecureBootSeqStep_GenCert:
                 self.m_button_genCert.SetBackgroundColour( invalidColor )
@@ -489,7 +495,7 @@ class secBootUi(secBootWin.secBootWin):
         self.m_button_allInOneAction.SetBackgroundColour( uidef.kBootSeqColor_Active )
         self.Refresh()
         if needToPlaySound:
-            self._playSoundEffect(uidef.kSoundEffectFilename_Restart)
+            self.soundEffectFilenameForTask = uidef.kSoundEffectFilename_Restart
 
     def _getImgName( self ):
         memType = ''

@@ -9,13 +9,14 @@
 　　NXP-MCUBootUtility是一个专为NXP MCU安全加密启动而设计的工具，其特性与NXP MCU里BootROM功能相对应，目前主要支持i.MXRT系列MCU芯片，与NXP官方的标准安全加密配套工具集（OpenSSL, CST, sdphost, blhost, elftosb, BD, MfgTool2）相比，NXP-MCUBootUtility是一个真正的一站式工具，一个工具包含NXP官方所有加密配套工具的功能，并且是全图形用户界面操作。借助于NXP-MCUBootUtility，你可以轻松上手NXP MCU安全加密启动。  
 　　NXP-MCUBootUtility主要功能如下：  
 
-> * 支持i.MXRT全系列MCU，包含i.MXRT1021、i.MXRT1051/1052、i.MXRT1061/1062、i.MXRT1064 SIP  
+> * 支持i.MXRT全系列MCU，包含i.MXRT1015、i.MXRT1021、i.MXRT1051/1052、i.MXRT1061/1062、i.MXRT1064 SIP  
 > * 支持UART和USB-HID两种串行下载方式（COM端口/USB设备自动识别）  
 > * 支持五种常用格式(elf/axf/srec/hex/bin)裸源image文件输入并检查其链接地址的合法性  
 > * 支持将裸源image文件自动转换成i.MXRT能启动的Bootable image  
 > * 支持下载Bootable image进主动启动设备 - FlexSPI NOR、SEMC NAND接口Flash  
 > * 支持下载Bootable image进备份启动设备 - LPSPI接口NOR/EEPROM Flash  
 > * 支持DCD配置功能，可用于加载image进SDRAM执行  
+> * 支持用于开发阶段的非安全加密启动（未签名加密）  
 > * 支持基于HAB实现的安全加密启动（单签名，签名和加密），证书自动备份  
 > * 支持基于BEE实现的安全加密启动（唯一SNVS key，用户自定义key）  
 > * 支持MCU芯片内部eFuse的回读和烧写操作（即专用eFuse烧写器）  
@@ -23,7 +24,7 @@
 > * 支持从外部启动设备回读Bootable image，并对其组成部分（NFCB/DBBT/FDCB/EKIB/EPRDB/IVT/Boot Data/DCD/Image/CSF/DEK KeyBlob）进行标注  
 
 #### 1.2 下载
-　　NXP-MCUBootUtility完全基于Python语言开发，并且源代码全部开源，其具体开发环境为Python 2.7.15 (32bit)、wxPython 4.0.3、pySerial 3.4、pywinusb 0.4.2、bincopy 15.0.0、PyInstaller 3.3.1（或更高）。  
+　　NXP-MCUBootUtility完全基于Python语言开发，并且源代码全部开源，其具体开发环境为Python 2.7.15 (32bit)、wxPython 4.0.3、pySerial 3.4、pywinusb 0.4.2、bincopy 15.0.0、PyAudio 0.2.11、PyInstaller 3.3.1（或更高）。  
 
 > * 源代码: https://github.com/JayHeng/NXP-MCUBootUtility  
 > * 问题反馈: https://www.cnblogs.com/henjay724/p/10159925.html  

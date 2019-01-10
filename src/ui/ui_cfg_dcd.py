@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_DCD
 from gen import gendef
 from run import rundef
+from utils import sound
 
 class secBootUiCfgDcd(bootDeviceWin_DCD.bootDeviceWin_DCD):
 
@@ -198,6 +199,8 @@ class secBootUiCfgDcd(bootDeviceWin_DCD.bootDeviceWin_DCD):
         uivar.setBootDeviceConfiguration(uidef.kBootDevice_Dcd, self.dcdCtrlDict, self.dcdSettingsDict)
         uivar.setRuntimeSettings(False)
         self.Show(False)
+        runtimeSettings = uivar.getRuntimeSettings()
+        sound.playSoundEffect(runtimeSettings[1], runtimeSettings[2], uidef.kSoundEffectFilename_Progress)
 
     def callbackCancel( self, event ):
         uivar.setRuntimeSettings(False)

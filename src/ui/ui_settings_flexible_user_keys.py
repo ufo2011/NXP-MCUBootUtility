@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(".."))
 from win import advSettingsWin_FlexibleUserKeys
 from gen import gendef
 from run import rundef
+from utils import sound
 
 class secBootUiSettingsFlexibleUserKeys(advSettingsWin_FlexibleUserKeys.advSettingsWin_FlexibleUserKeys):
 
@@ -723,6 +724,8 @@ class secBootUiSettingsFlexibleUserKeys(advSettingsWin_FlexibleUserKeys.advSetti
         uivar.setAdvancedSettings(uidef.kAdvancedSettings_UserKeys, self.userKeyCtrlDict, self.userKeyCmdDict)
         uivar.setRuntimeSettings(False)
         self.Show(False)
+        runtimeSettings = uivar.getRuntimeSettings()
+        sound.playSoundEffect(runtimeSettings[1], runtimeSettings[2], uidef.kSoundEffectFilename_Progress)
 
     def callbackCancel( self, event ):
         uivar.setRuntimeSettings(False)

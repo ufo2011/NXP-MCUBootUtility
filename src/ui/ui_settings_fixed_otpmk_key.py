@@ -9,6 +9,7 @@ sys.path.append(os.path.abspath(".."))
 from win import advSettingsWin_FixedOtpmkKey
 from gen import gendef
 from run import rundef
+from utils import sound
 
 class secBootUiSettingsFixedOtpmkKey(advSettingsWin_FixedOtpmkKey.advSettingsWin_FixedOtpmkKey):
 
@@ -183,6 +184,8 @@ class secBootUiSettingsFixedOtpmkKey(advSettingsWin_FixedOtpmkKey.advSettingsWin
         uivar.setAdvancedSettings(uidef.kAdvancedSettings_OtpmkKey, self.otpmkKeyOpt, self.otpmkEncryptedRegionStartList, self.otpmkEncryptedRegionLengthList)
         uivar.setRuntimeSettings(False)
         self.Show(False)
+        runtimeSettings = uivar.getRuntimeSettings()
+        sound.playSoundEffect(runtimeSettings[1], runtimeSettings[2], uidef.kSoundEffectFilename_Progress)
 
     def callbackCancel( self, event ):
         uivar.setRuntimeSettings(False)

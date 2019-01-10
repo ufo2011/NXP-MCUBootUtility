@@ -8,6 +8,7 @@ import uidef
 import uivar
 sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_FlexspiNor
+from utils import sound
 
 g_flexspiNorOpt0_ISSI_IS25LP064A           = 0xc0000007
 g_flexspiNorOpt0_MXIC_MX25UM51245G         = 0xc0403037
@@ -237,6 +238,8 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         uivar.setBootDeviceConfiguration(uidef.kBootDevice_FlexspiNor, self.flexspiNorOpt0, self.flexspiNorOpt1, self.flexspiDeviceModel)
         uivar.setRuntimeSettings(False)
         self.Show(False)
+        runtimeSettings = uivar.getRuntimeSettings()
+        sound.playSoundEffect(runtimeSettings[1], runtimeSettings[2], uidef.kSoundEffectFilename_Progress)
 
     def callbackCancel( self, event ):
         uivar.setRuntimeSettings(False)

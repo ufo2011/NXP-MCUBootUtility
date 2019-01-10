@@ -5,6 +5,8 @@ import os
 import json
 import uidef
 
+g_exeTopRoot = None
+g_isQuietSoundEffect = None
 g_hasSubWinBeenOpened = False
 
 g_cfgFilename = None
@@ -412,8 +414,23 @@ def setAdvancedSettings( group, *args ):
 
 def getRuntimeSettings( ):
     global g_hasSubWinBeenOpened
-    return g_hasSubWinBeenOpened
+    global g_exeTopRoot
+    global g_isQuietSoundEffect
+    return g_hasSubWinBeenOpened, g_exeTopRoot, g_isQuietSoundEffect
 
 def setRuntimeSettings( *args ):
     global g_hasSubWinBeenOpened
-    g_hasSubWinBeenOpened = args[0]
+    if args[0] != None:
+        g_hasSubWinBeenOpened = args[0]
+    try:
+        global g_exeTopRoot
+        if args[1] != None:
+            g_exeTopRoot = args[1]
+    except:
+        pass
+    try:
+        global g_isQuietSoundEffect
+        if args[2] != None:
+            g_isQuietSoundEffect = args[2]
+    except:
+        pass

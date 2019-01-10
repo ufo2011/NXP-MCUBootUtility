@@ -57,10 +57,12 @@ class secBootMain(memcore.secBootMem):
 
     def callbackSetBootDevice( self, event ):
         self.setTargetSetupValue()
-        self.setSecureBootSeqColor()
+        needToPlaySound = False
+        self.setSecureBootSeqColor(needToPlaySound)
 
     def _checkIfSubWinHasBeenOpened( self ):
-        if not uivar.getRuntimeSettings():
+        runtimeSettings = uivar.getRuntimeSettings()
+        if not runtimeSettings[0]:
             uivar.setRuntimeSettings(True)
             return False
         else:
@@ -373,7 +375,8 @@ class secBootMain(memcore.secBootMem):
             self._startGaugeTimer()
             self.printLog("'Generate Bootable Image' button is clicked")
             # Need to update image picture for DCD
-            self.setSecureBootSeqColor()
+            needToPlaySound = False
+            self.setSecureBootSeqColor(needToPlaySound)
             if self.createMatchedAppBdfile():
                 if self.genBootableImage():
                     self.showHabDekIfApplicable()
@@ -712,7 +715,9 @@ class secBootMain(memcore.secBootMem):
                          "  Feature: \n" + \
                          "     1. Support i.MXRT1015 \n" + \
                          "  Improvement: \n" + \
-                         "     1. NSB-14 USB device auto-detection can be disabled \n\n"
+                         "     1. NSB-14 USB device auto-detection can be disabled \n" + \
+                         "  Interest: \n" + \
+                         "     1. Add sound effect (Mario) \n\n"
         msgText = ((revision_1_0_0.encode('utf-8')) +
                    (revision_1_1_0.encode('utf-8')))
         wx.MessageBox(msgText, "Revision History", wx.OK | wx.ICON_INFORMATION)

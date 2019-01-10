@@ -8,6 +8,7 @@ import uivar
 import uidef
 sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_LpspiNor
+from utils import sound
 
 class secBootUiCfgLpspiNor(bootDeviceWin_LpspiNor.bootDeviceWin_LpspiNor):
     def __init__(self, parent):
@@ -130,6 +131,8 @@ class secBootUiCfgLpspiNor(bootDeviceWin_LpspiNor.bootDeviceWin_LpspiNor):
         uivar.setBootDeviceConfiguration(uidef.kBootDevice_LpspiNor, self.lpspiNorOpt0, self.lpspiNorOpt1)
         uivar.setRuntimeSettings(False)
         self.Show(False)
+        runtimeSettings = uivar.getRuntimeSettings()
+        sound.playSoundEffect(runtimeSettings[1], runtimeSettings[2], uidef.kSoundEffectFilename_Progress)
 
     def callbackCancel(self, event):
         uivar.setRuntimeSettings(False)

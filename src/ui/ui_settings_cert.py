@@ -7,6 +7,7 @@ import uidef
 import uivar
 sys.path.append(os.path.abspath(".."))
 from win import advSettingsWin_Cert
+from utils import sound
 
 class secBootUiSettingsCert(advSettingsWin_Cert.advSettingsWin_Cert):
 
@@ -154,6 +155,8 @@ class secBootUiSettingsCert(advSettingsWin_Cert.advSettingsWin_Cert):
         uivar.setAdvancedSettings(uidef.kAdvancedSettings_Cert, self.certSettingsDict)
         uivar.setRuntimeSettings(False)
         self.Show(False)
+        runtimeSettings = uivar.getRuntimeSettings()
+        sound.playSoundEffect(runtimeSettings[1], runtimeSettings[2], uidef.kSoundEffectFilename_Progress)
 
     def callbackCancel( self, event ):
         uivar.setRuntimeSettings(False)

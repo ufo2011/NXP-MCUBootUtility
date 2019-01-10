@@ -34,6 +34,7 @@ class secBootUi(secBootWin.secBootWin):
         exeMainFile = os.path.join(self.exeTopRoot, 'src', 'main.py')
         if not os.path.isfile(exeMainFile):
             self.exeTopRoot = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        uivar.setRuntimeSettings(None, self.exeTopRoot)
         uivar.initVar(os.path.join(self.exeTopRoot, 'bin', 'nsb_settings.json'))
         toolCommDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_Tool)
         self.toolCommDict = toolCommDict.copy()
@@ -117,6 +118,7 @@ class secBootUi(secBootWin.secBootWin):
     def setSoundEffect( self ):
         self.isQuietSoundEffect = self.m_menuItem_soundEffectQuiet.IsChecked()
         self.toolCommDict['isQuietSoundEffect'] = self.isQuietSoundEffect
+        uivar.setRuntimeSettings(None, None, self.isQuietSoundEffect)
 
     def _playSoundEffect( self, soundFilename ):
         sound.playSoundEffect(self.exeTopRoot, self.isQuietSoundEffect, soundFilename)
@@ -287,6 +289,7 @@ class secBootUi(secBootWin.secBootWin):
         elif color == 'blue':
             self.m_button_connect.SetLabel('Reset device')
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_blue.png", wx.BITMAP_TYPE_ANY ))
+            self._playSoundEffect(uidef.kSoundEffectFilename_Progress)
         elif color == 'red':
             self.m_button_connect.SetLabel('Reconnect')
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_red.png", wx.BITMAP_TYPE_ANY ))
@@ -389,31 +392,40 @@ class secBootUi(secBootWin.secBootWin):
 
     def invalidateStepButtonColor( self, stepName, excuteResult ):
         invalidColor = None
+        allInOneSoundEffect = None
+        stepSoundEffect = None
         if excuteResult:
             invalidColor = uidef.kBootSeqColor_Invalid
+            allInOneSoundEffect = uidef.kSoundEffectFilename_Success
+            stepSoundEffect = uidef.kSoundEffectFilename_Progress
         else:
             invalidColor = uidef.kBootSeqColor_Failed
+            allInOneSoundEffect = uidef.kSoundEffectFilename_Failure
         if stepName == uidef.kSecureBootSeqStep_AllInOne:
             self.m_button_allInOneAction.SetBackgroundColour( invalidColor )
-        elif stepName == uidef.kSecureBootSeqStep_GenCert:
-            self.m_button_genCert.SetBackgroundColour( invalidColor )
-        elif stepName == uidef.kSecureBootSeqStep_GenImage:
-            self.m_button_genImage.SetBackgroundColour( invalidColor )
-        elif stepName == uidef.kSecureBootSeqStep_PrepBee:
-            self.m_button_prepBee.SetBackgroundColour( invalidColor )
-        elif stepName == uidef.kSecureBootSeqStep_ProgSrk:
-            self.m_button_progSrk.SetBackgroundColour( invalidColor )
-        elif stepName == uidef.kSecureBootSeqStep_OperBee:
-            self.m_button_operBee.SetBackgroundColour( invalidColor )
-        elif stepName == uidef.kSecureBootSeqStep_FlashImage:
-            self.m_button_flashImage.SetBackgroundColour( invalidColor )
-        elif stepName == uidef.kSecureBootSeqStep_ProgDek:
-            self.m_button_progDek.SetBackgroundColour( invalidColor )
+            self._playSoundEffect(allInOneSoundEffect)
         else:
-            pass
+            if stepName == uidef.kSecureBootSeqStep_GenCert:
+                self.m_button_genCert.SetBackgroundColour( invalidColor )
+            elif stepName == uidef.kSecureBootSeqStep_GenImage:
+                self.m_button_genImage.SetBackgroundColour( invalidColor )
+            elif stepName == uidef.kSecureBootSeqStep_PrepBee:
+                self.m_button_prepBee.SetBackgroundColour( invalidColor )
+            elif stepName == uidef.kSecureBootSeqStep_ProgSrk:
+                self.m_button_progSrk.SetBackgroundColour( invalidColor )
+            elif stepName == uidef.kSecureBootSeqStep_OperBee:
+                self.m_button_operBee.SetBackgroundColour( invalidColor )
+            elif stepName == uidef.kSecureBootSeqStep_FlashImage:
+                self.m_button_flashImage.SetBackgroundColour( invalidColor )
+            elif stepName == uidef.kSecureBootSeqStep_ProgDek:
+                self.m_button_progDek.SetBackgroundColour( invalidColor )
+            else:
+                pass
+            if stepSoundEffect != None:
+                self._playSoundEffect(stepSoundEffect)
         self.Refresh()
 
-    def setSecureBootButtonColor( self ):
+    def setSecureBootButtonColor( self, needToPlaySound=True ):
         activeColor = None
         optionalColor = None
         setEnable = None
@@ -476,6 +488,8 @@ class secBootUi(secBootWin.secBootWin):
         self.m_button_allInOneAction.Enable( True )
         self.m_button_allInOneAction.SetBackgroundColour( uidef.kBootSeqColor_Active )
         self.Refresh()
+        if needToPlaySound:
+            self._playSoundEffect(uidef.kSoundEffectFilename_Restart)
 
     def _getImgName( self ):
         memType = ''
@@ -489,7 +503,7 @@ class secBootUi(secBootWin.secBootWin):
             hasDcd = 'dcd_'
         return memType, hasDcd
 
-    def setSecureBootSeqColor( self ):
+    def setSecureBootSeqColor( self , needToPlaySound=True ):
         self.secureBootType = self.m_choice_secureBootType.GetString(self.m_choice_secureBootType.GetSelection())
         self.toolCommDict['secBootType'] = self.m_choice_secureBootType.GetSelection()
         self._resetSecureBootSeqColor()
@@ -567,7 +581,7 @@ class secBootUi(secBootWin.secBootWin):
                 self._resetSecureBootSeqColor()
         else:
             pass
-        self.setSecureBootButtonColor()
+        self.setSecureBootButtonColor(needToPlaySound)
         self.Refresh()
 
     def updateImgPictureAfterFlashDek( self ):

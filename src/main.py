@@ -668,6 +668,12 @@ class secBootMain(memcore.secBootMem):
     def callbackSetUsbDetectionAsStatic( self, event ):
         self.setUsbDetection()
 
+    def callbackSetSoundEffectAsMario( self, event ):
+        self.setSoundEffect()
+
+    def callbackSetSoundEffectAsQuiet( self, event ):
+        self.setSoundEffect()
+
     def callbackShowHomePage( self, event ):
         msgText = (('https://github.com/JayHeng/NXP-MCUBootUtility.git \n'))
         wx.MessageBox(msgText, "Home Page", wx.OK | wx.ICON_INFORMATION)

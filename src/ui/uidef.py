@@ -117,3 +117,8 @@ kSecureBootSeqStep_ProgSrk    = 4
 kSecureBootSeqStep_OperBee    = 5
 kSecureBootSeqStep_FlashImage = 6
 kSecureBootSeqStep_ProgDek    = 7
+
+kSoundEffectFilename_Success  = 'levelwin_success.wav'
+kSoundEffectFilename_Failure  = 'dead_failure.wav'
+kSoundEffectFilename_Progress = 'getcoin_progress.wav'
+kSoundEffectFilename_Restart  = 'pluslife_restart.wav'

@@ -15,6 +15,7 @@ sys.path.append(os.path.abspath(".."))
 from win import secBootWin
 from run import rundef
 from fuse import fusedef
+from utils import sound
 
 kRetryDetectTimes = 5
 
@@ -47,6 +48,10 @@ class secBootUi(secBootWin.secBootWin):
         self.isAutoUsbDetection = None
         self._initUsbDetection()
         self.setUsbDetection()
+
+        self.isQuietSoundEffect = None
+        self._initSoundEffect()
+        self.setSoundEffect()
 
         self.updateConnectStatus()
 
@@ -100,6 +105,21 @@ class secBootUi(secBootWin.secBootWin):
     def setUsbDetection( self ):
         self.isAutoUsbDetection = self.m_menuItem_usbDetectionAuto.IsChecked()
         self.toolCommDict['isAutoUsbDetection'] = self.isAutoUsbDetection
+
+    def _initSoundEffect( self ):
+        if self.toolCommDict['isQuietSoundEffect']:
+            self.m_menuItem_soundEffectQuiet.Check(True)
+            self.m_menuItem_soundEffectMario.Check(False)
+        else:
+            self.m_menuItem_soundEffectQuiet.Check(False)
+            self.m_menuItem_soundEffectMario.Check(True)
+
+    def setSoundEffect( self ):
+        self.isQuietSoundEffect = self.m_menuItem_soundEffectQuiet.IsChecked()
+        self.toolCommDict['isQuietSoundEffect'] = self.isQuietSoundEffect
+
+    def _playSoundEffect( self, soundFilename ):
+        sound.playSoundEffect(self.exeTopRoot, self.isQuietSoundEffect, soundFilename)
 
     def _initTargetSetupValue( self ):
         self.m_choice_mcuSeries.Clear()

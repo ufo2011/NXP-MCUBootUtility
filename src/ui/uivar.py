@@ -10,6 +10,7 @@ g_hasSubWinBeenOpened = False
 g_cfgFilename = None
 g_toolCommDict = {'isToolRunAsEntryMode':None,
                   'isAutoUsbDetection':None,
+                  'isQuietSoundEffect':None,
                   'secBootType':None,
                   'mcuSeries':None,
                   'mcuDevice':None,
@@ -166,6 +167,7 @@ def initVar(cfgFilename):
     else:
         g_toolCommDict = {'isToolRunAsEntryMode':True,
                           'isAutoUsbDetection':True,
+                          'isQuietSoundEffect':False,
                           'secBootType':0,
                           'mcuSeries':0,
                           'mcuDevice':1,

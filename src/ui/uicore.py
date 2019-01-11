@@ -136,6 +136,7 @@ class secBootUi(secBootWin.secBootWin):
         self.m_choice_bootDevice.SetSelection(self.toolCommDict['bootDevice'])
 
     def setTargetSetupValue( self ):
+        self.showPageInMainBootSeqWin(uidef.kPageIndex_ImageGenerationSequence)
         self.mcuSeries = self.m_choice_mcuSeries.GetString(self.m_choice_mcuSeries.GetSelection())
         self.mcuDevice = self.m_choice_mcuDevice.GetString(self.m_choice_mcuDevice.GetSelection())
         self.bootDevice = self.m_choice_bootDevice.GetString(self.m_choice_bootDevice.GetSelection())
@@ -415,8 +416,12 @@ class secBootUi(secBootWin.secBootWin):
                 self.m_button_genCert.SetBackgroundColour( invalidColor )
             elif stepName == uidef.kSecureBootSeqStep_GenImage:
                 self.m_button_genImage.SetBackgroundColour( invalidColor )
+                if excuteResult and self.secureBootType != uidef.kSecureBootType_BeeCrypto:
+                    self.showPageInMainBootSeqWin(uidef.kPageIndex_ImageLoadingSequence)
             elif stepName == uidef.kSecureBootSeqStep_PrepBee:
                 self.m_button_prepBee.SetBackgroundColour( invalidColor )
+                if excuteResult:
+                    self.showPageInMainBootSeqWin(uidef.kPageIndex_ImageLoadingSequence)
             elif stepName == uidef.kSecureBootSeqStep_ProgSrk:
                 self.m_button_progSrk.SetBackgroundColour( invalidColor )
             elif stepName == uidef.kSecureBootSeqStep_OperBee:
@@ -509,7 +514,12 @@ class secBootUi(secBootWin.secBootWin):
             hasDcd = 'dcd_'
         return memType, hasDcd
 
+    def showPageInMainBootSeqWin(self, pageIndex ):
+        if pageIndex != self.m_notebook_imageSeq.GetSelection():
+            self.m_notebook_imageSeq.SetSelection(pageIndex)
+
     def setSecureBootSeqColor( self , needToPlaySound=True ):
+        self.showPageInMainBootSeqWin(uidef.kPageIndex_ImageGenerationSequence)
         self.secureBootType = self.m_choice_secureBootType.GetString(self.m_choice_secureBootType.GetSelection())
         self.toolCommDict['secBootType'] = self.m_choice_secureBootType.GetSelection()
         self._resetSecureBootSeqColor()

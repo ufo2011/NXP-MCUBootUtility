@@ -122,3 +122,8 @@ kSoundEffectFilename_Success  = 'levelwin_success.wav'
 kSoundEffectFilename_Failure  = 'dead_failure.wav'
 kSoundEffectFilename_Progress = 'getcoin_progress.wav'
 kSoundEffectFilename_Restart  = 'pluslife_restart.wav'
+
+kPageIndex_ImageGenerationSequence = 0
+kPageIndex_ImageLoadingSequence    = 1
+kPageIndex_EfuseOperationUtility   = 2
+kPageIndex_BootDeviceMemory        = 3

@@ -281,6 +281,9 @@ class secBootMain(memcore.secBootMem):
                 if not status:
                     break
             allInOneSeqCnt -= 1
+        if status:
+            self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)
+            self._doViewMem()
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_AllInOne, status)
 
     def callbackAdvCertSettings( self, event ):
@@ -582,7 +585,7 @@ class secBootMain(memcore.secBootMem):
         else:
             self.popupMsgBox('Please connect to Flashloader first!')
 
-    def callbackViewMem( self, event ):
+    def _doViewMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
             if self.isBootableAppAllowedToView:
                 self.readProgrammedMemoryAndShow()
@@ -590,6 +593,9 @@ class secBootMain(memcore.secBootMem):
                 self.popupMsgBox('Please flash image into boot device first!')
         else:
             self.popupMsgBox('Please configure boot device via Flashloader first!')
+
+    def callbackViewMem( self, event ):
+        self._doViewMem()
 
     def callbackClearMem( self, event ):
         self.clearMem()
@@ -714,7 +720,8 @@ class secBootMain(memcore.secBootMem):
                          "  Feature: \n" + \
                          "     1. Support i.MXRT1015 \n" + \
                          "  Improvement: \n" + \
-                         "     1. NSB-14 USB device auto-detection can be disabled \n" + \
+                         "     1. USB device auto-detection can be disabled \n" + \
+                         "     2. Show boot sequence page dynamically according to action \n" + \
                          "  Interest: \n" + \
                          "     1. Add sound effect (Mario) \n\n"
         msgText = ((revision_1_0_0.encode('utf-8')) +

@@ -13,6 +13,7 @@ from ui import uicore
 from ui import uidef
 from ui import uivar
 from run import rundef
+from mem import memdef
 from utils import elf
 
 class secBootGen(uicore.secBootUi):
@@ -250,12 +251,10 @@ class secBootGen(uicore.secBootUi):
     def cleanUpCertificate( self ):
         for root, dirs, files in os.walk(self.cstCrtsFolder):
             for file in files:
-                print os.path.join(root, file)
                 if os.path.split(file)[1] not in uidef.kCstCrtsFileList:
                     os.remove(os.path.join(root, file))
         for root, dirs, files in os.walk(self.cstKeysFolder):
             for file in files:
-                print os.path.join(root, file)
                 if (os.path.split(file)[1] not in uidef.kCstKeysFileList) and \
                    (os.path.split(file)[1] not in uidef.kCstKeysToolFileList) :
                     os.remove(os.path.join(root, file))
@@ -361,6 +360,54 @@ class secBootGen(uicore.secBootUi):
         else:
             pass
 
+    def _getIvtInfoFromIvtBlockBytes( self, ivtBlockBytes ):
+        ivtEntry= self.getVal32FromByteArray(ivtBlockBytes[memdef.kMemberOffsetInIvt_Entry:memdef.kMemberOffsetInIvt_Entry + 4])
+        ivtDcd= self.getVal32FromByteArray(ivtBlockBytes[memdef.kMemberOffsetInIvt_Dcd:memdef.kMemberOffsetInIvt_Dcd + 4])
+        ivtBd= self.getVal32FromByteArray(ivtBlockBytes[memdef.kMemberOffsetInIvt_BootData:memdef.kMemberOffsetInIvt_BootData + 4])
+        ivtSelf= self.getVal32FromByteArray(ivtBlockBytes[memdef.kMemberOffsetInIvt_Self:memdef.kMemberOffsetInIvt_Self + 4])
+        return ivtEntry, ivtDcd, ivtBd, ivtSelf
+
+    def _extractDcdDataFromSrcApp(self, initialLoadAppBytes ):
+        ivtEntry, ivtDcd, ivtBd, ivtSelf = self._getIvtInfoFromIvtBlockBytes(initialLoadAppBytes[self.destAppIvtOffset:self.destAppIvtOffset + memdef.kMemBlockSize_IVT])
+        dcdCtrlDict, dcdSettingsDict = uivar.getBootDeviceConfiguration(uidef.kBootDevice_Dcd)
+        if ivtDcd != 0 and ivtDcd < ivtEntry and (not dcdCtrlDict['isDcdEnabled']):
+            dcdDataOffset = self.destAppIvtOffset + ivtDcd - ivtSelf
+            dcdHoleBytes = 0x0
+            if ivtDcd - ivtSelf < memdef.kMemBlockOffsetToIvt_DCD:
+                dcdHoleBytes = memdef.kMemBlockOffsetToIvt_DCD - (ivtDcd - ivtSelf)
+            dcdDataBytes = initialLoadAppBytes[dcdDataOffset:len(initialLoadAppBytes) - dcdHoleBytes]
+            dcdDataTag = dcdDataBytes[memdef.kMemberOffsetInDcd_Tag]
+            if dcdDataTag == memdef.kBootHeaderTag_DCD:
+                with open(self.dcdBinFilename, 'wb') as fileObj:
+                    fileObj.write(dcdDataBytes)
+                    fileObj.close()
+                self._enableDcdConfiguration()
+
+    def _extractImageDataFromSrcApp(self, wholeSrcAppBytes, appName ):
+        ivtEntry, ivtDcd, ivtBd, ivtSelf = self._getIvtInfoFromIvtBlockBytes(wholeSrcAppBytes[self.destAppIvtOffset:self.destAppIvtOffset + memdef.kMemBlockSize_IVT])
+        imageDataOffset = self.destAppIvtOffset + ivtEntry - ivtSelf
+        imageDataBytes = wholeSrcAppBytes[imageDataOffset:len(wholeSrcAppBytes)]
+        imageEntryPoint = self.getVal32FromByteArray(wholeSrcAppBytes[imageDataOffset + 0x4:imageDataOffset + 0x8])
+        fmtObj = bincopy.BinFile()
+        fmtObj.add_binary(imageDataBytes, ivtEntry)
+        self.srcAppFilename = os.path.join(self.userFileFolder, appName + '_extracted' + gendef.kAppImageFileExtensionList_S19[0])
+        with open(self.srcAppFilename, 'wb') as fileObj:
+            fileObj.write(fmtObj.as_srec())
+            fileObj.close()
+        self.isConvertedAppUsed = True
+        return ivtEntry, imageEntryPoint, len(imageDataBytes)
+
+    def _isSrcAppBootableImage( self, initialLoadAppBytes ):
+        ivtTag = initialLoadAppBytes[self.destAppIvtOffset + memdef.kMemberOffsetInIvt_Tag]
+        ivtLen = initialLoadAppBytes[self.destAppIvtOffset + memdef.kMemberOffsetInIvt_Len]
+        if ivtTag != memdef.kBootHeaderTag_IVT or ivtLen != memdef.kMemBlockSize_IVT:
+            return False
+        ivtEntry, ivtDcd, ivtBd, ivtSelf = self._getIvtInfoFromIvtBlockBytes(initialLoadAppBytes[self.destAppIvtOffset:self.destAppIvtOffset + memdef.kMemBlockSize_IVT])
+        if (ivtBd <= ivtSelf) or (ivtBd - ivtSelf != memdef.kMemBlockSize_IVT):
+            return False
+        self.printLog('Origianl image file is a bootable image file')
+        return True
+
     def _getImageInfo( self, srcAppFilename ):
         startAddress = None
         entryPointAddress = None
@@ -405,9 +452,14 @@ class secBootGen(uicore.secBootUi):
                 try:
                     srecObj = bincopy.BinFile(str(srcAppFilename))
                     startAddress = srecObj.minimum_address
-                    #entryPointAddress = srecObj.execution_start_address
-                    entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
-                    lengthInByte = len(srecObj.as_binary())
+                    initialLoadAppBytes = srecObj.as_binary(startAddress, startAddress + self.destAppInitialLoadSize)
+                    if self._isSrcAppBootableImage(initialLoadAppBytes):
+                        self._extractDcdDataFromSrcApp(initialLoadAppBytes)
+                        startAddress, entryPointAddress, lengthInByte = self._extractImageDataFromSrcApp(srecObj.as_binary(), appName)
+                    else:
+                        #entryPointAddress = srecObj.execution_start_address
+                        entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
+                        lengthInByte = len(srecObj.as_binary())
                     isConvSuccessed = True
                 except:
                     pass
@@ -476,6 +528,14 @@ class secBootGen(uicore.secBootUi):
         else:
             return False
 
+    def _enableDcdConfiguration( self ):
+        dcdCtrlDict, dcdSettingsDict = uivar.getBootDeviceConfiguration(uidef.kBootDevice_Dcd)
+        if not dcdCtrlDict['isDcdEnabled']:
+            dcdCtrlDict['isDcdEnabled'] = True
+            dcdCtrlDict['dcdFileType'] = gendef.kUserDcdFileType_Bin
+            dcdSettingsDict['sdramBase'] = '0x80000000'
+            uivar.setBootDeviceConfiguration(uidef.kBootDevice_Dcd, dcdCtrlDict, dcdSettingsDict)
+
     def _addDcdContentIfAppliable( self ):
         dcdConvResult = True
         dcdContent = ''
@@ -496,6 +556,42 @@ class secBootGen(uicore.secBootUi):
                     self.dcdSdramBaseAddress = self._getVal32FromHexText(dcdSettingsDict['sdramBase'])
         return dcdConvResult, dcdContent
 
+    def _setDestAppInitialBootHeaderInfo( self, bootDevice ):
+        if bootDevice == uidef.kBootDevice_FlexspiNor or \
+           bootDevice == uidef.kBootDevice_SemcNor:
+            self.destAppIvtOffset = gendef.kIvtOffset_NOR
+            self.destAppInitialLoadSize = gendef.kInitialLoadSize_NOR
+        elif bootDevice == uidef.kBootDevice_FlexspiNand or \
+             bootDevice == uidef.kBootDevice_SemcNand or \
+             bootDevice == uidef.kBootDevice_UsdhcSd or \
+             bootDevice == uidef.kBootDevice_UsdhcMmc or \
+             bootDevice == uidef.kBootDevice_LpspiNor:
+            self.destAppIvtOffset = gendef.kIvtOffset_NAND_SD_EEPROM
+            self.destAppInitialLoadSize = gendef.kInitialLoadSize_NAND_SD_EEPROM
+        elif bootDevice == uidef.kBootDevice_RamFlashloader:
+            self.destAppIvtOffset = gendef.kIvtOffset_RAM_FLASHLOADER
+            self.destAppInitialLoadSize = gendef.kInitialLoadSize_RAM_FLASHLOADER
+        else:
+            pass
+
+    def _setDestAppFinalBootHeaderInfo( self, bootDevice ):
+        self._setDestAppInitialBootHeaderInfo(bootDevice)
+        if bootDevice == uidef.kBootDevice_FlexspiNor or \
+           bootDevice == uidef.kBootDevice_SemcNor:
+            if self.isXipApp:
+                self.destAppInitialLoadSize = self.destAppVectorOffset
+            else:
+                self.destAppInitialLoadSize = gendef.kInitialLoadSize_NOR
+        elif bootDevice == uidef.kBootDevice_FlexspiNand or \
+             bootDevice == uidef.kBootDevice_SemcNand or \
+             bootDevice == uidef.kBootDevice_UsdhcSd or \
+             bootDevice == uidef.kBootDevice_UsdhcMmc or \
+             bootDevice == uidef.kBootDevice_LpspiNor:
+            self.isXipApp = False
+            self.destAppVectorOffset = self.destAppInitialLoadSize
+        else:
+            pass
+
     def _updateBdfileContent( self, secureBootType, bootDevice, vectorAddress, entryPointAddress):
         bdContent = ""
         ############################################################################
@@ -515,27 +611,7 @@ class secBootGen(uicore.secBootUi):
             pass
         bdContent += "    flags = " + flags + ";\n"
         startAddress = 0x0
-        if bootDevice == uidef.kBootDevice_FlexspiNor or \
-           bootDevice == uidef.kBootDevice_SemcNor:
-            self.destAppIvtOffset = gendef.kIvtOffset_NOR
-            if self.isXipApp:
-                self.destAppInitialLoadSize = self.destAppVectorOffset
-            else:
-                self.destAppInitialLoadSize = gendef.kInitialLoadSize_NOR
-        elif bootDevice == uidef.kBootDevice_FlexspiNand or \
-             bootDevice == uidef.kBootDevice_SemcNand or \
-             bootDevice == uidef.kBootDevice_UsdhcSd or \
-             bootDevice == uidef.kBootDevice_UsdhcMmc or \
-             bootDevice == uidef.kBootDevice_LpspiNor:
-            self.destAppIvtOffset = gendef.kIvtOffset_NAND_SD_EEPROM
-            self.destAppInitialLoadSize = gendef.kInitialLoadSize_NAND_SD_EEPROM
-            self.isXipApp = False
-            self.destAppVectorOffset = self.destAppInitialLoadSize
-        elif bootDevice == uidef.kBootDevice_RamFlashloader:
-            self.destAppIvtOffset = gendef.kIvtOffset_RAM_FLASHLOADER
-            self.destAppInitialLoadSize = gendef.kInitialLoadSize_RAM_FLASHLOADER
-        else:
-            pass
+        self._setDestAppFinalBootHeaderInfo(bootDevice)
         if not self._verifyAppVectorAddressForBd(vectorAddress, self.destAppInitialLoadSize):
             if bootDevice != uidef.kBootDevice_RamFlashloader:
                 self.popupMsgBox('Invalid vector address found in image file: ' + self.srcAppFilename)
@@ -734,6 +810,7 @@ class secBootGen(uicore.secBootUi):
 
     def createMatchedAppBdfile( self ):
         self.srcAppFilename = self.getUserAppFilePath()
+        self._setDestAppInitialBootHeaderInfo(self.bootDevice)
         imageStartAddr, imageEntryAddr, imageLength = self._getImageInfo(self.srcAppFilename)
         if imageStartAddr == None or imageEntryAddr == None:
             self.popupMsgBox('You should first specify a source image file (.elf/.axf/.srec/.hex/.bin)!')

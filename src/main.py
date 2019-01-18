@@ -707,21 +707,24 @@ class secBootMain(memcore.secBootMem):
                          "     2. Support both UART and USB-HID serial downloader modes \n" + \
                          "     3. Support various user application image file formats (elf/axf/srec/hex/bin) \n" + \
                          "     4. Can validate the range and applicability of user application image \n" + \
-                         "     5. Support for loading bootable image into FlexSPI NOR and SEMC NAND boot devices \n" + \
-                         "     6. Support for loading bootable image into LPSPI NOR/EEPROM recovery boot device \n" + \
-                         "     7. Support DCD which can help load image to SDRAM \n" + \
-                         "     8. Support HAB encryption (Signed only, Signed and Encrypted) \n" + \
-                         "     9. Can back up certificate with time stamp \n" + \
-                         "    10. Support BEE encryption (SNVS Key, User Keys) \n" + \
-                         "    11. Support common eFuse memory operation \n" + \
-                         "    12. Support common boot device memory operation \n" + \
-                         "    13. Support for reading back and marking bootable image from supported boot devices \n\n"
+                         "     5. Support for converting bare image into bootable image \n" + \
+                         "     6. Support for loading bootable image into FlexSPI NOR and SEMC NAND boot devices \n" + \
+                         "     7. Support for loading bootable image into LPSPI NOR/EEPROM recovery boot device \n" + \
+                         "     8. Support DCD which can help load image to SDRAM \n" + \
+                         "     9. Support development boot case (Unsigned) \n" + \
+                         "    10. Support HAB encryption secure boot case (Signed only, Signed and Encrypted) \n" + \
+                         "    11. Can back up certificate with time stamp \n" + \
+                         "    12. Support BEE encryption secure boot case (SNVS Key, User Keys) \n" + \
+                         "    13. Support common eFuse memory operation \n" + \
+                         "    14. Support common boot device memory operation \n" + \
+                         "    15. Support for reading back and marking bootable image from supported boot devices \n\n"
         revision_1_1_0 = "【v1.1.0】 \n" + \
                          "  Feature: \n" + \
                          "     1. Support i.MXRT1015 \n" + \
                          "  Improvement: \n" + \
                          "     1. USB device auto-detection can be disabled \n" + \
-                         "     2. Show boot sequence page dynamically according to action \n" + \
+                         "     2. Original image can be a bootable image (with IVT&BootData/DCD) \n" + \
+                         "     3. Show boot sequence page dynamically according to action \n" + \
                          "  Interest: \n" + \
                          "     1. Add sound effect (Mario) \n\n"
         msgText = ((revision_1_0_0.encode('utf-8')) +

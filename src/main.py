@@ -376,10 +376,10 @@ class secBootMain(memcore.secBootMem):
         else:
             self._startGaugeTimer()
             self.printLog("'Generate Bootable Image' button is clicked")
-            # Need to update image picture for DCD
-            needToPlaySound = False
-            self.setSecureBootSeqColor(needToPlaySound)
             if self.createMatchedAppBdfile():
+                # Need to update image picture for DCD
+                needToPlaySound = False
+                self.setSecureBootSeqColor(needToPlaySound)
                 if self.genBootableImage():
                     self.showHabDekIfApplicable()
                     status = True

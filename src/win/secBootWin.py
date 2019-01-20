@@ -37,6 +37,9 @@ class secBootWin ( wx.Frame ):
 		self.m_menuItem_english = wx.MenuItem( self.m_menu_language, wx.ID_ANY, u"English", wx.EmptyString, wx.ITEM_RADIO )
 		self.m_menu_language.Append( self.m_menuItem_english )
 
+		self.m_menuItem_chinese = wx.MenuItem( self.m_menu_language, wx.ID_ANY, u"Chinese", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_language.Append( self.m_menuItem_chinese )
+
 		self.m_menu_view.AppendSubMenu( self.m_menu_language, u"Language" )
 
 		self.m_menubar.Append( self.m_menu_view, u"View" )
@@ -256,7 +259,7 @@ class secBootWin ( wx.Frame ):
 
 		wSizer_bootType = wx.WrapSizer( wx.HORIZONTAL, wx.WRAPSIZER_DEFAULT_FLAGS )
 
-		self.m_staticText_secureBootType = wx.StaticText( self, wx.ID_ANY, u"Secure Boot Type:", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.m_staticText_secureBootType = wx.StaticText( self, wx.ID_ANY, u"Secure Boot Type:", wx.DefaultPosition, wx.Size( 118,-1 ), 0 )
 		self.m_staticText_secureBootType.Wrap( -1 )
 
 		self.m_staticText_secureBootType.SetFont( wx.Font( 10, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial Rounded MT Bold" ) )
@@ -298,7 +301,7 @@ class secBootWin ( wx.Frame ):
 		bSizer_doAuth = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_panel_doAuth1_certInput = wx.Panel( self.m_panel_doAuth, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sbSizer_certInput = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_doAuth1_certInput, wx.ID_ANY, u"Certificate Setting:" ), wx.VERTICAL )
+		sbSizer_certInput = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_doAuth1_certInput, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
 
 		self.m_staticText_serial = wx.StaticText( sbSizer_certInput.GetStaticBox(), wx.ID_ANY, u"serial (8 digits):", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText_serial.Wrap( -1 )
@@ -326,7 +329,12 @@ class secBootWin ( wx.Frame ):
 		bSizer_doAuth.Add( self.m_panel_doAuth1_certInput, 1, wx.EXPAND |wx.ALL, 5 )
 
 		self.m_panel_doAuth2_certFmt = wx.Panel( self.m_panel_doAuth, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sbSizer_certFmt = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_doAuth2_certFmt, wx.ID_ANY, u"Certificate Format:" ), wx.VERTICAL )
+		sbSizer_certFmt = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_doAuth2_certFmt, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
+
+		self.m_staticText_certFmt = wx.StaticText( sbSizer_certFmt.GetStaticBox(), wx.ID_ANY, u"Certificate Format:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_certFmt.Wrap( -1 )
+
+		sbSizer_certFmt.Add( self.m_staticText_certFmt, 0, wx.ALL, 5 )
 
 		m_choice_certFmtChoices = [ u"X.509v3" ]
 		self.m_choice_certFmt = wx.Choice( sbSizer_certFmt.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.Size( 90,-1 ), m_choice_certFmtChoices, 0 )
@@ -364,7 +372,7 @@ class secBootWin ( wx.Frame ):
 		bSizer_genImage = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_panel_genImage1_browseApp = wx.Panel( self.m_panel_genImage, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sbSizer_browseApp = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_genImage1_browseApp, wx.ID_ANY, u"Image Setting:" ), wx.VERTICAL )
+		sbSizer_browseApp = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_genImage1_browseApp, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
 
 		self.m_staticText_appPath = wx.StaticText( sbSizer_browseApp.GetStaticBox(), wx.ID_ANY, u"Application Image File:", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
 		self.m_staticText_appPath.Wrap( -1 )
@@ -396,7 +404,12 @@ class secBootWin ( wx.Frame ):
 		bSizer_genImage.Add( self.m_panel_genImage1_browseApp, 1, wx.EXPAND |wx.ALL, 5 )
 
 		self.m_panel_genImage2_habCryptoAlgo = wx.Panel( self.m_panel_genImage, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), wx.TAB_TRAVERSAL )
-		sbSizer_habCryptoAlgo = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_genImage2_habCryptoAlgo, wx.ID_ANY, u"HAB Encryption Algorithm:" ), wx.VERTICAL )
+		sbSizer_habCryptoAlgo = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_genImage2_habCryptoAlgo, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
+
+		self.m_staticText_habCryptoAlgo = wx.StaticText( sbSizer_habCryptoAlgo.GetStaticBox(), wx.ID_ANY, u"HAB Encryption Algorithm:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_habCryptoAlgo.Wrap( -1 )
+
+		sbSizer_habCryptoAlgo.Add( self.m_staticText_habCryptoAlgo, 0, wx.ALL, 5 )
 
 		m_choice_habCryptoAlgoChoices = [ u"AES-128" ]
 		self.m_choice_habCryptoAlgo = wx.Choice( sbSizer_habCryptoAlgo.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.Size( 90,-1 ), m_choice_habCryptoAlgoChoices, 0 )
@@ -410,7 +423,12 @@ class secBootWin ( wx.Frame ):
 		bSizer_genImage.Add( self.m_panel_genImage2_habCryptoAlgo, 1, wx.EXPAND |wx.ALL, 5 )
 
 		self.m_panel_genImage3_enableCertForBee = wx.Panel( self.m_panel_genImage, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), wx.TAB_TRAVERSAL )
-		sbSizer_enableCertForBee = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_genImage3_enableCertForBee, wx.ID_ANY, u"Enable Certificate for BEE Encryption" ), wx.VERTICAL )
+		sbSizer_enableCertForBee = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_genImage3_enableCertForBee, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
+
+		self.m_staticText_enableCertForBee = wx.StaticText( sbSizer_enableCertForBee.GetStaticBox(), wx.ID_ANY, u"Enable Certificate for BEE Encryption:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_enableCertForBee.Wrap( -1 )
+
+		sbSizer_enableCertForBee.Add( self.m_staticText_enableCertForBee, 0, wx.ALL, 5 )
 
 		m_choice_enableCertForBeeChoices = [ u"No", u"Yes" ]
 		self.m_choice_enableCertForBee = wx.Choice( sbSizer_enableCertForBee.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.Size( 90,-1 ), m_choice_enableCertForBeeChoices, 0 )
@@ -438,7 +456,7 @@ class secBootWin ( wx.Frame ):
 		bSizer_prepBee = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_panel_prepBee1_beeKeyRegion = wx.Panel( self.m_panel_prepBee, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sbSizer_keyStorageRegion = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_prepBee1_beeKeyRegion, wx.ID_ANY, u"Key Setting:" ), wx.VERTICAL )
+		sbSizer_keyStorageRegion = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_prepBee1_beeKeyRegion, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
 
 		self.m_staticText_keyStorageRegion = wx.StaticText( sbSizer_keyStorageRegion.GetStaticBox(), wx.ID_ANY, u"Key Storage Region:", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText_keyStorageRegion.Wrap( -1 )
@@ -470,7 +488,12 @@ class secBootWin ( wx.Frame ):
 		bSizer_prepBee.Add( self.m_panel_prepBee1_beeKeyRegion, 1, wx.EXPAND |wx.ALL, 5 )
 
 		self.m_panel_prepBee2_beeCryptoAlgo = wx.Panel( self.m_panel_prepBee, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sbSizer_beeCryptoAlgo = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_prepBee2_beeCryptoAlgo, wx.ID_ANY, u"BEE Encryption Algorithm:" ), wx.VERTICAL )
+		sbSizer_beeCryptoAlgo = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_prepBee2_beeCryptoAlgo, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
+
+		self.m_staticText_beeCryptoAlgo = wx.StaticText( sbSizer_beeCryptoAlgo.GetStaticBox(), wx.ID_ANY, u"BEE Encryption Algorithm:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_beeCryptoAlgo.Wrap( -1 )
+
+		sbSizer_beeCryptoAlgo.Add( self.m_staticText_beeCryptoAlgo, 0, wx.ALL, 5 )
 
 		m_choice_beeCryptoAlgoChoices = [ u"AES-128" ]
 		self.m_choice_beeCryptoAlgo = wx.Choice( sbSizer_beeCryptoAlgo.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.Size( 90,-1 ), m_choice_beeCryptoAlgoChoices, 0 )
@@ -518,7 +541,7 @@ class secBootWin ( wx.Frame ):
 		bSizer_progSrk = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_panel_progSrk1_showSrk = wx.Panel( self.m_panel_progSrk, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sbSizer_showSrk = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_progSrk1_showSrk, wx.ID_ANY, u"Burn SRK:" ), wx.VERTICAL )
+		sbSizer_showSrk = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_progSrk1_showSrk, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
 
 		self.m_staticText_srk256bit = wx.StaticText( sbSizer_showSrk.GetStaticBox(), wx.ID_ANY, u"Burn below SRK data (256bits) into Fuse SRK0-7 Region:", wx.DefaultPosition, wx.Size( 120,60 ), 0 )
 		self.m_staticText_srk256bit.Wrap( -1 )
@@ -551,7 +574,7 @@ class secBootWin ( wx.Frame ):
 		bSizer_operBee = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_panel_operBee1_beeKeyInfo = wx.Panel( self.m_panel_operBee, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sbSizer_beeKeyInfo = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_operBee1_beeKeyInfo, wx.ID_ANY, u"Burn DEK:" ), wx.VERTICAL )
+		sbSizer_beeKeyInfo = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_operBee1_beeKeyInfo, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
 
 		self.m_staticText_beeKeyInfo = wx.StaticText( sbSizer_beeKeyInfo.GetStaticBox(), wx.ID_ANY, u"Burn below user DEK data (128bits * n) into below Region for BEE:", wx.DefaultPosition, wx.Size( 130,45 ), 0 )
 		self.m_staticText_beeKeyInfo.Wrap( -1 )
@@ -609,7 +632,7 @@ class secBootWin ( wx.Frame ):
 		self.m_panel_flashImage1_showImage = wx.Panel( self.m_panel_flashImage, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), wx.TAB_TRAVERSAL )
 		self.m_panel_flashImage1_showImage.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNSHADOW ) )
 
-		sbSizer_showImage = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_flashImage1_showImage, wx.ID_ANY, u"Load Image" ), wx.VERTICAL )
+		sbSizer_showImage = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_flashImage1_showImage, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
 
 		self.m_staticText_showImage = wx.StaticText( sbSizer_showImage.GetStaticBox(), wx.ID_ANY, u"Program final bootable image to boot device:", wx.DefaultPosition, wx.Size( 160,35 ), 0 )
 		self.m_staticText_showImage.Wrap( -1 )
@@ -640,7 +663,7 @@ class secBootWin ( wx.Frame ):
 		bSizer_progDek = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_panel_progDek1_showHabDek = wx.Panel( self.m_panel_progDek, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sbSizer_showHabDek = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_progDek1_showHabDek, wx.ID_ANY, u"Load DEK KeyBlob:" ), wx.VERTICAL )
+		sbSizer_showHabDek = wx.StaticBoxSizer( wx.StaticBox( self.m_panel_progDek1_showHabDek, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
 
 		self.m_staticText_habDek128bit = wx.StaticText( sbSizer_showHabDek.GetStaticBox(), wx.ID_ANY, u"Use below DEK data (128bits) to generate keyblob and program it to flash for HAB:", wx.DefaultPosition, wx.Size( 160,70 ), 0 )
 		self.m_staticText_habDek128bit.Wrap( -1 )
@@ -1582,7 +1605,7 @@ class secBootWin ( wx.Frame ):
 
 		wSizer_memView = wx.WrapSizer( wx.HORIZONTAL, wx.WRAPSIZER_DEFAULT_FLAGS )
 
-		self.m_staticText_memStart = wx.StaticText( self.m_panel_memView, wx.ID_ANY, u"Start / Offset:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_memStart = wx.StaticText( self.m_panel_memView, wx.ID_ANY, u"Start / Offset:", wx.DefaultPosition, wx.Size( 70,-1 ), 0 )
 		self.m_staticText_memStart.Wrap( -1 )
 
 		wSizer_memView.Add( self.m_staticText_memStart, 0, wx.ALL, 5 )
@@ -1590,7 +1613,7 @@ class secBootWin ( wx.Frame ):
 		self.m_textCtrl_memStart = wx.TextCtrl( self.m_panel_memView, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 80,-1 ), 0 )
 		wSizer_memView.Add( self.m_textCtrl_memStart, 0, wx.ALL, 5 )
 
-		self.m_staticText_memLength = wx.StaticText( self.m_panel_memView, wx.ID_ANY, u"Byte Length:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_memLength = wx.StaticText( self.m_panel_memView, wx.ID_ANY, u"Byte Length:", wx.DefaultPosition, wx.Size( 66,-1 ), 0 )
 		self.m_staticText_memLength.Wrap( -1 )
 
 		wSizer_memView.Add( self.m_staticText_memLength, 0, wx.ALL, 5 )
@@ -1598,7 +1621,7 @@ class secBootWin ( wx.Frame ):
 		self.m_textCtrl_memLength = wx.TextCtrl( self.m_panel_memView, wx.ID_ANY, u"0x2000", wx.DefaultPosition, wx.Size( 80,-1 ), 0 )
 		wSizer_memView.Add( self.m_textCtrl_memLength, 0, wx.ALL, 5 )
 
-		self.m_staticText_memBinFile = wx.StaticText( self.m_panel_memView, wx.ID_ANY, u"Bin File:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_memBinFile = wx.StaticText( self.m_panel_memView, wx.ID_ANY, u"Bin File:", wx.DefaultPosition, wx.Size( 41,-1 ), 0 )
 		self.m_staticText_memBinFile.Wrap( -1 )
 
 		wSizer_memView.Add( self.m_staticText_memBinFile, 0, wx.ALL, 5 )
@@ -1621,12 +1644,12 @@ class secBootWin ( wx.Frame ):
 
 		wSizer_memView.Add( self.m_textCtrl_bootDeviceMem, 0, wx.ALL, 5 )
 
-		self.m_staticText_null0MemView = wx.StaticText( self.m_panel_memView, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 35,-1 ), 0 )
+		self.m_staticText_null0MemView = wx.StaticText( self.m_panel_memView, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 25,-1 ), 0 )
 		self.m_staticText_null0MemView.Wrap( -1 )
 
 		wSizer_memView.Add( self.m_staticText_null0MemView, 0, wx.ALL, 5 )
 
-		self.m_button_viewMem = wx.Button( self.m_panel_memView, wx.ID_ANY, u"View Bootable Image", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button_viewMem = wx.Button( self.m_panel_memView, wx.ID_ANY, u"View Bootable Image", wx.DefaultPosition, wx.Size( 150,-1 ), 0 )
 		wSizer_memView.Add( self.m_button_viewMem, 0, wx.ALL, 5 )
 
 		self.m_staticText_null1MemView = wx.StaticText( self.m_panel_memView, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 10,-1 ), 0 )
@@ -1634,7 +1657,7 @@ class secBootWin ( wx.Frame ):
 
 		wSizer_memView.Add( self.m_staticText_null1MemView, 0, wx.ALL, 5 )
 
-		self.m_button_clearMem = wx.Button( self.m_panel_memView, wx.ID_ANY, u"Clear The Screen", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button_clearMem = wx.Button( self.m_panel_memView, wx.ID_ANY, u"Clear The Screen", wx.DefaultPosition, wx.Size( 115,-1 ), 0 )
 		wSizer_memView.Add( self.m_button_clearMem, 0, wx.ALL, 5 )
 
 		self.m_staticText_null2MemView = wx.StaticText( self.m_panel_memView, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 10,-1 ), 0 )
@@ -1642,10 +1665,10 @@ class secBootWin ( wx.Frame ):
 
 		wSizer_memView.Add( self.m_staticText_null2MemView, 0, wx.ALL, 5 )
 
-		self.m_checkBox_saveImageData = wx.CheckBox( self.m_panel_memView, wx.ID_ANY, u"Save image/data file to", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.m_checkBox_saveImageData = wx.CheckBox( self.m_panel_memView, wx.ID_ANY, u"Save image/data file to", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
 		wSizer_memView.Add( self.m_checkBox_saveImageData, 0, wx.ALL, 5 )
 
-		self.m_filePicker_savedBinFile = wx.FilePickerCtrl( self.m_panel_memView, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.DefaultSize, wx.FLP_DEFAULT_STYLE )
+		self.m_filePicker_savedBinFile = wx.FilePickerCtrl( self.m_panel_memView, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.Size( 210,-1 ), wx.FLP_DEFAULT_STYLE )
 		wSizer_memView.Add( self.m_filePicker_savedBinFile, 0, wx.ALL, 5 )
 
 
@@ -1718,6 +1741,8 @@ class secBootWin ( wx.Frame ):
 		# Connect Events
 		self.Bind( wx.EVT_CLOSE, self.callbackClose )
 		self.Bind( wx.EVT_MENU, self.callbackExit, id = self.m_menuItem_exit.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetLanguageAsEnglish, id = self.m_menuItem_english.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetLanguageAsChinese, id = self.m_menuItem_chinese.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsEntry, id = self.m_menuItem_runModeEntry.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsMaster, id = self.m_menuItem_runModeMaster.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsAuto, id = self.m_menuItem_usbDetectionAuto.GetId() )
@@ -1771,6 +1796,12 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackExit( self, event ):
+		event.Skip()
+
+	def callbackSetLanguageAsEnglish( self, event ):
+		event.Skip()
+
+	def callbackSetLanguageAsChinese( self, event ):
 		event.Skip()
 
 	def callbackSetRunModeAsEntry( self, event ):

@@ -11,6 +11,7 @@ import pywinusb.hid
 import threading
 import uidef
 import uivar
+import uilang
 sys.path.append(os.path.abspath(".."))
 from win import secBootWin
 from run import rundef
@@ -41,6 +42,9 @@ class secBootUi(secBootWin.secBootWin):
 
         self.logFolder = os.path.join(self.exeTopRoot, 'gen', 'log_file')
         self.logFilename = os.path.join(self.exeTopRoot, 'gen', 'log_file', 'log.txt')
+
+        self._initLanguage()
+        self.setLanguage()
 
         self.isToolRunAsEntryMode = None
         self._initToolRunMode()
@@ -1201,4 +1205,112 @@ class secBootUi(secBootWin.secBootWin):
         userFuseList[79] = self._parseUserFuseValue(self.m_textCtrl_fuse8f0.GetLineText(0))
 
         return userFuseList
+
+    def _initLanguage( self ):
+        if self.toolCommDict['isEnglishLanguage']:
+            self.m_menuItem_english.Check(True)
+            self.m_menuItem_chinese.Check(False)
+        else:
+            self.m_menuItem_english.Check(False)
+            self.m_menuItem_chinese.Check(True)
+
+    def _getLastLangIndex( self ):
+        label = self.m_staticText_mcuSeries.GetLabel()
+        labelList = uilang.kMainLanguageContentDict['sText_mcuSeries'][:]
+        for index in range(len(labelList)):
+            if label == labelList[index]:
+                return index
+        return 0
+
+    def setLanguage( self ):
+        isEnglishLanguage = self.m_menuItem_english.IsChecked()
+        self.toolCommDict['isEnglishLanguage'] = isEnglishLanguage
+        lastIndex = self._getLastLangIndex()
+        langIndex = 0
+        if isEnglishLanguage:
+            langIndex = uilang.kLanguageIndex_English
+        else:
+            langIndex = uilang.kLanguageIndex_Chinese
+        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_File, uilang.kMainLanguageContentDict['menu_file'][langIndex])
+        self.m_menuItem_exit.SetItemLabel(uilang.kMainLanguageContentDict['mItem_exit'][langIndex])
+        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Edit, uilang.kMainLanguageContentDict['menu_edit'][langIndex])
+        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_View, uilang.kMainLanguageContentDict['menu_view'][langIndex])
+        # Hard way to set label for submenu
+        self.m_menu_view.SetLabel(self.m_menu_view.FindItem(uilang.kMainLanguageContentDict['subMenu_language'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_language'][langIndex])
+        self.m_menuItem_english.SetItemLabel(uilang.kMainLanguageContentDict['mItem_english'][langIndex])
+        self.m_menuItem_chinese.SetItemLabel(uilang.kMainLanguageContentDict['mItem_chinese'][langIndex])
+        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Tools, uilang.kMainLanguageContentDict['menu_tools'][langIndex])
+        self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_runMode'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_runMode'][langIndex])
+        self.m_menuItem_runModeEntry.SetItemLabel(uilang.kMainLanguageContentDict['mItem_runModeEntry'][langIndex])
+        self.m_menuItem_runModeMaster.SetItemLabel(uilang.kMainLanguageContentDict['mItem_runModeMaster'][langIndex])
+        self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_usbDetection'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_usbDetection'][langIndex])
+        self.m_menuItem_usbDetectionAuto.SetItemLabel(uilang.kMainLanguageContentDict['mItem_usbDetectionAuto'][langIndex])
+        self.m_menuItem_usbDetectionStatic.SetItemLabel(uilang.kMainLanguageContentDict['mItem_usbDetectionStatic'][langIndex])
+        self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_soundEffect'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_soundEffect'][langIndex])
+        self.m_menuItem_soundEffectMario.SetItemLabel(uilang.kMainLanguageContentDict['mItem_soundEffectMario'][langIndex])
+        self.m_menuItem_soundEffectQuiet.SetItemLabel(uilang.kMainLanguageContentDict['mItem_soundEffectQuiet'][langIndex])
+        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Window, uilang.kMainLanguageContentDict['menu_window'][langIndex])
+        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Help, uilang.kMainLanguageContentDict['menu_help'][langIndex])
+        self.m_menuItem_homePage.SetItemLabel(uilang.kMainLanguageContentDict['mItem_homePage'][langIndex])
+        self.m_menuItem_aboutAuthor.SetItemLabel(uilang.kMainLanguageContentDict['mItem_aboutAuthor'][langIndex])
+        self.m_menuItem_specialThanks.SetItemLabel(uilang.kMainLanguageContentDict['mItem_specialThanks'][langIndex])
+        self.m_menuItem_revisionHistory.SetItemLabel(uilang.kMainLanguageContentDict['mItem_revisionHistory'][langIndex])
+
+        self.m_notebook_targetSetup.SetPageText(0, uilang.kMainLanguageContentDict['panel_targetSetup'][langIndex])
+        self.m_staticText_mcuSeries.SetLabel(uilang.kMainLanguageContentDict['sText_mcuSeries'][langIndex])
+        self.m_staticText_mcuDevice.SetLabel(uilang.kMainLanguageContentDict['sText_mcuDevice'][langIndex])
+        self.m_staticText_bootDevice.SetLabel(uilang.kMainLanguageContentDict['sText_bootDevice'][langIndex])
+        self.m_button_bootDeviceConfiguration.SetLabel(uilang.kMainLanguageContentDict['button_bootDeviceConfiguration'][langIndex])
+        self.m_button_deviceConfigurationData.SetLabel(uilang.kMainLanguageContentDict['button_deviceConfigurationData'][langIndex])
+
+        self.m_notebook_portSetup.SetPageText(0, uilang.kMainLanguageContentDict['panel_portSetup'][langIndex])
+        self.m_radioBtn_uart.SetLabel(uilang.kMainLanguageContentDict['radioBtn_uart'][langIndex])
+        self.m_radioBtn_usbhid.SetLabel(uilang.kMainLanguageContentDict['radioBtn_usbhid'][langIndex])
+        self.m_checkBox_oneStepConnect.SetLabel(uilang.kMainLanguageContentDict['checkBox_oneStepConnect'][langIndex])
+
+        self.m_notebook_deviceStatus.SetPageText(0, uilang.kMainLanguageContentDict['panel_deviceStatus'][langIndex])
+
+        self.m_staticText_secureBootType.SetLabel(uilang.kMainLanguageContentDict['sText_secureBootType'][langIndex])
+        self.m_button_allInOneAction.SetLabel(uilang.kMainLanguageContentDict['button_allInOneAction'][langIndex])
+
+        self.m_notebook_imageSeq.SetPageText(uilang.kPanelIndex_GenSeq, uilang.kMainLanguageContentDict['panel_genSeq'][langIndex])
+        self.m_staticText_serial.SetLabel(uilang.kMainLanguageContentDict['sText_serial'][langIndex])
+        self.m_staticText_keyPass.SetLabel(uilang.kMainLanguageContentDict['sText_keyPass'][langIndex])
+        self.m_button_advCertSettings.SetLabel(uilang.kMainLanguageContentDict['button_advCertSettings'][langIndex])
+        self.m_staticText_certFmt.SetLabel(uilang.kMainLanguageContentDict['sText_certFmt'][langIndex])
+        self.m_staticText_hashAlgo.SetLabel(uilang.kMainLanguageContentDict['sText_hashAlgo'][langIndex])
+        self.m_staticText_appPath.SetLabel(uilang.kMainLanguageContentDict['sText_appPath'][langIndex])
+        self.m_staticText_appBaseAddr.SetLabel(uilang.kMainLanguageContentDict['sText_appBaseAddr'][langIndex])
+        self.m_staticText_habCryptoAlgo.SetLabel(uilang.kMainLanguageContentDict['sText_habCryptoAlgo'][langIndex])
+        self.m_staticText_enableCertForBee.SetLabel(uilang.kMainLanguageContentDict['sText_enableCertForBee'][langIndex])
+        self.m_staticText_keyStorageRegion.SetLabel(uilang.kMainLanguageContentDict['sText_keyStorageRegion'][langIndex])
+        self.m_staticText_availBeeEngines.SetLabel(uilang.kMainLanguageContentDict['sText_availBeeEngines'][langIndex])
+        self.m_button_advKeySettings.SetLabel(uilang.kMainLanguageContentDict['button_advKeySettings'][langIndex])
+        self.m_staticText_beeCryptoAlgo.SetLabel(uilang.kMainLanguageContentDict['sText_beeCryptoAlgo'][langIndex])
+        self.m_staticText_maxFacCnt.SetLabel(uilang.kMainLanguageContentDict['sText_maxFacCnt'][langIndex])
+
+        self.m_notebook_imageSeq.SetPageText(uilang.kPanelIndex_LoadSeq, uilang.kMainLanguageContentDict['panel_loadSeq'][langIndex])
+        self.m_staticText_srk256bit.SetLabel(uilang.kMainLanguageContentDict['sText_srk256bit'][langIndex])
+        self.m_staticText_beeKeyInfo.SetLabel(uilang.kMainLanguageContentDict['sText_beeKeyInfo'][langIndex])
+        self.m_staticText_showImage.SetLabel(uilang.kMainLanguageContentDict['sText_showImage'][langIndex])
+        self.m_staticText_habDek128bit.SetLabel(uilang.kMainLanguageContentDict['sText_habDek128bit'][langIndex])
+
+        self.m_notebook_imageSeq.SetPageText(uilang.kPanelIndex_fuseUtil, uilang.kMainLanguageContentDict['panel_fuseUtil'][langIndex])
+        self.m_button_scan.SetLabel(uilang.kMainLanguageContentDict['button_scan'][langIndex])
+        self.m_button_burn.SetLabel(uilang.kMainLanguageContentDict['button_burn'][langIndex])
+
+        self.m_notebook_imageSeq.SetPageText(uilang.kPanelIndex_memView, uilang.kMainLanguageContentDict['panel_memView'][langIndex])
+        self.m_staticText_memStart.SetLabel(uilang.kMainLanguageContentDict['sText_memStart'][langIndex])
+        self.m_staticText_memLength.SetLabel(uilang.kMainLanguageContentDict['sText_memLength'][langIndex])
+        self.m_staticText_memBinFile.SetLabel(uilang.kMainLanguageContentDict['sText_memBinFile'][langIndex])
+        self.m_button_readMem.SetLabel(uilang.kMainLanguageContentDict['button_readMem'][langIndex])
+        self.m_button_eraseMem.SetLabel(uilang.kMainLanguageContentDict['button_eraseMem'][langIndex])
+        self.m_button_writeMem.SetLabel(uilang.kMainLanguageContentDict['button_writeMem'][langIndex])
+        self.m_button_viewMem.SetLabel(uilang.kMainLanguageContentDict['button_viewMem'][langIndex])
+        self.m_button_clearMem.SetLabel(uilang.kMainLanguageContentDict['button_clearMem'][langIndex])
+        self.m_checkBox_saveImageData.SetLabel(uilang.kMainLanguageContentDict['checkBox_saveImageData'][langIndex])
+
+        self.m_notebook_bootLog.SetPageText(0, uilang.kMainLanguageContentDict['panel_log'][langIndex])
+        self.m_button_clearLog.SetLabel(uilang.kMainLanguageContentDict['button_clearLog'][langIndex])
+        self.m_button_saveLog.SetLabel(uilang.kMainLanguageContentDict['button_SaveLog'][langIndex])
 

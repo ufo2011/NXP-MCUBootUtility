@@ -682,6 +682,12 @@ class secBootMain(memcore.secBootMem):
     def callbackSetSoundEffectAsQuiet( self, event ):
         self.setSoundEffect()
 
+    def callbackSetLanguageAsEnglish( self, event ):
+        self.setLanguage()
+
+    def callbackSetLanguageAsChinese( self, event ):
+        self.setLanguage()
+
     def callbackShowHomePage( self, event ):
         msgText = (('https://github.com/JayHeng/NXP-MCUBootUtility.git \n'))
         wx.MessageBox(msgText, "Home Page", wx.OK | wx.ICON_INFORMATION)
@@ -721,6 +727,7 @@ class secBootMain(memcore.secBootMem):
         revision_1_1_0 = "【v1.1.0】 \n" + \
                          "  Feature: \n" + \
                          "     1. Support i.MXRT1015 \n" + \
+                         "     2. Add Language option in Menu/View and support Chinese\n" + \
                          "  Improvement: \n" + \
                          "     1. USB device auto-detection can be disabled \n" + \
                          "     2. Original image can be a bootable image (with IVT&BootData/DCD) \n" + \

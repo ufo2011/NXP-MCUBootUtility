@@ -9,6 +9,7 @@ import time
 from mem import memcore
 from ui import uidef
 from ui import uivar
+from ui import uilang
 from fuse import fusedef
 from ui import ui_cfg_flexspinor
 from ui import ui_cfg_flexspinand
@@ -71,7 +72,7 @@ class secBootMain(memcore.secBootMem):
     def callbackBootDeviceConfiguration( self, event ):
         if self.bootDevice == uidef.kBootDevice_FlexspiNor:
             if self.tgt.isSipFlexspiNorDevice:
-                self.popupMsgBox('MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['bootDeviceInfo_hasOnchipSerialNor'][self.languageIndex])
                 return
         if self._checkIfSubWinHasBeenOpened():
             return
@@ -131,7 +132,7 @@ class secBootMain(memcore.secBootMem):
             self.getOneStepConnectMode()
         else:
             self.initOneStepConnectMode()
-            self.popupMsgBox('One Step mode cannot be set under Entry Mode, Please switch to Master Mode and try again!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_cannotSetOneStep'][self.languageIndex])
 
     def _retryToPingBootloader( self, bootType ):
         pingStatus = False
@@ -188,11 +189,11 @@ class secBootMain(memcore.secBootMem):
                         self.setPortSetupValue(self.connectStage, usbIdList, True, True)
                     else:
                         self.updateConnectStatus('red')
-                        self.popupMsgBox('MCU has entered ROM SDP mode but failed to jump to Flashloader, Please reset board and try again!')
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToJumpToFl'][self.languageIndex])
                         return
                 else:
                     self.updateConnectStatus('red')
-                    self.popupMsgBox('Make sure that you have put MCU in SDP (Serial Downloader Programming) mode (BMOD[1:0] pins = 2\'b01)!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_doubleCheckBmod'][self.languageIndex])
                     return
             elif self.connectStage == uidef.kConnectStage_Flashloader:
                 self.connectToDevice(self.connectStage)
@@ -202,7 +203,7 @@ class secBootMain(memcore.secBootMem):
                     self.updateConnectStatus('green')
                     self.connectStage = uidef.kConnectStage_ExternalMemory
                 else:
-                    self.popupMsgBox('Failed to ping Flashloader, Please reset board and consider updating flashloader.srec file under /src/targets/ then try again!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToPingFl'][self.languageIndex])
                     self._connectFailureHandler()
                     return
             elif self.connectStage == uidef.kConnectStage_ExternalMemory:
@@ -211,7 +212,7 @@ class secBootMain(memcore.secBootMem):
                     self.connectStage = uidef.kConnectStage_Reset
                     self.updateConnectStatus('blue')
                 else:
-                    self.popupMsgBox('MCU has entered Flashloader but failed to configure external memory, Please reset board and set proper boot device then try again!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToCfgBootDevice'][self.languageIndex])
                     self._connectFailureHandler()
                     return
             elif self.connectStage == uidef.kConnectStage_Reset:
@@ -288,10 +289,10 @@ class secBootMain(memcore.secBootMem):
 
     def callbackAdvCertSettings( self, event ):
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
-            self.popupMsgBox('Action is not available because BEE encryption boot is only designed for FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
         elif self.secureBootType != uidef.kSecureBootType_Development:
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto and (not self.isCertEnabledForBee):
-                self.popupMsgBox('Certificate is not enabled for BEE, You can enable it then try again!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['certGenError_notEnabledForBee'][self.languageIndex])
             else:
                 if self._checkIfSubWinHasBeenOpened():
                     return
@@ -300,18 +301,18 @@ class secBootMain(memcore.secBootMem):
                 certSettingsFrame.Show(True)
                 self.updateAllCstPathToCorrectVersion()
         else:
-            self.popupMsgBox('No need to set certificate option when booting unsigned image!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['certGenError_noNeedToSetForUnsigned'][self.languageIndex])
 
     def _wantToReuseAvailableCert( self, directReuseCert ):
         certAnswer = wx.NO
         if self.isCertificateGenerated(self.secureBootType):
             if not directReuseCert:
-                msgText = (("There is available certificate, Do you want to reuse existing certificate? \n"))
+                msgText = ((uilang.kMsgLanguageContentDict['certGenInfo_reuseOldCert'][self.languageIndex]))
                 certAnswer = wx.MessageBox(msgText, "Certificate Question", wx.YES_NO | wx.CANCEL | wx.ICON_QUESTION)
                 if certAnswer == wx.CANCEL:
                     return None
                 elif certAnswer == wx.NO:
-                    msgText = (("New certificate will be different even you don’t change any settings, Do you really want to have new certificate? \n"))
+                    msgText = ((uilang.kMsgLanguageContentDict['certGenInfo_haveNewCert'][self.languageIndex]))
                     certAnswer = wx.MessageBox(msgText, "Certificate Question", wx.YES_NO | wx.CANCEL | wx.ICON_QUESTION)
                     if certAnswer == wx.CANCEL:
                         return None
@@ -327,10 +328,10 @@ class secBootMain(memcore.secBootMem):
         status = False
         reuseCert = None
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
-            self.popupMsgBox('Action is not available because BEE encryption boot is only designed for FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
         elif self.secureBootType != uidef.kSecureBootType_Development:
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto and (not self.isCertEnabledForBee):
-                self.popupMsgBox('Certificate is not enabled for BEE, You can enable it then try again!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['certGenError_notEnabledForBee'][self.languageIndex])
             else:
                 self._startGaugeTimer()
                 self.printLog("'Generate Certificate' button is clicked")
@@ -351,7 +352,7 @@ class secBootMain(memcore.secBootMem):
                     status = True
                 self._stopGaugeTimer()
         else:
-            self.popupMsgBox('No need to generate certificate when booting unsigned image!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['certGenError_noNeedToGenForUnsigned'][self.languageIndex])
         if reuseCert != None:
             self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_GenCert, status)
         return status
@@ -360,7 +361,7 @@ class secBootMain(memcore.secBootMem):
         if not self.isToolRunAsEntryMode:
             self._doGenCert()
         else:
-            self.popupMsgBox('Separated action is not available under Entry Mode, You should use All-In-One Action!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
 
     def callbackChangedAppFile( self, event ):
         self.getUserAppFilePath()
@@ -372,7 +373,7 @@ class secBootMain(memcore.secBootMem):
     def _doGenImage( self ):
         status = False
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
-            self.popupMsgBox('Action is not available because BEE encryption boot is only designed for FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
         else:
             self._startGaugeTimer()
             self.printLog("'Generate Bootable Image' button is clicked")
@@ -391,7 +392,7 @@ class secBootMain(memcore.secBootMem):
         if not self.isToolRunAsEntryMode:
             self._doGenImage()
         else:
-            self.popupMsgBox('Separated action is not available under Entry Mode, You should use All-In-One Action!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
 
     def callbackSetCertForBee( self, event ):
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto:
@@ -417,7 +418,7 @@ class secBootMain(memcore.secBootMem):
             else:
                 pass
         else:
-            self.popupMsgBox('Key setting is only available when booting BEE encrypted image in FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['keyGenError_onlyForBee'][self.languageIndex])
 
     def _doBeeEncryption( self ):
         status = False
@@ -426,11 +427,11 @@ class secBootMain(memcore.secBootMem):
             if self.keyStorageRegion == uidef.kKeyStorageRegion_FixedOtpmkKey:
                 if self.connectStage == uidef.kConnectStage_Reset:
                     if not self.prepareForFixedOtpmkEncryption():
-                        self.popupMsgBox('Failed to prepare for fixed OTPMK SNVS encryption, Please reset board and try again!')
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_failToPrepareForSnvs'][self.languageIndex])
                     else:
                         status = True
                 else:
-                    self.popupMsgBox('Please configure boot device via Flashloader first!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
             elif self.keyStorageRegion == uidef.kKeyStorageRegion_FlexibleUserKeys:
                 self.encrypteImageUsingFlexibleUserKeys()
                 status = True
@@ -438,7 +439,7 @@ class secBootMain(memcore.secBootMem):
                 pass
             self._stopGaugeTimer()
         else:
-            self.popupMsgBox('BEE encryption is only available when booting BEE encrypted image in FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForBee'][self.languageIndex])
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_PrepBee, status)
         return status
 
@@ -446,15 +447,15 @@ class secBootMain(memcore.secBootMem):
         if not self.isToolRunAsEntryMode:
             self._doBeeEncryption()
         else:
-            self.popupMsgBox('Separated action is not available under Entry Mode, You should use All-In-One Action!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
 
     def _doProgramSrk( self ):
         status = False
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
-            self.popupMsgBox('Action is not available because BEE encryption boot is only designed for FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
         elif self.secureBootType != uidef.kSecureBootType_Development:
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto and (not self.isCertEnabledForBee):
-                self.popupMsgBox('Certificate is not enabled for BEE, You can enable it then try again!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['certGenError_notEnabledForBee'][self.languageIndex])
             else:
                 if self.connectStage == uidef.kConnectStage_ExternalMemory or \
                    self.connectStage == uidef.kConnectStage_Reset:
@@ -464,9 +465,9 @@ class secBootMain(memcore.secBootMem):
                         status = True
                     self._stopGaugeTimer()
                 else:
-                    self.popupMsgBox('Please connect to Flashloader first!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
         else:
-            self.popupMsgBox('No need to burn SRK data when booting unsigned image!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operKeyError_srkNotForUnsigned'][self.languageIndex])
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_ProgSrk, status)
         return status
 
@@ -474,7 +475,7 @@ class secBootMain(memcore.secBootMem):
         if not self.isToolRunAsEntryMode:
             self._doProgramSrk()
         else:
-            self.popupMsgBox('Separated action is not available under Entry Mode, You should use All-In-One Action!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
 
     def _doProgramBeeDek( self ):
         status = False
@@ -487,11 +488,11 @@ class secBootMain(memcore.secBootMem):
                         status = True
                     self._stopGaugeTimer()
                 else:
-                    self.popupMsgBox('Please connect to Flashloader first!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
             else:
-                self.popupMsgBox('No need to burn BEE DEK data as OTPMK key is selected!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['operKeyError_dekNotForSnvs'][self.languageIndex])
         else:
-            self.popupMsgBox('BEE DEK Burning is only available when booting BEE encrypted image in FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operKeyError_dekOnlyForBee'][self.languageIndex])
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_OperBee, status)
         return status
 
@@ -499,18 +500,18 @@ class secBootMain(memcore.secBootMem):
         if not self.isToolRunAsEntryMode:
             self._doProgramBeeDek()
         else:
-            self.popupMsgBox('Separated action is not available under Entry Mode, You should use All-In-One Action!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
 
     def _doFlashImage( self ):
         status = False
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
-            self.popupMsgBox('Action is not available because BEE encryption boot is only designed for FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
         else:
             if self.connectStage == uidef.kConnectStage_Reset:
                 self._startGaugeTimer()
                 self.printLog("'Load Bootable Image' button is clicked")
                 if not self.flashBootableImage():
-                    self.popupMsgBox('Failed to flash bootable image into external memory, Please reset board and try again!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_failToFlashImage'][self.languageIndex])
                 else:
                     self.isBootableAppAllowedToView = True
                     if self.burnBootDeviceFuses():
@@ -526,7 +527,7 @@ class secBootMain(memcore.secBootMem):
                             status = True
                 self._stopGaugeTimer()
             else:
-                self.popupMsgBox('Please configure boot device via Flashloader first!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_FlashImage, status)
         return status
 
@@ -534,12 +535,12 @@ class secBootMain(memcore.secBootMem):
         if not self.isToolRunAsEntryMode:
             self._doFlashImage()
         else:
-            self.popupMsgBox('Separated action is not available under Entry Mode, You should use All-In-One Action!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
 
     def _doFlashHabDek( self ):
         status = False
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
-            self.popupMsgBox('Action is not available because BEE encryption boot is only designed for FlexSPI NOR device!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
         elif self.secureBootType == uidef.kSecureBootType_HabCrypto:
             if self.connectStage == uidef.kConnectStage_Reset:
                 self._startGaugeTimer()
@@ -555,9 +556,9 @@ class secBootMain(memcore.secBootMem):
                 status = True
                 self._stopGaugeTimer()
             else:
-                self.popupMsgBox('Please configure boot device via Flashloader first!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
         else:
-            self.popupMsgBox('KeyBlob loading is only available when booting HAB encrypted image!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_keyBlobOnlyForHab'][self.languageIndex])
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_ProgDek, status)
         return status
 
@@ -565,7 +566,7 @@ class secBootMain(memcore.secBootMem):
         if not self.isToolRunAsEntryMode:
             self._doFlashHabDek()
         else:
-            self.popupMsgBox('Separated action is not available under Entry Mode, You should use All-In-One Action!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
 
     def callbackScanFuse( self, event ):
         if self.connectStage == uidef.kConnectStage_ExternalMemory or \
@@ -574,7 +575,7 @@ class secBootMain(memcore.secBootMem):
             self.scanAllFuseRegions()
             self._stopGaugeTimer()
         else:
-            self.popupMsgBox('Please connect to Flashloader first!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
 
     def callbackBurnFuse( self, event ):
         if self.connectStage == uidef.kConnectStage_ExternalMemory or \
@@ -583,16 +584,16 @@ class secBootMain(memcore.secBootMem):
             self.burnAllFuseRegions()
             self._stopGaugeTimer()
         else:
-            self.popupMsgBox('Please connect to Flashloader first!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
 
     def _doViewMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
             if self.isBootableAppAllowedToView:
                 self.readProgrammedMemoryAndShow()
             else:
-                self.popupMsgBox('Please flash image into boot device first!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_hasnotFlashImage'][self.languageIndex])
         else:
-            self.popupMsgBox('Please configure boot device via Flashloader first!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
     def callbackViewMem( self, event ):
         self._doViewMem()
@@ -604,37 +605,37 @@ class secBootMain(memcore.secBootMem):
         if self.connectStage == uidef.kConnectStage_Reset:
             self.readBootDeviceMemory()
         else:
-            self.popupMsgBox('Please configure boot device via Flashloader first!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
     def callbackReadMem( self, event ):
         if not self.isToolRunAsEntryMode:
             self._doReadMem()
         else:
-            self.popupMsgBox('Common memory operation is not available under Entry Mode, Please switch to Master Mode and try again!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operMemError_notAvailUnderEntry'][self.languageIndex])
 
     def _doEraseMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
             self.eraseBootDeviceMemory()
         else:
-            self.popupMsgBox('Please configure boot device via Flashloader first!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
     def callbackEraseMem( self, event ):
         if not self.isToolRunAsEntryMode:
             self._doEraseMem()
         else:
-            self.popupMsgBox('Common memory operation is not available under Entry Mode, Please switch to Master Mode and try again!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operMemError_notAvailUnderEntry'][self.languageIndex])
 
     def _doWriteMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
             self.writeBootDeviceMemory()
         else:
-            self.popupMsgBox('Please configure boot device via Flashloader first!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
     def callbackWriteMem( self, event ):
         if not self.isToolRunAsEntryMode:
             self._doWriteMem()
         else:
-            self.popupMsgBox('Common memory operation is not available under Entry Mode, Please switch to Master Mode and try again!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operMemError_notAvailUnderEntry'][self.languageIndex])
 
     def callbackClearLog( self, event ):
         self.clearLog()
@@ -689,54 +690,24 @@ class secBootMain(memcore.secBootMem):
         self.setLanguage()
 
     def callbackShowHomePage( self, event ):
-        msgText = (('https://github.com/JayHeng/NXP-MCUBootUtility.git \n'))
-        wx.MessageBox(msgText, "Home Page", wx.OK | wx.ICON_INFORMATION)
+        msgText = ((uilang.kMsgLanguageContentDict['homePage_info'][self.languageIndex]))
+        wx.MessageBox(msgText, uilang.kMsgLanguageContentDict['homePage_title'][self.languageIndex], wx.OK | wx.ICON_INFORMATION)
 
     def callbackShowAboutAuthor( self, event ):
-        author = "Author:  痞子衡 \n"
-        blog = "Blog:      痞子衡嵌入式 https://www.cnblogs.com/henjay724/ \n"
-        msgText = ((author.encode('utf-8')) +
-                   ('Email:     jie.heng@nxp.com \n') +
-                   ('Email:     hengjie1989@foxmail.com \n') +
-                   (blog.encode('utf-8')))
-        wx.MessageBox(msgText, "About Author", wx.OK | wx.ICON_INFORMATION)
+        msgText = ((uilang.kMsgLanguageContentDict['aboutAuthor_author'][self.languageIndex]) +
+                   (uilang.kMsgLanguageContentDict['aboutAuthor_email1'][self.languageIndex]) +
+                   (uilang.kMsgLanguageContentDict['aboutAuthor_email2'][self.languageIndex]) +
+                   (uilang.kMsgLanguageContentDict['aboutAuthor_blog'][self.languageIndex]))
+        wx.MessageBox(msgText, uilang.kMsgLanguageContentDict['aboutAuthor_title'][self.languageIndex], wx.OK | wx.ICON_INFORMATION)
 
     def callbackShowSpecialThanks( self, event ):
-        helper = "Special thanks to 周小朋Clare、杨帆、刘华东Howard、沈浩杰Jayson \n"
-        msgText = ((helper.encode('utf-8')))
-        wx.MessageBox(msgText, "Special Thanks", wx.OK | wx.ICON_INFORMATION)
+        msgText = ((uilang.kMsgLanguageContentDict['specialThanks_info'][self.languageIndex]))
+        wx.MessageBox(msgText, uilang.kMsgLanguageContentDict['specialThanks_title'][self.languageIndex], wx.OK | wx.ICON_INFORMATION)
 
     def callbackShowRevisionHistory( self, event ):
-        revision_1_0_0 = "【v1.0.0】 \n" + \
-                         "  Feature: \n" + \
-                         "     1. Support i.MXRT1021, i.MXRT1051/1052, i.MXRT1061/1062, i.MXRT1064 SIP \n" + \
-                         "     2. Support both UART and USB-HID serial downloader modes \n" + \
-                         "     3. Support various user application image file formats (elf/axf/srec/hex/bin) \n" + \
-                         "     4. Can validate the range and applicability of user application image \n" + \
-                         "     5. Support for converting bare image into bootable image \n" + \
-                         "     6. Support for loading bootable image into FlexSPI NOR and SEMC NAND boot devices \n" + \
-                         "     7. Support for loading bootable image into LPSPI NOR/EEPROM recovery boot device \n" + \
-                         "     8. Support DCD which can help load image to SDRAM \n" + \
-                         "     9. Support development boot case (Unsigned) \n" + \
-                         "    10. Support HAB encryption secure boot case (Signed only, Signed and Encrypted) \n" + \
-                         "    11. Can back up certificate with time stamp \n" + \
-                         "    12. Support BEE encryption secure boot case (SNVS Key, User Keys) \n" + \
-                         "    13. Support common eFuse memory operation \n" + \
-                         "    14. Support common boot device memory operation \n" + \
-                         "    15. Support for reading back and marking bootable image from supported boot devices \n\n"
-        revision_1_1_0 = "【v1.1.0】 \n" + \
-                         "  Feature: \n" + \
-                         "     1. Support i.MXRT1015 \n" + \
-                         "     2. Add Language option in Menu/View and support Chinese\n" + \
-                         "  Improvement: \n" + \
-                         "     1. USB device auto-detection can be disabled \n" + \
-                         "     2. Original image can be a bootable image (with IVT&BootData/DCD) \n" + \
-                         "     3. Show boot sequence page dynamically according to action \n" + \
-                         "  Interest: \n" + \
-                         "     1. Add sound effect (Mario) \n\n"
-        msgText = ((revision_1_0_0.encode('utf-8')) +
-                   (revision_1_1_0.encode('utf-8')))
-        wx.MessageBox(msgText, "Revision History", wx.OK | wx.ICON_INFORMATION)
+        msgText = ((uilang.kMsgLanguageContentDict['revisionHistory_v1_0_0'][self.languageIndex]) +
+                   (uilang.kMsgLanguageContentDict['revisionHistory_v1_1_0'][self.languageIndex]))
+        wx.MessageBox(msgText, uilang.kMsgLanguageContentDict['revisionHistory_title'][self.languageIndex], wx.OK | wx.ICON_INFORMATION)
 
 if __name__ == '__main__':
     app = wx.App()

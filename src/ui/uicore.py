@@ -43,6 +43,7 @@ class secBootUi(secBootWin.secBootWin):
         self.logFolder = os.path.join(self.exeTopRoot, 'gen', 'log_file')
         self.logFilename = os.path.join(self.exeTopRoot, 'gen', 'log_file', 'log.txt')
 
+        self.languageIndex = 0
         self._initLanguage()
         self.setLanguage()
 
@@ -1231,7 +1232,7 @@ class secBootUi(secBootWin.secBootWin):
             langIndex = uilang.kLanguageIndex_English
         else:
             langIndex = uilang.kLanguageIndex_Chinese
-        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_File, uilang.kMainLanguageContentDict['menu_file'][langIndex])
+        self.languageIndex = langIndex
         self.m_menuItem_exit.SetItemLabel(uilang.kMainLanguageContentDict['mItem_exit'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Edit, uilang.kMainLanguageContentDict['menu_edit'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_View, uilang.kMainLanguageContentDict['menu_view'][langIndex])

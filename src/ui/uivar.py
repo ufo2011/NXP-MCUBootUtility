@@ -7,6 +7,7 @@ import uidef
 
 g_exeTopRoot = None
 g_isQuietSoundEffect = None
+g_languageIndex = None
 g_hasSubWinBeenOpened = False
 
 g_cfgFilename = None
@@ -418,7 +419,8 @@ def getRuntimeSettings( ):
     global g_hasSubWinBeenOpened
     global g_exeTopRoot
     global g_isQuietSoundEffect
-    return g_hasSubWinBeenOpened, g_exeTopRoot, g_isQuietSoundEffect
+    global g_languageIndex
+    return g_hasSubWinBeenOpened, g_exeTopRoot, g_isQuietSoundEffect, g_languageIndex
 
 def setRuntimeSettings( *args ):
     global g_hasSubWinBeenOpened
@@ -434,5 +436,11 @@ def setRuntimeSettings( *args ):
         global g_isQuietSoundEffect
         if args[2] != None:
             g_isQuietSoundEffect = args[2]
+    except:
+        pass
+    try:
+        global g_languageIndex
+        if args[3] != None:
+            g_languageIndex = args[3]
     except:
         pass

@@ -297,7 +297,7 @@ class secBootMain(memcore.secBootMem):
                 if self._checkIfSubWinHasBeenOpened():
                     return
                 certSettingsFrame = ui_settings_cert.secBootUiSettingsCert(None)
-                certSettingsFrame.SetTitle(u"Advanced Certificate Settings")
+                certSettingsFrame.SetTitle(uilang.kSubLanguageContentDict['cert_title'][self.languageIndex])
                 certSettingsFrame.Show(True)
                 self.updateAllCstPathToCorrectVersion()
         else:

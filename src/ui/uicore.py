@@ -1233,6 +1233,7 @@ class secBootUi(secBootWin.secBootWin):
         else:
             langIndex = uilang.kLanguageIndex_Chinese
         self.languageIndex = langIndex
+        uivar.setRuntimeSettings(None, None, None, self.languageIndex)
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_File, uilang.kMainLanguageContentDict['menu_file'][langIndex])
         self.m_menuItem_exit.SetItemLabel(uilang.kMainLanguageContentDict['mItem_exit'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Edit, uilang.kMainLanguageContentDict['menu_edit'][langIndex])

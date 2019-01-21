@@ -5,6 +5,7 @@ import sys
 import os
 import uidef
 import uivar
+import uilang
 sys.path.append(os.path.abspath(".."))
 from win import advSettingsWin_Cert
 from utils import sound
@@ -13,10 +14,25 @@ class secBootUiSettingsCert(advSettingsWin_Cert.advSettingsWin_Cert):
 
     def __init__(self, parent):
         advSettingsWin_Cert.advSettingsWin_Cert.__init__(self, parent)
+        self._setLanguage()
         self._initCstVersion()
         certSettingsDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_Cert)
         self.certSettingsDict = certSettingsDict.copy()
         self._recoverLastSettings()
+
+    def _setLanguage( self ):
+        runtimeSettings = uivar.getRuntimeSettings()
+        langIndex = runtimeSettings[3]
+        self.m_notebook_certOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_certOpt'][langIndex])
+        self.m_staticText_cstVersion.SetLabel(uilang.kSubLanguageContentDict['sText_cstVersion'][langIndex])
+        self.m_staticText_useExistingCaKey.SetLabel(uilang.kSubLanguageContentDict['sText_useExistingCaKey'][langIndex])
+        self.m_staticText_useEcc.SetLabel(uilang.kSubLanguageContentDict['sText_useEcc'][langIndex])
+        self.m_staticText_pkiTreeKeyLen.SetLabel(uilang.kSubLanguageContentDict['sText_pkiTreeKeyLen'][langIndex])
+        self.m_staticText_pkiTreeDuration.SetLabel(uilang.kSubLanguageContentDict['sText_pkiTreeDuration'][langIndex])
+        self.m_staticText_SRKs.SetLabel(uilang.kSubLanguageContentDict['sText_SRKs'][langIndex])
+        self.m_staticText_caFlagSet.SetLabel(uilang.kSubLanguageContentDict['sText_caFlagSet'][langIndex])
+        self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_cert_ok'][langIndex])
+        self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_cert_cancel'][langIndex])
 
     def _initCstVersion( self ):
         self.m_choice_cstVersion.Clear()

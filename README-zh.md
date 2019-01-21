@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.0.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.0.0...master) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.1.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.1.0...master) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 [English](./README.md) | 中文
 
@@ -11,7 +11,8 @@
 
 > * 支持i.MXRT全系列MCU，包含i.MXRT1015、i.MXRT1021、i.MXRT1051/1052、i.MXRT1061/1062、i.MXRT1064 SIP  
 > * 支持UART和USB-HID两种串行下载方式（COM端口/USB设备自动识别）  
-> * 支持五种常用格式(elf/axf/srec/hex/bin)裸源image文件输入并检查其链接地址的合法性  
+> * 支持五种常用格式(elf/axf/srec/hex/bin)源image文件输入并检查其链接地址的合法性  
+> * 源image文件既可以是裸源image文件，也可以是含启动文件头的bootable image文件  
 > * 支持将裸源image文件自动转换成i.MXRT能启动的Bootable image  
 > * 支持下载Bootable image进主动启动设备 - FlexSPI NOR、SEMC NAND接口Flash  
 > * 支持下载Bootable image进备份启动设备 - LPSPI接口NOR/EEPROM Flash  
@@ -90,7 +91,7 @@
 ### 2 准备工作
 　　在使用NXP-MCUBootUtility工具前主要有两个准备工作：一、准备好i.MXRT硬件板以及串行下载连接线（USB/UART）；二、准备好用于下载进Flash的源image文件。  
 　　关于串行下载线连接，需要查看i.MXRT参考手册System Boot章节，确保连接的UART/USB引脚是BootROM指定的。  
-　　关于源image文件准备，NXP-MCUBootUtility工具能够识别五种常见格式(elf/axf/srec/hex/bin)的image，唯一需要注意的是源image中不需要包含任何i.MXRT加载启动所需要的头（IVT, BootData等），NXP-MCUBootUtility会自动添加i.MXRT加载启动所需的文件头。  
+　　关于源image文件准备，NXP-MCUBootUtility工具能够识别五种常见格式(elf/axf/srec/hex/bin)的image，源image既可以包含i.MXRT加载启动头（IVT, BootData等），也可以不包含这些i.MXRT加载启动头。如果源image中不包含这些启动头，NXP-MCUBootUtility会自动添加文件头。  
 　　以NXP官方SDK为例进一步讲解源image文件的生成，注册并登录NXP官网，来到 [MCUXpresso SDK Builder](https://mcuxpresso.nxp.com/en/select) 页面，选择合适的MCU芯片以及IDE（以RT1060芯片，IAR IDE为例）并点击Download SDK后便可得到SDK_2.4.0_EVK-MIMXRT1060.zip。  
 　　使用IAR打开SDK包里的\boards\evkmimxrt1060\demo_apps\led_blinky\iar\led_blinky.eww示例应用：  
 
@@ -114,7 +115,7 @@ define symbol m_data2_start            = 0x20200000;
 define symbol m_data2_end              = 0x202BFFFF;
 ```
 
-　　flexspi_nor工程需要修改工程配置选项里的Defined symbols如下：（将XIP_BOOT_HEADER_ENABLE设为0，即不需要生成包含i.MXRT加载启动文件头的image）。  
+　　flexspi_nor工程需要修改工程配置选项里的Defined symbols如下：（将XIP_BOOT_HEADER_ENABLE设为0，即不需要生成包含i.MXRT加载启动文件头的image; 如果保持XIP_BOOT_HEADER_ENABLE为1不变，那么生成的可执行image文件会包含i.MXRT加载启动文件头）。  
 
 ![NXP-MCUBootUtility_sdkProjectOptions](http://henjay724.com/image/cnblogs/nxpSecBoot_sdkProjectOptions.PNG)
 

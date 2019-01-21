@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.0.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.0.0...master) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.1.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.1.0...master) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 English | [中文](./README-zh.md)
 
@@ -13,6 +13,7 @@ English | [中文](./README-zh.md)
 > * Support both UART and USB-HID serial downloader modes  
 > * Support various user application image file formats (elf/axf/srec/hex/bin)  
 > * Can validate the range and applicability of user application image
+> * User image file can be either bare image file or bootable image file 
 > * Support for converting bare image into bootable image  
 > * Support for loading bootable image into FlexSPI NOR and SEMC NAND boot devices  
 > * Support for loading bootable image into LPSPI NOR/EEPROM recovery boot device  
@@ -90,7 +91,7 @@ English | [中文](./README-zh.md)
 ### 2 Preparation
 　　There are two main preparations before using the NXP-MCUBootUtility tool: 1. Prepare the i.MXRT hardware board and the serial download cable (USB/UART). 2. Prepare the source image file for downloading into Flash.  
 　　For serial download line connections, you need to check the System Boot chapter of the i.MXRT Reference Manual to ensure that the connected UART/USB pins are specified by the BootROM.  
-　　Regarding the source image file preparation, the NXP-MCUBootUtility tool can recognize the images of the five common formats (elf/axf/srec/hex/bin). The only thing you need to care is that the source image does not need to contain any headers required for i.MXRT boot ( IVT, BootData, etc.), NXP-MCUBootUtility will automatically add the headers required for i.MXRT to load and boot.  
+　　Regarding the source image file preparation, the NXP-MCUBootUtility tool can recognize the images of the five common formats (elf/axf/srec/hex/bin). Note that the source image can be either bare image or bootable image.  
 　　Take the NXP official SDK as an example to further explain the generation of the source image file, register and log in to the NXP official website, go to the [MCUXpresso SDK Builder](https://mcuxpresso.nxp.com/en/select) page, select the appropriate MCU chip and IDE (take RT1060 chip, IAR IDE as an example) and click Download SDK to get SDK_2.4.0_EVK-MIMXRT1060.zip.  
 　　Use IAR to open the \boards\evkmimxrt1060\demo_apps\led_blinky\iar\led_blinky.eww sample application in the SDK package:  
 
@@ -114,7 +115,7 @@ define symbol m_data2_start            = 0x20200000;
 define symbol m_data2_end              = 0x202BFFFF;
 ```
 
-　　You need to modify the Defined symbols in the project configuration options for the flexspi_nor project as follows: (Set XIP_BOOT_HEADER_ENABLE to 0, It is no need to generate an image containing the i.MXRT boot headers).  
+　　You need to modify the Defined symbols in the project configuration options for the flexspi_nor project as follows: (Set XIP_BOOT_HEADER_ENABLE to 0, It is no need to generate an image containing the i.MXRT boot headers; Keep XIP_BOOT_HEADER_ENABLE as 1, The generated image will contain i.MXRT boot headers).  
 
 ![NXP-MCUBootUtility_sdkProjectOptions](http://henjay724.com/image/cnblogs/nxpSecBoot_sdkProjectOptions.PNG)
 

@@ -63,7 +63,7 @@ kMainLanguageContentDict = {
         'panel_genSeq':                       ['Image Generation Sequence',             u"       生成可启动程序       "],
         'sText_serial':                       ['Serial (8 digits):',                    u"序列号（仅8位数字）："],
         'sText_keyPass':                      ['key_pass (text):',                      u"密钥因子（任意字符）："],
-        'button_advCertSettings':             ['Advanced Certificate Settings',         u"配置认证参数"],
+        'button_advCertSettings':             ['Advanced Cert Settings',                u"配置认证参数"],
         'sText_certFmt':                      ['Certificate Format:',                   u"证书格式："],
         'sText_hashAlgo':                     ['Hash Algorithm:',                       u"哈希算法："],
         'sText_appPath':                      ['Application Image File:',               u"源应用程序镜像文件："],
@@ -100,6 +100,21 @@ kMainLanguageContentDict = {
         'panel_log':                          ['Log',                                   u"操作日志"],
         'button_clearLog':                    ['Clear',                                 u"清除"],
         'button_SaveLog':                     ['Save',                                  u"保存"],
+
+}
+
+kSubLanguageContentDict = {
+        'cert_title':                         ['Advanced Certificate Settings',         u"配置认证参数"],
+        'panel_certOpt':                      ['Certificate Option',                    u"证书选项"],
+        'sText_cstVersion':                   ['CST Version:',                          u"CST版本："],
+        'sText_useExistingCaKey':             ['Use Existing CA Key:',                  u"复用已有CA密钥："],
+        'sText_useEcc':                       ['Use Elliptic Curve Crypto:',            u"采用椭圆曲线加密："],
+        'sText_pkiTreeKeyLen':                ['Key Length for PKI Tree (bits):',       u"PKI密钥比特长度："],
+        'sText_pkiTreeDuration':              ['PKI Tree Duration (years):',            u"PKI保密时间（年）："],
+        'sText_SRKs':                         ['Super Root Keys:',                      u"SRK密码组数："],
+        'sText_caFlagSet':                    ['SRK Cert to have CA flag Set:',         u"证书CA标志选项："],
+        'button_cert_ok':                     ['Ok',                                    u"确定"],
+        'button_cert_cancel':                 ['Cancel',                                u"取消"],
 
 }
 

@@ -5,6 +5,7 @@ import sys
 import os
 import uidef
 import uivar
+import uilang
 sys.path.append(os.path.abspath(".."))
 from win import advSettingsWin_FixedOtpmkKey
 from gen import gendef
@@ -16,10 +17,25 @@ class secBootUiSettingsFixedOtpmkKey(advSettingsWin_FixedOtpmkKey.advSettingsWin
     def __init__(self, parent):
         advSettingsWin_FixedOtpmkKey.advSettingsWin_FixedOtpmkKey.__init__(self, parent)
         otpmkKeyOpt, otpmkEncryptedRegionStartList, otpmkEncryptedRegionLengthList = uivar.getAdvancedSettings(uidef.kAdvancedSettings_OtpmkKey)
+        self._setLanguage()
         self.otpmkKeyOpt = otpmkKeyOpt
         self.otpmkEncryptedRegionStartList = otpmkEncryptedRegionStartList[:]
         self.otpmkEncryptedRegionLengthList = otpmkEncryptedRegionLengthList[:]
         self._recoverLastSettings()
+
+
+    def _setLanguage( self ):
+        runtimeSettings = uivar.getRuntimeSettings()
+        langIndex = runtimeSettings[3]
+        self.m_notebook_encryptionOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_encryptionOpt'][langIndex])
+        self.m_staticText_keySource.SetLabel(uilang.kSubLanguageContentDict['sText_keySource'][langIndex])
+        self.m_staticText_aesMode.SetLabel(uilang.kSubLanguageContentDict['sText_aesMode'][langIndex])
+        self.m_staticText_regionCnt.SetLabel(uilang.kSubLanguageContentDict['sText_regionCnt'][langIndex])
+        self.m_notebook_regionInfo.SetPageText(uilang.kSubLanguageContentDict['panel_regionInfo'][langIndex])
+        self.m_staticText_regionStart.SetLabel(uilang.kSubLanguageContentDict['sText_regionStart'][langIndex])
+        self.m_staticText_regionLength.SetLabel(uilang.kSubLanguageContentDict['sText_regionLength'][langIndex])
+        self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_fixedotpmkkey_ok'][langIndex])
+        self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_fixedotpmkkey_cancel'][langIndex])
 
     def _updateRegionInfoField ( self, regionCnt ):
         if regionCnt < 1:

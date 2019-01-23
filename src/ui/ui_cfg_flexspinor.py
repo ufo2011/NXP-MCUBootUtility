@@ -6,6 +6,7 @@ import os
 import math
 import uidef
 import uivar
+import uilang
 sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_FlexspiNor
 from utils import sound
@@ -45,10 +46,35 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         #             3 - Data Order swapped, used for Macronix OctaFLASH devcies only (except MX25UM51345G)
         #             4 - Second QSPI NOR Pinmux
         # bit [03: 00] Flash Frequency, device specific
+        self._setLanguage()
         self.flexspiNorOpt0 = flexspiNorOpt0
         self.flexspiNorOpt1 = flexspiNorOpt1
         self.flexspiDeviceModel = flexspiDeviceModel
         self._recoverLastSettings()
+
+
+    def _setLanguage( self ):
+        runtimeSettings = uivar.getRuntimeSettings()
+        langIndex = runtimeSettings[3]
+        self.m_staticText_deviceModel.SetLabel(0, uilang.kSubLanguageContentDict['sText_deviceModel'][langIndex])
+        self.m_notebook_norOpt0.SetPageText(uilang.kSubLanguageContentDict['panel_norOpt0'][langIndex])
+        self.m_staticText_deviceType.SetLabel(uilang.kSubLanguageContentDict['sText_deviceType'][langIndex])
+        self.m_staticText_queryPads.SetLabel(uilang.kSubLanguageContentDict['sText_queryPads'][langIndex])
+        self.m_staticText_cmdPads.SetLabel(uilang.kSubLanguageContentDict['sText_cmdPads'][langIndex])
+        self.m_staticText_quadModeSetting.SetLabel(uilang.kSubLanguageContentDict['sText_quadModeSetting'][langIndex])
+        self.m_staticText_miscMode.SetLabel(uilang.kSubLanguageContentDict['sText_miscMode'][langIndex])
+        self.m_staticText_maxFrequency.SetLabel(uilang.kSubLanguageContentDict['sText_maxFrequency'][langIndex])
+        self.m_staticText_hasOption1.SetLabel(uilang.kSubLanguageContentDict['sText_hasOption1'][langIndex])
+        self.m_notebook_norOpt1.SetPageText(uilang.kSubLanguageContentDict['panel_norOpt1'][langIndex])
+        self.m_staticText_flashConnection.SetLabel(uilang.kSubLanguageContentDict['sText_flashConnection'][langIndex])
+        self.m_staticText_driveStrength.SetLabel(uilang.kSubLanguageContentDict['sText_driveStrength'][langIndex])
+        self.m_staticText_dqsPinmuxGroup.SetLabel(uilang.kSubLanguageContentDict['sText_dqsPinmuxGroup'][langIndex])
+        self.m_staticText_enableSecondPinmux.SetLabel(uilang.kSubLanguageContentDict['sText_enableSecondPinmux'][langIndex])
+        self.m_staticText_statusOverride.SetLabel(uilang.kSubLanguageContentDict['sText_statusOverride'][langIndex])
+        self.m_staticText_dummyCycles.SetLabel(uilang.kSubLanguageContentDict['sText_dummyCycles'][langIndex])
+        self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_flexspinor_ok'][langIndex])
+        self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_flexspinor_cancel'][langIndex])
+
 
     def _updateOpt1Field ( self, isEnabled ):
         if isEnabled:

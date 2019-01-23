@@ -167,7 +167,7 @@ class secBootMem(fusecore.secBootFuse):
 
     def readProgrammedMemoryAndShow( self ):
         if not os.path.isfile(self.destAppFilename):
-            self.popupMsgBox('You should program your image first!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['programImageFirst'][self.languageIndex])
             return
         self.clearMem()
         self._getInfoFromIvt()

@@ -5,6 +5,7 @@ import sys
 import os
 import uidef
 import uivar
+import uilang
 sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_SemcNand
 from utils import sound
@@ -14,10 +15,33 @@ class secBootUiCfgSemcNand(bootDeviceWin_SemcNand.bootDeviceWin_SemcNand):
     def __init__(self, parent):
         bootDeviceWin_SemcNand.bootDeviceWin_SemcNand.__init__(self, parent)
         semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(uidef.kBootDevice_SemcNand)
+        self._setLanguage()
         self.semcNandOpt = semcNandOpt
         self.semcNandFcbOpt = semcNandFcbOpt
         self.semcNandImageInfoList = semcNandImageInfoList[:]
         self._recoverLastSettings()
+
+
+    def _setLanguage( self ):
+        runtimeSettings = uivar.getRuntimeSettings()
+        langIndex = runtimeSettings[3]
+        self.m_notebook_nandOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_nandOpt'][langIndex])
+        self.m_staticText_onfiVersion.SetLabel(uilang.kSubLanguageContentDict['sText_onfiVersion'][langIndex])
+        self.m_staticText_onfiTimingMode.SetLabel(uilang.kSubLanguageContentDict['sText_onfiTimingMode'][langIndex])
+        self.m_staticText_edoMode.SetLabel(uilang.kSubLanguageContentDict['sText_edoMode'][langIndex])
+        self.m_staticText_ioPortSize.SetLabel(uilang.kSubLanguageContentDict['sText_ioPortSize'][langIndex])
+        self.m_staticText_pcsPort.SetLabel(uilang.kSubLanguageContentDict['sText_pcsPort'][langIndex])
+        self.m_staticText_eccType.SetLabel(uilang.kSubLanguageContentDict['sText_eccType'][langIndex])
+        self.m_staticText_eccStatus.SetLabel(uilang.kSubLanguageContentDict['sText_eccStatus'][langIndex])
+        self.m_notebook_fcbOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_fcbOpt'][langIndex])
+        self.m_staticText_searchCount.SetLabel(uilang.kSubLanguageContentDict['sText_searchCount'][langIndex])
+        self.m_staticText_searchStride.SetLabel(uilang.kSubLanguageContentDict['sText_searchStride'][langIndex])
+        self.m_notebook_imageInfo.SetPageText(0, uilang.kSubLanguageContentDict['panel_imageInfo'][langIndex])
+        self.m_staticText_blockIndex.SetLabel(uilang.kSubLanguageContentDict['sText_blockIndex'][langIndex])
+        self.m_staticText_blockCount.SetLabel(uilang.kSubLanguageContentDict['sText_blockCount'][langIndex])
+        self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_semcnand_ok'][langIndex])
+        self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_semcnand_cancel'][langIndex])
+
 
     def _updateImageInfoField ( self, imageCopies ):
         if imageCopies < 2:

@@ -100,7 +100,7 @@ class secBootFuse(runcore.secBootRun):
             if ((srcLock & fusedef.kEfuseMask_LockSrk) == 0) and \
                ((destLock & fusedef.kEfuseMask_LockSrk) != 0):
                 destLock = destLock & (~fusedef.kEfuseMask_LockSrk)
-                self.popupMsgBox('Fuse 0x400[14] - SRK_LOCK is not allowed to be set, because SRK will be OP+RP+WP if SRK_LOCK is set and then ROM cannot get SRK!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['SRK_LOCKnotAllowedSet'][self.languageIndex])
             self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_LOCK, destLock)
         srcLock = srcFuseValue & fusedef.kEfuseMask_LockHigh
         destLock = destFuseValue & fusedef.kEfuseMask_LockHigh

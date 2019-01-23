@@ -63,7 +63,7 @@ kMainLanguageContentDict = {
         'panel_genSeq':                       ['Image Generation Sequence',             u"       生成可启动程序       "],
         'sText_serial':                       ['Serial (8 digits):',                    u"序列号（仅8位数字）："],
         'sText_keyPass':                      ['key_pass (text):',                      u"密钥因子（任意字符）："],
-        'button_advCertSettings':             ['Advanced Cert Settings',                u"配置认证参数"],
+        'button_advCertSettings':             ['Advanced Certificate Settings',         u"配置认证参数"],
         'sText_certFmt':                      ['Certificate Format:',                   u"证书格式："],
         'sText_hashAlgo':                     ['Hash Algorithm:',                       u"哈希算法："],
         'sText_appPath':                      ['Application Image File:',               u"源应用程序镜像文件："],
@@ -101,20 +101,129 @@ kMainLanguageContentDict = {
         'button_clearLog':                    ['Clear',                                 u"清除"],
         'button_SaveLog':                     ['Save',                                  u"保存"],
 
-}
+        #cert
+        'panel_certOpt':                      ['Certificate Option'                     u"证书选项"]
+        'sText_cstVersion':                   ['CST Version'                            u"CST版本"]
+        'sText_useExistingCaKey':             ['Use Existing CA Key'                    u"使用现有的CA密钥"]
+        'sText_useEcc':                       ['Use Elliptic Curve Crypto'              u"使用椭圆曲线加密"]
+        'sText_pkiTreeKeyLen':                ['Key Length for PKI Tree (bits)'         u"PKI树的密钥长度 (位)"]
+        'sText_pkiTreeDuration':              ['PKI Tree Duration (years)'              u"PKI树持续时间 (年)"]
+        'sText_SRKs':                         ['Super Root Keys'                        u"超级权限密钥"]
+        'sText_caFlagSet':                    ['SRK Cert to have CA flag Set'           u"具有CA标志设置的SRK证书"]
+        'button_cert_ok':                     ['Ok'                                     u"确认"]
+        'button_cert_cancel':                 ['Cancel'                                 u"取消"]
 
-kSubLanguageContentDict = {
-        'cert_title':                         ['Advanced Certificate Settings',         u"配置认证参数"],
-        'panel_certOpt':                      ['Certificate Option',                    u"证书选项"],
-        'sText_cstVersion':                   ['CST Version:',                          u"CST版本："],
-        'sText_useExistingCaKey':             ['Use Existing CA Key:',                  u"复用已有CA密钥："],
-        'sText_useEcc':                       ['Use Elliptic Curve Crypto:',            u"采用椭圆曲线加密："],
-        'sText_pkiTreeKeyLen':                ['Key Length for PKI Tree (bits):',       u"PKI密钥比特长度："],
-        'sText_pkiTreeDuration':              ['PKI Tree Duration (years):',            u"PKI保密时间（年）："],
-        'sText_SRKs':                         ['Super Root Keys:',                      u"SRK密码组数："],
-        'sText_caFlagSet':                    ['SRK Cert to have CA flag Set:',         u"证书CA标志选项："],
-        'button_cert_ok':                     ['Ok',                                    u"确定"],
-        'button_cert_cancel':                 ['Cancel',                                u"取消"],
+        #dcd
+        'panel_dcdOpt':                       ['DCD Option'                             u"DCD选项"]
+        'sText_dcdSource':                    ['DCD Source'                             u"DCD源"]
+        'sText_dcdBinFile':                   ['DCD bin file'                           u"DCD bin文件"]
+        'sText_dcdCfgFile':                   ['DCD cfg file'                           u"DCD cfg文件"]
+        'sText_dcdPurpose':                   ['DCD Purpose'                            u"DCD目标"]
+        'sText_sdramBase':                    ['SDRAM Base'                             u"SDRAM基地址"]
+        'panel_dcdDesc':                      ['DCD Descriptor'                         u"DCD描述"]
+        'sText_dcdModel':                     ['Device Model'                           u"设备模式"]
+        'button_dcd_ok':                      ['Ok'                                     u"确认"]
+        'button_dcd_cancel':                  ['Cancel'                                 u"取消"]
+
+        #flexspinor
+        'sText_deviceModel':                  ['Use Typical Device Model'               u"使用典型设备型号"]
+        'panel_norOpt0':                      ['Nor Option0'                            u"选项0"]
+        'sText_deviceType':                   ['Device Type'                            u"设备类型"]
+        'sText_queryPads':                    ['Query Pads'                             u"查询板"]
+        'sText_cmdPads':                      ['Cmd Pads'                               u"CMD板"]
+        'sText_quadModeSetting':              ['Quad Mode Setting'                      u"四路模式设置"]
+        'sText_miscMode':                     ['Misc Mode'                              u"Misc模式"]
+        'sText_maxFrequency':                 ['Max Frequency'                          u"最大频率"]
+        'sText_hasOption1':                   ['Has Option1'                            u"是否有选项1"]
+        'panel_norOpt1':                      ['Nor Option1'                            u"选项1"]
+        'sText_flashConnection':              ['Flash Connection'                       u"Flash连接"]
+        'sText_driveStrength':                ['Drive Strength'                         u"驱动长度"]
+        'sText_dqsPinmuxGroup':               ['DQS Pinmux Group'                       u"DQS Pinmux 组"]
+        'sText_enableSecondPinmux':           ['Enable Second Pinmux'                   u"使能第二个Pinmux"]
+        'sText_statusOverride':               ['Status Override'                        u"状态覆盖"]
+        'sText_dummyCycles':                  ['Dummy Cycles'                           u"虚拟循环"]
+        'button_flexspinor_ok':               ['Ok'                                     u"确认"]
+        'button_flexspinor_cancel':           ['Cancel'                                 u"取消"]
+
+        #lpspinor
+        'panel_memOpt':                       ['Memory Option'                          u"存储器选项"]
+        'sText_deviceType':                   ['Device Type'                            u"设备类型"]
+        'sText_pageSize':                     ['Page Size (Bytes)'                      u"页面大小（字节）"]
+        'sText_sectorSize':                   ['Sector Size (KBytes）'                  u"扇区大小（千字节）"]
+        'sText_totalSize':                    ['Total Size (KBytes)'                    u"总计大小（千字节）"]
+        'panel_spiOpt':                       ['Spi Option'                             u"Spi串口选项"]
+        'sText_spiIndex':                     ['Spi Index'                              u"Spi串口指数"]
+        'sText_spiPcs':                       ['Spi Pcs'                                u"Spi串口Pcs"]
+        'sText_spiSpeed':                     ['Spi Speed'                              u"Spi串口速度"]
+        'button_lpspinor_ok':                 ['Ok'                                     u"确认"]
+        'button_lpspinor_ok':                 ['Cancel'                                 u"取消"]
+
+        #semcnand
+        'panel_nandOpt':                      ['Nand Option'                            u"Nand闪存选项"]
+        'sText_onfiVersion':                  ['ONFI Version'                           u"ONFI版本"]
+        'sText_onfiTimingMode':               ['ONFI Timing Mode'                       u"ONFI时钟模式"]
+        'sText_edoMode':                      ['EDO Mode'                               u"EDO模式"]
+        'sText_ioPortSize':                   ['I/O Port Size'                          u"输入/输出端口大小"]
+        'sText_pcsPort':                      ['PCS Port'                               u"PCS端口"]
+        'sText_eccType':                      ['ECC Type'                               u"ECC类型"]
+        'sText_eccStatus':                    ['Initial ECC status'                     u"初始化ECC状态"]
+        'panel_fcbOpt':                       ['FCB Option'                             u"FCB选项"]
+        'sText_searchCount':                  ['Search Count'                           u"搜索计数"]
+        'sText_searchStride':                 ['Search Stride'                          u"搜索步长"]
+        'sText_imageCopies':                  ['Image Copies'                           u"程序复制"]
+        'panel_imageInfo':                    ['Image Info'                             u"程序信息"]
+        'sText_blockIndex':                   ['Block Index'                            u"限制指数"]
+        'sText_blockCount':                   ['Block Count'                            u"限制计数"]
+        'button_semcnand_ok':                 ['Ok'                                     u"确认"]
+        'button_semcnand_cancel':             ['Cancel'                                 u"取消"]
+
+        #otpmk
+        'panel_encryptionOpt':                ['Encryption Option'                      u"加密选项"]
+        'sText_keySource':                    ['Key Source'                             u"密钥源"]
+        'sText_aesMode':                      ['AES Mode'                               u"AES模式"]
+        'sText_regionCnt':                    ['Region Count'                           u"区域占取"]
+        'panel_regionInfo':                   ['Encrypted Region Info'                  u"加密空间信息"]
+        'sText_regionStart':                  ['Region Start'                           u"空间首地址"]
+        'sText_regionLength':                 ['Region Length'                          u"空间长度"]
+        'button_fixedotpmkkey_ok':            ['Ok'                                     u"确认"]
+        'button_fixedotpmkkey_cancel':        ['Cancel'                                 u"取消"]
+
+        #user
+        'panel_encryptionOpt':                ['Encryption Option'                      u"加密选项"]
+        'sText_engineSel':                    ['Engine Selection'                       u"引擎选择"]
+        'sText_beeEngKeySel':                 ['BEE Engine Key Selection'               u"BEE引擎密钥选择"]
+        'sText_imageType':                    ['Image Type'                             u"程序类型"]
+        'sText_xipBaseAddr':                  ['XIP Base Address'                       u"XIP基地址"]
+        'panel_engine0Info':                  ['BEE Engine 0 Info'                      u"BEE引擎0信息"]
+        'sText_engine0keySource':             ['Key Source'                             u"密钥源"]
+        'sText_engine0UserKeyData':           ['User Key Data'                          u"用户密钥数据"]
+        'sText_engine0AesMode':               ['AES Mode'                               u"AES模式"]
+        'sText_engine0FacCnt':                ['Protected Region Count'                 u"受保护空间计数"]
+        'sText_engine0Fac0Start':             ['Protected Region 0 Start'               u"受保护空间0的首地址"]
+        'sText_engine0Fac0Length':            ['Protected Region 0 Length'              u"受保护空间0的长度"]
+        'sText_engine0Fac1Start':             ['Protected Region 1 Start'               u"受保护空间1的首地址"]
+        'sText_engine0Fac1Length':            ['Protected Region 1 Length'              u"受保护空间1的长度"]
+        'sText_engine0Fac2Start':             ['Protected Region 2 Start'               u"受保护空间2的首地址"]
+        'sText_engine0Fac2Length':            ['Protected Region 2 Length'              u"受保护空间2的长度"]
+        'sText_engine0AccessPermision':       ['Access Permision'                       u"允许访问"]
+        'sText_engine0Lock':                  ['Region Lock'                            u"空间锁定"]
+        'panel_engine1Info':                  ['BEE Engine 1 Info'                      u"BEE引擎1信息"]
+        'sText_engine1keySource':             ['Key Source'                             u"密钥源"]
+        'sText_engine1UserKeyData':           ['User Key Data'                          u"用户密钥数据"]
+        'sText_engine1AesMode':               ['AES Mode'                               u"AES模式"]
+        'sText_engine1FacCnt':                ['Protected Region Count'                 u"受保护空间计数"]
+        'sText_engine1Fac0Start':             ['Protected Region 0 Start'               u"受保护空间0的首地址"]
+        'sText_engine1Fac0Length':            ['Protected Region 0 Length'              u"受保护空间0的长度"]
+        'sText_engine1Fac1Start':             ['Protected Region 1 Start'               u"受保护空间1的首地址"]
+        'sText_engine1Fac1Length':            ['Protected Region 1 Length'              u"受保护空间1的长度"]
+        'sText_engine1Fac2Start':             ['Protected Region 2 Start'               u"受保护空间2的首地址"]
+        'sText_engine1Fac2Length':            ['Protected Region 2 Length'              u"受保护空间2的长度"]
+        'sText_engine1AccessPermision':       ['Access Permision'                       u"允许访问"]
+        'sText_engine1Lock':                  ['Region Lock'                            u"空间锁定"]
+        'button_flexibleuserkeys_genRandomKey':            ['Generate Random User Key'                     u"随机生产用户密钥"]
+        'button_flexibleuserkeys_ok':         ['Ok'                                     u"确认"]
+        'button_flexibleuserkeys_cancel':     ['Cancel'                                 u"取消"]
+
 
 }
 
@@ -237,4 +346,132 @@ kMsgLanguageContentDict = {
                                               u"下载KeyBlob操作仅在HAB加密启动模式下有效！"],
         'operImgError_hasnotFlashImage':      ['Please flash image into boot device first!',
                                               u"请先将应用程序下载进启动设备！"],
+
+
+        'illegalInput':                       ['Illegal input detected! You should input like this format: 0x5000',
+                                              u"检测到非法输入!您应该输入类似于此格式: 0x5000（十六进制数）。"],
+
+#        'USB-HID_NotFound':                   ['Cannnot find USB-HID device (vid=%s, pid=%s), Please connect USB cable to your board first!',
+#                                              u"找不到USB-HID设备 (vid =% s, pid =% s), 请先将USB电缆连接到您的主板!"],
+        
+        '8digitsSerial':                      ['Serial must be 8 digits!',
+                                              u"串行必须是8位数字!"],
+
+        'Key_PasstoSet':                      ['You forget to set key_pass!',
+                                              u"您忘了设置密钥！"],
+
+        'operImgError_notRec/Convert':        ['Cannot recognise/convert the format of image file: ',
+                                              u"无法识别/转换image文件的格式:"],
+
+        'operDCDError_notGenerated':          ['DCD binary is not generated successfully! Check your DCD descriptor file and make sure you don\'t put the tool in path with blank space!',
+                                              u"DCD二进制文件未成功生成!检查您的DCD描述符文件, 并确保您保存该工具的路径中没有空格!"],
+
+        'invalidVecAddress':                  ['Invalid vector address found in image file: ',
+                                              u"image文件中存在无效的矢量地址:"],
+
+        'NON-XIPAppDetcted':                 ['Non-XIP Application is detected but it is not in the range of ITCM/DTCM/OCRAM/SDRAM!',
+                                              u"检测到非XIP应用程序,但它不在 ITCM/DTCM/OCRAM/SDRAM的范围内!"],
+
+        'XIPAppNotAppliableDected':           ['XIP Application is detected but it is not appliable for HAB Encrypted image boot!',
+                                              u"XIP应用程序被检测到, 但它不适用于HAB加密映像启动!"],
+
+        'NON-XIPAppNotForBEEDetcted':         ['Non-XIP Application is detected but it is not appliable for BEE Encrypted image boot!',
+                                              u"检测到非XIP应用程序, 但它不适用于BEE加密映像启动!"],
+
+        'specifyASourceImageFile':            ['You should first specify a source image file (.elf/.axf/.srec/.hex/.bin)!',
+                                              u"您应该首先指定一个image文件 (. elf/. axf/. srec/. srec/. hacn)!"],
+
+#        'exceededSizeXIPAppDected':           ['XIP Application is detected but the size exceeds maximum XIP size 0x%s ! ',
+#                                              u"XIP应用程序被检测到, 但大小超过最大XIP大小!"],
+
+#        'exceededSizeXIPAppDected':           ['XIP Application is detected but the size exceeds maximum XIP size 0x%s !',
+#                                              u"XIP应用程序被检测到, 但大小超过最大XIP大小!"],
+
+        'genCerFirst':                        ['You should first generate certificates, or make sure you don\'t put the tool in path with blank space!',
+                                              u"您应该首先生成证书, 或者确保该工具存放的路径中没有空格!"],
+
+        'BootableImageNotGen':                ['Bootable image is not generated successfully! Make sure you don\'t put the tool in path with blank space!',
+                                              u"Bootable image未成功生成!请确保该工具存放的路径中没有空格!"],
+
+        'FlashloaderImageNotUsable':          ['Default Flashloader image file is not usable!',
+                                              u"默认的Flashloaderimage文件不可用!"],
+
+        'genCertificates':                    ['You should first generate certificates!',
+                                              u"您应该首先生成证书。"],
+
+        'FuseSRKnotBurned':                   ['Fuse SRK Regions were not burned successfully!',
+                                              u"Fuse SRK Regions未成功烧录!"],
+
+        'program-onceFuseSRKBurned':          ['Fuse SRK Regions have been burned, it is program-once!',
+                                              u"Fuse SRK Regions已经被烧录，它只可被烧写一次！"],
+
+        'SuperRootKeysnotGen':                ['Super Root Keys hasn\'t been generated!',
+                                              u"Super Root Keys还未生成！"],
+
+        'FuseLOCKSW_GP2notBurned':            ['Fuse LOCK SW_GP2 region was not burned successfully!',
+                                              u"Fuse LOCK SW_GP2 region未成功烧录!"],
+
+        'FuseLOCKGP4notBurned':               ['Fuse LOCK GP4 region was not burned successfully!',
+                                              u"Fuse LOCK GP4 region未成功烧录!"],
+
+        'FuseSW_GP2notBurned':                ['Fuse SW_GP2 Regions were not burned successfully!',
+                                              u"Fuse SW_GP2 Regions未成功烧录!"],
+
+        'program-onceFuseSW_GP2Burned':       ['Fuse SW_GP2 Regions have been burned/locked, it is program-once!',
+                                              u"Fuse SW_GP2 Regions已经被烧录/锁定，它只可被烧写一次！"],
+
+        'FuseGP4notBurned':                   ['Fuse GP4 Regions were not burned successfully!',
+                                              u"Fuse GP4 Regions未成功烧录!"],
+
+        'program-onceFuseGP4Burned':          ['Fuse GP4 Regions have been burned/locked, it is program-once!',
+                                              u"Fuse GP4 Regions已经被烧录/锁定，它只可被烧写一次！"],
+
+        'program-onceFuseMISC_CONF1Burned':   ['Fuse MISC_CONF1[31:0] has been burned, it is program-once!',
+                                              u"Fuse MISC_CONF1[31:0]已经被烧录，它只可被烧写一次！"],
+
+        'FuseMISC_CONF1notBurned':            ['Fuse MISC_CONF1[31:0] region was not burned successfully!',
+                                              u"Fuse MISC_CONF1[31:0]region未成功烧录！"],
+
+        'program-onceFuseMISC_CONF0Burned':   ['Fuse MISC_CONF0[28:24] has been burned, it is program-once!',
+                                              u"Fuse MISC_CONF0[28:24]已经被烧录，它只可被烧写一次！"],
+
+        'FuseMISC_CONF0notBurned':            ['Fuse MISC_CONF0[28:24] region was not burned successfully!',
+                                              u"Fuse MISC_CONF0[28:24] region未成功烧录！"],
+
+        'program-onceFuseBOOT_CFG1Burned':    ['Fuse BOOT_CFG1[5:4] BEE_KEY0_SEL has been burned, it is program-once!',
+                                              u"Fuse BOOT_CFG1[5:4] BEE_KEY0_SEL已经被烧录，它只可被烧写一次！"],
+
+        'program-onceFuseBOOT_CFG1[7:6]Burned':    ['Fuse BOOT_CFG1[7:6] BEE_KEY1_SEL has been burned, it is program-once!',
+                                                   u"Fuse BOOT_CFG1[7:6] BEE_KEY1_SEL已经被烧录，它只可被烧写一次！"],
+
+        'FuseBOOT_CFG1[7:4]notBurned':        ['Fuse BOOT_CFG1[7:4] BEE_KEY0/1_SEL region was not burned successfully!',
+                                              u"Fuse BOOT_CFG1[7:4] BEE_KEY0/1_SEL region未成功烧录！"],
+
+        'DekFilenotGen':                      ['Dek file hasn\'t been generated!',
+                                              u"DEK文件尚未生成!"],
+
+        'FuseBOOT_CFG1[1]notBurned':          ['Fuse BOOT_CFG1[1] SEC_CONFIG[1] region was not burned successfully!',
+                                              u"Fuse BOOT_CFG1[1] SEC_CONFIG[1]region未成功烧录！"],
+
+        'SRK_LOCKnotAllowedSet':              ['Fuse 0x400[14] - SRK_LOCK is not allowed to be set, because SRK will be OP+RP+WP if SRK_LOCK is set and then ROM cannot get SRK!',
+                                              u"Fuse 0x400[14] - SRK_LOCK不允许被设置，因为如果SRK_LOCK被设置，SRK将会被覆盖保护，访问保护和写保护，之后ROM不能得到SRK!"],
+
+        'programImageFirst':                  ['You should program your image first!',
+                                              u"您应该首先编写你的image文件！"],
+
+#        'failedRead':                         ['Failed to read boot device, error code is %d !',
+#                                              u"读取启动设备失败，错误的代码是"],
+
+#        'failedErase':                        ['Failed to erase boot device, error code is %d !',
+#                                              u"擦除启动设备失败，错误的代码是"],
+
+#       'StartAddress':                        ['Start Address should be aligned with 0x%x !',
+#                                              u"启动地址应该与 一致"],
+
+#        'failedErase':                        ['Failed to erase boot device, error code is %d !',
+#                                              u"擦除启动设备失败，错误的代码是"],
+
+#        'failedWrite':                        ['Failed to write boot device, error code is %d, You may forget to erase boot device first!',
+#                                              u"写入启动设备失败，错误的代码是 ，或许你忘了先把启动设备擦除！"],
+
 }

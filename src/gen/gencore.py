@@ -124,10 +124,10 @@ class secBootGen(uicore.secBootUi):
         serialContent, keypassContent = self.getSerialAndKeypassContent()
         # The 8 digits in serial are the source that Openssl use to generate certificate serial number.
         if (not serialContent.isdigit()) or len(serialContent) != 8:
-            self.popupMsgBox('Serial must be 8 digits!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['8digitsSerial'][self.languageIndex])
             return False
         if len(keypassContent) == 0:
-            self.popupMsgBox('You forget to set key_pass!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['Key_PasstoSet'][self.languageIndex])
             return False
         with open(self.serialFilename, 'wb') as fileObj:
             fileObj.write(serialContent)
@@ -473,7 +473,7 @@ class secBootGen(uicore.secBootUi):
                 startAddress = None
                 entryPointAddress = None
                 lengthInByte = 0
-                self.popupMsgBox('Cannot recognise/convert the format of image file: ' + srcAppFilename)
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_notRec/Convert'][self.languageIndex])
         #print ('Image Vector address is 0x%x' %(startAddress))
         #print ('Image Entry address is 0x%x' %(entryPointAddress))
         #print ('Image length is 0x%x' %(lengthInByte))
@@ -517,7 +517,7 @@ class secBootGen(uicore.secBootUi):
             self.printLog('DCD binary is generated: ' + self.dcdBinFilename)
             return True
         else:
-            self.popupMsgBox('DCD binary is not generated successfully! Check your DCD descriptor file and make sure you don\'t put the tool in path with blank space!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operDCDError_notGenerated'][self.languageIndex])
             return False
 
     def _genDcdBinFileAccordingToCfgFile( self ):
@@ -624,7 +624,7 @@ class secBootGen(uicore.secBootUi):
         self._setDestAppFinalBootHeaderInfo(bootDevice)
         if not self._verifyAppVectorAddressForBd(vectorAddress, self.destAppInitialLoadSize):
             if bootDevice != uidef.kBootDevice_RamFlashloader:
-                self.popupMsgBox('Invalid vector address found in image file: ' + self.srcAppFilename)
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['invalidVecAddress'][self.languageIndex])
             return False
         else:
             startAddress = vectorAddress - self.destAppInitialLoadSize
@@ -801,19 +801,19 @@ class secBootGen(uicore.secBootUi):
            ((imageStartAddr >= rundef.kBootDeviceMemBase_SemcSdram) and (imageStartAddr < rundef.kBootDeviceMemBase_SemcSdram + rundef.kBootDeviceMemMaxSize_SemcSdram)):
             return True
         else:
-            self.popupMsgBox('Non-XIP Application is detected but it is not in the range of ITCM/DTCM/OCRAM/SDRAM!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['NON-XIPAppDetcted'][self.languageIndex])
             return False
 
     def _isValidAppImage( self, imageStartAddr ):
         if self.isXipApp:
             if self.secureBootType == uidef.kSecureBootType_HabCrypto:
-                self.popupMsgBox('XIP Application is detected but it is not appliable for HAB Encrypted image boot!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['XIPAppNotAppliableDected'][self.languageIndex])
                 return False
             else:
                 return True
         else:
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto:
-                self.popupMsgBox('Non-XIP Application is detected but it is not appliable for BEE Encrypted image boot!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['NON-XIPAppNotForBEEDetcted'][self.languageIndex])
                 return False
             else:
                 return self._isValidNonXipAppImage(imageStartAddr)
@@ -823,7 +823,7 @@ class secBootGen(uicore.secBootUi):
         self._setDestAppInitialBootHeaderInfo(self.bootDevice)
         imageStartAddr, imageEntryAddr, imageLength = self._getImageInfo(self.srcAppFilename)
         if imageStartAddr == None or imageEntryAddr == None:
-            self.popupMsgBox('You should first specify a source image file (.elf/.axf/.srec/.hex/.bin)!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['specifyASourceImageFile'][self.languageIndex])
             return False
         self.isXipApp = False
         self.destAppVectorAddress = imageStartAddr
@@ -853,7 +853,7 @@ class secBootGen(uicore.secBootUi):
             return False
         self.destAppBinaryBytes = imageLength
         if not self.isCertificateGenerated(self.secureBootType):
-            self.popupMsgBox('You should first generate certificates, or make sure you don\'t put the tool in path with blank space!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['genCerFirst'][self.languageIndex])
             return False
         return self._updateBdfileContent(self.secureBootType, self.bootDevice, imageStartAddr, imageEntryAddr)
 
@@ -912,7 +912,7 @@ class secBootGen(uicore.secBootUi):
             return True
         else:
             self.habDekDataOffset = None
-            self.popupMsgBox('Bootable image is not generated successfully! Make sure you don\'t put the tool in path with blank space!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['BootableImageNotGen'][self.languageIndex])
             return False
 
     def genBootableImage( self ):
@@ -1029,10 +1029,10 @@ class secBootGen(uicore.secBootUi):
     def _createSignedFlBdfile( self, srcFlFilename):
         imageStartAddr, imageEntryAddr, imageLength = self._getImageInfo(srcFlFilename)
         if imageStartAddr == None or imageEntryAddr == None:
-            self.popupMsgBox('Default Flashloader image file is not usable!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['FlashloaderImageNotUsable'][self.languageIndex])
             return False
         if not self.isCertificateGenerated(uidef.kSecureBootType_HabAuth):
-            self.popupMsgBox('You should first generate certificates!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['genCertificates'][self.languageIndex])
             return False
         return self._updateBdfileContent(uidef.kSecureBootType_HabAuth, uidef.kBootDevice_RamFlashloader, imageStartAddr, imageEntryAddr)
 

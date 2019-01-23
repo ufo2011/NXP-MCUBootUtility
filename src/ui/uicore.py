@@ -821,7 +821,7 @@ class secBootUi(secBootWin.secBootWin):
             except:
                 pass
         if not status:
-            self.popupMsgBox('Illegal input detected! You should input like this format: 0x5000')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['illegalInput'][self.languageIndex])
         return status, val32
 
     def getComMemStartAddress( self ):
@@ -1233,8 +1233,6 @@ class secBootUi(secBootWin.secBootWin):
         else:
             langIndex = uilang.kLanguageIndex_Chinese
         self.languageIndex = langIndex
-        uivar.setRuntimeSettings(None, None, None, self.languageIndex)
-        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_File, uilang.kMainLanguageContentDict['menu_file'][langIndex])
         self.m_menuItem_exit.SetItemLabel(uilang.kMainLanguageContentDict['mItem_exit'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Edit, uilang.kMainLanguageContentDict['menu_edit'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_View, uilang.kMainLanguageContentDict['menu_view'][langIndex])

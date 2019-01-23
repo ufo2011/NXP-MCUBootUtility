@@ -5,6 +5,7 @@ import sys
 import os
 import uivar
 import uidef
+import uilang
 sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_UsdhcSd
 
@@ -13,6 +14,10 @@ class secBootUiUsdhcSd(bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd):
         bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd.__init__(self, parent)
         usdhcSDOpt = uivar.getBootDeviceConfiguration(uidef.kBootDevice_UsdhcSd)
         self.usdhcSDOpt = usdhcSDOpt
+        self._setLanguage()
+
+
+
 
     def _getBusWidth( self ):
         txt = self.m_choice_BusWidth.GetString(self.m_choice_BusWidth.GetSelection())

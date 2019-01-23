@@ -606,13 +606,13 @@ class secBootRun(gencore.secBootGen):
                         val32 = self.getVal32FromBinFile(self.srkFuseFilename, (i * 4))
                         burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_SRK0 + i, val32)
                         if not burnResult:
-                            self.popupMsgBox('Fuse SRK Regions were not burned successfully!')
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseSRKnotBurned'][self.languageIndex])
                             return False
                 return True
             else:
-                self.popupMsgBox('Fuse SRK Regions have been burned, it is program-once!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['program-onceFuseSRKBurned'][self.languageIndex])
         else:
-            self.popupMsgBox('Super Root Keys hasn\'t been generated!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['SuperRootKeysnotGen'][self.languageIndex])
         return False
 
     def _isDeviceFuseSwGp2RegionReadyForBurn( self, swgp2DekFilename ):
@@ -655,7 +655,7 @@ class secBootRun(gencore.secBootGen):
             lock = (lock | (fusedef.kEfuseMask_WLockSwGp2 | fusedef.kEfuseMask_RLockSwGp2)) & (~fusedef.kEfuseMask_LockHigh)
             burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_LOCK, lock)
             if not burnResult:
-                self.popupMsgBox('Fuse LOCK SW_GP2 region was not burned successfully!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseLOCKSW_GP2notBurned'][self.languageIndex])
                 return False
         return True
 
@@ -665,7 +665,7 @@ class secBootRun(gencore.secBootGen):
             lock = (lock | (fusedef.kEfuseMask_WLockGp4 | fusedef.kEfuseMask_RLockGp4)) & (~fusedef.kEfuseMask_LockHigh)
             burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_LOCK, lock)
             if not burnResult:
-                self.popupMsgBox('Fuse LOCK GP4 region was not burned successfully!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseLOCKGP4notBurned'][self.languageIndex])
                 return False
 
     def burnBeeDekData ( self ):
@@ -701,12 +701,12 @@ class secBootRun(gencore.secBootGen):
                         val32 = self.getVal32FromBinFile(swgp2DekFilename, (i * 4))
                         burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_SW_GP2_0 + i, val32)
                         if not burnResult:
-                            self.popupMsgBox('Fuse SW_GP2 Regions were not burned successfully!')
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseSW_GP2notBurned'][self.languageIndex])
                             return False
                     if not self._lockFuseSwGp2():
                         return False
             else:
-                self.popupMsgBox('Fuse SW_GP2 Regions have been burned/locked, it is program-once!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['program-onceFuseSW_GP2Burned'][self.languageIndex])
         else:
             pass
         if needToBurnGp4:
@@ -717,12 +717,12 @@ class secBootRun(gencore.secBootGen):
                         val32 = self.getVal32FromBinFile(gp4DekFilename, (i * 4))
                         burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_GP4_0 + i, val32)
                         if not burnResult:
-                            self.popupMsgBox('Fuse GP4 Regions were not burned successfully!')
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseGP4notBurned'][self.languageIndex])
                             return False
                     if not self._lockFuseGp4():
                         return False
             else:
-                self.popupMsgBox('Fuse GP4 Regions have been burned/locked, it is program-once!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['program-onceFuseGP4Burned'][self.languageIndex])
         else:
             pass
         return True
@@ -837,12 +837,12 @@ class secBootRun(gencore.secBootGen):
             if getSemcNandCfg != None:
                 getSemcNandCfg = getSemcNandCfg | setSemcNandCfg
                 if (getSemcNandCfg & (fusedef.kEfuseMask_RawNandEccStatus | fusedef.kEfuseMask_RawNandPortSize | fusedef.kEfuseMask_RawNandEccEdoSet)) != setSemcNandCfg:
-                    self.popupMsgBox('Fuse MISC_CONF1[31:0] has been burned, it is program-once!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['program-onceFuseMISC_CONF1Burned'][self.languageIndex])
                     return False
                 else:
                     burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseLocation_SemcNandCfg, getSemcNandCfg)
                     if not burnResult:
-                        self.popupMsgBox('Fuse MISC_CONF1[31:0] region was not burned successfully!')
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseMISC_CONF1notBurned'][self.languageIndex])
                         return False
         elif self.bootDevice == uidef.kBootDevice_FlexspiNor:
             pass
@@ -874,12 +874,12 @@ class secBootRun(gencore.secBootGen):
             if getLpspiCfg != None:
                 getLpspiCfg = getLpspiCfg | setLpspiCfg
                 if (getLpspiCfg & (fusedef.kEfuseMask_EepromEnable | fusedef.kEfuseMask_LpspiIndex | fusedef.kEfuseMask_SpiAddressing | fusedef.kEfuseMask_LpspiSpeed)) != setLpspiCfg:
-                    self.popupMsgBox('Fuse MISC_CONF0[28:24] has been burned, it is program-once!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['program-onceFuseMISC_CONF0Burned'][self.languageIndex])
                     return False
                 else:
                     burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseLocation_LpspiCfg, getLpspiCfg)
                     if not burnResult:
-                        self.popupMsgBox('Fuse MISC_CONF0[28:24] region was not burned successfully!')
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseMISC_CONF0notBurned'][self.languageIndex])
                         return False
         else:
             pass
@@ -930,16 +930,16 @@ class secBootRun(gencore.secBootGen):
             if setBeeKey0Sel != None:
                 getBeeKeySel = getBeeKeySel | (setBeeKey0Sel << fusedef.kEfuseShift_BeeKey0Sel)
                 if ((getBeeKeySel & fusedef.kEfuseMask_BeeKey0Sel) >> fusedef.kEfuseShift_BeeKey0Sel) != setBeeKey0Sel:
-                    self.popupMsgBox('Fuse BOOT_CFG1[5:4] BEE_KEY0_SEL has been burned, it is program-once!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['program-onceFuseBOOT_CFG1Burned'][self.languageIndex])
                     return False
             if setBeeKey1Sel != None:
                 getBeeKeySel = getBeeKeySel | (setBeeKey1Sel << fusedef.kEfuseShift_BeeKey1Sel)
                 if ((getBeeKeySel & fusedef.kEfuseMask_BeeKey1Sel) >> fusedef.kEfuseShift_BeeKey1Sel) != setBeeKey1Sel:
-                    self.popupMsgBox('Fuse BOOT_CFG1[7:6] BEE_KEY1_SEL has been burned, it is program-once!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['program-onceFuseBOOT_CFG1[7:6]Burned'][self.languageIndex])
                     return False
             burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseLocation_BeeKeySel, getBeeKeySel)
             if not burnResult:
-                self.popupMsgBox('Fuse BOOT_CFG1[7:4] BEE_KEY0/1_SEL region was not burned successfully!')
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseBOOT_CFG1[7:4]notBurned'][self.languageIndex])
                 return False
         return True
 
@@ -1022,7 +1022,7 @@ class secBootRun(gencore.secBootGen):
             self.updateImgPictureAfterFlashDek()
             return True
         else:
-            self.popupMsgBox('Dek file hasn\'t been generated!')
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['DekFilenotGen'][self.languageIndex])
             return False
 
     def enableHab( self ):
@@ -1033,7 +1033,7 @@ class secBootRun(gencore.secBootGen):
                 secConfig1 = secConfig1 | fusedef.kEfuseMask_SecConfig1
                 burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseLocation_SecConfig1, secConfig1)
                 if not burnResult:
-                    self.popupMsgBox('Fuse BOOT_CFG1[1] SEC_CONFIG[1] region was not burned successfully!')
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['FuseBOOT_CFG1[1]notBurned'][self.languageIndex])
                     return False
         return True
 

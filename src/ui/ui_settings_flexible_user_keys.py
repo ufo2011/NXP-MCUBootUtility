@@ -6,6 +6,7 @@ import os
 import random
 import uidef
 import uivar
+import uilang
 sys.path.append(os.path.abspath(".."))
 from win import advSettingsWin_FlexibleUserKeys
 from gen import gendef
@@ -17,6 +18,7 @@ class secBootUiSettingsFlexibleUserKeys(advSettingsWin_FlexibleUserKeys.advSetti
     def __init__(self, parent):
         advSettingsWin_FlexibleUserKeys.advSettingsWin_FlexibleUserKeys.__init__(self, parent)
         userKeyCtrlDict, userKeyCmdDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_UserKeys)
+        self._setLanguage()
         self.userKeyCtrlDict = userKeyCtrlDict.copy()
         self.userKeyCmdDict = userKeyCmdDict.copy()
         self.engine0FacStart = [None] * uidef.kMaxFacRegionCount
@@ -24,6 +26,46 @@ class secBootUiSettingsFlexibleUserKeys(advSettingsWin_FlexibleUserKeys.advSetti
         self.engine1FacStart = [None] * uidef.kMaxFacRegionCount
         self.engine1FacLength = [None] * uidef.kMaxFacRegionCount
         self._recoverLastSettings()
+
+
+    def _setLanguage( self ):
+        runtimeSettings = uivar.getRuntimeSettings()
+        langIndex = runtimeSettings[3]
+        self.m_notebook_encryptionOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_encryptionOpt'][langIndex])
+        self.m_staticText_engineSel.SetLabel(uilang.kSubLanguageContentDict['sText_engineSel'][langIndex])
+        self.m_staticText_beeEngKeySel.SetLabel(uilang.kSubLanguageContentDict['sText_beeEngKeySel'][langIndex])
+        self.m_staticText_imageType.SetLabel(uilang.kSubLanguageContentDict['sText_imageType'][langIndex])
+        self.m_staticText_xipBaseAddr.SetLabel(uilang.kSubLanguageContentDict['sText_xipBaseAddr'][langIndex])
+        self.m_notebook_engine0Info.SetPageText(0, uilang.kSubLanguageContentDict['panel_engine0Info'][langIndex])
+        self.m_staticText_engine0keySource.SetLabel(uilang.kSubLanguageContentDict['sText_engine0keySource'][langIndex])
+        self.m_staticText_engine0UserKeyData.SetLabel(uilang.kSubLanguageContentDict['sText_engine0UserKeyData'][langIndex])
+        self.m_staticText_engine0AesMode.SetLabel(uilang.kSubLanguageContentDict['sText_engine0AesMode'][langIndex])
+        self.m_staticText_engine0FacCnt.SetLabel(uilang.kSubLanguageContentDict['sText_engine0FacCnt'][langIndex])
+        self.m_staticText_engine0Fac0Start.SetLabel(uilang.kSubLanguageContentDict['sText_engine0Fac0Start'][langIndex])
+        self.m_staticText_engine0Fac0Length.SetLabel(uilang.kSubLanguageContentDict['sText_engine0Fac0Length'][langIndex])
+        self.m_staticText_engine0Fac1Start.SetLabel(uilang.kSubLanguageContentDict['sText_engine0Fac1Start'][langIndex])
+        self.m_staticText_engine0Fac1Length.SetLabel(uilang.kSubLanguageContentDict['sText_engine0Fac1Length'][langIndex])
+        self.m_staticText_engine0Fac2Start.SetLabel(uilang.kSubLanguageContentDict['sText_engine0Fac2Start'][langIndex])
+        self.m_staticText_engine0Fac2Length.SetLabel(uilang.kSubLanguageContentDict['sText_engine0Fac2Length'][langIndex])
+        self.m_staticText_engine0AccessPermision.SetLabel(uilang.kSubLanguageContentDict['sText_engine0AccessPermision'][langIndex])
+        self.m_staticText_engine0Lock.SetLabel(uilang.kSubLanguageContentDict['sText_engine0Lock'][langIndex])
+        self.m_notebook_engine1Info.SetPageText(0, uilang.kSubLanguageContentDict['panel_engine1Info'][langIndex])
+        self.m_staticText_engine1keySource.SetLabel(uilang.kSubLanguageContentDict['sText_engine1keySource'][langIndex])
+        self.m_staticText_engine1UserKeyData.SetLabel(uilang.kSubLanguageContentDict['sText_engine1UserKeyData'][langIndex])
+        self.m_staticText_engine1AesMode.SetLabel(uilang.kSubLanguageContentDict['sText_engine1AesMode'][langIndex])
+        self.m_staticText_engine1FacCnt.SetLabel(uilang.kSubLanguageContentDict['sText_engine1FacCnt'][langIndex])
+        self.m_staticText_engine1Fac0Start.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Fac0Start'][langIndex])
+        self.m_staticText_engine1Fac0Length.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Fac0Length'][langIndex])
+        self.m_staticText_engine1Fac1Start.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Fac1Start'][langIndex])
+        self.m_staticText_engine1Fac1Length.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Fac1Length'][langIndex])
+        self.m_staticText_engine1Fac2Start.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Fac2Start'][langIndex])
+        self.m_staticText_engine1Fac2Length.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Fac2Length'][langIndex])
+        self.m_staticText_engine1AccessPermision.SetLabel(uilang.kSubLanguageContentDict['sText_engine1AccessPermision'][langIndex])
+        self.m_staticText_engine1Lock.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Lock'][langIndex])
+        self.m_button_genRandomKey.SetLabel(uilang.kSubLanguageContentDict['button_flexibleuserkeys_genRandomKey'][langIndex])
+        self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_flexibleuserkeys_ok'][langIndex])
+        self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_flexibleuserkeys_cancel'][langIndex])
+
 
     def _getDek128ContentFromBinFile( self, filename ):
         if os.path.isfile(filename):

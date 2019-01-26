@@ -7,6 +7,7 @@ import fusedef
 sys.path.append(os.path.abspath(".."))
 from run import runcore
 from ui import uidef
+from ui import uilang
 
 class secBootFuse(runcore.secBootRun):
 
@@ -100,7 +101,7 @@ class secBootFuse(runcore.secBootRun):
             if ((srcLock & fusedef.kEfuseMask_LockSrk) == 0) and \
                ((destLock & fusedef.kEfuseMask_LockSrk) != 0):
                 destLock = destLock & (~fusedef.kEfuseMask_LockSrk)
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['SRK_LOCKnotAllowedSet'][self.languageIndex])
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_cannotBurnSrkLock'][self.languageIndex])
             self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_LOCK, destLock)
         srcLock = srcFuseValue & fusedef.kEfuseMask_LockHigh
         destLock = destFuseValue & fusedef.kEfuseMask_LockHigh

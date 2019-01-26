@@ -5,8 +5,8 @@ import sys
 import os
 import math
 import uivar
-import uilang
 import uidef
+import uilang
 sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_LpspiNor
 from utils import sound
@@ -14,6 +14,7 @@ from utils import sound
 class secBootUiCfgLpspiNor(bootDeviceWin_LpspiNor.bootDeviceWin_LpspiNor):
     def __init__(self, parent):
         bootDeviceWin_LpspiNor.bootDeviceWin_LpspiNor.__init__(self, parent)
+        self._setLanguage()
         lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(uidef.kBootDevice_LpspiNor)
         #1. Prepare SPI NOR/EEPROM option block
         # bit [31:28] tag, fixed to 0x0c
@@ -26,11 +27,10 @@ class secBootUiCfgLpspiNor(bootDeviceWin_LpspiNor.bootDeviceWin_LpspiNor):
         # bit [07:04] Sector size (Bytes), 0-4K, 1-8K, 2-32K, 3-64K,
         #             4-128K, 5-256K
         # bit [03:00] Page size (Bytes) 0-256, 1-512
-        self._setLanguage()
+
         self.lpspiNorOpt0 = lpspiNorOpt0
         self.lpspiNorOpt1 = lpspiNorOpt1
         self._recoverLastSettings()
-
 
     def _setLanguage( self ):
         runtimeSettings = uivar.getRuntimeSettings()
@@ -40,13 +40,12 @@ class secBootUiCfgLpspiNor(bootDeviceWin_LpspiNor.bootDeviceWin_LpspiNor):
         self.m_staticText_pageSize.SetLabel(uilang.kSubLanguageContentDict['sText_pageSize'][langIndex])
         self.m_staticText_sectorSize.SetLabel(uilang.kSubLanguageContentDict['sText_sectorSize'][langIndex])
         self.m_staticText_totalSize.SetLabel(uilang.kSubLanguageContentDict['sText_totalSize'][langIndex])
-        self.m_notebook_spiOpt.SetPageText(uilang.kSubLanguageContentDict['panel_spiOpt'][langIndex])
+        self.m_notebook_spiOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_spiOpt'][langIndex])
         self.m_staticText_spiIndex.SetLabel(uilang.kSubLanguageContentDict['sText_spiIndex'][langIndex])
         self.m_staticText_spiPcs.SetLabel(uilang.kSubLanguageContentDict['sText_spiPcs'][langIndex])
         self.m_staticText_spiSpeed.SetLabel(uilang.kSubLanguageContentDict['sText_spiSpeed'][langIndex])
         self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_lpspinor_ok'][langIndex])
         self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_lpspinor_cancel'][langIndex])
-
 
     def _recoverLastSettings ( self ):
         deviceType = (self.lpspiNorOpt0 & 0x0000F000) >> 12

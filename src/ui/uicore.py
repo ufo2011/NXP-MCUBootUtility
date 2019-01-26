@@ -214,8 +214,8 @@ class secBootUi(secBootWin.secBootWin):
         self.isUartPortSelected = self.m_radioBtn_uart.GetValue()
         self.isUsbhidPortSelected = self.m_radioBtn_usbhid.GetValue()
         if self.isUartPortSelected:
-            self.m_staticText_portVid.SetLabel('COM Port:')
-            self.m_staticText_baudPid.SetLabel('Baudrate:')
+            self.m_staticText_portVid.SetLabel(uilang.kMainLanguageContentDict['sText_comPort'][self.languageIndex])
+            self.m_staticText_baudPid.SetLabel(uilang.kMainLanguageContentDict['sText_baudrate'][self.languageIndex])
             # Auto detect available ports
             comports = list(serial.tools.list_ports.comports())
             ports = [None] * len(comports)
@@ -244,8 +244,8 @@ class secBootUi(secBootWin.secBootWin):
             else:
                 self.m_choice_baudPid.SetSelection(0)
         elif self.isUsbhidPortSelected:
-            self.m_staticText_portVid.SetLabel('Vendor ID:')
-            self.m_staticText_baudPid.SetLabel('Product ID:')
+            self.m_staticText_portVid.SetLabel(uilang.kMainLanguageContentDict['sText_vid'][self.languageIndex])
+            self.m_staticText_baudPid.SetLabel(uilang.kMainLanguageContentDict['sText_pid'][self.languageIndex])
             if connectStage == uidef.kConnectStage_Rom:
                 self.usbhidToConnect[0] = usbIdList[0]
                 self.usbhidToConnect[1] = usbIdList[1]
@@ -279,9 +279,12 @@ class secBootUi(secBootWin.secBootWin):
                 if not self.isUsbhidConnected:
                     status = False
                     if showError:
-                        self.popupMsgBox(uilang.kMsgLanguageContentDict['detectError_hidNotFound0'][self.languageIndex] + \
-                                         '(vid=%s, pid=%s), ' + \
-                                         uilang.kMsgLanguageContentDict['detectError_hidNotFound1'][self.languageIndex] %(self.usbhidToConnect[0], self.usbhidToConnect[1]))
+                        if self.languageIndex == uilang.kLanguageIndex_English:
+                            self.popupMsgBox('Cannnot find USB-HID device (vid=%s, pid=%s), Please connect USB cable to your board first!' %(self.usbhidToConnect[0], self.usbhidToConnect[1]))
+                        elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                            self.popupMsgBox(u"找不到USB-HID设备 (vid=%s, pid=%s), 请先将USB线连接到板子！" %(self.usbhidToConnect[0], self.usbhidToConnect[1]))
+                        else:
+                            pass
                 else:
                     self.usbhidVid = self.m_choice_portVid.GetString(self.m_choice_portVid.GetSelection())
                     self.usbhidPid = self.m_choice_baudPid.GetString(self.m_choice_baudPid.GetSelection())
@@ -292,20 +295,20 @@ class secBootUi(secBootWin.secBootWin):
 
     def updateConnectStatus( self, color='black' ):
         if color == 'black':
-            self.m_button_connect.SetLabel('Connect to ROM')
+            self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_black'][self.languageIndex])
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_black.png", wx.BITMAP_TYPE_ANY ))
         elif color == 'yellow':
-            self.m_button_connect.SetLabel('Connect to Flashloader')
+            self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_yellow'][self.languageIndex])
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_yellow.png", wx.BITMAP_TYPE_ANY ))
         elif color == 'green':
-            self.m_button_connect.SetLabel('Configure boot device')
+            self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_green'][self.languageIndex])
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_green.png", wx.BITMAP_TYPE_ANY ))
         elif color == 'blue':
-            self.m_button_connect.SetLabel('Reset device')
+            self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_blue'][self.languageIndex])
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_blue.png", wx.BITMAP_TYPE_ANY ))
             self._playSoundEffect(uidef.kSoundEffectFilename_Progress)
         elif color == 'red':
-            self.m_button_connect.SetLabel('Reconnect')
+            self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_red'][self.languageIndex])
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_red.png", wx.BITMAP_TYPE_ANY ))
         else:
             pass
@@ -530,16 +533,20 @@ class secBootUi(secBootWin.secBootWin):
         self.secureBootType = self.m_choice_secureBootType.GetString(self.m_choice_secureBootType.GetSelection())
         self.toolCommDict['secBootType'] = self.m_choice_secureBootType.GetSelection()
         self._resetSecureBootSeqColor()
+        self.m_button_genCert.SetLabel(uilang.kMainLanguageContentDict['button_genCert'][self.languageIndex])
+        self.m_button_progSrk.SetLabel(uilang.kMainLanguageContentDict['button_progSrk'][self.languageIndex])
+        self.m_button_operBee.SetLabel(uilang.kMainLanguageContentDict['button_operBee'][self.languageIndex])
+        self.m_button_progDek.SetLabel(uilang.kMainLanguageContentDict['button_progDek'][self.languageIndex])
         if self.secureBootType == uidef.kSecureBootType_Development:
             self.m_panel_genImage1_browseApp.Enable( True )
             self.m_panel_genImage1_browseApp.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            self.m_button_genImage.SetLabel('Generate Unsigned Bootable Image')
+            self.m_button_genImage.SetLabel(uilang.kMainLanguageContentDict['button_genImage_u'][self.languageIndex])
             self.m_panel_flashImage1_showImage.Enable( True )
             self.m_panel_flashImage1_showImage.SetBackgroundColour( uidef.kBootSeqColor_Active )
             strMemType, strHasDcd = self._getImgName()
             imgPath = "../img/" + strMemType + "image_" + strHasDcd + "unsigned.png"
             self.showImageLayout(imgPath.encode('utf-8'))
-            self.m_button_flashImage.SetLabel('Load Unsigned Image')
+            self.m_button_flashImage.SetLabel(uilang.kMainLanguageContentDict['button_flashImage_u'][self.languageIndex])
         elif self.secureBootType == uidef.kSecureBootType_HabAuth:
             self.m_panel_doAuth1_certInput.Enable( True )
             self.m_panel_doAuth1_certInput.SetBackgroundColour( uidef.kBootSeqColor_Active )
@@ -549,7 +556,7 @@ class secBootUi(secBootWin.secBootWin):
             self.m_panel_doAuth2_certFmt.SetBackgroundColour( uidef.kBootSeqColor_Active )
             self.m_panel_genImage1_browseApp.Enable( True )
             self.m_panel_genImage1_browseApp.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            self.m_button_genImage.SetLabel('Generate Signed Bootable Image')
+            self.m_button_genImage.SetLabel(uilang.kMainLanguageContentDict['button_genImage_s'][self.languageIndex])
             self.m_panel_progSrk1_showSrk.Enable( True )
             self.m_panel_progSrk1_showSrk.SetBackgroundColour( uidef.kBootSeqColor_Active )
             self.m_panel_flashImage1_showImage.Enable( True )
@@ -557,7 +564,7 @@ class secBootUi(secBootWin.secBootWin):
             strMemType, strHasDcd = self._getImgName()
             imgPath = "../img/" + strMemType + "image_" + strHasDcd + "signed.png"
             self.showImageLayout(imgPath.encode('utf-8'))
-            self.m_button_flashImage.SetLabel('Load Signed Image')
+            self.m_button_flashImage.SetLabel(uilang.kMainLanguageContentDict['button_flashImage_s'][self.languageIndex])
         elif self.secureBootType == uidef.kSecureBootType_HabCrypto:
             self.m_panel_doAuth1_certInput.Enable( True )
             self.m_panel_doAuth1_certInput.SetBackgroundColour( uidef.kBootSeqColor_Active )
@@ -569,7 +576,7 @@ class secBootUi(secBootWin.secBootWin):
             self.m_panel_genImage1_browseApp.SetBackgroundColour( uidef.kBootSeqColor_Active )
             self.m_panel_genImage2_habCryptoAlgo.Enable( True )
             self.m_panel_genImage2_habCryptoAlgo.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            self.m_button_genImage.SetLabel('Generate Encrypted Bootable Image,DEK')
+            self.m_button_genImage.SetLabel(uilang.kMainLanguageContentDict['button_genImage_se'][self.languageIndex])
             self.m_panel_progSrk1_showSrk.Enable( True )
             self.m_panel_progSrk1_showSrk.SetBackgroundColour( uidef.kBootSeqColor_Active )
             self.m_panel_flashImage1_showImage.Enable( True )
@@ -577,7 +584,7 @@ class secBootUi(secBootWin.secBootWin):
             strMemType, strHasDcd = self._getImgName()
             imgPath = "../img/" + strMemType + "image_" + strHasDcd + "signed_hab_encrypted_nodek.png"
             self.showImageLayout(imgPath.encode('utf-8'))
-            self.m_button_flashImage.SetLabel('Load Encrypted Image')
+            self.m_button_flashImage.SetLabel(uilang.kMainLanguageContentDict['button_flashImage_e'][self.languageIndex])
             self.m_panel_progDek1_showHabDek.Enable( True )
             self.m_panel_progDek1_showHabDek.SetBackgroundColour( uidef.kBootSeqColor_Active )
         elif self.secureBootType == uidef.kSecureBootType_BeeCrypto:
@@ -590,16 +597,6 @@ class secBootUi(secBootWin.secBootWin):
                 self.setBeeCertColor()
                 self.m_panel_flashImage1_showImage.Enable( True )
                 self.m_panel_flashImage1_showImage.SetBackgroundColour( uidef.kBootSeqColor_Active )
-                strMemType, strHasDcd = self._getImgName()
-                imgPath = ""
-                if self.isCertEnabledForBee:
-                    self.m_button_genImage.SetLabel('Generate Signed Bootable Image')
-                    imgPath = "../img/nor_image_" + strHasDcd + "signed_bee_encrypted.png"
-                else:
-                    self.m_button_genImage.SetLabel('Generate Unsigned Bootable Image')
-                    imgPath = "../img/nor_image_" + strHasDcd + "unsigned_bee_encrypted.png"
-                self.showImageLayout(imgPath.encode('utf-8'))
-                self.m_button_flashImage.SetLabel('Load Encrypted Image')
             else:
                 self._resetSecureBootSeqColor()
         else:
@@ -626,16 +623,16 @@ class secBootUi(secBootWin.secBootWin):
         imgPath = ""
         if txt == 'No':
             self.isCertEnabledForBee = False
-            self.m_button_genImage.SetLabel('Generate Unsigned Bootable Image')
+            self.m_button_genImage.SetLabel(uilang.kMainLanguageContentDict['button_genImage_u'][self.languageIndex])
             imgPath = "../img/nor_image_" + strHasDcd + "unsigned_bee_encrypted.png"
         elif txt == 'Yes':
             self.isCertEnabledForBee = True
-            self.m_button_genImage.SetLabel('Generate Signed Bootable Image')
+            self.m_button_genImage.SetLabel(uilang.kMainLanguageContentDict['button_genImage_s'][self.languageIndex])
             imgPath = "../img/nor_image_" + strHasDcd + "signed_bee_encrypted.png"
         else:
             pass
         self.showImageLayout(imgPath.encode('utf-8'))
-        self.m_button_flashImage.SetLabel('Load Encrypted Image')
+        self.m_button_flashImage.SetLabel(uilang.kMainLanguageContentDict['button_flashImage_e'][self.languageIndex])
         self._resetCertificateColor()
         if self.isCertEnabledForBee:
             activeColor = None
@@ -676,7 +673,7 @@ class secBootUi(secBootWin.secBootWin):
             self.m_choice_availBeeEngines.SetItems(['1'])
             self.m_choice_availBeeEngines.SetSelection(0)
             self.m_button_prepBee.Enable( True )
-            self.m_button_prepBee.SetLabel('Prepare For Encryption')
+            self.m_button_prepBee.SetLabel(uilang.kMainLanguageContentDict['button_prepBee_p'][self.languageIndex])
             self.m_button_prepBee.SetBackgroundColour( uidef.kBootSeqColor_Active )
         elif self.keyStorageRegion == uidef.kKeyStorageRegion_FlexibleUserKeys:
             enableCertForBeeTxt = self.m_choice_enableCertForBee.GetString(self.m_choice_enableCertForBee.GetSelection())
@@ -688,7 +685,7 @@ class secBootUi(secBootWin.secBootWin):
             self.m_choice_availBeeEngines.SetItems(['2'])
             self.m_choice_availBeeEngines.SetSelection(0)
             self.m_button_prepBee.Enable( True )
-            self.m_button_prepBee.SetLabel('Encrypt Bootable Image')
+            self.m_button_prepBee.SetLabel(uilang.kMainLanguageContentDict['button_prepBee_e'][self.languageIndex])
             self.m_button_prepBee.SetBackgroundColour( uidef.kBootSeqColor_Active )
             self.m_panel_operBee1_beeKeyInfo.Enable( True )
             self.m_panel_operBee1_beeKeyInfo.SetBackgroundColour( uidef.kBootSeqColor_Active )

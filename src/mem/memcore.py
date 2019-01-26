@@ -342,7 +342,12 @@ class secBootMem(fusecore.secBootFuse):
                         self.printMem(contentToShow)
                 self._tryToSaveImageDataFile(memFilepath)
             else:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['commMemError_failToRead'][self.languageIndex] + u"%d !" %(status))
+                if self.languageIndex == uilang.kLanguageIndex_English:
+                    self.popupMsgBox('Failed to read boot device, error code is %d !' %(status))
+                elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                    self.popupMsgBox(u"读取启动设备失败，错误的代码是 %d ！" %(status))
+                else:
+                    pass
 
     def eraseBootDeviceMemory( self ):
         status, memStart, memLength = self._getUserComMemParameters(False)
@@ -355,23 +360,36 @@ class secBootMem(fusecore.secBootFuse):
             status, results, cmdStr = self.blhost.flashEraseRegion(alignedMemStart, alignedMemLength, self.bootDeviceMemId)
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['commMemError_failToErase'][self.languageIndex] + u"%d !" %(status))
+                if self.languageIndex == uilang.kLanguageIndex_English:
+                    self.popupMsgBox('Failed to erase boot device, error code is %d !' %(status))
+                elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                    self.popupMsgBox(u"擦除启动设备失败，错误的代码是 %d ！" %(status))
+                else:
+                    pass
 
     def writeBootDeviceMemory( self ):
         status, memStart, memBinFile = self._getUserComMemParameters(True)
         if status:
             memStart = self._convertComMemStart(memStart)
             if memStart % self.comMemWriteUnit:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['commMemError_nonAlignedStart0'][self.languageIndex] + \
-                                 u"%x" + \
-                                 uilang.kMsgLanguageContentDict['commMemError_nonAlignedStart1'][self.languageIndex] %(self.comMemWriteUnit))
+                if self.languageIndex == uilang.kLanguageIndex_English:
+                    self.popupMsgBox('Start Address should be aligned with 0x%x !' %(self.comMemWriteUnit))
+                elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                    self.popupMsgBox(u"起始地址应该以 0x%x 对齐！" %(self.comMemWriteUnit))
+                else:
+                    pass
                 return
             eraseMemStart = misc.align_down(memStart, self.comMemEraseUnit)
             eraseMemEnd = misc.align_up(memStart + os.path.getsize(memBinFile), self.comMemEraseUnit)
             status, results, cmdStr = self.blhost.flashEraseRegion(eraseMemStart, eraseMemEnd - eraseMemStart, self.bootDeviceMemId)
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['commMemError_failToErase'][self.languageIndex] + u"%d !" %(status))
+                if self.languageIndex == uilang.kLanguageIndex_English:
+                    self.popupMsgBox('Failed to erase boot device, error code is %d !' %(status))
+                elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                    self.popupMsgBox(u"擦除启动设备失败，错误的代码是 %d ！" %(status))
+                else:
+                    pass
                 return
             shutil.copy(memBinFile, self.userFilename)
             status, results, cmdStr = self.blhost.writeMemory(memStart, self.userFilename, self.bootDeviceMemId)
@@ -381,6 +399,9 @@ class secBootMem(fusecore.secBootFuse):
                 pass
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['commMemError_failToWrite0'][self.languageIndex] + \
-                                 u"%d" + \
-                                 uilang.kMsgLanguageContentDict['commMemError_failToWrite1'][self.languageIndex] %(self.comMemWriteUnit))
+                if self.languageIndex == uilang.kLanguageIndex_English:
+                    self.popupMsgBox('Failed to write boot device, error code is %d, You may forget to erase boot device first!' %(status))
+                elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                    self.popupMsgBox(u"写入启动设备失败，错误的代码是 %d ，请确认是否先擦除了启动设备！" %(status))
+                else:
+                    pass

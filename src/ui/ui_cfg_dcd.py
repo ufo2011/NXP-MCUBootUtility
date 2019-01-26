@@ -17,8 +17,8 @@ class secBootUiCfgDcd(bootDeviceWin_DCD.bootDeviceWin_DCD):
 
     def __init__(self, parent):
         bootDeviceWin_DCD.bootDeviceWin_DCD.__init__(self, parent)
-        dcdCtrlDict, dcdSettingsDict = uivar.getBootDeviceConfiguration(uidef.kBootDevice_Dcd)
         self._setLanguage()
+        dcdCtrlDict, dcdSettingsDict = uivar.getBootDeviceConfiguration(uidef.kBootDevice_Dcd)
         self.dcdCtrlDict = dcdCtrlDict.copy()
         self.dcdSettingsDict = dcdSettingsDict.copy()
         self.destBinFilename = None
@@ -29,17 +29,15 @@ class secBootUiCfgDcd(bootDeviceWin_DCD.bootDeviceWin_DCD):
         runtimeSettings = uivar.getRuntimeSettings()
         langIndex = runtimeSettings[3]
         self.m_notebook_dcdOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_dcdOpt'][langIndex])
-        self.m_staticText_dcdSource.SetLabel(0, uilang.kSubLanguageContentDict['sText_dcdSource'][langIndex])
-        self.m_staticText_dcdBinFile.SetLabel(0, uilang.kSubLanguageContentDict['sText_dcdBinFile'][langIndex])
-        self.m_staticText_dcdCfgFile.SetLabel(0, uilang.kSubLanguageContentDict['sText_dcdCfgFile'][langIndex])
-        self.m_staticText_dcdPurpose.SetLabel(0, uilang.kSubLanguageContentDict['sText_dcdPurpose'][langIndex])
-        self.m_staticText_sdramBase.SetLabel(0, uilang.kSubLanguageContentDict['sText_sdramBase'][langIndex])
-        self.m_notebook_dcdDesc.SetLabel(0, uilang.kSubLanguageContentDict['panel_dcdDesc'][langIndex])
-        self.m_staticText_dcdModel.SetLabel(0, uilang.kSubLanguageContentDict['sText_dcdModel'][langIndex])
-        self.m_button_ok.SetLabel(0, uilang.kSubLanguageContentDict['button_dcd_ok'][langIndex])
-        self.m_button_cancel.SetLabel(0, uilang.kSubLanguageContentDict['button_dcd_cancel'][langIndex])
-
-
+        self.m_staticText_dcdSource.SetLabel(uilang.kSubLanguageContentDict['sText_dcdSource'][langIndex])
+        self.m_staticText_dcdBinFile.SetLabel(uilang.kSubLanguageContentDict['sText_dcdBinFile'][langIndex])
+        self.m_staticText_dcdCfgFile.SetLabel(uilang.kSubLanguageContentDict['sText_dcdCfgFile'][langIndex])
+        self.m_staticText_dcdPurpose.SetLabel(uilang.kSubLanguageContentDict['sText_dcdPurpose'][langIndex])
+        self.m_staticText_sdramBase.SetLabel(uilang.kSubLanguageContentDict['sText_sdramBase'][langIndex])
+        self.m_notebook_dcdDesc.SetPageText(0, uilang.kSubLanguageContentDict['panel_dcdDesc'][langIndex])
+        self.m_staticText_dcdModel.SetLabel(uilang.kSubLanguageContentDict['sText_dcdModel'][langIndex])
+        self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_dcd_ok'][langIndex])
+        self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_dcd_cancel'][langIndex])
 
     def setNecessaryInfo( self, binFilename, cfgFilename, dcdModelFolder ):
         self.destBinFilename = binFilename

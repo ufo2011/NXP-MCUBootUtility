@@ -1028,6 +1028,7 @@ class secBootGen(uicore.secBootUi):
             pass
 
     def _createSignedFlBdfile( self, srcFlFilename):
+        self._setDestAppInitialBootHeaderInfo(uidef.kBootDevice_RamFlashloader)
         imageStartAddr, imageEntryAddr, imageLength = self._getImageInfo(srcFlFilename)
         if imageStartAddr == None or imageEntryAddr == None:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_invalidFl'][self.languageIndex])

@@ -279,7 +279,9 @@ class secBootUi(secBootWin.secBootWin):
                 if not self.isUsbhidConnected:
                     status = False
                     if showError:
-                        self.popupMsgBox('Cannnot find USB-HID device (vid=%s, pid=%s), Please connect USB cable to your board first!' %(self.usbhidToConnect[0], self.usbhidToConnect[1]))
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['detectError_hidNotFound0'][self.languageIndex] + \
+                                         '(vid=%s, pid=%s), ' + \
+                                         uilang.kMsgLanguageContentDict['detectError_hidNotFound1'][self.languageIndex] %(self.usbhidToConnect[0], self.usbhidToConnect[1]))
                 else:
                     self.usbhidVid = self.m_choice_portVid.GetString(self.m_choice_portVid.GetSelection())
                     self.usbhidPid = self.m_choice_baudPid.GetString(self.m_choice_baudPid.GetSelection())
@@ -821,7 +823,7 @@ class secBootUi(secBootWin.secBootWin):
             except:
                 pass
         if not status:
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['illegalInput'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['inputError_illegalFormat'][self.languageIndex])
         return status, val32
 
     def getComMemStartAddress( self ):
@@ -1233,6 +1235,8 @@ class secBootUi(secBootWin.secBootWin):
         else:
             langIndex = uilang.kLanguageIndex_Chinese
         self.languageIndex = langIndex
+        uivar.setRuntimeSettings(None, None, None, self.languageIndex)
+        self.m_menubar.SetMenuLabel(uilang.kMenuPosition_File, uilang.kMainLanguageContentDict['menu_file'][langIndex])
         self.m_menuItem_exit.SetItemLabel(uilang.kMainLanguageContentDict['mItem_exit'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Edit, uilang.kMainLanguageContentDict['menu_edit'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_View, uilang.kMainLanguageContentDict['menu_view'][langIndex])

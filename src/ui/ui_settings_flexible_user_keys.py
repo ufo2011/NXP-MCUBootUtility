@@ -17,8 +17,8 @@ class secBootUiSettingsFlexibleUserKeys(advSettingsWin_FlexibleUserKeys.advSetti
 
     def __init__(self, parent):
         advSettingsWin_FlexibleUserKeys.advSettingsWin_FlexibleUserKeys.__init__(self, parent)
-        userKeyCtrlDict, userKeyCmdDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_UserKeys)
         self._setLanguage()
+        userKeyCtrlDict, userKeyCmdDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_UserKeys)
         self.userKeyCtrlDict = userKeyCtrlDict.copy()
         self.userKeyCmdDict = userKeyCmdDict.copy()
         self.engine0FacStart = [None] * uidef.kMaxFacRegionCount
@@ -26,7 +26,6 @@ class secBootUiSettingsFlexibleUserKeys(advSettingsWin_FlexibleUserKeys.advSetti
         self.engine1FacStart = [None] * uidef.kMaxFacRegionCount
         self.engine1FacLength = [None] * uidef.kMaxFacRegionCount
         self._recoverLastSettings()
-
 
     def _setLanguage( self ):
         runtimeSettings = uivar.getRuntimeSettings()
@@ -62,10 +61,9 @@ class secBootUiSettingsFlexibleUserKeys(advSettingsWin_FlexibleUserKeys.advSetti
         self.m_staticText_engine1Fac2Length.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Fac2Length'][langIndex])
         self.m_staticText_engine1AccessPermision.SetLabel(uilang.kSubLanguageContentDict['sText_engine1AccessPermision'][langIndex])
         self.m_staticText_engine1Lock.SetLabel(uilang.kSubLanguageContentDict['sText_engine1Lock'][langIndex])
-        self.m_button_genRandomKey.SetLabel(uilang.kSubLanguageContentDict['button_flexibleuserkeys_genRandomKey'][langIndex])
-        self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_flexibleuserkeys_ok'][langIndex])
-        self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_flexibleuserkeys_cancel'][langIndex])
-
+        self.m_button_genRandomKey.SetLabel(uilang.kSubLanguageContentDict['button_userkeys_genRandomKey'][langIndex])
+        self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_userkeys_ok'][langIndex])
+        self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_userkeys_cancel'][langIndex])
 
     def _getDek128ContentFromBinFile( self, filename ):
         if os.path.isfile(filename):

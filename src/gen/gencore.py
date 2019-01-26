@@ -12,6 +12,7 @@ sys.path.append(os.path.abspath(".."))
 from ui import uicore
 from ui import uidef
 from ui import uivar
+from ui import uilang
 from run import rundef
 from mem import memdef
 from utils import elf
@@ -124,10 +125,10 @@ class secBootGen(uicore.secBootUi):
         serialContent, keypassContent = self.getSerialAndKeypassContent()
         # The 8 digits in serial are the source that Openssl use to generate certificate serial number.
         if (not serialContent.isdigit()) or len(serialContent) != 8:
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['8digitsSerial'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['inputError_serial'][self.languageIndex])
             return False
         if len(keypassContent) == 0:
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['Key_PasstoSet'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['inputError_keyPass'][self.languageIndex])
             return False
         with open(self.serialFilename, 'wb') as fileObj:
             fileObj.write(serialContent)
@@ -473,7 +474,7 @@ class secBootGen(uicore.secBootUi):
                 startAddress = None
                 entryPointAddress = None
                 lengthInByte = 0
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_notRec/Convert'][self.languageIndex])
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['genImgError_formatNotValid'][self.languageIndex] + srcAppFilename.encode('utf-8'))
         #print ('Image Vector address is 0x%x' %(startAddress))
         #print ('Image Entry address is 0x%x' %(entryPointAddress))
         #print ('Image length is 0x%x' %(lengthInByte))
@@ -517,7 +518,7 @@ class secBootGen(uicore.secBootUi):
             self.printLog('DCD binary is generated: ' + self.dcdBinFilename)
             return True
         else:
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['operDCDError_notGenerated'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['genDcdError_failToGen'][self.languageIndex])
             return False
 
     def _genDcdBinFileAccordingToCfgFile( self ):
@@ -624,7 +625,7 @@ class secBootGen(uicore.secBootUi):
         self._setDestAppFinalBootHeaderInfo(bootDevice)
         if not self._verifyAppVectorAddressForBd(vectorAddress, self.destAppInitialLoadSize):
             if bootDevice != uidef.kBootDevice_RamFlashloader:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['invalidVecAddress'][self.languageIndex])
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_invalidVector'][self.languageIndex] + self.srcAppFilename)
             return False
         else:
             startAddress = vectorAddress - self.destAppInitialLoadSize
@@ -801,19 +802,19 @@ class secBootGen(uicore.secBootUi):
            ((imageStartAddr >= rundef.kBootDeviceMemBase_SemcSdram) and (imageStartAddr < rundef.kBootDeviceMemBase_SemcSdram + rundef.kBootDeviceMemMaxSize_SemcSdram)):
             return True
         else:
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['NON-XIPAppDetcted'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_invalidNonXipRange'][self.languageIndex])
             return False
 
     def _isValidAppImage( self, imageStartAddr ):
         if self.isXipApp:
             if self.secureBootType == uidef.kSecureBootType_HabCrypto:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['XIPAppNotAppliableDected'][self.languageIndex])
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_xipNotForHabCrypto'][self.languageIndex])
                 return False
             else:
                 return True
         else:
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['NON-XIPAppNotForBEEDetcted'][self.languageIndex])
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_nonXipNotForBeeCrypto'][self.languageIndex])
                 return False
             else:
                 return self._isValidNonXipAppImage(imageStartAddr)
@@ -823,7 +824,7 @@ class secBootGen(uicore.secBootUi):
         self._setDestAppInitialBootHeaderInfo(self.bootDevice)
         imageStartAddr, imageEntryAddr, imageLength = self._getImageInfo(self.srcAppFilename)
         if imageStartAddr == None or imageEntryAddr == None:
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['specifyASourceImageFile'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_notFound'][self.languageIndex])
             return False
         self.isXipApp = False
         self.destAppVectorAddress = imageStartAddr
@@ -833,7 +834,7 @@ class secBootGen(uicore.secBootUi):
                     self.isXipApp = True
                     self.destAppVectorOffset = imageStartAddr - self.tgt.flexspiNorMemBase
                 else:
-                    self.popupMsgBox('XIP Application is detected but the size exceeds maximum XIP size 0x%s !' %(rundef.kBootDeviceMemXipSize_FlexspiNor))
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_xipSizeTooLarge'][self.languageIndex] + u"0x%s !" %(rundef.kBootDeviceMemXipSize_FlexspiNor))
                     return False
             else:
                 self.destAppVectorOffset = gendef.kInitialLoadSize_NOR
@@ -843,7 +844,7 @@ class secBootGen(uicore.secBootUi):
                     self.isXipApp = True
                     self.destAppVectorOffset = imageStartAddr - rundef.kBootDeviceMemBase_SemcNor
                 else:
-                    self.popupMsgBox('XIP Application is detected but the size exceeds maximum XIP size 0x%s !' %(rundef.kBootDeviceMemXipSize_SemcNor))
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_xipSizeTooLarge'][self.languageIndex] + u"0x%s !" %(rundef.kBootDeviceMemXipSize_SemcNor))
                     return False
             else:
                 self.destAppVectorOffset = gendef.kInitialLoadSize_NOR
@@ -853,7 +854,7 @@ class secBootGen(uicore.secBootUi):
             return False
         self.destAppBinaryBytes = imageLength
         if not self.isCertificateGenerated(self.secureBootType):
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['genCerFirst'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operCertError_notGen'][self.languageIndex])
             return False
         return self._updateBdfileContent(self.secureBootType, self.bootDevice, imageStartAddr, imageEntryAddr)
 
@@ -912,7 +913,7 @@ class secBootGen(uicore.secBootUi):
             return True
         else:
             self.habDekDataOffset = None
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['BootableImageNotGen'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_failToGen'][self.languageIndex])
             return False
 
     def genBootableImage( self ):
@@ -1029,10 +1030,10 @@ class secBootGen(uicore.secBootUi):
     def _createSignedFlBdfile( self, srcFlFilename):
         imageStartAddr, imageEntryAddr, imageLength = self._getImageInfo(srcFlFilename)
         if imageStartAddr == None or imageEntryAddr == None:
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['FlashloaderImageNotUsable'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_invalidFl'][self.languageIndex])
             return False
         if not self.isCertificateGenerated(uidef.kSecureBootType_HabAuth):
-            self.popupMsgBox(uilang.kMsgLanguageContentDict['genCertificates'][self.languageIndex])
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operCertError_notGen1'][self.languageIndex])
             return False
         return self._updateBdfileContent(uidef.kSecureBootType_HabAuth, uidef.kBootDevice_RamFlashloader, imageStartAddr, imageEntryAddr)
 

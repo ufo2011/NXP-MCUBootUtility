@@ -78,7 +78,7 @@ class secBootMain(memcore.secBootMem):
             return
         if self.bootDevice == uidef.kBootDevice_FlexspiNor:
             flexspiNorFrame = ui_cfg_flexspinor.secBootUiCfgFlexspiNor(None)
-            flexspiNorFrame.SetTitle(u"FlexSPI NOR Device Configuration")
+            flexspiNorFrame.SetTitle(uilang.kSubLanguageContentDict['flexspinor_title'][self.languageIndex])
             flexspiNorFrame.Show(True)
         elif self.bootDevice == uidef.kBootDevice_FlexspiNand:
             flexspiNandFrame = ui_cfg_flexspinand.secBootUiFlexspiNand(None)
@@ -90,7 +90,7 @@ class secBootMain(memcore.secBootMem):
             semcNorFrame.Show(True)
         elif self.bootDevice == uidef.kBootDevice_SemcNand:
             semcNandFrame = ui_cfg_semcnand.secBootUiCfgSemcNand(None)
-            semcNandFrame.SetTitle(u"SEMC NAND Device Configuration")
+            semcNandFrame.SetTitle(uilang.kSubLanguageContentDict['semcnand_title'][self.languageIndex])
             semcNandFrame.Show(True)
         elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
             usdhcSdFrame = ui_cfg_usdhcsd.secBootUiUsdhcSd(None)
@@ -102,7 +102,7 @@ class secBootMain(memcore.secBootMem):
             usdhcMmcFrame.Show(True)
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
             lpspiNorFrame = ui_cfg_lpspinor.secBootUiCfgLpspiNor(None)
-            lpspiNorFrame.SetTitle(u"LPSPI NOR/EEPROM Device Configuration")
+            lpspiNorFrame.SetTitle(uilang.kSubLanguageContentDict['lpspinor_title'][self.languageIndex])
             lpspiNorFrame.Show(True)
         else:
             pass
@@ -111,7 +111,7 @@ class secBootMain(memcore.secBootMem):
         if self._checkIfSubWinHasBeenOpened():
             return
         dcdFrame = ui_cfg_dcd.secBootUiCfgDcd(None)
-        dcdFrame.SetTitle(u"Device Configuration Data")
+        dcdFrame.SetTitle(uilang.kSubLanguageContentDict['dcd_title'][self.languageIndex])
         dcdFrame.setNecessaryInfo(self.dcdBinFilename, self.dcdCfgFilename, self.dcdModelFolder)
         dcdFrame.Show(True)
 
@@ -408,11 +408,11 @@ class secBootMain(memcore.secBootMem):
                 return
             if self.keyStorageRegion == uidef.kKeyStorageRegion_FixedOtpmkKey:
                 otpmkKeySettingsFrame = ui_settings_fixed_otpmk_key.secBootUiSettingsFixedOtpmkKey(None)
-                otpmkKeySettingsFrame.SetTitle(u"Advanced Key Settings - Fixed OTPMK")
+                otpmkKeySettingsFrame.SetTitle(uilang.kSubLanguageContentDict['otpmkKey_title'][self.languageIndex])
                 otpmkKeySettingsFrame.Show(True)
             elif self.keyStorageRegion == uidef.kKeyStorageRegion_FlexibleUserKeys:
                 userKeySettingsFrame = ui_settings_flexible_user_keys.secBootUiSettingsFlexibleUserKeys(None)
-                userKeySettingsFrame.SetTitle(u"Advanced Key Settings - Flexible User")
+                userKeySettingsFrame.SetTitle(uilang.kSubLanguageContentDict['userKey_title'][self.languageIndex])
                 userKeySettingsFrame.setNecessaryInfo(self.mcuDevice, self.tgt.flexspiNorMemBase)
                 userKeySettingsFrame.Show(True)
             else:

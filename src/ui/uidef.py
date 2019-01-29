@@ -78,6 +78,7 @@ kUserEngineSel_Engine0     = 'Engine 0'
 kUserEngineSel_Engine1     = 'Engine 1'
 kUserEngineSel_BothEngines = 'Both Engines'
 
+kSupportedEngineSel_iMXRT1015 = [kUserEngineSel_Engine0, kUserEngineSel_Engine1]
 kSupportedEngineSel_iMXRT102x = [kUserEngineSel_Engine0, kUserEngineSel_Engine1]
 kSupportedEngineSel_iMXRT105x = [kUserEngineSel_Engine0, kUserEngineSel_Engine1]
 kSupportedEngineSel_iMXRT106x = [kUserEngineSel_Engine0, kUserEngineSel_Engine1, kUserEngineSel_BothEngines]

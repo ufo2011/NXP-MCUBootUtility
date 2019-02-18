@@ -47,14 +47,14 @@ class secBootUiSettingsFixedOtpmkKey(advSettingsWin_FixedOtpmkKey.advSettingsWin
             self.m_textCtrl_region1Start.Enable( False )
             self.m_textCtrl_region1Length.Enable( False )
         else:
-            self.m_textCtrl_region0Start.Enable( True )
-            self.m_textCtrl_region0Length.Enable( True )
+            self.m_textCtrl_region1Start.Enable( True )
+            self.m_textCtrl_region1Length.Enable( True )
         if regionCnt < 3:
             self.m_textCtrl_region2Start.Enable( False )
             self.m_textCtrl_region2Length.Enable( False )
         else:
-            self.m_textCtrl_region0Start.Enable( True )
-            self.m_textCtrl_region0Length.Enable( True )
+            self.m_textCtrl_region2Start.Enable( True )
+            self.m_textCtrl_region2Length.Enable( True )
 
     def _recoverLastSettings ( self ):
         keySource = (self.otpmkKeyOpt & 0x0F000000) >> 24

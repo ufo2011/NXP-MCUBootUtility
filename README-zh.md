@@ -190,8 +190,8 @@ define symbol m_data2_end              = 0x202BFFFF;
 ##### 3.3.4 模式四：启用单引擎BEE加密（唯一SNVS Key）
 　　第四种模式是高级的安全模式，即用唯一SNVS Key对image进行单引擎BEE级加密，一般用于对产品安全性要求极高的场合。BEE加密与HAB加密的主要区别是执行解密操作的主体不同，主要有如下三点区别：  
 
-> * HAB加密是由BootROM里的HAB将加密后的image全部解密成明文另存后再执行（静态解密），而BEE加密是由MCU芯片内部的BEE模块对加密后的image原地边解密边执行（动态解密）。  
-> * HAB加密仅支持Non-XIP Image（不限Boot Device），而BEE加密仅支持XIP在FlexSPI NOR中的Image。  
+> * HAB加密是由BootROM里的HAB将加密后的image全部解密成明文另存后再执行（静态解密），而BEE加密是由MCU芯片内部的BEE模块对加密的image进行解密后再执行（如果是XIP image，则是原地边解密边执行（动态解密）；如果是Non-XIP Image，则解密执行流程与HAB加密类似）。  
+> * HAB加密仅支持Non-XIP Image（不限Boot Device），而BEE加密仅支持在FlexSPI NOR中启动的Image（不限XIP/Non-XIP）。  
 > * HAB加密区域不可指定（默认全部用户Image区域），而BEE加密的区域可由用户指定。  
 
 ![NXP-MCUBootUtility_secboot4_bee_encrypted_fixed_key](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_0_0_secboot4_bee_encrypted_fixed_key_e.png)
@@ -203,7 +203,7 @@ define symbol m_data2_end              = 0x202BFFFF;
 ![NXP-MCUBootUtility_fixedSnvsKeyWin](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_0_0_fixedSnvsKeyWin.PNG)
 
 　　一切操作无误，板子上SW7拨码开关将Boot Mode设为2'b10即Internal Boot模式，并且将BT_CFG[1]设为1'b1（使能Encrypted XIP），其余保持全0，重新上电便可以看到BEE encrypted image正常执行了。  
-　　BEE加密相比HAB加密是要更安全的，因为HAB加密毕竟是静态解密，当HAB解密完成之后在SRAM/SDRAM中存储的是全部的image明文，如果此刻黑客去非法访问SRAM/SDRAM是有可能获取全部image明文的（不过也不用担心，i.MXRT可以设置JTAG访问权限）；而BEE加密是动态解密，CPU执行到什么地方才会去解密什么地方，任何时候都不存在完整的image明文，黑客永远无法获取全部的image明文。  
+　　BEE加密相比HAB加密是要更安全的，因为HAB加密毕竟仅能静态解密，当HAB解密完成之后在SRAM/SDRAM中存储的是全部的image明文，如果此刻黑客去非法访问SRAM/SDRAM是有可能获取全部image明文的（不过也不用担心，i.MXRT可以设置JTAG访问权限）；而BEE加密可以是动态解密，CPU执行到什么地方才会去解密什么地方，任何时候都不存在完整的image明文，黑客永远无法获取全部的image明文。  
 
 ##### 3.3.5 模式五：启用双引擎BEE加密（用户自定义Key）
 　　第五种模式是顶级的安全模式，即用用户自定义Key对image进行双引擎BEE级加密，跟第四种模式（单引擎）原理类似，一般用于对产品安全性要求最高的场合。单引擎BEE加密与双引擎BEE加密具体区别如下：  

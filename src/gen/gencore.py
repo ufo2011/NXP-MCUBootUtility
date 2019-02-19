@@ -813,11 +813,11 @@ class secBootGen(uicore.secBootUi):
             else:
                 return True
         else:
-            if self.secureBootType == uidef.kSecureBootType_BeeCrypto:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_nonXipNotForBeeCrypto'][self.languageIndex])
-                return False
-            else:
-                return self._isValidNonXipAppImage(imageStartAddr)
+            #if self.secureBootType == uidef.kSecureBootType_BeeCrypto:
+            #    self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_nonXipNotForBeeCrypto'][self.languageIndex])
+            #    return False
+            #else:
+            return self._isValidNonXipAppImage(imageStartAddr)
 
     def createMatchedAppBdfile( self ):
         self.srcAppFilename = self.getUserAppFilePath()

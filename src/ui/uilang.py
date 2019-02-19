@@ -310,6 +310,16 @@ kRevision_1_1_0_zh = u"【v1.1.0】 \n" + \
                      u"     3. 根据操作过程自动跟随显示操作页面 \n" + \
                      u"  个性: \n" + \
                      u"     1. 增加马里奥音效 \n\n"
+kRevision_1_2_0_en =  "【v1.2.0】 \n" + \
+                      "  Improvement: \n" + \
+                      "     1. Non-XIP image can also be supported for BEE Encryption case \n" + \
+                      "  Bug: \n" + \
+                      "     1. Region count cannot be set more than 1 for Fixed OTPMK Key case \n\n"
+kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
+                     u"  改进: \n" + \
+                     u"     1. BEE加密模式下也能支持Non-XIP应用程序 \n" + \
+                     u"  缺陷: \n" + \
+                     u"     1. 使用Fixed OTPMK Key的BEE加密模式下，加密区域不能被设超过1 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
@@ -324,6 +334,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_title':              ['Revision History',                      u"版本历史"],
         'revisionHistory_v1_0_0':             [kRevision_1_0_0_en,                      kRevision_1_0_0_zh],
         'revisionHistory_v1_1_0':             [kRevision_1_1_0_en,                      kRevision_1_1_0_zh],
+        'revisionHistory_v1_2_0':             [kRevision_1_2_0_en,                      kRevision_1_2_0_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

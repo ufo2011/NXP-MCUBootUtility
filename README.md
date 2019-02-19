@@ -190,8 +190,8 @@ define symbol m_data2_end              = 0x202BFFFF;
 ##### 3.3.4 Mode 4: Enable single-engine BEE encryption (unique SNVS Key)
 　　The fourth mode is the advanced security mode, that is, single-engine BEE-level encryption of image with a unique SNVS Key, which is generally used in applications where product security is extremely high. The main difference between BEE encryption and HAB encryption is that the main body of the decryption operation is different. There are three main differences:  
 
-> * HAB encryption is performed by HAB in BootROM to decrypt all encrypted images into plaintext and then execute (static decryption). BEE encryption is performed by the BEE module inside the MCU chip to decrypt the encrypted image. (Dynamic decryption).  
-> * HAB encryption only supports Non-XIP Image (not limited to Boot Device), while BEE encryption only supports XIP Image in FlexSPI NOR.  
+> * HAB encryption is performed by HAB in BootROM to decrypt all encrypted images into plaintext and then execute (static decryption). BEE encryption is performed by the BEE module inside the MCU chip to decrypt the encrypted image. (If it is XIP Image, then it belogns to Dynamic decryption; if it is Non-XIP image, then it is similar to HAB Encryption).  
+> * HAB encryption only supports Non-XIP Image (not limited to Boot Device), while BEE encryption only supports Image in FlexSPI NOR (Both XIP and Non-XIP image are supported).  
 > * The HAB encryption area cannot be specified (the default is all user image area), and the BEE encrypted area can be specified by the user.  
 
 ![NXP-MCUBootUtility_secboot4_bee_encrypted_fixed_key](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_0_0_secboot4_bee_encrypted_fixed_key_e.png)
@@ -203,7 +203,7 @@ define symbol m_data2_end              = 0x202BFFFF;
 ![NXP-MCUBootUtility_fixedSnvsKeyWin](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_0_0_fixedSnvsKeyWin.PNG)
 
 　　All operations are correct. Set Boot Mode to 2'b10(Internal Boot mode) via SW7 DIP switch on the board, and sets BT_CFG[1] to 1'b1 (Encrypted XIP is enabled). The rest remains all 0s. You can see that the BEE encrypted image is executed normally.  
-　　BEE encryption is more secure than HAB encryption, because HAB encryption is static decryption after all. When the HAB decryption is completed, all the image plaintext is stored in SRAM/SDRAM. If the hacker illegally accesses SRAM/SDRAM at this moment, it is possible to get all the plain text of the image(But don't worry, You can set JTAG access right for i.MXRT); and BEE encryption is dynamic decryption, where the CPU will go to decrypt somewhere, there is no complete image plaintext at any time, the hacker can never get all the image plaintext.  
+　　BEE encryption is more secure than HAB encryption, because HAB encryption can only be static decryption after all. When the HAB decryption is completed, all the image plaintext is stored in SRAM/SDRAM. If the hacker illegally accesses SRAM/SDRAM at this moment, it is possible to get all the plain text of the image(But don't worry, You can set JTAG access right for i.MXRT); and BEE encryption can be dynamic decryption, where the CPU will go to decrypt somewhere, there is no complete image plaintext at any time, the hacker can never get all the image plaintext.  
 
 ##### 3.3.5 Mode 5: Enable dual-engine BEE encryption (user-defined Key)
 　　The fifth mode is the top security mode, which uses a user-defined Key to perform dual-engine BEE-level encryption on the image. Similar to the fourth mode (single-engine) principle, it is generally used in applications where product security is extremely high. The specific differences between single-engine BEE encryption and dual-engine BEE encryption are as follows:  

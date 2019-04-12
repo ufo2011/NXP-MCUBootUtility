@@ -78,17 +78,17 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         if isEnabled:
             self.m_choice_flashConnection.Enable( True )
             self.m_textCtrl_driveStrength.Enable( True )
-            self.m_choice_dqsPinmuxGroup.Enable( True )
+            self.m_textCtrl_dqsPinmuxGroup.Enable( True )
             self.m_choice_enableSecondPinmux.Enable( True )
-            self.m_choice_statusOverride.Enable( True )
-            self.m_choice_dummyCycles.Enable( True )
+            self.m_textCtrl_statusOverride.Enable( True )
+            self.m_textCtrl_dummyCycles.Enable( True )
         else:
             self.m_choice_flashConnection.Enable( False )
             self.m_textCtrl_driveStrength.Enable( False )
-            self.m_choice_dqsPinmuxGroup.Enable( False )
+            self.m_textCtrl_dqsPinmuxGroup.Enable( False )
             self.m_choice_enableSecondPinmux.Enable( False )
-            self.m_choice_statusOverride.Enable( False )
-            self.m_choice_dummyCycles.Enable( False )
+            self.m_textCtrl_statusOverride.Enable( False )
+            self.m_textCtrl_dummyCycles.Enable( False )
 
     def _recoverLastSettings ( self ):
         self.m_choice_deviceMode.SetSelection(self.flexspiDeviceModel)
@@ -123,6 +123,28 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
             self._updateOpt1Field(False)
         else:
             self._updateOpt1Field(True)
+
+            flashConnection = (self.flexspiNorOpt1 & 0xF0000000) >> 28
+            self.m_choice_flashConnection.SetSelection(flashConnection)
+
+            driveStrength = (self.flexspiNorOpt1 & 0x0F000000) >> 24
+            self.m_textCtrl_driveStrength.Clear()
+            self.m_textCtrl_driveStrength.write(str(driveStrength))
+
+            dqsPinmuxGroup = (self.flexspiNorOpt1 & 0x00F00000) >> 20
+            self.m_textCtrl_dqsPinmuxGroup.Clear()
+            self.m_textCtrl_dqsPinmuxGroup.write(str(dqsPinmuxGroup))
+
+            enableSecondPinmux = (self.flexspiNorOpt1 & 0x000F0000) >> 16
+            self.m_choice_enableSecondPinmux.SetSelection(enableSecondPinmux)
+
+            statusOverride = (self.flexspiNorOpt1 & 0x0000FF00) >> 8
+            self.m_textCtrl_statusOverride.Clear()
+            self.m_textCtrl_statusOverride.write(str(statusOverride))
+
+            dummyCycles = (self.flexspiNorOpt1 & 0x000000FF) >> 0
+            self.m_textCtrl_dummyCycles.Clear()
+            self.m_textCtrl_dummyCycles.write(str(dummyCycles))
 
     def _getDeviceType( self ):
         txt = self.m_choice_deviceType.GetString(self.m_choice_deviceType.GetSelection())
@@ -222,6 +244,46 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
             pass
         self.flexspiNorOpt0 = (self.flexspiNorOpt0 & 0xF0FFFFFF) | (val << 24)
 
+    def _getFlashConnection( self ):
+        txt = self.m_choice_flashConnection.GetString(self.m_choice_flashConnection.GetSelection())
+        if txt == 'Single Port A':
+            val = 0x0
+        elif txt == 'Parallel':
+            val = 0x1
+        elif txt == 'Single Port B':
+            val = 0x2
+        elif txt == 'Both Ports':
+            val = 0x3
+        else:
+            pass
+        self.flexspiNorOpt1 = (self.flexspiNorOpt1 & 0x0FFFFFFF) | (val << 28)
+
+    def _getDriveStrength( self ):
+        val = int(self.m_textCtrl_driveStrength.GetLineText(0))
+        self.flexspiNorOpt1 = (self.flexspiNorOpt1 & 0xF0FFFFFF) | (val << 24)
+
+    def _getDqsPinmuxGroup( self ):
+        val = int(self.m_textCtrl_dqsPinmuxGroup.GetLineText(0))
+        self.flexspiNorOpt1 = (self.flexspiNorOpt1 & 0xFF0FFFFF) | (val << 20)
+
+    def _getEnableSecondPinmux( self ):
+        txt = self.m_choice_enableSecondPinmux.GetString(self.m_choice_enableSecondPinmux.GetSelection())
+        if txt == 'No':
+            val = 0x0
+        elif txt == 'Yes':
+            val = 0x1
+        else:
+            pass
+        self.flexspiNorOpt1 = (self.flexspiNorOpt1 & 0xFFF0FFFF) | (val << 16)
+
+    def _getStatusOverride( self ):
+        val = int(self.m_textCtrl_statusOverride.GetLineText(0))
+        self.flexspiNorOpt1 = (self.flexspiNorOpt1 & 0xFFFF00FF) | (val << 8)
+
+    def _getDummyCycles( self ):
+        val = int(self.m_textCtrl_dummyCycles.GetLineText(0))
+        self.flexspiNorOpt1 = (self.flexspiNorOpt1 & 0xFFFFFF00) | (val << 0)
+
     def callbackUseTypicalDeviceModel( self, event ):
         self.flexspiDeviceModel = self.m_choice_deviceMode.GetSelection()
         txt = self.m_choice_deviceMode.GetString(self.flexspiDeviceModel)
@@ -259,6 +321,14 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         self._getMiscMode()
         self._getMaxFrequency()
         self._getHasOpt1()
+        hasOption1 = (self.flexspiNorOpt0 & 0x0F000000) >> 24
+        if hasOption1:
+            self._getFlashConnection()
+            self._getDriveStrength()
+            self._getDqsPinmuxGroup()
+            self._getEnableSecondPinmux()
+            self._getStatusOverride()
+            self._getDummyCycles()
         uivar.setBootDeviceConfiguration(uidef.kBootDevice_FlexspiNor, self.flexspiNorOpt0, self.flexspiNorOpt1, self.flexspiDeviceModel)
         uivar.setRuntimeSettings(False)
         self.Show(False)

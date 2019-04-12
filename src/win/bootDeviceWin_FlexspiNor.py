@@ -140,7 +140,7 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 
 		gSizer_norOpt1.Add( self.m_staticText_driveStrength, 0, wx.ALL, 5 )
 
-		self.m_textCtrl_driveStrength = wx.TextCtrl( self.m_panel_norOpt1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
+		self.m_textCtrl_driveStrength = wx.TextCtrl( self.m_panel_norOpt1, wx.ID_ANY, u"0", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
 		gSizer_norOpt1.Add( self.m_textCtrl_driveStrength, 0, wx.ALL, 5 )
 
 		self.m_staticText_dqsPinmuxGroup = wx.StaticText( self.m_panel_norOpt1, wx.ID_ANY, u"DQS Pinmux Group:", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
@@ -148,13 +148,8 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 
 		gSizer_norOpt1.Add( self.m_staticText_dqsPinmuxGroup, 0, wx.ALL, 5 )
 
-		m_choice_dqsPinmuxGroupChoices = []
-		self.m_choice_dqsPinmuxGroup = wx.Choice( self.m_panel_norOpt1, wx.ID_ANY, wx.DefaultPosition, wx.Size( 140,-1 ), m_choice_dqsPinmuxGroupChoices, 0 )
-		self.m_choice_dqsPinmuxGroup.SetSelection( 0 )
-		self.m_choice_dqsPinmuxGroup.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
-		self.m_choice_dqsPinmuxGroup.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
-
-		gSizer_norOpt1.Add( self.m_choice_dqsPinmuxGroup, 0, wx.ALL, 5 )
+		self.m_textCtrl_dqsPinmuxGroup = wx.TextCtrl( self.m_panel_norOpt1, wx.ID_ANY, u"0", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
+		gSizer_norOpt1.Add( self.m_textCtrl_dqsPinmuxGroup, 0, wx.ALL, 5 )
 
 		self.m_staticText_enableSecondPinmux = wx.StaticText( self.m_panel_norOpt1, wx.ID_ANY, u"Enable Second Pinmux:", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
 		self.m_staticText_enableSecondPinmux.Wrap( -1 )
@@ -171,20 +166,16 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 
 		gSizer_norOpt1.Add( self.m_staticText_statusOverride, 0, wx.ALL, 5 )
 
-		m_choice_statusOverrideChoices = []
-		self.m_choice_statusOverride = wx.Choice( self.m_panel_norOpt1, wx.ID_ANY, wx.DefaultPosition, wx.Size( 140,-1 ), m_choice_statusOverrideChoices, 0 )
-		self.m_choice_statusOverride.SetSelection( 0 )
-		gSizer_norOpt1.Add( self.m_choice_statusOverride, 0, wx.ALL, 5 )
+		self.m_textCtrl_statusOverride = wx.TextCtrl( self.m_panel_norOpt1, wx.ID_ANY, u"0", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
+		gSizer_norOpt1.Add( self.m_textCtrl_statusOverride, 0, wx.ALL, 5 )
 
 		self.m_staticText_dummyCycles = wx.StaticText( self.m_panel_norOpt1, wx.ID_ANY, u"Dummy Cycles:", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
 		self.m_staticText_dummyCycles.Wrap( -1 )
 
 		gSizer_norOpt1.Add( self.m_staticText_dummyCycles, 0, wx.ALL, 5 )
 
-		m_choice_dummyCyclesChoices = []
-		self.m_choice_dummyCycles = wx.Choice( self.m_panel_norOpt1, wx.ID_ANY, wx.DefaultPosition, wx.Size( 140,-1 ), m_choice_dummyCyclesChoices, 0 )
-		self.m_choice_dummyCycles.SetSelection( 1 )
-		gSizer_norOpt1.Add( self.m_choice_dummyCycles, 0, wx.ALL, 5 )
+		self.m_textCtrl_dummyCycles = wx.TextCtrl( self.m_panel_norOpt1, wx.ID_ANY, u"0", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
+		gSizer_norOpt1.Add( self.m_textCtrl_dummyCycles, 0, wx.ALL, 5 )
 
 
 		self.m_panel_norOpt1.SetSizer( gSizer_norOpt1 )

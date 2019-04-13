@@ -72,6 +72,15 @@ class secBootWin ( wx.Frame ):
 
 		self.m_menu_tools.AppendSubMenu( self.m_menu_soundEffect, u"Sound Effect" )
 
+		self.m_menu_genSbFile = wx.Menu()
+		self.m_menuItem_genSbFileYes = wx.MenuItem( self.m_menu_genSbFile, wx.ID_ANY, u"Yes", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_genSbFile.Append( self.m_menuItem_genSbFileYes )
+
+		self.m_menuItem_genSbFileNo = wx.MenuItem( self.m_menu_genSbFile, wx.ID_ANY, u"No", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_genSbFile.Append( self.m_menuItem_genSbFileNo )
+
+		self.m_menu_tools.AppendSubMenu( self.m_menu_genSbFile, u"Generate .sb file" )
+
 		self.m_menubar.Append( self.m_menu_tools, u"Tools" )
 
 		self.m_menu_window = wx.Menu()
@@ -1749,6 +1758,8 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsStatic, id = self.m_menuItem_usbDetectionStatic.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsMario, id = self.m_menuItem_soundEffectMario.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsQuiet, id = self.m_menuItem_soundEffectQuiet.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetGenSbFileAsYes, id = self.m_menuItem_genSbFileYes.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetGenSbFileAsNo, id = self.m_menuItem_genSbFileNo.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowHomePage, id = self.m_menuItem_homePage.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowAboutAuthor, id = self.m_menuItem_aboutAuthor.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowSpecialThanks, id = self.m_menuItem_specialThanks.GetId() )
@@ -1820,6 +1831,12 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetSoundEffectAsQuiet( self, event ):
+		event.Skip()
+
+	def callbackSetGenSbFileAsYes( self, event ):
+		event.Skip()
+
+	def callbackSetGenSbFileAsNo( self, event ):
 		event.Skip()
 
 	def callbackShowHomePage( self, event ):

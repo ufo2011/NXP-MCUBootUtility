@@ -59,6 +59,10 @@ class secBootUi(secBootWin.secBootWin):
         self._initSoundEffect()
         self.setSoundEffect()
 
+        self.isSbFileEnabledToGen = None
+        self._initGenSbFile()
+        self.setGenSbFile()
+
         self.updateConnectStatus()
 
         self.mcuSeries = None
@@ -130,6 +134,18 @@ class secBootUi(secBootWin.secBootWin):
 
     def _playSoundEffect( self, soundFilename ):
         sound.playSoundEffect(self.exeTopRoot, self.isQuietSoundEffect, soundFilename)
+
+    def _initGenSbFile( self ):
+        if self.toolCommDict['isSbFileEnabledToGen']:
+            self.m_menuItem_genSbFileYes.Check(True)
+            self.m_menuItem_genSbFileNo.Check(False)
+        else:
+            self.m_menuItem_genSbFileYes.Check(False)
+            self.m_menuItem_genSbFileNo.Check(True)
+
+    def setGenSbFile( self ):
+        self.isSbFileEnabledToGen = self.m_menuItem_genSbFileYes.IsChecked()
+        self.toolCommDict['isSbFileEnabledToGen'] = self.isSbFileEnabledToGen
 
     def _initTargetSetupValue( self ):
         self.m_choice_mcuSeries.Clear()

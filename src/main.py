@@ -683,6 +683,12 @@ class secBootMain(memcore.secBootMem):
     def callbackSetSoundEffectAsQuiet( self, event ):
         self.setSoundEffect()
 
+    def callbackSetGenSbFileAsYes( self, event ):
+        self.setGenSbFile()
+
+    def callbackSetGenSbFileAsNo( self, event ):
+        self.setGenSbFile()
+
     def callbackSetLanguageAsEnglish( self, event ):
         self.setLanguage()
 

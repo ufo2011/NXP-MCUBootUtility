@@ -1119,6 +1119,8 @@ class secBootGen(uicore.secBootUi):
         ############################################################################
         self.sbAppBdContent += "sources {\n"
         self.sbAppBdContent += "    myBinFile = extern (0);\n"
+        if self.secureBootType == uidef.kSecureBootType_HabCrypto:
+            self.sbAppBdContent += "    dekFile = extern (1);\n"
         self.sbAppBdContent += "}\n"
         ############################################################################
         self.sbAppBdContent += "\nsection (0) {\n"
@@ -1150,29 +1152,27 @@ class secBootGen(uicore.secBootUi):
                 destSbAppName += '_unsigned_bee_encrypted'
         else:
             pass
+        destSbAppName += '_' + self.sbEnableBootDeviceMagic
         if self.bootDevice == uidef.kBootDevice_FlexspiNor:
-            destSbAppName += '_flexspinor'
             flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(self.bootDevice)
             if flexspiNorDeviceModel == 'No':
                 destSbAppName += '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt1)))
             else:
                 destSbAppName += '_' + flexspiNorDeviceModel
         elif self.bootDevice == uidef.kBootDevice_SemcNand:
-            destSbAppName += '_semcnand'
             semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(self.bootDevice)
             destSbAppName += '_' + self.convertLongIntHexText(str(hex(semcNandOpt))) + '_' + self.convertLongIntHexText(str(hex(semcNandFcbOpt)))
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
-            destSbAppName += '_lpspinor'
             lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
             destSbAppName += '_' + self.convertLongIntHexText(str(hex(lpspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(lpspiNorOpt1)))
         elif self.bootDevice == uidef.kBootDevice_SemcNor:
-            destSbAppName += '_semcnor'
+            pass
         elif self.bootDevice == uidef.kBootDevice_FlexspiNand:
-            destSbAppName += '_flexspinand'
+            pass
         elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
-            destSbAppName += '_usdhcsd'
+            pass
         elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
-            destSbAppName += '_usdhcmmc'
+            pass
         else:
             pass
         self.destSbAppFilename = os.path.join(destSbAppPath, destSbAppName + destSbAppType)
@@ -1181,7 +1181,10 @@ class secBootGen(uicore.secBootUi):
         self._adjustDestSbAppFilenameForBd()
         destAppFilename = None
         if self.bootDevice == uidef.kBootDevice_FlexspiNor:
-            destAppFilename = self.destAppNoPaddingFilename
+            if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.keyStorageRegion == uidef.kKeyStorageRegion_FlexibleUserKeys:
+                destAppFilename = self.destEncAppNoCfgBlockFilename
+            else:
+                destAppFilename = self.destAppNoPaddingFilename
         elif self.bootDevice == uidef.kBootDevice_SemcNand or \
              self.bootDevice == uidef.kBootDevice_LpspiNor:
             destAppFilename = self.destAppFilename
@@ -1189,6 +1192,8 @@ class secBootGen(uicore.secBootUi):
             pass
         sbBatContent = "\"" + self.elftosbPath + "\""
         sbBatContent += " -f kinetis -V -c " + "\"" + self.sbAppBdFilename + "\"" + ' -o ' + "\"" + self.destSbAppFilename + "\"" + ' ' + "\"" + destAppFilename + "\""
+        if self.secureBootType == uidef.kSecureBootType_HabCrypto:
+            sbBatContent += ' ' + "\"" + self.habDekFilename + "\""
         with open(self.sbAppBdBatFilename, 'wb') as fileObj:
             fileObj.write(sbBatContent)
             fileObj.close()

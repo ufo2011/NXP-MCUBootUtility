@@ -27,6 +27,8 @@ from ui import ui_settings_flexible_user_keys
 g_main_win = None
 g_task_detectUsbhid = None
 g_task_playSound = None
+g_task_allInOneAction = None
+g_task_increaseGauge = None
 
 kRetryPingTimes = 5
 
@@ -39,19 +41,18 @@ class secBootMain(memcore.secBootMem):
         memcore.secBootMem.__init__(self, parent)
         self.connectStage = uidef.kConnectStage_Rom
         self.isBootableAppAllowedToView = False
-        self.gaugeTimer = wx.Timer(self)
-        self.Bind(wx.EVT_TIMER, self.increaseGauge, self.gaugeTimer)
         self.lastTime = None
+        self.isAllInOneActionTaskPending = False
 
     def _startGaugeTimer( self ):
-        self.lastTime = time.time()
-        self.initGauge()
-        #self.gaugeTimer.Start(500) # ms
+        if not self.isAllInOneActionTaskPending:
+            self.lastTime = time.time()
+            self.initGauge()
 
     def _stopGaugeTimer( self ):
-        #self.gaugeTimer.Stop()
-        self.deinitGauge()
-        self.updateCostTime()
+        if not self.isAllInOneActionTaskPending:
+            self.deinitGauge()
+            self.updateCostTime()
 
     def callbackSetMcuSeries( self, event ):
         self.setTargetSetupValue()
@@ -245,7 +246,14 @@ class secBootMain(memcore.secBootMem):
         self.setCostTime(0)
         self.setSecureBootSeqColor()
 
-    def callbackAllInOneAction( self, event ):
+    def task_doAllInOneAction( self ):
+        while True:
+            if self.isAllInOneActionTaskPending:
+                self._doAllInOneAction()
+                self.isAllInOneActionTaskPending = False
+                self._stopGaugeTimer()
+
+    def _doAllInOneAction( self ):
         allInOneSeqCnt = 1
         directReuseCert = False
         status = False
@@ -298,6 +306,10 @@ class secBootMain(memcore.secBootMem):
                 self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)
                 self._doViewMem()
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_AllInOne, status)
+
+    def callbackAllInOneAction( self, event ):
+        self._startGaugeTimer()
+        self.isAllInOneActionTaskPending = True
 
     def callbackAdvCertSettings( self, event ):
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
@@ -738,5 +750,9 @@ if __name__ == '__main__':
     g_task_detectUsbhid.start()
     g_task_playSound = threading.Thread(target=g_main_win.task_doPlaySound)
     g_task_playSound.start()
+    g_task_allInOneAction = threading.Thread(target=g_main_win.task_doAllInOneAction)
+    g_task_allInOneAction.start()
+    g_task_increaseGauge = threading.Thread(target=g_main_win.task_doIncreaseGauge)
+    g_task_increaseGauge.start()
 
     app.MainLoop()

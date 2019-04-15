@@ -1152,10 +1152,19 @@ class secBootGen(uicore.secBootUi):
             pass
         if self.bootDevice == uidef.kBootDevice_FlexspiNor:
             destSbAppName += '_flexspinor'
+            flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(self.bootDevice)
+            if flexspiNorDeviceModel == 'No':
+                destSbAppName += '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt1)))
+            else:
+                destSbAppName += '_' + flexspiNorDeviceModel
         elif self.bootDevice == uidef.kBootDevice_SemcNand:
             destSbAppName += '_semcnand'
+            semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(self.bootDevice)
+            destSbAppName += '_' + self.convertLongIntHexText(str(hex(semcNandOpt))) + '_' + self.convertLongIntHexText(str(hex(semcNandFcbOpt)))
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
             destSbAppName += '_lpspinor'
+            lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
+            destSbAppName += '_' + self.convertLongIntHexText(str(hex(lpspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(lpspiNorOpt1)))
         elif self.bootDevice == uidef.kBootDevice_SemcNor:
             destSbAppName += '_semcnor'
         elif self.bootDevice == uidef.kBootDevice_FlexspiNand:

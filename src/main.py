@@ -6,6 +6,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 import os
 import time
+import threading
 from mem import memcore
 from ui import uidef
 from ui import uivar
@@ -24,6 +25,8 @@ from ui import ui_settings_fixed_otpmk_key
 from ui import ui_settings_flexible_user_keys
 
 g_main_win = None
+g_task_detectUsbhid = None
+g_task_playSound = None
 
 kRetryPingTimes = 5
 
@@ -654,8 +657,6 @@ class secBootMain(memcore.secBootMem):
         self.saveLog()
 
     def _deinitToolToExit( self ):
-        if self.periodicCommonTaskTimer != None:
-            self.periodicCommonTaskTimer.cancel()
         uivar.setAdvancedSettings(uidef.kAdvancedSettings_Tool, self.toolCommDict)
         uivar.deinitVar()
         #exit(0)
@@ -732,5 +733,10 @@ if __name__ == '__main__':
     g_main_win = secBootMain(None)
     g_main_win.SetTitle(u"NXP MCU Boot Utility v1.2.0")
     g_main_win.Show()
+
+    g_task_detectUsbhid = threading.Thread(target=g_main_win.task_doDetectUsbhid)
+    g_task_detectUsbhid.start()
+    g_task_playSound = threading.Thread(target=g_main_win.task_doPlaySound)
+    g_task_playSound.start()
 
     app.MainLoop()

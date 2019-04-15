@@ -230,6 +230,8 @@ class secBootMain(memcore.secBootMem):
     def callbackConnectToDevice( self, event ):
         self._startGaugeTimer()
         self.printLog("'Connect to xxx' button is clicked")
+        if self.isSbFileEnabledToGen:
+            self.initSbBdfileContent()
         self._connectStateMachine()
         self._stopGaugeTimer()
 
@@ -282,9 +284,12 @@ class secBootMain(memcore.secBootMem):
                 if not status:
                     break
             allInOneSeqCnt -= 1
-        if status:
-            self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)
-            self._doViewMem()
+        if self.isSbFileEnabledToGen:
+            status = self.genSbImage()
+        else:
+            if status:
+                self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)
+                self._doViewMem()
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_AllInOne, status)
 
     def callbackAdvCertSettings( self, event ):

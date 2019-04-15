@@ -61,6 +61,10 @@ class secBootGen(uicore.secBootUi):
         self.appBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_gen.bd')
         self.elftosbPath = os.path.join(self.exeTopRoot, 'tools', 'elftosb', 'win', 'elftosb.exe')
         self.appBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_gen.bat')
+        self.destSbAppFilename = os.path.join(self.exeTopRoot, 'gen', 'sb_image', 'application_device.sb')
+        self.sbAppBdContent = ''
+        self.sbAppBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_sb_gen.bd')
+        self.sbAppBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_sb_gen.bat')
         self.updateAllCstPathToCorrectVersion()
         self.imageEncPath = os.path.join(self.exeTopRoot, 'tools', 'image_enc', 'win', 'image_enc.exe')
         self.beeDek0Filename = os.path.join(self.exeTopRoot, 'gen', 'bee_crypto', 'bee_dek0.bin')
@@ -629,9 +633,9 @@ class secBootGen(uicore.secBootUi):
             return False
         else:
             startAddress = vectorAddress - self.destAppInitialLoadSize
-        bdContent += "    startAddress = " + self._convertLongIntHexText(str(hex(startAddress))) + ";\n"
-        bdContent += "    ivtOffset = " + self._convertLongIntHexText(str(hex(self.destAppIvtOffset))) + ";\n"
-        bdContent += "    initialLoadSize = " + self._convertLongIntHexText(str(hex(self.destAppInitialLoadSize))) + ";\n"
+        bdContent += "    startAddress = " + self.convertLongIntHexText(str(hex(startAddress))) + ";\n"
+        bdContent += "    ivtOffset = " + self.convertLongIntHexText(str(hex(self.destAppIvtOffset))) + ";\n"
+        bdContent += "    initialLoadSize = " + self.convertLongIntHexText(str(hex(self.destAppInitialLoadSize))) + ";\n"
         dcdConvResult, dcdContent = self._addDcdContentIfAppliable()
         if dcdConvResult:
             bdContent += dcdContent
@@ -643,7 +647,7 @@ class secBootGen(uicore.secBootUi):
             pass
         else:
             pass
-        bdContent += "    entryPointAddress = " + self._convertLongIntHexText(str(hex(entryPointAddress))) + ";\n"
+        bdContent += "    entryPointAddress = " + self.convertLongIntHexText(str(hex(entryPointAddress))) + ";\n"
         bdContent += "}\n"
         ############################################################################
         bdContent += "\nsources {\n"
@@ -1110,3 +1114,105 @@ class secBootGen(uicore.secBootUi):
                 fileObj.write(halfbyteStr)
             fileObj.close()
 
+    def initSbBdfileContent( self ):
+        self.sbAppBdContent = ""
+        ############################################################################
+        self.sbAppBdContent += "sources {\n"
+        self.sbAppBdContent += "    myBinFile = extern (0);\n"
+        self.sbAppBdContent += "}\n"
+        ############################################################################
+        self.sbAppBdContent += "\nsection (0) {\n"
+        ############################################################################
+
+    def _doneSbBdfileContent( self ):
+        ############################################################################
+        self.sbAppBdContent += "}\n"
+        ############################################################################
+        with open(self.sbAppBdFilename, 'wb') as fileObj:
+            fileObj.write(self.sbAppBdContent)
+            fileObj.close()
+
+    def _adjustDestSbAppFilenameForBd( self ):
+        srcAppName = os.path.splitext(os.path.split(self.srcAppFilename)[1])[0]
+        destSbAppPath, destSbAppFile = os.path.split(self.destSbAppFilename)
+        destSbAppName, destSbAppType = os.path.splitext(destSbAppFile)
+        destSbAppName = srcAppName
+        if self.secureBootType == uidef.kSecureBootType_Development:
+            destSbAppName += '_unsigned'
+        elif self.secureBootType == uidef.kSecureBootType_HabAuth:
+            destSbAppName += '_signed'
+        elif self.secureBootType == uidef.kSecureBootType_HabCrypto:
+            destSbAppName += '_signed_hab_encrypted'
+        elif self.secureBootType == uidef.kSecureBootType_BeeCrypto:
+            if self.isCertEnabledForBee:
+                destSbAppName += '_signed_bee_encrypted'
+            else:
+                destSbAppName += '_unsigned_bee_encrypted'
+        else:
+            pass
+        if self.bootDevice == uidef.kBootDevice_FlexspiNor:
+            destSbAppName += '_flexspinor'
+        elif self.bootDevice == uidef.kBootDevice_SemcNand:
+            destSbAppName += '_semcnand'
+        elif self.bootDevice == uidef.kBootDevice_LpspiNor:
+            destSbAppName += '_lpspinor'
+        elif self.bootDevice == uidef.kBootDevice_SemcNor:
+            destSbAppName += '_semcnor'
+        elif self.bootDevice == uidef.kBootDevice_FlexspiNand:
+            destSbAppName += '_flexspinand'
+        elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
+            destSbAppName += '_usdhcsd'
+        elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
+            destSbAppName += '_usdhcmmc'
+        else:
+            pass
+        self.destSbAppFilename = os.path.join(destSbAppPath, destSbAppName + destSbAppType)
+
+    def _updateSbBdBatfileContent( self ):
+        self._adjustDestSbAppFilenameForBd()
+        destAppFilename = None
+        if self.bootDevice == uidef.kBootDevice_FlexspiNor:
+            destAppFilename = self.destAppNoPaddingFilename
+        elif self.bootDevice == uidef.kBootDevice_SemcNand or \
+             self.bootDevice == uidef.kBootDevice_LpspiNor:
+            destAppFilename = self.destAppFilename
+        else:
+            pass
+        sbBatContent = "\"" + self.elftosbPath + "\""
+        sbBatContent += " -f kinetis -V -c " + "\"" + self.sbAppBdFilename + "\"" + ' -o ' + "\"" + self.destSbAppFilename + "\"" + ' ' + "\"" + destAppFilename + "\""
+        with open(self.sbAppBdBatFilename, 'wb') as fileObj:
+            fileObj.write(sbBatContent)
+            fileObj.close()
+
+    def _parseSbImageGenerationResult( self, output ):
+        # elftosb ouput template:
+        #Boot Section 0x00000000:
+        #  FILL | adr=0x00002000 | len=0x00000004 | ptn=0xc0233007
+        #  FILL | adr=0x00002004 | len=0x00000004 | ptn=0x00000000
+        #  ENA  | adr=0x00002000 | cnt=0x00000004 | flg=0x0900
+        #  ERAS | adr=0x60000000 | cnt=0x00040000 | flg=0x0000
+        #  FILL | adr=0x00003000 | len=0x00000004 | ptn=0xf000000f
+        #  ENA  | adr=0x00003000 | cnt=0x00000004 | flg=0x0900
+        #  LOAD | adr=0x60001000 | len=0x00002b34 | crc=0x0388f030 | flg=0x0000
+        info = 'Boot Section'
+        if output.find(info) != -1:
+            self.printLog('.sb image is generated: ' + self.destSbAppFilename)
+            return True
+        else:
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_failToGenSb'][self.languageIndex])
+            return False
+
+    def genSbImage( self ):
+        self._doneSbBdfileContent()
+        self._updateSbBdBatfileContent()
+        # We have to change system dir to the path of elftosb.exe, or elftosb.exe may not be ran successfully
+        curdir = os.getcwd()
+        os.chdir(os.path.split(self.elftosbPath)[0])
+        process = subprocess.Popen(self.sbAppBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        os.chdir(curdir)
+        commandOutput = process.communicate()[0]
+        print commandOutput
+        if self._parseSbImageGenerationResult(commandOutput):
+            return True
+        else:
+            return False

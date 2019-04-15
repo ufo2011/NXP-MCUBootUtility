@@ -414,6 +414,8 @@ kMsgLanguageContentDict = {
                                               u"请首先生成证书, 或者确保NXP-MCUBootUtility工具存放的路径中没有空格!"],
         'srcImgError_failToGen':              ['Bootable image is not generated successfully! Make sure you don\'t put the tool in path with blank space!',
                                               u"可启动的程序文件未成功生成!请确保NXP-MCUBootUtility工具存放的路径中没有空格!"],
+        'srcImgError_failToGenSb':            ['.sb image is not generated successfully! Make sure you don\'t put the tool in path with blank space!',
+                                              u".sb格式程序文件未成功生成!请确保NXP-MCUBootUtility工具存放的路径中没有空格!"],
         'srcImgError_invalidFl':              ['Default Flashloader image file is not usable!',
                                               u"默认的Flashloader程序文件不适用!"],
         'operCertError_notGen1':              ['You should first generate certificates!',

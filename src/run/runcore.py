@@ -86,6 +86,8 @@ class secBootRun(gencore.secBootGen):
         self.comMemEraseUnit = 0
         self.comMemReadUnit = 0
 
+        self.sbLastSharedFuseBootCfg1 = fusedef.kEfuseValue_Invalid
+
         self.createMcuTarget()
 
     def createMcuTarget( self ):
@@ -226,6 +228,9 @@ class secBootRun(gencore.secBootGen):
         if (status == boot.status.kStatus_Success):
             if needToShow:
                 self.printDeviceStatus(fuseName + " = " + self.convertLongIntHexText(str(hex(results[1]))))
+            if self.isSbFileEnabledToGen:
+                if fuseIndex == fusedef.kEfuseIndex_BOOT_CFG1 and self.sbLastSharedFuseBootCfg1 == fusedef.kEfuseValue_Invalid:
+                    self.sbLastSharedFuseBootCfg1 = results[1]
             return results[1]
         else:
             if needToShow:
@@ -637,6 +642,9 @@ class secBootRun(gencore.secBootGen):
     def burnMcuDeviceFuseByBlhost( self, fuseIndex, fuseValue):
         status = boot.status.kStatus_Success
         if self.isSbFileEnabledToGen:
+            if fuseIndex == fusedef.kEfuseIndex_BOOT_CFG1:
+                fuseValue = fuseValue | self.sbLastSharedFuseBootCfg1
+                self.sbLastSharedFuseBootCfg1 = fuseValue
             self.sbAppBdContent += "    load fuse 0x" + self.getFormattedFuseValue(fuseValue) + " > " + self.convertLongIntHexText(str(hex(fuseIndex))) + ";\n"
         else:
             status, results, cmdStr = self.blhost.efuseProgramOnce(fuseIndex, self.getFormattedFuseValue(fuseValue))

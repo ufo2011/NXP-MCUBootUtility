@@ -283,12 +283,13 @@ class secBootMain(memcore.secBootMem):
                         # If HAB is not closed here, we need to close HAB and re-do All-In-One Action
                         if self.mcuDeviceHabStatus != fusedef.kHabStatus_Closed0 and \
                            self.mcuDeviceHabStatus != fusedef.kHabStatus_Closed1:
-                            self.enableHab()
-                            self._connectStateMachine()
-                            while self.connectStage != uidef.kConnectStage_Reset:
+                           if not self.isSbFileEnabledToGen:
+                                self.enableHab()
                                 self._connectStateMachine()
-                            directReuseCert = True
-                            allInOneSeqCnt += 1
+                                while self.connectStage != uidef.kConnectStage_Reset:
+                                    self._connectStateMachine()
+                                directReuseCert = True
+                                allInOneSeqCnt += 1
                 else:
                     pass
             status = self._doFlashImage()
@@ -572,10 +573,11 @@ class secBootMain(memcore.secBootMem):
                 self.printLog("'Load KeyBlob Data' button is clicked")
                 if self.mcuDeviceHabStatus != fusedef.kHabStatus_Closed0 and \
                    self.mcuDeviceHabStatus != fusedef.kHabStatus_Closed1:
-                    self.enableHab()
-                    self._connectStateMachine()
-                    while self.connectStage != uidef.kConnectStage_Reset:
+                    if not self.isSbFileEnabledToGen:
+                        self.enableHab()
                         self._connectStateMachine()
+                        while self.connectStage != uidef.kConnectStage_Reset:
+                            self._connectStateMachine()
                 self.flashHabDekToGenerateKeyBlob()
                 self.isBootableAppAllowedToView = True
                 status = True

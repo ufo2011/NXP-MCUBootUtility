@@ -6,6 +6,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 import os
 import time
+import math
 import serial.tools.list_ports
 import pywinusb.hid
 import threading
@@ -742,6 +743,7 @@ class secBootUi(secBootWin.secBootWin):
                 self.m_gauge_action.SetValue(s_curGauge)
                 s_curGauge += 1
                 #wx.CallLater(100, self.increaseGauge)
+            self.updateCostTime()
 
     def initGauge( self ):
         global s_isGaugeWorking
@@ -1332,3 +1334,33 @@ class secBootUi(secBootWin.secBootWin):
         self.m_button_clearLog.SetLabel(uilang.kMainLanguageContentDict['button_clearLog'][langIndex])
         self.m_button_saveLog.SetLabel(uilang.kMainLanguageContentDict['button_SaveLog'][langIndex])
 
+    def setCostTime( self, costTimeSec ):
+        minValueStr = '00'
+        secValueStr = '00'
+        millisecValueStr = '000'
+        if costTimeSec != 0:
+            costTimeSecMod = math.modf(costTimeSec)
+            minValue = int(costTimeSecMod[1] / 60)
+            if minValue < 10:
+                minValueStr = '0' + str(minValue)
+            elif minValue <= 59:
+                minValueStr = str(minValue)
+            else:
+                minValueStr = 'xx'
+            secValue = int(costTimeSecMod[1]) % 60
+            if secValue < 10:
+                secValueStr = '0' + str(secValue)
+            else:
+                secValueStr = str(secValue)
+            millisecValue = int(costTimeSecMod[0] * 1000)
+            if millisecValue < 10:
+                millisecValueStr = '00' + str(millisecValue)
+            elif millisecValue < 100:
+                millisecValueStr = '0' + str(millisecValue)
+            else:
+                millisecValueStr = str(millisecValue)
+        self.m_staticText_costTime.SetLabel(' ' + minValueStr + ':' + secValueStr + '.' + millisecValueStr)
+
+    def updateCostTime( self ):
+        curTime = time.time()
+        self.setCostTime(curTime - self.lastTime)

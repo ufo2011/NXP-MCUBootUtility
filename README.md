@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.1.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.1.0...master) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.2.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.2.0...master) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 English | [中文](./README-zh.md)
 
@@ -15,6 +15,7 @@ English | [中文](./README-zh.md)
 > * Can validate the range and applicability of user application image
 > * User image file can be either bare image file or bootable image file 
 > * Support for converting bare image into bootable image  
+> * Support for converting bare image into .sb file for MfgTool and RT-Flash
 > * Support for loading bootable image into FlexSPI NOR and SEMC NAND boot devices  
 > * Support for loading bootable image into LPSPI NOR/EEPROM recovery boot device  
 > * Support DCD which can help load image to SDRAM  
@@ -62,6 +63,7 @@ English | [中文](./README-zh.md)
                       \hab_cert           -- Generated HAB signature related files
                       \hab_crypto         -- Generated HAB encryption related files
                       \log_file           -- Saved software operation log
+                      \sb_image           -- Generated .sb file
                       \user_file          -- Temporary files
                 \gui                  --Place NXP-MCUBootUtility development UI build project file
                 \img                  --Place the image to be loaded during the use of NXP-MCUBootUtility
@@ -143,7 +145,7 @@ define symbol m_data2_end              = 0x202BFFFF;
 　　After the target device is successfully connected, you can see some useful device status information in the target device status information bar, such as the UUID value of the MCU chip, the HAB status, the important Fuse value related to boot, and the Page/Sector/Block size of the Boot Device.  
 
 #### 3.3 Secure Encryption Boot
-　　After the target device is successfully connected, the core secure boot operation can be started. Before the secure boot operation is started, Let's see the secure boot main interface:  
+　　At first, you should make sure Tools/Generate .sb file option in menu bar is set as "No", after the target device is successfully connected, the core secure boot operation can be started. Before the secure boot operation is started, Let's see the secure boot main interface:  
 
 ![NXP-MCUBootUtility_secboot0_intro_e](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_0_0_secboot0_intro_e.png)
 
@@ -225,10 +227,17 @@ define symbol m_data2_end              = 0x202BFFFF;
 　　NXP-MCUBootUtility burns the user-defined Key into the Fuse SW_GP2/GP4 area for the dual-engine BEE encryption, but the Fuse content of the area can be read back. If the hacker gets the Key, it is still possible to crack Image ciphertext in the external Boot Device. Is there a way to protect the Fuse SW_GP2/GP4 area? Of course, you can lock the specified Fuse area, you can set the Fuse area access rights (read protection, write protection, coverage protection), as detailed in a separate chapter. The NXP-MCUBootUtility tool directly locks the SW_GP2/GP4 area for security reasons.  
 　　Compared with single-engine BEE encryption, dual-engine BEE encryption doubles the difficulty from the perspective of cracking. After all, two different keys can be enabled to jointly protect the image from being illegally obtained.  
 
+#### 3.4 Generate .sb file
+　　Set Tools/Generate .sb file option as "Yes" in menu bar, then click 【All-In-One Action】 button, A .sb file will be generated into \NXP-MCUBootUtility\gen\sb_image\ folder, this .sb file can be used for MfgTool or RT-Flash tool. Note that clicking 【All-In-One Action】 button will not really perform any boot command on MCU，it just record all boot commands in \NXP-MCUBootUtility\gen\bd_file\imx_application_sb_gen.bd file to generate final .sb file。  
+
+![NXP-MCUBootUtility_setGenerateSbFile](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_2_0_setGenerateSbFile.PNG)
+
+> Note: There is one limitation in generating .sb file，you need to reconnect device every time you want ro generate new .sb file，click 【Reset device】 button to move back to initial state，then click 【Connect to ROM】 button。  
+
 ### 4 Advanced Usage
 　　The NXP-MCUBootUtility is set to work in the Entry Mode by default. You can set it to Master Mode through the function menu bar Tools->Option. Some advanced functions are opened in the Master Mode, which is suitable for users who are very familiar with the NXP MCU chip and the Boot ROM.  
 
-![NXP-MCUBootUtility_setToolRunMode](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_0_0_setToolRunMode.PNG)
+![NXP-MCUBootUtility_setToolRunMode](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_2_0_setToolRunMode.PNG)
 
 #### 4.1 Step-by-step connection
 　　In the Master Mode, you can uncheck the One Step option, so you can connect to the target device step by step. The main meaning of the single-step connection is that you can connect to the Flashloader to implement the eFuse operation without configuring the Boot Device.  

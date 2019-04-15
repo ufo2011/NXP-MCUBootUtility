@@ -252,6 +252,7 @@ class secBootMain(memcore.secBootMem):
                 self._doAllInOneAction()
                 self.isAllInOneActionTaskPending = False
                 self._stopGaugeTimer()
+            time.sleep(1)
 
     def _doAllInOneAction( self ):
         allInOneSeqCnt = 1
@@ -676,6 +677,10 @@ class secBootMain(memcore.secBootMem):
         #exit(0)
         global g_main_win
         g_main_win.Show(False)
+        try:
+            self.Destroy()
+        except:
+            pass
 
     def callbackExit( self, event ):
         self._deinitToolToExit()
@@ -749,12 +754,16 @@ if __name__ == '__main__':
     g_main_win.Show()
 
     g_task_detectUsbhid = threading.Thread(target=g_main_win.task_doDetectUsbhid)
+    g_task_detectUsbhid.setDaemon(True)
     g_task_detectUsbhid.start()
     g_task_playSound = threading.Thread(target=g_main_win.task_doPlaySound)
+    g_task_playSound.setDaemon(True)
     g_task_playSound.start()
     g_task_allInOneAction = threading.Thread(target=g_main_win.task_doAllInOneAction)
+    g_task_allInOneAction.setDaemon(True)
     g_task_allInOneAction.start()
     g_task_increaseGauge = threading.Thread(target=g_main_win.task_doIncreaseGauge)
+    g_task_increaseGauge.setDaemon(True)
     g_task_increaseGauge.start()
 
     app.MainLoop()

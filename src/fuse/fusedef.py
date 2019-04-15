@@ -126,3 +126,5 @@ kEfuseEntryModeRegion3IndexEnd   = 0x2E
 kEfuseEntryModeRegion4IndexStart = 0x4C
 kEfuseEntryModeRegion4IndexEnd   = 0x4F
 
+##################################################
+kEfuseValue_Invalid = 0xdeadbeef

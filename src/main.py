@@ -38,14 +38,17 @@ class secBootMain(memcore.secBootMem):
         self.isBootableAppAllowedToView = False
         self.gaugeTimer = wx.Timer(self)
         self.Bind(wx.EVT_TIMER, self.increaseGauge, self.gaugeTimer)
+        self.lastTime = None
 
     def _startGaugeTimer( self ):
+        self.lastTime = time.time()
         self.initGauge()
         #self.gaugeTimer.Start(500) # ms
 
     def _stopGaugeTimer( self ):
         #self.gaugeTimer.Stop()
         self.deinitGauge()
+        self.updateCostTime()
 
     def callbackSetMcuSeries( self, event ):
         self.setTargetSetupValue()
@@ -236,6 +239,7 @@ class secBootMain(memcore.secBootMem):
         self._stopGaugeTimer()
 
     def callbackSetSecureBootType( self, event ):
+        self.setCostTime(0)
         self.setSecureBootSeqColor()
 
     def callbackAllInOneAction( self, event ):
@@ -370,6 +374,7 @@ class secBootMain(memcore.secBootMem):
 
     def callbackChangedAppFile( self, event ):
         self.getUserAppFilePath()
+        self.setCostTime(0)
         self.setSecureBootButtonColor()
 
     def callbackSetAppFormat( self, event ):

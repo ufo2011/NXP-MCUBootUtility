@@ -1717,14 +1717,24 @@ class secBootWin ( wx.Frame ):
 
 		wSizer_log.Add( bSizer_logAction, 1, wx.EXPAND, 5 )
 
-		bSizer_actionGauge = wx.BoxSizer( wx.VERTICAL )
+		wSizer_actionGauge = wx.WrapSizer( wx.HORIZONTAL, wx.WRAPSIZER_DEFAULT_FLAGS )
 
-		self.m_gauge_action = wx.Gauge( self.m_panel_log, wx.ID_ANY, 100, wx.DefaultPosition, wx.Size( 750,-1 ), wx.GA_HORIZONTAL )
+		self.m_staticText_costTime = wx.StaticText( self.m_panel_log, wx.ID_ANY, u" 00:00.000", wx.DefaultPosition, wx.Size( 55,-1 ), 0 )
+		self.m_staticText_costTime.Wrap( -1 )
+
+		wSizer_actionGauge.Add( self.m_staticText_costTime, 0, wx.ALL, 5 )
+
+		self.m_gauge_action = wx.Gauge( self.m_panel_log, wx.ID_ANY, 100, wx.DefaultPosition, wx.Size( 680,-1 ), wx.GA_HORIZONTAL )
 		self.m_gauge_action.SetValue( 100 )
-		bSizer_actionGauge.Add( self.m_gauge_action, 0, wx.ALL, 5 )
+		wSizer_actionGauge.Add( self.m_gauge_action, 0, wx.ALL, 5 )
+
+		self.m_staticText_null1ActionGauge = wx.StaticText( self.m_panel_log, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 750,1 ), 0 )
+		self.m_staticText_null1ActionGauge.Wrap( -1 )
+
+		wSizer_actionGauge.Add( self.m_staticText_null1ActionGauge, 0, wx.ALL, 5 )
 
 
-		wSizer_log.Add( bSizer_actionGauge, 1, wx.EXPAND, 5 )
+		wSizer_log.Add( wSizer_actionGauge, 1, wx.EXPAND, 5 )
 
 
 		self.m_panel_log.SetSizer( wSizer_log )

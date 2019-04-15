@@ -1096,6 +1096,8 @@ class secBootRun(gencore.secBootGen):
                     if status != boot.status.kStatus_Success:
                         return False
             if self.bootDevice == uidef.kBootDevice_FlexspiNor:
+                if not self._eraseFlexspiNorForConfigBlockLoading():
+                    return False
                 if not self._programFlexspiNorConfigBlock():
                     return False
             self.updateImgPictureAfterFlashDek()

@@ -819,7 +819,7 @@ class secBootUi(secBootWin.secBootWin):
     def clearSwGp2DekData( self ):
         self.m_textCtrl_swgp2Dek128bit.Clear()
 
-    def _convertLongIntHexText( self, hexText ):
+    def convertLongIntHexText( self, hexText ):
         lastStr = hexText[len(hexText) - 1]
         if lastStr == 'l' or lastStr == 'L':
             return hexText[0:len(hexText) - 1]

@@ -91,7 +91,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
             self.m_textCtrl_dummyCycles.Enable( False )
 
     def _recoverLastSettings ( self ):
-        self.m_choice_deviceMode.SetSelection(self.flexspiDeviceModel)
+        self.m_choice_deviceMode.SetSelection(self.m_choice_deviceMode.FindString(self.flexspiDeviceModel))
 
         deviceType = (self.flexspiNorOpt0 & 0x00F00000) >> 20
         self.m_choice_deviceType.SetSelection(deviceType)
@@ -285,19 +285,19 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         self.flexspiNorOpt1 = (self.flexspiNorOpt1 & 0xFFFFFF00) | (val << 0)
 
     def callbackUseTypicalDeviceModel( self, event ):
-        self.flexspiDeviceModel = self.m_choice_deviceMode.GetSelection()
-        txt = self.m_choice_deviceMode.GetString(self.flexspiDeviceModel)
-        if txt == 'ISSI - IS25LP064A':
+        txt = self.m_choice_deviceMode.GetString(self.m_choice_deviceMode.GetSelection())
+        self.flexspiDeviceModel = txt
+        if txt == 'ISSI_IS25LP064A':
             self.flexspiNorOpt0 = g_flexspiNorOpt0_ISSI_IS25LP064A
-        elif txt == 'MXIC - MX25UM51245G/MX66UM51245G/MX25LM51245G':
+        elif txt == 'MXIC_MX25UM51245G_MX66UM51245G_MX25LM51245G':
             self.flexspiNorOpt0 = g_flexspiNorOpt0_MXIC_MX25UM51245G
-        elif txt == 'MXIC - MX25UM51345G':
+        elif txt == 'MXIC_MX25UM51345G':
             self.flexspiNorOpt0 = g_flexspiNorOpt0_MXIC_MX25UM51345G
-        elif txt == 'Micron - MT35X':
+        elif txt == 'Micron_MT35X':
             self.flexspiNorOpt0 = g_flexspiNorOpt0_Micron_MT35X
-        elif txt == 'Adesto - ATXP032':
+        elif txt == 'Adesto_ATXP032':
             self.flexspiNorOpt0 = g_flexspiNorOpt0_Adesto_ATXP032
-        elif txt == 'Cypress - S26KS512SDPBHI020':
+        elif txt == 'Cypress_S26KS512SDPBHI020':
             self.flexspiNorOpt0 = g_flexspiNorOpt0_Cypress_S26KS512SDPBHI020
         else:
             pass

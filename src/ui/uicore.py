@@ -9,7 +9,6 @@ import time
 import math
 import serial.tools.list_ports
 import pywinusb.hid
-import threading
 import uidef
 import uivar
 import uilang
@@ -84,8 +83,6 @@ class secBootUi(secBootWin.secBootWin):
         self._initPortSetupValue()
 
         self.soundEffectFilenameForTask = None
-        self.periodicCommonTaskTimer = None
-        self.periodicCommonTask()
 
         self.isOneStepConnectMode = None
         self.initOneStepConnectMode()
@@ -187,14 +184,18 @@ class secBootUi(secBootWin.secBootWin):
         usbIdList = self.getUsbid()
         self.setPortSetupValue(uidef.kConnectStage_Rom, usbIdList)
 
-    def periodicCommonTask( self ):
-        if self.soundEffectFilenameForTask != None:
-            self._playSoundEffect(self.soundEffectFilenameForTask)
-            self.soundEffectFilenameForTask = None
-        if self.isUsbhidPortSelected:
-            self._retryToDetectUsbhidDevice(False)
-        self.periodicCommonTaskTimer = threading.Timer(1, self.periodicCommonTask)
-        self.periodicCommonTaskTimer.start()
+    def task_doDetectUsbhid( self ):
+        while True:
+            if self.isUsbhidPortSelected:
+                self._retryToDetectUsbhidDevice(False)
+            time.sleep(1)
+
+    def task_doPlaySound( self ):
+        while True:
+            if self.soundEffectFilenameForTask != None:
+                self._playSoundEffect(self.soundEffectFilenameForTask)
+                self.soundEffectFilenameForTask = None
+            time.sleep(1)
 
     def _retryToDetectUsbhidDevice( self, needToRetry = True ):
         usbVid = [None]

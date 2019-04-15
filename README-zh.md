@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.1.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.1.0...master) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.2.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.2.0...master) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 [English](./README.md) | 中文
 
@@ -14,6 +14,7 @@
 > * 支持五种常用格式(elf/axf/srec/hex/bin)源image文件输入并检查其链接地址的合法性  
 > * 源image文件既可以是裸源image文件，也可以是含启动文件头的bootable image文件  
 > * 支持将裸源image文件自动转换成i.MXRT能启动的Bootable image  
+> * 支持将裸源image文件自动转换成MfgTool和RT-Flash工具能下载的.sb格式文件  
 > * 支持下载Bootable image进主动启动设备 - FlexSPI NOR、SEMC NAND接口Flash  
 > * 支持下载Bootable image进备份启动设备 - LPSPI接口NOR/EEPROM Flash  
 > * 支持DCD配置功能，可用于加载image进SDRAM执行  
@@ -61,6 +62,7 @@
                       \hab_cert           --HAB签名过程中生成的文件
                       \hab_crypto         --HAB加密过程中生成的文件
                       \log_file           --保存软件操作记录日志
+                      \sb_image           --生成的.sb格式文件
                       \user_file          --软件运行过程中缓存的临时文件
                 \gui                  --放置开发NXP-MCUBootUtility UI构建工程文件
                 \img                  --放置NXP-MCUBootUtility使用过程中需加载的图片
@@ -143,7 +145,7 @@ define symbol m_data2_end              = 0x202BFFFF;
 　　目标设备连接成功后可以在目标设备状态信息栏看到一些有用的设备状态信息，比如MCU芯片的UUID值、HAB状态、与启动相关的重要Fuse值，Boot Device的Page/Sector/Block大小等。  
 
 #### 3.3 安全加密启动
-　　目标设备连接成功后便可以开始最核心的安全加密启动操作，在做安全加密启动之前先来介绍安全加密启动主界面分布：  
+　　确保菜单栏Tools/Generate .sb file选项勾选的是"No"，目标设备连接成功后便可以开始最核心的安全加密启动操作，在做安全加密启动之前先来介绍安全加密启动主界面分布：  
 
 ![NXP-MCUBootUtility_secboot0_intro_e](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_0_0_secboot0_intro_e.png)
 
@@ -225,10 +227,17 @@ define symbol m_data2_end              = 0x202BFFFF;
 　　双引擎BEE加密是将用户自定义的Key烧录进了Fuse SW_GP2/GP4区域里，但该区域的Fuse内容是可以回读的，如果黑客拿到Key，还是有可能破解存在外部Boot Device里的image密文，有没有对Fuse SW_GP2/GP4区域进行保护的方法？当然有，你可以对指定的Fuse区域进行加锁，可设置Fuse区域访问权限（读保护，写保护，覆盖保护），具体后面有单独章节详细介绍。NXP-MCUBootUtility工具为了安全考虑，直接将SW_GP2/GP4区域锁了起来。  
 　　双引擎BEE加密相比单引擎BEE加密，从破解角度来说难度加倍，毕竟可以启用两组不同的Key来共同保护image不被非法获取。  
 
+#### 3.4 生成.sb格式文件
+　　在菜单栏Tools/Generate .sb file选项里勾选"Yes"，此时点击【All-In-One Action】按钮便会在\NXP-MCUBootUtility\gen\sb_image\目录下生成.sb格式的文件，该文件可用于MfgTool或者RT-Flash工具中。注意此时【All-In-One Action】按钮并不会在MCU上真正地执行3.3节里的各种操作，而只是将所有命令操作记录在\NXP-MCUBootUtility\gen\bd_file\imx_application_sb_gen.bd里，最终用于生成.sb格式文件。  
+
+![NXP-MCUBootUtility_setGenerateSbFile](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_2_0_setGenerateSbFile.PNG)
+
+> Note: .sb格式文件生成有一个限制，即每次生成新.sb文件均需要重新连接，点击【Reset device】按钮后回到初始连接状态，然后点击【Connect to ROM】按钮。  
+
 ### 4 软件进阶
 　　NXP-MCUBootUtility软件打开默认工作在Entry Mode下，可通过功能菜单栏Tools->Option选择进入Master Mode，在Master模式下开放了一些高级功能，适用于对NXP MCU芯片以及Boot ROM非常熟悉的用户。  
 
-![NXP-MCUBootUtility_setToolRunMode](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_0_0_setToolRunMode.PNG)
+![NXP-MCUBootUtility_setToolRunMode](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_2_0_setToolRunMode.PNG)
 
 #### 4.1 分步连接设备
 　　进入Master模式下，可以不勾选One Step选项，这样可以单步去连接目标设备，单步连接的主要意义在于，可以在不配置Boot Device的情况下仅连接到Flashloader去实现eFuse操作。  

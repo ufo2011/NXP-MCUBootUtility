@@ -311,15 +311,25 @@ kRevision_1_1_0_zh = u"【v1.1.0】 \n" + \
                      u"  个性: \n" + \
                      u"     1. 增加马里奥音效 \n\n"
 kRevision_1_2_0_en =  "【v1.2.0】 \n" + \
+                      "  Feature: \n" + \
+                      "     1. Can generate .sb file for MfgTool and RT-Flash \n" + \
+                      "     2. Can show cost time along with gauge \n" + \
                       "  Improvement: \n" + \
                       "     1. Non-XIP image can also be supported for BEE Encryption case \n" + \
+                      "     2. Display guage in real time \n" + \
                       "  Bug: \n" + \
-                      "     1. Region count cannot be set more than 1 for Fixed OTPMK Key case \n\n"
+                      "     1. Region count cannot be set more than 1 for Fixed OTPMK Key case \n" + \
+                      "     2. Option1 field is not implemented for FlexSPI NOR configuration \n\n"
 kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
+                     u"  特性: \n" + \
+                     u"     1. 支持生成.sb格式的应用程序，可用于MfgTool和RT-Flash \n" + \
+                     u"     2. 可以实时显示操作消耗的时间，随着进度条同步更新 \n" + \
                      u"  改进: \n" + \
                      u"     1. BEE加密模式下也能支持Non-XIP应用程序 \n" + \
+                     u"     2. 进度条可以实时更新，更新速度由快到慢 \n" + \
                      u"  缺陷: \n" + \
-                     u"     1. 使用Fixed OTPMK Key的BEE加密模式下，加密区域不能被设超过1 \n\n"
+                     u"     1. 使用Fixed OTPMK Key的BEE加密模式下，加密区域不能被设超过1 \n" + \
+                     u"     2. FlexSPI NOR启动设备配置界面，Option1不能被有效设置 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

@@ -23,6 +23,7 @@ kRetryDetectTimes = 5
 s_isGaugeWorking = False
 s_curGauge = 0
 s_maxGauge = 0
+s_gaugeIntervalSec = 1
 
 class secBootUi(secBootWin.secBootWin):
 
@@ -735,23 +736,33 @@ class secBootUi(secBootWin.secBootWin):
         msgText = (('Log is saved in file: ' + self.logFilename + ' \n').encode('utf-8'))
         wx.MessageBox(msgText, "Log Info", wx.OK | wx.ICON_INFORMATION)
 
-    def increaseGauge( self, evt ):
+    def task_doIncreaseGauge( self ):
+        while True:
+            self._increaseGauge()
+            global s_gaugeIntervalSec
+            time.sleep(s_gaugeIntervalSec)
+
+    def _increaseGauge( self ):
         global s_isGaugeWorking
         global s_curGauge
         global s_maxGauge
+        global s_gaugeIntervalSec
         if s_isGaugeWorking:
-            if s_curGauge < (s_maxGauge - 10):
+            gaugePercentage = s_curGauge * 1.0 / s_maxGauge
+            if gaugePercentage <= 0.9:
+                s_gaugeIntervalSec = int(gaugePercentage  / 0.1) * 0.5 + 0.5
                 self.m_gauge_action.SetValue(s_curGauge)
                 s_curGauge += 1
-                #wx.CallLater(100, self.increaseGauge)
             self.updateCostTime()
 
     def initGauge( self ):
         global s_isGaugeWorking
         global s_curGauge
         global s_maxGauge
+        global s_gaugeIntervalSec
         s_isGaugeWorking = True
-        s_curGauge = 30
+        s_curGauge = 0
+        s_gaugeIntervalSec = 0.5
         s_maxGauge = self.m_gauge_action.GetRange()
         self.m_gauge_action.SetValue(s_curGauge)
 
@@ -759,8 +770,10 @@ class secBootUi(secBootWin.secBootWin):
         global s_isGaugeWorking
         global s_curGauge
         global s_maxGauge
+        global s_gaugeIntervalSec
         s_isGaugeWorking = False
         s_curGauge = s_maxGauge
+        s_gaugeIntervalSec = 1
         self.m_gauge_action.SetValue(s_maxGauge)
 
     def printDeviceStatus( self, statusStr ):

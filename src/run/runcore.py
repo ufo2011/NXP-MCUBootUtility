@@ -157,7 +157,7 @@ class secBootRun(gencore.secBootGen):
         if (status == boot.status.kSDP_Status_HabEnabled or status == boot.status.kSDP_Status_HabDisabled):
             regVal = self.getVal32FromBinFile(filepath)
             if needToShow:
-                self.printDeviceStatus(regName + " = " + self._convertLongIntHexText(str(hex(regVal))))
+                self.printDeviceStatus(regName + " = " + self.convertLongIntHexText(str(hex(regVal))))
             return regVal
         else:
             if needToShow:
@@ -225,7 +225,7 @@ class secBootRun(gencore.secBootGen):
         self.printLog(cmdStr)
         if (status == boot.status.kStatus_Success):
             if needToShow:
-                self.printDeviceStatus(fuseName + " = " + self._convertLongIntHexText(str(hex(results[1]))))
+                self.printDeviceStatus(fuseName + " = " + self.convertLongIntHexText(str(hex(results[1]))))
             return results[1]
         else:
             if needToShow:
@@ -340,10 +340,10 @@ class secBootRun(gencore.secBootGen):
             pagesInBlock = self.getVal32FromBinFile(filepath, rundef.kSemcNandFcbOffset_PagesInBlock)
             blocksInPlane = self.getVal32FromBinFile(filepath, rundef.kSemcNandFcbOffset_BlocksInPlane)
             planesInDevice = self.getVal32FromBinFile(filepath, rundef.kSemcNandFcbOffset_PlanesInDevice)
-            self.printDeviceStatus("Page Size (bytes) = " + self._convertLongIntHexText(str(hex(pageByteSize))))
-            self.printDeviceStatus("Pages In Block    = " + self._convertLongIntHexText(str(hex(pagesInBlock))))
-            self.printDeviceStatus("Blocks In Plane   = " + self._convertLongIntHexText(str(hex(blocksInPlane))))
-            self.printDeviceStatus("Planes In Device  = " + self._convertLongIntHexText(str(hex(planesInDevice))))
+            self.printDeviceStatus("Page Size (bytes) = " + self.convertLongIntHexText(str(hex(pageByteSize))))
+            self.printDeviceStatus("Pages In Block    = " + self.convertLongIntHexText(str(hex(pagesInBlock))))
+            self.printDeviceStatus("Blocks In Plane   = " + self.convertLongIntHexText(str(hex(blocksInPlane))))
+            self.printDeviceStatus("Planes In Device  = " + self.convertLongIntHexText(str(hex(planesInDevice))))
             self.semcNandImageCopies = firmwareCopies
             self.semcNandBlockSize = pageByteSize * pagesInBlock
             self.comMemWriteUnit = pageByteSize
@@ -373,9 +373,9 @@ class secBootRun(gencore.secBootGen):
             pageByteSize = self.getVal32FromBinFile(filepath, rundef.kFlexspiNorCfgOffset_PageByteSize)
             sectorByteSize = self.getVal32FromBinFile(filepath, rundef.kFlexspiNorCfgOffset_SectorByteSize)
             blockByteSize = self.getVal32FromBinFile(filepath, rundef.kFlexspiNorCfgOffset_BlockByteSize)
-            self.printDeviceStatus("Page Size (bytes)   = " + self._convertLongIntHexText(str(hex(pageByteSize))))
-            self.printDeviceStatus("Sector Size (bytes) = " + self._convertLongIntHexText(str(hex(sectorByteSize))))
-            self.printDeviceStatus("Block Size (bytes)  = " + self._convertLongIntHexText(str(hex(blockByteSize))))
+            self.printDeviceStatus("Page Size (bytes)   = " + self.convertLongIntHexText(str(hex(pageByteSize))))
+            self.printDeviceStatus("Sector Size (bytes) = " + self.convertLongIntHexText(str(hex(sectorByteSize))))
+            self.printDeviceStatus("Block Size (bytes)  = " + self.convertLongIntHexText(str(hex(blockByteSize))))
             self.comMemWriteUnit = pageByteSize
             self.comMemEraseUnit = sectorByteSize
             self.comMemReadUnit = pageByteSize
@@ -410,9 +410,9 @@ class secBootRun(gencore.secBootGen):
             totalByteSize = int(math.pow(2, val + 19))
         else:
             totalByteSize = int(math.pow(2, val + 3))
-        self.printDeviceStatus("Page Size (bytes)   = " + self._convertLongIntHexText(str(hex(pageByteSize))))
-        self.printDeviceStatus("Sector Size (bytes) = " + self._convertLongIntHexText(str(hex(sectorByteSize))))
-        self.printDeviceStatus("Total Size (bytes)  = " + self._convertLongIntHexText(str(hex(totalByteSize))))
+        self.printDeviceStatus("Page Size (bytes)   = " + self.convertLongIntHexText(str(hex(pageByteSize))))
+        self.printDeviceStatus("Sector Size (bytes) = " + self.convertLongIntHexText(str(hex(sectorByteSize))))
+        self.printDeviceStatus("Total Size (bytes)  = " + self.convertLongIntHexText(str(hex(totalByteSize))))
         self.comMemWriteUnit = pageByteSize
         self.comMemEraseUnit = sectorByteSize
         self.comMemReadUnit = pageByteSize
@@ -446,12 +446,19 @@ class secBootRun(gencore.secBootGen):
         if True:
             # 0xf000000f is the tag to notify Flashloader to program FlexSPI NOR config block to the start of device
             status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCfgBlock, 0x4, rundef.kFlexspiNorCfgInfo_Notify)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    load " + self.convertLongIntHexText(str(hex(rundef.kFlexspiNorCfgInfo_Notify))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCfgBlock))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
             status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCfgBlock)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    enable flexspinor " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCfgBlock))) + ";\n"
             self.printLog(cmdStr)
-            return (status == boot.status.kStatus_Success)
+            if self.isSbFileEnabledToGen:
+                return True
+            else:
+                return (status == boot.status.kStatus_Success)
         else:
             status, results, cmdStr = self.blhost.writeMemory(self.bootDeviceMemBase, os.path.join(self.cpuDir, 'sip_flash_config.bin'), self.bootDeviceMemId)
             self.printLog(cmdStr)
@@ -462,50 +469,70 @@ class secBootRun(gencore.secBootGen):
         if self.bootDevice == uidef.kBootDevice_SemcNand:
             semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(self.bootDevice)
             status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, semcNandOpt)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    load " + self.convertLongIntHexText(str(hex(semcNandOpt))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
             status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, semcNandFcbOpt)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    load " + self.convertLongIntHexText(str(hex(semcNandFcbOpt))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
             for i in range(len(semcNandImageInfoList)):
                 if semcNandImageInfoList[i] != None:
                     status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 8 + i * 4, 0x4, semcNandImageInfoList[i])
+                    if self.isSbFileEnabledToGen:
+                        self.sbAppBdContent += "    load " + self.convertLongIntHexText(str(hex(semcNandImageInfoList[i]))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 8 + i * 4))) + ";\n"
                     self.printLog(cmdStr)
                     if status != boot.status.kStatus_Success:
                         return False
                 else:
                     break
             status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    enable semcnand " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
         elif self.bootDevice == uidef.kBootDevice_FlexspiNor:
             flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(self.bootDevice)
             status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, flexspiNorOpt0)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    load " + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
             status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, flexspiNorOpt1)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    load " + self.convertLongIntHexText(str(hex(flexspiNorOpt1))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
             status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    enable flexspinor " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
             lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
             status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, lpspiNorOpt0)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    load " + self.convertLongIntHexText(str(hex(lpspiNorOpt0))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
             status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, lpspiNorOpt1)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    load " + self.convertLongIntHexText(str(hex(lpspiNorOpt1))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
             status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    enable spieeprom " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n"
             self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
@@ -524,10 +551,13 @@ class secBootRun(gencore.secBootGen):
     def _eraseFlexspiNorForImageLoading( self ):
         imageLen = os.path.getsize(self.destAppFilename)
         memEraseLen = misc.align_up(imageLen, self.comMemEraseUnit)
-        status, results, cmdStr = self.blhost.flashEraseRegion(self.tgt.flexspiNorMemBase, memEraseLen, rundef.kBootDeviceMemId_FlexspiNor)
-        self.printLog(cmdStr)
-        if status != boot.status.kStatus_Success:
-            return False
+        if self.isSbFileEnabledToGen:
+            self.sbAppBdContent += "    erase " + self.convertLongIntHexText(str(hex(self.tgt.flexspiNorMemBase))) + ".." + self.convertLongIntHexText(str(hex(self.tgt.flexspiNorMemBase + memEraseLen))) + ";\n"
+        else:
+            status, results, cmdStr = self.blhost.flashEraseRegion(self.tgt.flexspiNorMemBase, memEraseLen, rundef.kBootDeviceMemId_FlexspiNor)
+            self.printLog(cmdStr)
+            if status != boot.status.kStatus_Success:
+                return False
         self.isFlexspiNorErasedForImage = True
         return True
 
@@ -752,14 +782,18 @@ class secBootRun(gencore.secBootGen):
             memEraseLen = misc.align_up(imageLen, self.comMemEraseUnit)
             for i in range(self.semcNandImageCopies):
                 imageLoadAddr = self.bootDeviceMemBase + (semcNandImageInfoList[i] >> 16) * self.semcNandBlockSize
-                status, results, cmdStr = self.blhost.flashEraseRegion(imageLoadAddr, memEraseLen, self.bootDeviceMemId)
-                self.printLog(cmdStr)
-                if status != boot.status.kStatus_Success:
-                    return False
-                status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destAppFilename, self.bootDeviceMemId)
-                self.printLog(cmdStr)
-                if status != boot.status.kStatus_Success:
-                    return False
+                if self.isSbFileEnabledToGen:
+                    self.sbAppBdContent += "    erase semcnand " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ".." + self.convertLongIntHexText(str(hex(imageLoadAddr + memEraseLen))) + ";\n"
+                    self.sbAppBdContent += "    load semcnand myBinFile > " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ";\n"
+                else:
+                    status, results, cmdStr = self.blhost.flashEraseRegion(imageLoadAddr, memEraseLen, self.bootDeviceMemId)
+                    self.printLog(cmdStr)
+                    if status != boot.status.kStatus_Success:
+                        return False
+                    status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destAppFilename, self.bootDeviceMemId)
+                    self.printLog(cmdStr)
+                    if status != boot.status.kStatus_Success:
+                        return False
         elif self.bootDevice == uidef.kBootDevice_FlexspiNor:
             if not self.isFlexspiNorErasedForImage:
                 if not self._eraseFlexspiNorForImageLoading():
@@ -773,26 +807,38 @@ class secBootRun(gencore.secBootGen):
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.keyStorageRegion == uidef.kKeyStorageRegion_FlexibleUserKeys:
                 self._genDestEncAppFileWithoutCfgBlock()
                 imageLoadAddr = self.bootDeviceMemBase + rundef.kFlexspiNorCfgInfo_Length
-                status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destEncAppNoCfgBlockFilename, self.bootDeviceMemId)
-                self.printLog(cmdStr)
+                if self.isSbFileEnabledToGen:
+                    self.sbAppBdContent += "    load myBinFile > " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ";\n"
+                    status = boot.status.kStatus_Success
+                else:
+                    status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destEncAppNoCfgBlockFilename, self.bootDeviceMemId)
+                    self.printLog(cmdStr)
             else:
                 imageLoadAddr = self.bootDeviceMemBase + gendef.kIvtOffset_NOR
-                status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destAppNoPaddingFilename, self.bootDeviceMemId)
-                self.printLog(cmdStr)
+                if self.isSbFileEnabledToGen:
+                    self.sbAppBdContent += "    load myBinFile > " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ";\n"
+                    status = boot.status.kStatus_Success
+                else:
+                    status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destAppNoPaddingFilename, self.bootDeviceMemId)
+                    self.printLog(cmdStr)
             self.isFlexspiNorErasedForImage = False
             if status != boot.status.kStatus_Success:
                 return False
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
             memEraseLen = misc.align_up(imageLen, self.comMemEraseUnit)
             imageLoadAddr = self.bootDeviceMemBase
-            status, results, cmdStr = self.blhost.flashEraseRegion(imageLoadAddr, memEraseLen, self.bootDeviceMemId)
-            self.printLog(cmdStr)
-            if status != boot.status.kStatus_Success:
-                return False
-            status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destAppFilename, self.bootDeviceMemId)
-            self.printLog(cmdStr)
-            if status != boot.status.kStatus_Success:
-                return False
+            if self.isSbFileEnabledToGen:
+                self.sbAppBdContent += "    erase spieeprom " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ".." + self.convertLongIntHexText(str(hex(imageLoadAddr + memEraseLen))) + ";\n"
+                self.sbAppBdContent += "    load spieeprom myBinFile > " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ";\n"
+            else:
+                status, results, cmdStr = self.blhost.flashEraseRegion(imageLoadAddr, memEraseLen, self.bootDeviceMemId)
+                self.printLog(cmdStr)
+                if status != boot.status.kStatus_Success:
+                    return False
+                status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destAppFilename, self.bootDeviceMemId)
+                self.printLog(cmdStr)
+                if status != boot.status.kStatus_Success:
+                    return False
         else:
             pass
         if self.isConvertedAppUsed:
@@ -841,10 +887,13 @@ class secBootRun(gencore.secBootGen):
                     self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_miscConf1HasBeenBurned'][self.languageIndex])
                     return False
                 else:
-                    burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseLocation_SemcNandCfg, getSemcNandCfg)
-                    if not burnResult:
-                        self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnMiscConf1'][self.languageIndex])
-                        return False
+                    if self.isSbFileEnabledToGen:
+                        self.sbAppBdContent += "    load fuse " + self.getFormattedFuseValue(getSemcNandCfg) + " > " + self.convertLongIntHexText(str(hex(fusedef.kEfuseLocation_SemcNandCfg))) + ";\n"
+                    else:
+                        burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseLocation_SemcNandCfg, getSemcNandCfg)
+                        if not burnResult:
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnMiscConf1'][self.languageIndex])
+                            return False
         elif self.bootDevice == uidef.kBootDevice_FlexspiNor:
             pass
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
@@ -878,10 +927,13 @@ class secBootRun(gencore.secBootGen):
                     self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_miscConf0HasBeenBurned'][self.languageIndex])
                     return False
                 else:
-                    burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseLocation_LpspiCfg, getLpspiCfg)
-                    if not burnResult:
-                        self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnMiscConf0'][self.languageIndex])
-                        return False
+                    if self.isSbFileEnabledToGen:
+                        self.sbAppBdContent += "    load fuse " + self.getFormattedFuseValue(getLpspiCfg) + " > " + self.convertLongIntHexText(str(hex(fusedef.kEfuseLocation_LpspiCfg))) + ";\n"
+                    else:
+                        burnResult = self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseLocation_LpspiCfg, getLpspiCfg)
+                        if not burnResult:
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnMiscConf0'][self.languageIndex])
+                            return False
         else:
             pass
         return True

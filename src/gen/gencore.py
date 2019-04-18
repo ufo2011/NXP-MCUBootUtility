@@ -314,6 +314,22 @@ class secBootGen(uicore.secBootUi):
             appType = gendef.kAppImageFileExtensionList_Elf[0]
             return appFilename, appType
 
+    def _getSrecDataWithoutS6Frame( self, srecData ):
+        s6FrameStartLoc = srecData.find('S6')
+        if s6FrameStartLoc != -1:
+            newSrecData = srecData[0:s6FrameStartLoc]
+            s6FrameEndLoc = srecData.find('\n', s6FrameStartLoc)
+            if s6FrameEndLoc != -1:
+                if len(srecData) > s6FrameEndLoc:
+                    newSrecData += srecData[s6FrameEndLoc + 1:len(srecData)]
+                else:
+                    newSrecData += '\n'
+            else:
+                newSrecData += '\n'
+            return newSrecData
+        else:
+            return srecData
+
     def _convertHexOrBinToSrec( self, appFilename, destSrecAppFilename, appType):
         status = True
         fmtObj = None
@@ -329,7 +345,11 @@ class secBootGen(uicore.secBootUi):
         if status:
             self.srcAppFilename = destSrecAppFilename
             with open(self.srcAppFilename, 'wb') as fileObj:
-                fileObj.write(fmtObj.as_srec())
+                # Prototype: as_srec(number_of_data_bytes=32, address_length_bits=32)
+                #    Format the binary file as Motorola S-Records records and return them as a string.
+                #    number_of_data_bytes is the number of data bytes in each record.
+                #    address_length_bits is the number of address bits in each record.
+                fileObj.write(self._getSrecDataWithoutS6Frame(fmtObj.as_srec(16, 32)))
                 fileObj.close()
             appFilename = self.srcAppFilename
             appType = gendef.kAppImageFileExtensionList_S19[0]
@@ -401,7 +421,7 @@ class secBootGen(uicore.secBootUi):
         fmtObj.add_binary(imageDataBytes, ivtEntry)
         self.srcAppFilename = os.path.join(self.userFileFolder, appName + '_extracted' + gendef.kAppImageFileExtensionList_S19[0])
         with open(self.srcAppFilename, 'wb') as fileObj:
-            fileObj.write(fmtObj.as_srec())
+            fileObj.write(self._getSrecDataWithoutS6Frame(fmtObj.as_srec(16, 32)))
             fileObj.close()
         self.isConvertedAppUsed = True
         return ivtEntry, imageEntryPoint, len(imageDataBytes)

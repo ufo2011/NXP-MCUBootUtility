@@ -333,6 +333,14 @@ kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
                      u"  缺陷: \n" + \
                      u"     1. 使用Fixed OTPMK Key的BEE加密模式下，加密区域不能被设超过1 \n" + \
                      u"     2. FlexSPI NOR启动设备配置界面，Option1不能被有效设置 \n\n"
+kRevision_1_2_1_en =  "【v1.2.1】 \n" + \
+                      "  Bug: \n" + \
+                      "     1. Cannot generate bootable image when original image (hex/bin) size is larger than 64KB \n" + \
+                      "     2. There is language switch issue with some dynamic labels \n\n"
+kRevision_1_2_1_zh = u"【v1.2.1】 \n" + \
+                     u"  缺陷: \n" + \
+                     u"     1. 当输入的源image文件格式为hex或者bin且其大小超过64KB时，生成可启动程序会失败 \n" + \
+                     u"     2. 当切换显示语言时，有一些控件标签(如Connect按钮)不能实时更新 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
@@ -348,6 +356,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v1_0_0':             [kRevision_1_0_0_en,                      kRevision_1_0_0_zh],
         'revisionHistory_v1_1_0':             [kRevision_1_1_0_en,                      kRevision_1_1_0_zh],
         'revisionHistory_v1_2_0':             [kRevision_1_2_0_en,                      kRevision_1_2_0_zh],
+        'revisionHistory_v1_2_1':             [kRevision_1_2_1_en,                      kRevision_1_2_1_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

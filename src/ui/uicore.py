@@ -44,6 +44,9 @@ class secBootUi(secBootWin.secBootWin):
         self.logFolder = os.path.join(self.exeTopRoot, 'gen', 'log_file')
         self.logFilename = os.path.join(self.exeTopRoot, 'gen', 'log_file', 'log.txt')
 
+        self.connectStatusColor = None
+        self.hasDynamicLableBeenInit = False
+
         self.languageIndex = 0
         self._initLanguage()
         self.setLanguage()
@@ -248,6 +251,7 @@ class secBootUi(secBootWin.secBootWin):
             self.m_choice_baudPid.SetSelection(0)
 
     def adjustPortSetupValue( self, connectStage=uidef.kConnectStage_Rom, usbIdList=[] ):
+        self.hasDynamicLableBeenInit = True
         self.isUartPortSelected = self.m_radioBtn_uart.GetValue()
         self.isUsbhidPortSelected = self.m_radioBtn_usbhid.GetValue()
         if self.isUartPortSelected:
@@ -331,6 +335,7 @@ class secBootUi(secBootWin.secBootWin):
         return status
 
     def updateConnectStatus( self, color='black' ):
+        self.connectStatusColor = color
         if color == 'black':
             self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_black'][self.languageIndex])
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_black.png", wx.BITMAP_TYPE_ANY ))
@@ -566,6 +571,7 @@ class secBootUi(secBootWin.secBootWin):
             self.m_notebook_imageSeq.SetSelection(pageIndex)
 
     def setSecureBootSeqColor( self , needToPlaySound=True ):
+        self.hasDynamicLableBeenInit = True
         self.showPageInMainBootSeqWin(uidef.kPageIndex_ImageGenerationSequence)
         self.secureBootType = self.m_choice_secureBootType.GetString(self.m_choice_secureBootType.GetSelection())
         self.toolCommDict['secBootType'] = self.m_choice_secureBootType.GetSelection()
@@ -1321,7 +1327,18 @@ class secBootUi(secBootWin.secBootWin):
         self.m_notebook_portSetup.SetPageText(0, uilang.kMainLanguageContentDict['panel_portSetup'][langIndex])
         self.m_radioBtn_uart.SetLabel(uilang.kMainLanguageContentDict['radioBtn_uart'][langIndex])
         self.m_radioBtn_usbhid.SetLabel(uilang.kMainLanguageContentDict['radioBtn_usbhid'][langIndex])
+        if self.hasDynamicLableBeenInit:
+            if self.isUartPortSelected:
+                self.m_staticText_portVid.SetLabel(uilang.kMainLanguageContentDict['sText_comPort'][langIndex])
+                self.m_staticText_baudPid.SetLabel(uilang.kMainLanguageContentDict['sText_baudrate'][langIndex])
+            elif self.isUsbhidPortSelected:
+                self.m_staticText_portVid.SetLabel(uilang.kMainLanguageContentDict['sText_vid'][langIndex])
+                self.m_staticText_baudPid.SetLabel(uilang.kMainLanguageContentDict['sText_pid'][langIndex])
+            else:
+                pass
         self.m_checkBox_oneStepConnect.SetLabel(uilang.kMainLanguageContentDict['checkBox_oneStepConnect'][langIndex])
+        if self.connectStatusColor != None:
+            self.updateConnectStatus(self.connectStatusColor)
 
         self.m_notebook_deviceStatus.SetPageText(0, uilang.kMainLanguageContentDict['panel_deviceStatus'][langIndex])
 
@@ -1349,6 +1366,15 @@ class secBootUi(secBootWin.secBootWin):
         self.m_staticText_beeKeyInfo.SetLabel(uilang.kMainLanguageContentDict['sText_beeKeyInfo'][langIndex])
         self.m_staticText_showImage.SetLabel(uilang.kMainLanguageContentDict['sText_showImage'][langIndex])
         self.m_staticText_habDek128bit.SetLabel(uilang.kMainLanguageContentDict['sText_habDek128bit'][langIndex])
+
+        if self.hasDynamicLableBeenInit:
+            self.setSecureBootSeqColor(False)
+            if self.keyStorageRegion == uidef.kKeyStorageRegion_FixedOtpmkKey:
+                self.m_button_prepBee.SetLabel(uilang.kMainLanguageContentDict['button_prepBee_p'][self.languageIndex])
+            elif self.keyStorageRegion == uidef.kKeyStorageRegion_FlexibleUserKeys:
+                self.m_button_prepBee.SetLabel(uilang.kMainLanguageContentDict['button_prepBee_e'][self.languageIndex])
+            else:
+                pass
 
         self.m_notebook_imageSeq.SetPageText(uilang.kPanelIndex_fuseUtil, uilang.kMainLanguageContentDict['panel_fuseUtil'][langIndex])
         self.m_button_scan.SetLabel(uilang.kMainLanguageContentDict['button_scan'][langIndex])

@@ -67,6 +67,10 @@ class secBootUi(secBootWin.secBootWin):
         self._initGenSbFile()
         self.setGenSbFile()
 
+        self.isAutomaticImageReadback = None
+        self._initImageReadback()
+        self.setImageReadback()
+
         self.updateConnectStatus()
 
         self.mcuSeries = None
@@ -150,6 +154,18 @@ class secBootUi(secBootWin.secBootWin):
     def setGenSbFile( self ):
         self.isSbFileEnabledToGen = self.m_menuItem_genSbFileYes.IsChecked()
         self.toolCommDict['isSbFileEnabledToGen'] = self.isSbFileEnabledToGen
+
+    def _initImageReadback( self ):
+        if self.toolCommDict['isAutomaticImageReadback']:
+            self.m_menuItem_imageReadbackAutomatic.Check(True)
+            self.m_menuItem_imageReadbackManual.Check(False)
+        else:
+            self.m_menuItem_imageReadbackAutomatic.Check(False)
+            self.m_menuItem_imageReadbackManual.Check(True)
+
+    def setImageReadback( self ):
+        self.isAutomaticImageReadback = self.m_menuItem_imageReadbackAutomatic.IsChecked()
+        self.toolCommDict['isAutomaticImageReadback'] = self.isAutomaticImageReadback
 
     def _initTargetSetupValue( self ):
         self.m_choice_mcuSeries.Clear()
@@ -1310,6 +1326,9 @@ class secBootUi(secBootWin.secBootWin):
         self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_genSbFile'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_genSbFile'][langIndex])
         self.m_menuItem_genSbFileYes.SetItemLabel(uilang.kMainLanguageContentDict['mItem_genSbFileYes'][langIndex])
         self.m_menuItem_genSbFileNo.SetItemLabel(uilang.kMainLanguageContentDict['mItem_genSbFileNo'][langIndex])
+        self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_imageReadback'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_imageReadback'][langIndex])
+        self.m_menuItem_imageReadbackAutomatic.SetItemLabel(uilang.kMainLanguageContentDict['mItem_imageReadbackAutomatic'][langIndex])
+        self.m_menuItem_imageReadbackManual.SetItemLabel(uilang.kMainLanguageContentDict['mItem_imageReadbackManual'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Window, uilang.kMainLanguageContentDict['menu_window'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Help, uilang.kMainLanguageContentDict['menu_help'][langIndex])
         self.m_menuItem_homePage.SetItemLabel(uilang.kMainLanguageContentDict['mItem_homePage'][langIndex])

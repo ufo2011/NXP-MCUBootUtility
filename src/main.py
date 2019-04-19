@@ -304,7 +304,7 @@ class secBootMain(memcore.secBootMem):
         if self.isSbFileEnabledToGen:
             status = self.genSbImage()
         else:
-            if status:
+            if status and self.isAutomaticImageReadback:
                 self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)
                 self._doViewMem()
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_AllInOne, status)
@@ -718,6 +718,12 @@ class secBootMain(memcore.secBootMem):
 
     def callbackSetGenSbFileAsNo( self, event ):
         self.setGenSbFile()
+
+    def callbackSetImageReadbackAsAutomatic( self, event ):
+        self.setImageReadback()
+
+    def callbackSetImageReadbackAsManual( self, event ):
+        self.setImageReadback()
 
     def callbackSetLanguageAsEnglish( self, event ):
         self.setLanguage()

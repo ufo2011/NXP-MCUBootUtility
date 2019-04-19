@@ -39,6 +39,9 @@ kMainLanguageContentDict = {
         'subMenu_genSbFile':                  ['Generate .sb file',                     u"生成.sb文件"],
         'mItem_genSbFileYes':                 ['Yes',                                   u"是"],
         'mItem_genSbFileNo':                  ['No',                                    u"否"],
+        'subMenu_imageReadback':              ['Image Readback',                        u"程序回读"],
+        'mItem_imageReadbackAutomatic':       ['Automatic',                             u"自动"],
+        'mItem_imageReadbackManual':          ['Manual',                                u"手动"],
         'menu_window':                        ['Window',                                u"界面"],
         'menu_help':                          ['Help',                                  u"帮助"],
         'mItem_homePage':                     ['Home Page',                             u"软件主页"],
@@ -334,11 +337,15 @@ kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
                      u"     1. 使用Fixed OTPMK Key的BEE加密模式下，加密区域不能被设超过1 \n" + \
                      u"     2. FlexSPI NOR启动设备配置界面，Option1不能被有效设置 \n\n"
 kRevision_1_2_1_en =  "【v1.2.1】 \n" + \
+                      "  Improvement: \n" + \
+                      "     1. Automatic image readback can be disabled to save operation time \n" + \
                       "  Bug: \n" + \
                       "     1. Cannot generate bootable image when original image (hex/bin) size is larger than 64KB \n" + \
                       "     2. Cannot download large image file (eg 6.8MB) in some case \n" + \
                       "     3. There is language switch issue with some dynamic labels \n\n"
 kRevision_1_2_1_zh = u"【v1.2.1】 \n" + \
+                     u"  改进: \n" + \
+                     u"     1. 一键操作下的自动程序回读可以被禁掉，用以节省操作时间 \n" + \
                      u"  缺陷: \n" + \
                      u"     1. 当输入的源image文件格式为hex或者bin且其大小超过64KB时，生成可启动程序会失败 \n" + \
                      u"     2. 当输入的源image文件非常大时(比如6.8MB)，下载可能会超时失败 \n" + \

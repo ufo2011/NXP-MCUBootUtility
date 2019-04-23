@@ -12,7 +12,7 @@ g_hasSubWinBeenOpened = False
 
 g_cfgFilename = None
 g_toolCommDict = {'isToolRunAsEntryMode':None,
-                  'isAutoUsbDetection':None,
+                  'isDymaticUsbDetection':None,
                   'isQuietSoundEffect':None,
                   'isSbFileEnabledToGen':None,
                   'isAutomaticImageReadback':None,
@@ -172,7 +172,7 @@ def initVar(cfgFilename):
         g_userKeyCmdDict = cfgDict["cfgUserKey"][1]
     else:
         g_toolCommDict = {'isToolRunAsEntryMode':True,
-                          'isAutoUsbDetection':True,
+                          'isDymaticUsbDetection':True,
                           'isQuietSoundEffect':False,
                           'isSbFileEnabledToGen':False,
                           'isAutomaticImageReadback':True,

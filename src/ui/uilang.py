@@ -31,7 +31,7 @@ kMainLanguageContentDict = {
         'mItem_runModeEntry':                 ['Entry',                                 u"入门级"],
         'mItem_runModeMaster':                ['Master',                                u"专家级"],
         'subMenu_usbDetection':               ['USB Detection',                         u"USB识别模式"],
-        'mItem_usbDetectionAuto':             ['Auto',                                  u"动态"],
+        'mItem_usbDetectionDynamic':          ['Dynamic',                               u"动态"],
         'mItem_usbDetectionStatic':           ['Static',                                u"静态"],
         'subMenu_soundEffect':                ['Sound Effect',                          u"音效模式"],
         'mItem_soundEffectMario':             ['Mario',                                 u"马里奥"],

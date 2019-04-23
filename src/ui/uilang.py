@@ -23,9 +23,6 @@ kMainLanguageContentDict = {
         'mItem_exit':                         ['Exit',                                  u"退出"],
         'menu_edit':                          ['Edit',                                  u"编辑"],
         'menu_view':                          ['View',                                  u"查看"],
-        'subMenu_language':                   ['Language',                              u"语言"],
-        'mItem_english':                      ['English',                               u"英文"],
-        'mItem_chinese':                      ['Chinese',                               u"简体中文"],
         'menu_tools':                         ['Tools',                                 u"工具"],
         'subMenu_runMode':                    ['Run Mode',                              u"软件运行模式"],
         'mItem_runModeEntry':                 ['Entry',                                 u"入门级"],
@@ -336,16 +333,18 @@ kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
                      u"  缺陷: \n" + \
                      u"     1. 使用Fixed OTPMK Key的BEE加密模式下，加密区域不能被设超过1 \n" + \
                      u"     2. FlexSPI NOR启动设备配置界面，Option1不能被有效设置 \n\n"
-kRevision_1_2_1_en =  "【v1.2.1】 \n" + \
+kRevision_1_3_0_en =  "【v1.3.0】 \n" + \
                       "  Improvement: \n" + \
                       "     1. Automatic image readback can be disabled to save operation time \n" + \
+                      "     2. The text of language option in menu bar should be static and easy understanding \n" + \
                       "  Bug: \n" + \
                       "     1. Cannot generate bootable image when original image (hex/bin) size is larger than 64KB \n" + \
                       "     2. Cannot download large image file (eg 6.8MB) in some case \n" + \
                       "     3. There is language switch issue with some dynamic labels \n\n"
-kRevision_1_2_1_zh = u"【v1.2.1】 \n" + \
+kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
                      u"  改进: \n" + \
                      u"     1. 一键操作下的自动程序回读可以被禁掉，用以节省操作时间 \n" + \
+                     u"     2. 菜单栏里的语言选项标签应该是静态且易于理解的(中英双语同时显示) \n" + \
                      u"  缺陷: \n" + \
                      u"     1. 当输入的源image文件格式为hex或者bin且其大小超过64KB时，生成可启动程序会失败 \n" + \
                      u"     2. 当输入的源image文件非常大时(比如6.8MB)，下载可能会超时失败 \n" + \
@@ -365,7 +364,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v1_0_0':             [kRevision_1_0_0_en,                      kRevision_1_0_0_zh],
         'revisionHistory_v1_1_0':             [kRevision_1_1_0_en,                      kRevision_1_1_0_zh],
         'revisionHistory_v1_2_0':             [kRevision_1_2_0_en,                      kRevision_1_2_0_zh],
-        'revisionHistory_v1_2_1':             [kRevision_1_2_1_en,                      kRevision_1_2_1_zh],
+        'revisionHistory_v1_3_0':             [kRevision_1_3_0_en,                      kRevision_1_3_0_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

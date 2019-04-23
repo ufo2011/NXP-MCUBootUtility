@@ -55,7 +55,7 @@ class secBootUi(secBootWin.secBootWin):
         self._initToolRunMode()
         self.setToolRunMode()
 
-        self.isAutoUsbDetection = None
+        self.isDymaticUsbDetection = None
         self._initUsbDetection()
         self.setUsbDetection()
 
@@ -116,16 +116,16 @@ class secBootUi(secBootWin.secBootWin):
         self.toolCommDict['isToolRunAsEntryMode'] = self.isToolRunAsEntryMode
 
     def _initUsbDetection( self ):
-        if self.toolCommDict['isAutoUsbDetection']:
-            self.m_menuItem_usbDetectionAuto.Check(True)
+        if self.toolCommDict['isDymaticUsbDetection']:
+            self.m_menuItem_usbDetectionDynamic.Check(True)
             self.m_menuItem_usbDetectionStatic.Check(False)
         else:
-            self.m_menuItem_usbDetectionAuto.Check(False)
+            self.m_menuItem_usbDetectionDynamic.Check(False)
             self.m_menuItem_usbDetectionStatic.Check(True)
 
     def setUsbDetection( self ):
-        self.isAutoUsbDetection = self.m_menuItem_usbDetectionAuto.IsChecked()
-        self.toolCommDict['isAutoUsbDetection'] = self.isAutoUsbDetection
+        self.isDymaticUsbDetection = self.m_menuItem_usbDetectionDynamic.IsChecked()
+        self.toolCommDict['isDymaticUsbDetection'] = self.isDymaticUsbDetection
 
     def _initSoundEffect( self ):
         if self.toolCommDict['isQuietSoundEffect']:
@@ -246,7 +246,7 @@ class secBootUi(secBootWin.secBootWin):
             # Auto detect USB-HID device
             hidFilter = pywinusb.hid.HidDeviceFilter(vendor_id = int(self.usbhidToConnect[0], 16), product_id = int(self.usbhidToConnect[1], 16))
             hidDevice = hidFilter.get_devices()
-            if (not self.isAutoUsbDetection) or (len(hidDevice) > 0):
+            if (not self.isDymaticUsbDetection) or (len(hidDevice) > 0):
                 self.isUsbhidConnected = True
                 usbVid[0] = self.usbhidToConnect[0]
                 usbPid[0] = self.usbhidToConnect[1]
@@ -1318,7 +1318,7 @@ class secBootUi(secBootWin.secBootWin):
         self.m_menuItem_runModeEntry.SetItemLabel(uilang.kMainLanguageContentDict['mItem_runModeEntry'][langIndex])
         self.m_menuItem_runModeMaster.SetItemLabel(uilang.kMainLanguageContentDict['mItem_runModeMaster'][langIndex])
         self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_usbDetection'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_usbDetection'][langIndex])
-        self.m_menuItem_usbDetectionAuto.SetItemLabel(uilang.kMainLanguageContentDict['mItem_usbDetectionAuto'][langIndex])
+        self.m_menuItem_usbDetectionDynamic.SetItemLabel(uilang.kMainLanguageContentDict['mItem_usbDetectionDynamic'][langIndex])
         self.m_menuItem_usbDetectionStatic.SetItemLabel(uilang.kMainLanguageContentDict['mItem_usbDetectionStatic'][langIndex])
         self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_soundEffect'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_soundEffect'][langIndex])
         self.m_menuItem_soundEffectMario.SetItemLabel(uilang.kMainLanguageContentDict['mItem_soundEffectMario'][langIndex])

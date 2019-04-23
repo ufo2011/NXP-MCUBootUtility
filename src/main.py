@@ -701,7 +701,7 @@ class secBootMain(memcore.secBootMem):
         self.setToolRunMode()
         self._switchToolRunMode()
 
-    def callbackSetUsbDetectionAsAuto( self, event ):
+    def callbackSetUsbDetectionAsDynamic( self, event ):
         self.setUsbDetection()
 
     def callbackSetUsbDetectionAsStatic( self, event ):

@@ -55,8 +55,8 @@ class secBootWin ( wx.Frame ):
 		self.m_menu_tools.AppendSubMenu( self.m_menu_runMode, u"Run Mode" )
 
 		self.m_menu_usbDetection = wx.Menu()
-		self.m_menuItem_usbDetectionAuto = wx.MenuItem( self.m_menu_usbDetection, wx.ID_ANY, u"Auto", wx.EmptyString, wx.ITEM_RADIO )
-		self.m_menu_usbDetection.Append( self.m_menuItem_usbDetectionAuto )
+		self.m_menuItem_usbDetectionDynamic = wx.MenuItem( self.m_menu_usbDetection, wx.ID_ANY, u"Dynamic", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_usbDetection.Append( self.m_menuItem_usbDetectionDynamic )
 
 		self.m_menuItem_usbDetectionStatic = wx.MenuItem( self.m_menu_usbDetection, wx.ID_ANY, u"Static", wx.EmptyString, wx.ITEM_RADIO )
 		self.m_menu_usbDetection.Append( self.m_menuItem_usbDetectionStatic )
@@ -1773,7 +1773,7 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetLanguageAsChinese, id = self.m_menuItem_chinese.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsEntry, id = self.m_menuItem_runModeEntry.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsMaster, id = self.m_menuItem_runModeMaster.GetId() )
-		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsAuto, id = self.m_menuItem_usbDetectionAuto.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsDynamic, id = self.m_menuItem_usbDetectionDynamic.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsStatic, id = self.m_menuItem_usbDetectionStatic.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsMario, id = self.m_menuItem_soundEffectMario.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsQuiet, id = self.m_menuItem_soundEffectQuiet.GetId() )
@@ -1842,7 +1842,7 @@ class secBootWin ( wx.Frame ):
 	def callbackSetRunModeAsMaster( self, event ):
 		event.Skip()
 
-	def callbackSetUsbDetectionAsAuto( self, event ):
+	def callbackSetUsbDetectionAsDynamic( self, event ):
 		event.Skip()
 
 	def callbackSetUsbDetectionAsStatic( self, event ):

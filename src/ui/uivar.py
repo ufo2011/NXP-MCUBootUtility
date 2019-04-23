@@ -176,7 +176,7 @@ def initVar(cfgFilename):
                           'isQuietSoundEffect':False,
                           'isSbFileEnabledToGen':False,
                           'isAutomaticImageReadback':True,
-                          'isEnglishLanguage':False,
+                          'isEnglishLanguage':True,
                           'secBootType':0,
                           'mcuSeries':0,
                           'mcuDevice':1,

@@ -531,16 +531,18 @@ class secBootUi(secBootWin.secBootWin):
             self.m_button_flashImage.Enable( setEnable )
             self.m_button_flashImage.SetBackgroundColour( activeColor )
         elif self.secureBootType == uidef.kSecureBootType_HabCrypto:
-            self.m_button_genCert.Enable( setEnable )
-            self.m_button_genCert.SetBackgroundColour( activeColor )
-            self.m_button_genImage.Enable( setEnable )
-            self.m_button_genImage.SetBackgroundColour( activeColor )
-            self.m_button_progSrk.Enable( setEnable )
-            self.m_button_progSrk.SetBackgroundColour( activeColor )
-            self.m_button_flashImage.Enable( setEnable )
-            self.m_button_flashImage.SetBackgroundColour( activeColor )
-            self.m_button_progDek.Enable( setEnable )
-            self.m_button_progDek.SetBackgroundColour( activeColor )
+            if (self.bootDevice != uidef.kBootDevice_FlexspiNor and self.bootDevice != uidef.kBootDevice_SemcNor) or \
+               self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab:
+                self.m_button_genCert.Enable( setEnable )
+                self.m_button_genCert.SetBackgroundColour( activeColor )
+                self.m_button_genImage.Enable( setEnable )
+                self.m_button_genImage.SetBackgroundColour( activeColor )
+                self.m_button_progSrk.Enable( setEnable )
+                self.m_button_progSrk.SetBackgroundColour( activeColor )
+                self.m_button_flashImage.Enable( setEnable )
+                self.m_button_flashImage.SetBackgroundColour( activeColor )
+                self.m_button_progDek.Enable( setEnable )
+                self.m_button_progDek.SetBackgroundColour( activeColor )
         elif self.secureBootType == uidef.kSecureBootType_BeeCrypto:
             if self.bootDevice == uidef.kBootDevice_FlexspiNor:
                 if self.isCertEnabledForBee:
@@ -625,27 +627,31 @@ class secBootUi(secBootWin.secBootWin):
             self.showImageLayout(imgPath.encode('utf-8'))
             self.m_button_flashImage.SetLabel(uilang.kMainLanguageContentDict['button_flashImage_s'][self.languageIndex])
         elif self.secureBootType == uidef.kSecureBootType_HabCrypto:
-            self.m_panel_doAuth1_certInput.Enable( True )
-            self.m_panel_doAuth1_certInput.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            self.m_textCtrl_serial.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
-            self.m_textCtrl_keyPass.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
-            self.m_panel_doAuth2_certFmt.Enable( True )
-            self.m_panel_doAuth2_certFmt.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            self.m_panel_genImage1_browseApp.Enable( True )
-            self.m_panel_genImage1_browseApp.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            self.m_panel_genImage2_habCryptoAlgo.Enable( True )
-            self.m_panel_genImage2_habCryptoAlgo.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            self.m_button_genImage.SetLabel(uilang.kMainLanguageContentDict['button_genImage_se'][self.languageIndex])
-            self.m_panel_progSrk1_showSrk.Enable( True )
-            self.m_panel_progSrk1_showSrk.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            self.m_panel_flashImage1_showImage.Enable( True )
-            self.m_panel_flashImage1_showImage.SetBackgroundColour( uidef.kBootSeqColor_Active )
-            strMemType, strHasDcd = self._getImgName()
-            imgPath = "../img/" + strMemType + "image_" + strHasDcd + "signed_hab_encrypted_nodek.png"
-            self.showImageLayout(imgPath.encode('utf-8'))
-            self.m_button_flashImage.SetLabel(uilang.kMainLanguageContentDict['button_flashImage_e'][self.languageIndex])
-            self.m_panel_progDek1_showHabDek.Enable( True )
-            self.m_panel_progDek1_showHabDek.SetBackgroundColour( uidef.kBootSeqColor_Active )
+            if (self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_SemcNor) and \
+               (not self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab):
+                self._resetSecureBootSeqColor()
+            else:
+                self.m_panel_doAuth1_certInput.Enable( True )
+                self.m_panel_doAuth1_certInput.SetBackgroundColour( uidef.kBootSeqColor_Active )
+                self.m_textCtrl_serial.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+                self.m_textCtrl_keyPass.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+                self.m_panel_doAuth2_certFmt.Enable( True )
+                self.m_panel_doAuth2_certFmt.SetBackgroundColour( uidef.kBootSeqColor_Active )
+                self.m_panel_genImage1_browseApp.Enable( True )
+                self.m_panel_genImage1_browseApp.SetBackgroundColour( uidef.kBootSeqColor_Active )
+                self.m_panel_genImage2_habCryptoAlgo.Enable( True )
+                self.m_panel_genImage2_habCryptoAlgo.SetBackgroundColour( uidef.kBootSeqColor_Active )
+                self.m_button_genImage.SetLabel(uilang.kMainLanguageContentDict['button_genImage_se'][self.languageIndex])
+                self.m_panel_progSrk1_showSrk.Enable( True )
+                self.m_panel_progSrk1_showSrk.SetBackgroundColour( uidef.kBootSeqColor_Active )
+                self.m_panel_flashImage1_showImage.Enable( True )
+                self.m_panel_flashImage1_showImage.SetBackgroundColour( uidef.kBootSeqColor_Active )
+                strMemType, strHasDcd = self._getImgName()
+                imgPath = "../img/" + strMemType + "image_" + strHasDcd + "signed_hab_encrypted_nodek.png"
+                self.showImageLayout(imgPath.encode('utf-8'))
+                self.m_button_flashImage.SetLabel(uilang.kMainLanguageContentDict['button_flashImage_e'][self.languageIndex])
+                self.m_panel_progDek1_showHabDek.Enable( True )
+                self.m_panel_progDek1_showHabDek.SetBackgroundColour( uidef.kBootSeqColor_Active )
         elif self.secureBootType == uidef.kSecureBootType_BeeCrypto:
             if self.bootDevice == uidef.kBootDevice_FlexspiNor:
                 self.m_panel_genImage1_browseApp.Enable( True )

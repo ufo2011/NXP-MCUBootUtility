@@ -36,7 +36,7 @@ from utils import misc
 ##
 # Bootloader target definition.
 class Target(object):
-    
+
     def __init__(self, cpu, board='', build='', **kwargs):
                 #baseDir='.', elfFile=None, memory={}, availableCommands=0,
                 #availablePeripherals=0, deviceMemoryAccessable=False, systemDeviceId=0, isBootROM=False, isCrcCheckSupported=False):
@@ -57,16 +57,17 @@ class Target(object):
         self.supportedPeripheralSpeed_uart = misc.get_dict_default(kwargs, 'supportedPeripheralSpeed_uart', None)
         self.hasRemappedFuse = misc.get_dict_default(kwargs, 'hasRemappedFuse', None)
         self.flexspiNorMemBase = misc.get_dict_default(kwargs, 'flexspiNorMemBase', None)
+        self.isNonXipImageAppliableForXipableDeviceUnderClosedHab = misc.get_dict_default(kwargs, 'isNonXipImageAppliableForXipableDeviceUnderClosedHab', None)
         self.isSipFlexspiNorDevice = misc.get_dict_default(kwargs, 'isSipFlexspiNorDevice', None)
         self.isEccTypeSetInFuseMiscConf = misc.get_dict_default(kwargs, 'isEccTypeSetInFuseMiscConf', None)
-        
+
     ##
     # @brief Check if a command is supported by the target.
     #
     # @return True if the command is supported. False if not.
     def isCommandSupported(self, tag):
         return bool(commands.Commands[tag].propertyMask & self.availableCommands)
-    
+
     ##
     # @brief Check if a peripheral is supported by the target.
     #
@@ -75,4 +76,4 @@ class Target(object):
         return bool(peripherals.PeripheralMasks[name].propertyMask & self.availablePeripherals)
 
 
-        
+

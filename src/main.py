@@ -62,6 +62,8 @@ class secBootMain(memcore.secBootMem):
         self.createMcuTarget()
         self._setUartUsbPort()
         self.applyFuseOperToRunMode()
+        needToPlaySound = False
+        self.setSecureBootSeqColor(needToPlaySound)
 
     def callbackSetBootDevice( self, event ):
         self.setTargetSetupValue()
@@ -316,6 +318,10 @@ class secBootMain(memcore.secBootMem):
     def callbackAdvCertSettings( self, event ):
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
+        elif self.secureBootType == uidef.kSecureBootType_HabCrypto and \
+             (self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_SemcNor) and \
+             (not self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab):
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operHabError_notAppliableDevice'][self.languageIndex])
         elif self.secureBootType != uidef.kSecureBootType_Development:
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto and (not self.isCertEnabledForBee):
                 self.popupMsgBox(uilang.kMsgLanguageContentDict['certGenError_notEnabledForBee'][self.languageIndex])
@@ -355,6 +361,10 @@ class secBootMain(memcore.secBootMem):
         reuseCert = None
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
+        elif self.secureBootType == uidef.kSecureBootType_HabCrypto and \
+             (self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_SemcNor) and \
+             (not self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab):
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operHabError_notAppliableDevice'][self.languageIndex])
         elif self.secureBootType != uidef.kSecureBootType_Development:
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto and (not self.isCertEnabledForBee):
                 self.popupMsgBox(uilang.kMsgLanguageContentDict['certGenError_notEnabledForBee'][self.languageIndex])
@@ -401,6 +411,10 @@ class secBootMain(memcore.secBootMem):
         status = False
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
+        elif self.secureBootType == uidef.kSecureBootType_HabCrypto and \
+             (self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_SemcNor) and \
+             (not self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab):
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operHabError_notAppliableDevice'][self.languageIndex])
         else:
             self._startGaugeTimer()
             self.printLog("'Generate Bootable Image' button is clicked")
@@ -480,6 +494,10 @@ class secBootMain(memcore.secBootMem):
         status = False
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
+        elif self.secureBootType == uidef.kSecureBootType_HabCrypto and \
+             (self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_SemcNor) and \
+             (not self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab):
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operHabError_notAppliableDevice'][self.languageIndex])
         elif self.secureBootType != uidef.kSecureBootType_Development:
             if self.secureBootType == uidef.kSecureBootType_BeeCrypto and (not self.isCertEnabledForBee):
                 self.popupMsgBox(uilang.kMsgLanguageContentDict['certGenError_notEnabledForBee'][self.languageIndex])
@@ -533,6 +551,10 @@ class secBootMain(memcore.secBootMem):
         status = False
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
+        elif self.secureBootType == uidef.kSecureBootType_HabCrypto and \
+             (self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_SemcNor) and \
+             (not self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab):
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operHabError_notAppliableDevice'][self.languageIndex])
         else:
             if self.connectStage == uidef.kConnectStage_Reset:
                 self._startGaugeTimer()
@@ -568,6 +590,10 @@ class secBootMain(memcore.secBootMem):
         status = False
         if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.bootDevice != uidef.kBootDevice_FlexspiNor:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operBeeError_onlyForFlexspiNor'][self.languageIndex])
+        elif self.secureBootType == uidef.kSecureBootType_HabCrypto and \
+             (self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_SemcNor) and \
+             (not self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab):
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['operHabError_notAppliableDevice'][self.languageIndex])
         elif self.secureBootType == uidef.kSecureBootType_HabCrypto:
             if self.connectStage == uidef.kConnectStage_Reset:
                 self._startGaugeTimer()

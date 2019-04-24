@@ -335,16 +335,18 @@ kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
                      u"     2. FlexSPI NOR启动设备配置界面，Option1不能被有效设置 \n\n"
 kRevision_1_3_0_en =  "【v1.3.0】 \n" + \
                       "  Improvement: \n" + \
-                      "     1. Automatic image readback can be disabled to save operation time \n" + \
-                      "     2. The text of language option in menu bar should be static and easy understanding \n" + \
+                      "     1. HAB encrypted mode should not appliable for FlexSPI/SEMC NOR device boot with RT1020/1015 ROM \n" + \
+                      "     2. Automatic image readback can be disabled to save operation time \n" + \
+                      "     3. The text of language option in menu bar should be static and easy understanding \n" + \
                       "  Bug: \n" + \
                       "     1. Cannot generate bootable image when original image (hex/bin) size is larger than 64KB \n" + \
                       "     2. Cannot download large image file (eg 6.8MB) in some case \n" + \
                       "     3. There is language switch issue with some dynamic labels \n\n"
 kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
                      u"  改进: \n" + \
-                     u"     1. 一键操作下的自动程序回读可以被禁掉，用以节省操作时间 \n" + \
-                     u"     2. 菜单栏里的语言选项标签应该是静态且易于理解的(中英双语同时显示) \n" + \
+                     u"     1. HAB加密模式在i.MXRT1020/1015下应不支持FlexSPI NOR/SEMC NOR启动设备 \n" + \
+                     u"     2. 一键操作下的自动程序回读可以被禁掉，用以节省操作时间 \n" + \
+                     u"     3. 菜单栏里的语言选项标签应该是静态且易于理解的(中英双语同时显示) \n" + \
                      u"  缺陷: \n" + \
                      u"     1. 当输入的源image文件格式为hex或者bin且其大小超过64KB时，生成可启动程序会失败 \n" + \
                      u"     2. 当输入的源image文件非常大时(比如6.8MB)，下载可能会超时失败 \n" + \
@@ -394,6 +396,8 @@ kMsgLanguageContentDict = {
                                               u"即使不改任何认证参数，新证书也会不同于已有证书，你依旧想生成新证书吗？"],
         'keyGenError_onlyForBee':             ['Key setting is only available when booting BEE encrypted image in FlexSPI NOR device!',
                                               u"配置密钥参数仅在BEE加密启动模式下有效！"],
+        'operHabError_notAppliableDevice':    ['HAB encryption is not appliable for FlexSPI NOR/SEMC NOR device under selected MCU device!',
+                                              u"HAB加密操作在选中的微控制器型号下不支持FlexSPI NOR/SEMC NOR启动设备！"],
         'operBeeError_onlyForBee':            ['BEE encryption is only available when booting BEE encrypted image in FlexSPI NOR device!',
                                               u"BEE加密操作仅在BEE加密启动模式下有效！"],
         'operBeeError_onlyForFlexspiNor':     ['Action is not available because BEE encryption boot is only designed for FlexSPI NOR device!',

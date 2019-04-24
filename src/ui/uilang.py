@@ -335,18 +335,20 @@ kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
                      u"     2. FlexSPI NOR启动设备配置界面，Option1不能被有效设置 \n\n"
 kRevision_1_3_0_en =  "【v1.3.0】 \n" + \
                       "  Improvement: \n" + \
-                      "     1. HAB encrypted mode should not appliable for FlexSPI/SEMC NOR device boot with RT1020/1015 ROM \n" + \
-                      "     2. Automatic image readback can be disabled to save operation time \n" + \
-                      "     3. The text of language option in menu bar should be static and easy understanding \n" + \
+                      "     1. HAB signed mode should not appliable for FlexSPI/SEMC NOR device Non-XIP boot with RT1020/1015 ROM \n" + \
+                      "     2. HAB encrypted mode should not appliable for FlexSPI/SEMC NOR device boot with RT1020/1015 ROM \n" + \
+                      "     3. Automatic image readback can be disabled to save operation time \n" + \
+                      "     4. The text of language option in menu bar should be static and easy understanding \n" + \
                       "  Bug: \n" + \
                       "     1. Cannot generate bootable image when original image (hex/bin) size is larger than 64KB \n" + \
                       "     2. Cannot download large image file (eg 6.8MB) in some case \n" + \
                       "     3. There is language switch issue with some dynamic labels \n\n"
 kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
                      u"  改进: \n" + \
-                     u"     1. HAB加密模式在i.MXRT1020/1015下应不支持FlexSPI NOR/SEMC NOR启动设备 \n" + \
-                     u"     2. 一键操作下的自动程序回读可以被禁掉，用以节省操作时间 \n" + \
-                     u"     3. 菜单栏里的语言选项标签应该是静态且易于理解的(中英双语同时显示) \n" + \
+                     u"     1. HAB签名模式在i.MXRT1020/1015下应不支持从FlexSPI NOR/SEMC NOR启动设备中Non-XIP启动 \n" + \
+                     u"     2. HAB加密模式在i.MXRT1020/1015下应不支持从FlexSPI NOR/SEMC NOR启动设备中启动 \n" + \
+                     u"     3. 一键操作下的自动程序回读可以被禁掉，用以节省操作时间 \n" + \
+                     u"     4. 菜单栏里的语言选项标签应该是静态且易于理解的(中英双语同时显示) \n" + \
                      u"  缺陷: \n" + \
                      u"     1. 当输入的源image文件格式为hex或者bin且其大小超过64KB时，生成可启动程序会失败 \n" + \
                      u"     2. 当输入的源image文件非常大时(比如6.8MB)，下载可能会超时失败 \n" + \
@@ -436,6 +438,8 @@ kMsgLanguageContentDict = {
                                               u"该程序文件起始链接地址是无效的:"],
         'srcImgError_invalidNonXipRange':     ['Non-XIP Application is detected but it is not in the range of ITCM/DTCM/OCRAM/SDRAM!',
                                               u"检测到非XIP应用程序,但它没有链接到ITCM/DTCM/OCRAM/SDRAM范围内!"],
+        'srcImgError_nonXipNotAppliable':     ['Non-XIP Application is detected but it is not appliable for HAB Signed image boot when boot device is FlexSPI/SEMC NOR under selected MCU device!',
+                                              u"Non-XIP应用程序被检测到, 但它在选中的微控制器型号以及FlexSPI/SEMC NOR启动设备下不适用于HAB签名启动!"],
         'srcImgError_xipNotForHabCrypto':     ['XIP Application is detected but it is not appliable for HAB Encrypted image boot!',
                                               u"XIP应用程序被检测到, 但它不适用于HAB加密启动!"],
         'srcImgError_nonXipNotForBeeCrypto':  ['Non-XIP Application is detected but it is not appliable for BEE Encrypted image boot!',

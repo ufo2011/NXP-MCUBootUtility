@@ -841,6 +841,11 @@ class secBootGen(uicore.secBootUi):
             #    self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_nonXipNotForBeeCrypto'][self.languageIndex])
             #    return False
             #else:
+            if (self.secureBootType == uidef.kSecureBootType_HabAuth) and \
+               (self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_SemcNor) and \
+               (not self.tgt.isNonXipImageAppliableForXipableDeviceUnderClosedHab):
+               self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_nonXipNotAppliable'][self.languageIndex])
+               return False
             return self._isValidNonXipAppImage(imageStartAddr)
 
     def createMatchedAppBdfile( self ):

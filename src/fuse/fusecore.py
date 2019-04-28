@@ -6,6 +6,7 @@ import os
 import fusedef
 sys.path.append(os.path.abspath(".."))
 from run import runcore
+from run import rundef
 from ui import uidef
 from ui import uilang
 
@@ -102,11 +103,11 @@ class secBootFuse(runcore.secBootRun):
                ((destLock & fusedef.kEfuseMask_LockSrk) != 0):
                 destLock = destLock & (~fusedef.kEfuseMask_LockSrk)
                 self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_cannotBurnSrkLock'][self.languageIndex])
-            self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_LOCK, destLock)
+            self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_LOCK, destLock, rundef.kActionFrom_BurnFuse)
         srcLock = srcFuseValue & fusedef.kEfuseMask_LockHigh
         destLock = destFuseValue & fusedef.kEfuseMask_LockHigh
         if srcLock != destLock:
-            self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_LOCK, destLock)
+            self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_LOCK, destLock, rundef.kActionFrom_BurnFuse)
 
     def burnAllFuseRegions( self ):
         self.toBeBurnnedFuseList = self.getUserFuses()
@@ -125,6 +126,6 @@ class secBootFuse(runcore.secBootRun):
                         self._burnFuseLockRegion(self.scannedFuseList[i], self.toBeBurnnedFuseList[i])
                     else:
                         fuseValue = self.toBeBurnnedFuseList[i] | self.scannedFuseList[i]
-                        self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_START + i, fuseValue)
+                        self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_START + i, fuseValue, rundef.kActionFrom_BurnFuse)
                     self.toBeRefreshedFuseList[i] = True
         self.scanAllFuseRegions(True, True)

@@ -315,7 +315,7 @@ kRevision_1_1_0_zh = u"【v1.1.0】 \n" + \
                      u"     1. 增加马里奥音效 \n\n"
 kRevision_1_2_0_en =  "【v1.2.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. Can generate .sb file for MfgTool and RT-Flash \n" + \
+                      "     1. Can generate .sb file by all-in-one action for MfgTool and RT-Flash \n" + \
                       "     2. Can show cost time along with gauge \n" + \
                       "  Improvement: \n" + \
                       "     1. Non-XIP image can also be supported for BEE Encryption case \n" + \
@@ -325,7 +325,7 @@ kRevision_1_2_0_en =  "【v1.2.0】 \n" + \
                       "     2. Option1 field is not implemented for FlexSPI NOR configuration \n\n"
 kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. 支持生成.sb格式的应用程序，可用于MfgTool和RT-Flash \n" + \
+                     u"     1. 支持生成.sb格式的应用程序(通过all-in-one按钮)，可用于MfgTool和RT-Flash \n" + \
                      u"     2. 可以实时显示操作消耗的时间，随着进度条同步更新 \n" + \
                      u"  改进: \n" + \
                      u"     1. BEE加密模式下也能支持Non-XIP应用程序 \n" + \
@@ -334,6 +334,8 @@ kRevision_1_2_0_zh = u"【v1.2.0】 \n" + \
                      u"     1. 使用Fixed OTPMK Key的BEE加密模式下，加密区域不能被设超过1 \n" + \
                      u"     2. FlexSPI NOR启动设备配置界面，Option1不能被有效设置 \n\n"
 kRevision_1_3_0_en =  "【v1.3.0】 \n" + \
+                      "  Feature: \n" + \
+                      "     1. Can generate .sb file by actions in efuse operation utility window \n" + \
                       "  Improvement: \n" + \
                       "     1. HAB signed mode should not appliable for FlexSPI/SEMC NOR device Non-XIP boot with RT1020/1015 ROM \n" + \
                       "     2. HAB encrypted mode should not appliable for FlexSPI/SEMC NOR device boot with RT1020/1015 ROM \n" + \
@@ -345,6 +347,8 @@ kRevision_1_3_0_en =  "【v1.3.0】 \n" + \
                       "     3. There is language switch issue with some dynamic labels \n" + \
                       "     4. Some led demos of RT1050 EVKB board are invalid \n\n"
 kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
+                     u"  特性: \n" + \
+                     u"     1. 支持生成仅含自定义efuse烧写操作(在efuse operation windows里指定)的.sb格式文件 \n" + \
                      u"  改进: \n" + \
                      u"     1. HAB签名模式在i.MXRT1020/1015下应不支持从FlexSPI NOR/SEMC NOR启动设备中Non-XIP启动 \n" + \
                      u"     2. HAB加密模式在i.MXRT1020/1015下应不支持从FlexSPI NOR/SEMC NOR启动设备中启动 \n" + \

@@ -65,6 +65,10 @@ class secBootGen(uicore.secBootUi):
         self.sbAppBdContent = ''
         self.sbAppBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_sb_gen.bd')
         self.sbAppBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_sb_gen.bat')
+        self.destSbUserEfuseFilename = os.path.join(self.exeTopRoot, 'gen', 'sb_image', 'burn_efuse.sb')
+        self.sbUserEfuseBdContent = ''
+        self.sbUserEfuseBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_user_efuse_sb_gen.bd')
+        self.sbUserEfuseBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_user_efuse_sb_gen.bat')
         self.updateAllCstPathToCorrectVersion()
         self.imageEncPath = os.path.join(self.exeTopRoot, 'tools', 'image_enc', 'win', 'image_enc.exe')
         self.beeDek0Filename = os.path.join(self.exeTopRoot, 'gen', 'bee_crypto', 'bee_dek0.bin')
@@ -1139,7 +1143,7 @@ class secBootGen(uicore.secBootUi):
                 fileObj.write(halfbyteStr)
             fileObj.close()
 
-    def initSbBdfileContent( self ):
+    def initSbAppBdfileContent( self ):
         self.sbAppBdContent = ""
         ############################################################################
         self.sbAppBdContent += "sources {\n"
@@ -1151,7 +1155,7 @@ class secBootGen(uicore.secBootUi):
         self.sbAppBdContent += "\nsection (0) {\n"
         ############################################################################
 
-    def _doneSbBdfileContent( self ):
+    def _doneSbAppBdfileContent( self ):
         ############################################################################
         self.sbAppBdContent += "}\n"
         ############################################################################
@@ -1202,7 +1206,7 @@ class secBootGen(uicore.secBootUi):
             pass
         self.destSbAppFilename = os.path.join(destSbAppPath, destSbAppName + destSbAppType)
 
-    def _updateSbBdBatfileContent( self ):
+    def _updateSbAppBdBatfileContent( self ):
         self._adjustDestSbAppFilenameForBd()
         destAppFilename = None
         if self.bootDevice == uidef.kBootDevice_FlexspiNor:
@@ -1241,13 +1245,52 @@ class secBootGen(uicore.secBootUi):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_failToGenSb'][self.languageIndex])
             return False
 
-    def genSbImage( self ):
-        self._doneSbBdfileContent()
-        self._updateSbBdBatfileContent()
+    def genSbAppImage( self ):
+        self._doneSbAppBdfileContent()
+        self._updateSbAppBdBatfileContent()
         # We have to change system dir to the path of elftosb.exe, or elftosb.exe may not be ran successfully
         curdir = os.getcwd()
         os.chdir(os.path.split(self.elftosbPath)[0])
         process = subprocess.Popen(self.sbAppBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        os.chdir(curdir)
+        commandOutput = process.communicate()[0]
+        print commandOutput
+        if self._parseSbImageGenerationResult(commandOutput):
+            return True
+        else:
+            return False
+
+    def initSbEfuseBdfileContent( self ):
+        self.sbUserEfuseBdContent = ""
+        ############################################################################
+        self.sbUserEfuseBdContent += "sources {\n"
+        self.sbUserEfuseBdContent += "}\n"
+        ############################################################################
+        self.sbUserEfuseBdContent += "\nsection (0) {\n"
+        ############################################################################
+
+    def _doneSbEfuseBdfileContent( self ):
+        ############################################################################
+        self.sbUserEfuseBdContent += "}\n"
+        ############################################################################
+        with open(self.sbUserEfuseBdFilename, 'wb') as fileObj:
+            fileObj.write(self.sbUserEfuseBdContent)
+            fileObj.close()
+
+    def _updateSbEfuseBdBatfileContent( self ):
+        sbBatContent = "\"" + self.elftosbPath + "\""
+        sbBatContent += " -f kinetis -V -c " + "\"" + self.sbUserEfuseBdFilename + "\"" + ' -o ' + "\"" + self.destSbUserEfuseFilename + "\""
+        with open(self.sbUserEfuseBdBatFilename, 'wb') as fileObj:
+            fileObj.write(sbBatContent)
+            fileObj.close()
+
+    def genSbEfuseImage( self ):
+        self._doneSbEfuseBdfileContent()
+        self._updateSbEfuseBdBatfileContent()
+        # We have to change system dir to the path of elftosb.exe, or elftosb.exe may not be ran successfully
+        curdir = os.getcwd()
+        os.chdir(os.path.split(self.elftosbPath)[0])
+        process = subprocess.Popen(self.sbUserEfuseBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         os.chdir(curdir)
         commandOutput = process.communicate()[0]
         print commandOutput

@@ -240,7 +240,7 @@ class secBootMain(memcore.secBootMem):
         self._startGaugeTimer()
         self.printLog("'Connect to xxx' button is clicked")
         if self.isSbFileEnabledToGen:
-            self.initSbAppBdfileContent()
+            self.initSbAppBdfilesContent()
         self._connectStateMachine()
         self._stopGaugeTimer()
 
@@ -304,7 +304,7 @@ class secBootMain(memcore.secBootMem):
                     break
             allInOneSeqCnt -= 1
         if self.isSbFileEnabledToGen:
-            status = self.genSbAppImage()
+            status = self.genSbAppImages()
         else:
             if status and self.isAutomaticImageReadback:
                 self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)

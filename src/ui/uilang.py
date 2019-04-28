@@ -342,7 +342,8 @@ kRevision_1_3_0_en =  "【v1.3.0】 \n" + \
                       "  Bug: \n" + \
                       "     1. Cannot generate bootable image when original image (hex/bin) size is larger than 64KB \n" + \
                       "     2. Cannot download large image file (eg 6.8MB) in some case \n" + \
-                      "     3. There is language switch issue with some dynamic labels \n\n"
+                      "     3. There is language switch issue with some dynamic labels \n" + \
+                      "     4. Some led demos of RT1050 EVKB board are invalid \n\n"
 kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
                      u"  改进: \n" + \
                      u"     1. HAB签名模式在i.MXRT1020/1015下应不支持从FlexSPI NOR/SEMC NOR启动设备中Non-XIP启动 \n" + \
@@ -352,7 +353,8 @@ kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
                      u"  缺陷: \n" + \
                      u"     1. 当输入的源image文件格式为hex或者bin且其大小超过64KB时，生成可启动程序会失败 \n" + \
                      u"     2. 当输入的源image文件非常大时(比如6.8MB)，下载可能会超时失败 \n" + \
-                     u"     3. 当切换显示语言时，有一些控件标签(如Connect按钮)不能实时更新 \n\n"
+                     u"     3. 当切换显示语言时，有一些控件标签(如Connect按钮)不能实时更新 \n" + \
+                     u"     4. /apps目录下RT1050 EVKB板子的一些LED demo是无效的 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

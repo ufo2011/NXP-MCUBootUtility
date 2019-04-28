@@ -639,13 +639,18 @@ class secBootRun(gencore.secBootGen):
                     break
         return isReady, isBlank
 
-    def burnMcuDeviceFuseByBlhost( self, fuseIndex, fuseValue):
+    def burnMcuDeviceFuseByBlhost( self, fuseIndex, fuseValue, actionFrom=rundef.kActionFrom_AllInOne):
         status = boot.status.kStatus_Success
         if self.isSbFileEnabledToGen:
-            if fuseIndex == fusedef.kEfuseIndex_BOOT_CFG1:
-                fuseValue = fuseValue | self.sbLastSharedFuseBootCfg1
-                self.sbLastSharedFuseBootCfg1 = fuseValue
-            self.sbAppBdContent += "    load fuse 0x" + self.getFormattedFuseValue(fuseValue) + " > " + self.convertLongIntHexText(str(hex(fuseIndex))) + ";\n"
+            if actionFrom == rundef.kActionFrom_AllInOne:
+                if fuseIndex == fusedef.kEfuseIndex_BOOT_CFG1:
+                    fuseValue = fuseValue | self.sbLastSharedFuseBootCfg1
+                    self.sbLastSharedFuseBootCfg1 = fuseValue
+                self.sbAppBdContent += "    load fuse 0x" + self.getFormattedFuseValue(fuseValue) + " > " + self.convertLongIntHexText(str(hex(fuseIndex))) + ";\n"
+            elif actionFrom == rundef.kActionFrom_BurnFuse:
+                self.sbUserEfuseBdContent += "    load fuse 0x" + self.getFormattedFuseValue(fuseValue) + " > " + self.convertLongIntHexText(str(hex(fuseIndex))) + ";\n"
+            else:
+                pass
         else:
             status, results, cmdStr = self.blhost.efuseProgramOnce(fuseIndex, self.getFormattedFuseValue(fuseValue))
             self.printLog(cmdStr)

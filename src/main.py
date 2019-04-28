@@ -240,7 +240,7 @@ class secBootMain(memcore.secBootMem):
         self._startGaugeTimer()
         self.printLog("'Connect to xxx' button is clicked")
         if self.isSbFileEnabledToGen:
-            self.initSbBdfileContent()
+            self.initSbAppBdfileContent()
         self._connectStateMachine()
         self._stopGaugeTimer()
 
@@ -304,7 +304,7 @@ class secBootMain(memcore.secBootMem):
                     break
             allInOneSeqCnt -= 1
         if self.isSbFileEnabledToGen:
-            status = self.genSbImage()
+            status = self.genSbAppImage()
         else:
             if status and self.isAutomaticImageReadback:
                 self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)
@@ -627,6 +627,8 @@ class secBootMain(memcore.secBootMem):
            self.connectStage == uidef.kConnectStage_Reset:
             self._startGaugeTimer()
             self.scanAllFuseRegions()
+            if self.isSbFileEnabledToGen:
+                self.initSbEfuseBdfileContent()
             self._stopGaugeTimer()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
@@ -636,6 +638,8 @@ class secBootMain(memcore.secBootMem):
            self.connectStage == uidef.kConnectStage_Reset:
             self._startGaugeTimer()
             self.burnAllFuseRegions()
+            if self.isSbFileEnabledToGen:
+                self.genSbEfuseImage()
             self._stopGaugeTimer()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])

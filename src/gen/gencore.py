@@ -65,6 +65,15 @@ class secBootGen(uicore.secBootUi):
         self.sbAppBdContent = ''
         self.sbAppBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_sb_gen.bd')
         self.sbAppBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_sb_gen.bat')
+        self.destSbAppFlashFilename = os.path.join(self.exeTopRoot, 'gen', 'sb_image', 'application_device_flash.sb')
+        self.sbAppFlashBdContent = ''
+        self.sbAppFlashBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_app_flash_sb_gen.bd')
+        self.sbAppFlashBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_app_flash_sb_gen.bat')
+        self.isEfuseOperationInSbApp = False
+        self.destSbAppEfuseFilename = os.path.join(self.exeTopRoot, 'gen', 'sb_image', 'application_device_efuse.sb')
+        self.sbAppEfuseBdContent = ''
+        self.sbAppEfuseBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_app_efuse_sb_gen.bd')
+        self.sbAppEfuseBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_app_efuse_sb_gen.bat')
         self.destSbUserEfuseFilename = os.path.join(self.exeTopRoot, 'gen', 'sb_image', 'burn_efuse.sb')
         self.sbUserEfuseBdContent = ''
         self.sbUserEfuseBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_user_efuse_sb_gen.bd')
@@ -1143,87 +1152,150 @@ class secBootGen(uicore.secBootUi):
                 fileObj.write(halfbyteStr)
             fileObj.close()
 
-    def initSbAppBdfileContent( self ):
-        self.sbAppBdContent = ""
+    def _initSbAppBdfileContent( self, sbType=gendef.kSbFileType_All ):
+        bdContent = ""
         ############################################################################
-        self.sbAppBdContent += "sources {\n"
-        self.sbAppBdContent += "    myBinFile = extern (0);\n"
-        if self.secureBootType == uidef.kSecureBootType_HabCrypto:
-            self.sbAppBdContent += "    dekFile = extern (1);\n"
-        self.sbAppBdContent += "}\n"
+        bdContent += "sources {\n"
+        if sbType == gendef.kSbFileType_All or sbType == gendef.kSbFileType_Flash:
+            bdContent += "    myBinFile = extern (0);\n"
+            if self.secureBootType == uidef.kSecureBootType_HabCrypto:
+                bdContent += "    dekFile = extern (1);\n"
+        else:
+            pass
+        bdContent += "}\n"
         ############################################################################
-        self.sbAppBdContent += "\nsection (0) {\n"
+        bdContent += "\nsection (0) {\n"
         ############################################################################
+        if sbType == gendef.kSbFileType_All:
+            self.sbAppBdContent = bdContent
+        elif sbType == gendef.kSbFileType_Flash:
+            self.sbAppFlashBdContent = bdContent
+        elif sbType == gendef.kSbFileType_Efuse:
+            self.sbAppEfuseBdContent = bdContent
+        else:
+            pass
 
-    def _doneSbAppBdfileContent( self ):
-        ############################################################################
-        self.sbAppBdContent += "}\n"
-        ############################################################################
-        with open(self.sbAppBdFilename, 'wb') as fileObj:
-            fileObj.write(self.sbAppBdContent)
+    def initSbAppBdfilesContent( self ):
+        self._initSbAppBdfileContent(gendef.kSbFileType_All)
+        self._initSbAppBdfileContent(gendef.kSbFileType_Flash)
+        self._initSbAppBdfileContent(gendef.kSbFileType_Efuse)
+        self.isEfuseOperationInSbApp = False
+
+    def _doneSbAppBdfileContent( self, sbType=gendef.kSbFileType_All ):
+        bdContent = ""
+        bdFilename = None
+        if sbType == gendef.kSbFileType_All:
+            self.sbAppBdContent += "}\n"
+            bdContent = self.sbAppBdContent
+            bdFilename = self.sbAppBdFilename
+        elif sbType == gendef.kSbFileType_Flash:
+            self.sbAppFlashBdContent += "}\n"
+            bdContent = self.sbAppFlashBdContent
+            bdFilename = self.sbAppFlashBdFilename
+        elif sbType == gendef.kSbFileType_Efuse:
+            self.sbAppEfuseBdContent += "}\n"
+            bdContent = self.sbAppEfuseBdContent
+            bdFilename = self.sbAppEfuseBdFilename
+        else:
+            pass
+        with open(bdFilename, 'wb') as fileObj:
+            fileObj.write(bdContent)
             fileObj.close()
 
-    def _adjustDestSbAppFilenameForBd( self ):
-        srcAppName = os.path.splitext(os.path.split(self.srcAppFilename)[1])[0]
-        destSbAppPath, destSbAppFile = os.path.split(self.destSbAppFilename)
-        destSbAppName, destSbAppType = os.path.splitext(destSbAppFile)
-        destSbAppName = srcAppName
-        if self.secureBootType == uidef.kSecureBootType_Development:
-            destSbAppName += '_unsigned'
-        elif self.secureBootType == uidef.kSecureBootType_HabAuth:
-            destSbAppName += '_signed'
-        elif self.secureBootType == uidef.kSecureBootType_HabCrypto:
-            destSbAppName += '_signed_hab_encrypted'
-        elif self.secureBootType == uidef.kSecureBootType_BeeCrypto:
-            if self.isCertEnabledForBee:
-                destSbAppName += '_signed_bee_encrypted'
+    def _adjustDestSbAppFilenameForBd( self, sbType=gendef.kSbFileType_All ):
+        if sbType == gendef.kSbFileType_All:
+            srcAppName = os.path.splitext(os.path.split(self.srcAppFilename)[1])[0]
+            destSbAppPath, destSbAppFile = os.path.split(self.destSbAppFilename)
+            destSbAppName, destSbAppType = os.path.splitext(destSbAppFile)
+            destSbAppName = srcAppName
+            if self.secureBootType == uidef.kSecureBootType_Development:
+                destSbAppName += '_unsigned'
+            elif self.secureBootType == uidef.kSecureBootType_HabAuth:
+                destSbAppName += '_signed'
+            elif self.secureBootType == uidef.kSecureBootType_HabCrypto:
+                destSbAppName += '_signed_hab_encrypted'
+            elif self.secureBootType == uidef.kSecureBootType_BeeCrypto:
+                if self.isCertEnabledForBee:
+                    destSbAppName += '_signed_bee_encrypted'
+                else:
+                    destSbAppName += '_unsigned_bee_encrypted'
             else:
-                destSbAppName += '_unsigned_bee_encrypted'
+                pass
+            destSbAppName += '_' + self.sbEnableBootDeviceMagic
+            if self.bootDevice == uidef.kBootDevice_FlexspiNor:
+                flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(self.bootDevice)
+                if flexspiNorDeviceModel == 'No':
+                    destSbAppName += '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt1)))
+                else:
+                    destSbAppName += '_' + flexspiNorDeviceModel
+            elif self.bootDevice == uidef.kBootDevice_SemcNand:
+                semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(self.bootDevice)
+                destSbAppName += '_' + self.convertLongIntHexText(str(hex(semcNandOpt))) + '_' + self.convertLongIntHexText(str(hex(semcNandFcbOpt)))
+            elif self.bootDevice == uidef.kBootDevice_LpspiNor:
+                lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
+                destSbAppName += '_' + self.convertLongIntHexText(str(hex(lpspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(lpspiNorOpt1)))
+            elif self.bootDevice == uidef.kBootDevice_SemcNor:
+                pass
+            elif self.bootDevice == uidef.kBootDevice_FlexspiNand:
+                pass
+            elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
+                pass
+            elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
+                pass
+            else:
+                pass
+            self.destSbAppFilename = os.path.join(destSbAppPath, destSbAppName + destSbAppType)
+        elif sbType == gendef.kSbFileType_Flash:
+            destSbAppPath, destSbAppFile = os.path.split(self.destSbAppFilename)
+            destSbAppName, destSbAppType = os.path.splitext(destSbAppFile)
+            self.destSbAppFlashFilename = os.path.join(destSbAppPath, destSbAppName + '_flash' + destSbAppType)
+        elif sbType == gendef.kSbFileType_Efuse:
+            destSbAppPath, destSbAppFile = os.path.split(self.destSbAppFilename)
+            destSbAppName, destSbAppType = os.path.splitext(destSbAppFile)
+            self.destSbAppEfuseFilename = os.path.join(destSbAppPath, destSbAppName + '_efuse' + destSbAppType)
         else:
             pass
-        destSbAppName += '_' + self.sbEnableBootDeviceMagic
-        if self.bootDevice == uidef.kBootDevice_FlexspiNor:
-            flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(self.bootDevice)
-            if flexspiNorDeviceModel == 'No':
-                destSbAppName += '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt1)))
-            else:
-                destSbAppName += '_' + flexspiNorDeviceModel
-        elif self.bootDevice == uidef.kBootDevice_SemcNand:
-            semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(self.bootDevice)
-            destSbAppName += '_' + self.convertLongIntHexText(str(hex(semcNandOpt))) + '_' + self.convertLongIntHexText(str(hex(semcNandFcbOpt)))
-        elif self.bootDevice == uidef.kBootDevice_LpspiNor:
-            lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
-            destSbAppName += '_' + self.convertLongIntHexText(str(hex(lpspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(lpspiNorOpt1)))
-        elif self.bootDevice == uidef.kBootDevice_SemcNor:
-            pass
-        elif self.bootDevice == uidef.kBootDevice_FlexspiNand:
-            pass
-        elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
-            pass
-        elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
-            pass
-        else:
-            pass
-        self.destSbAppFilename = os.path.join(destSbAppPath, destSbAppName + destSbAppType)
 
-    def _updateSbAppBdBatfileContent( self ):
-        self._adjustDestSbAppFilenameForBd()
+    def _updateSbAppBdBatfileContent( self, sbType=gendef.kSbFileType_All ):
         destAppFilename = None
-        if self.bootDevice == uidef.kBootDevice_FlexspiNor:
-            if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.keyStorageRegion == uidef.kKeyStorageRegion_FlexibleUserKeys:
-                destAppFilename = self.destEncAppNoCfgBlockFilename
-            else:
-                destAppFilename = self.destAppNoPaddingFilename
-        elif self.bootDevice == uidef.kBootDevice_SemcNand or \
-             self.bootDevice == uidef.kBootDevice_LpspiNor:
-            destAppFilename = self.destAppFilename
+        sbAppBdFilename = None
+        destSbAppFilename = None
+        sbAppBdBatFilename = None
+        self._adjustDestSbAppFilenameForBd(sbType)
+        if sbType == gendef.kSbFileType_All:
+            sbAppBdFilename = self.sbAppBdFilename
+            destSbAppFilename = self.destSbAppFilename
+            sbAppBdBatFilename = self.sbAppBdBatFilename
+        elif sbType == gendef.kSbFileType_Flash:
+            sbAppBdFilename = self.sbAppFlashBdFilename
+            destSbAppFilename = self.destSbAppFlashFilename
+            sbAppBdBatFilename = self.sbAppFlashBdBatFilename
+        elif sbType == gendef.kSbFileType_Efuse:
+            sbAppBdFilename = self.sbAppEfuseBdFilename
+            destSbAppFilename = self.destSbAppEfuseFilename
+            sbAppBdBatFilename = self.sbAppEfuseBdBatFilename
         else:
             pass
+        if sbType == gendef.kSbFileType_All or sbType == gendef.kSbFileType_Flash:
+            if self.bootDevice == uidef.kBootDevice_FlexspiNor:
+                if self.secureBootType == uidef.kSecureBootType_BeeCrypto and self.keyStorageRegion == uidef.kKeyStorageRegion_FlexibleUserKeys:
+                    destAppFilename = self.destEncAppNoCfgBlockFilename
+                else:
+                    destAppFilename = self.destAppNoPaddingFilename
+            elif self.bootDevice == uidef.kBootDevice_SemcNand or \
+                 self.bootDevice == uidef.kBootDevice_LpspiNor:
+                destAppFilename = self.destAppFilename
+            else:
+                pass
+            destAppFilename = ' ' + "\"" + destAppFilename + "\""
+        else:
+            destAppFilename = ''
         sbBatContent = "\"" + self.elftosbPath + "\""
-        sbBatContent += " -f kinetis -V -c " + "\"" + self.sbAppBdFilename + "\"" + ' -o ' + "\"" + self.destSbAppFilename + "\"" + ' ' + "\"" + destAppFilename + "\""
-        if self.secureBootType == uidef.kSecureBootType_HabCrypto:
-            sbBatContent += ' ' + "\"" + self.habDekFilename + "\""
-        with open(self.sbAppBdBatFilename, 'wb') as fileObj:
+        sbBatContent += " -f kinetis -V -c " + "\"" + sbAppBdFilename + "\"" + ' -o ' + "\"" + destSbAppFilename + "\"" + destAppFilename
+        if sbType == gendef.kSbFileType_All or sbType == gendef.kSbFileType_Flash:
+            if self.secureBootType == uidef.kSecureBootType_HabCrypto:
+                sbBatContent += ' ' + "\"" + self.habDekFilename + "\""
+        with open(sbAppBdBatFilename, 'wb') as fileObj:
             fileObj.write(sbBatContent)
             fileObj.close()
 
@@ -1245,13 +1317,22 @@ class secBootGen(uicore.secBootUi):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_failToGenSb'][self.languageIndex])
             return False
 
-    def genSbAppImage( self ):
-        self._doneSbAppBdfileContent()
-        self._updateSbAppBdBatfileContent()
+    def _genSbAppImage( self, sbType=gendef.kSbFileType_All ):
+        self._doneSbAppBdfileContent(sbType)
+        self._updateSbAppBdBatfileContent(sbType)
         # We have to change system dir to the path of elftosb.exe, or elftosb.exe may not be ran successfully
         curdir = os.getcwd()
         os.chdir(os.path.split(self.elftosbPath)[0])
-        process = subprocess.Popen(self.sbAppBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        sbAppBdBatFilename = None
+        if sbType == gendef.kSbFileType_All:
+            sbAppBdBatFilename = self.sbAppBdBatFilename
+        elif sbType == gendef.kSbFileType_Flash:
+            sbAppBdBatFilename = self.sbAppFlashBdBatFilename
+        elif sbType == gendef.kSbFileType_Efuse:
+            sbAppBdBatFilename = self.sbAppEfuseBdBatFilename
+        else:
+            pass
+        process = subprocess.Popen(sbAppBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         os.chdir(curdir)
         commandOutput = process.communicate()[0]
         print commandOutput
@@ -1259,6 +1340,16 @@ class secBootGen(uicore.secBootUi):
             return True
         else:
             return False
+
+    def genSbAppImages( self ):
+        if not self._genSbAppImage(gendef.kSbFileType_All):
+            return False
+        if self.isEfuseOperationInSbApp:
+            if not self._genSbAppImage(gendef.kSbFileType_Flash):
+                return False
+            if not self._genSbAppImage(gendef.kSbFileType_Efuse):
+                return False
+        return True
 
     def initSbEfuseBdfileContent( self ):
         self.sbUserEfuseBdContent = ""

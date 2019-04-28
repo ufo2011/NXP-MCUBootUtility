@@ -48,4 +48,7 @@ kUserDcdFileType_Cfg = 0x1
 kStdDcdFilename_Bin = 'dcd.bin'
 kStdDcdFilename_Cfg = 'dcd.cfg'
 
+kSbFileType_All   = 0x0
+kSbFileType_Flash = 0x1
+kSbFileType_Efuse = 0x2
 

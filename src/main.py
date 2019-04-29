@@ -43,6 +43,7 @@ class secBootMain(memcore.secBootMem):
         self.isBootableAppAllowedToView = False
         self.lastTime = None
         self.isAllInOneActionTaskPending = False
+        self.isThereBoardConnection = False
 
     def _startGaugeTimer( self ):
         if not self.isAllInOneActionTaskPending:
@@ -167,7 +168,7 @@ class secBootMain(memcore.secBootMem):
         self.setPortSetupValue(self.connectStage, usbIdList, False, False)
         self.isBootableAppAllowedToView = False
 
-    def _connectStateMachine( self ):
+    def _connectStateMachine( self, showError=True ):
         connectSteps = uidef.kConnectStep_Normal
         self.getOneStepConnectMode()
         retryToDetectUsb = False
@@ -183,7 +184,7 @@ class secBootMain(memcore.secBootMem):
             else:
                 pass
         while connectSteps:
-            if not self.updatePortSetupValue(retryToDetectUsb, True):
+            if not self.updatePortSetupValue(retryToDetectUsb, showError):
                 self._connectFailureHandler()
                 return
             if self.connectStage == uidef.kConnectStage_Rom:
@@ -198,11 +199,13 @@ class secBootMain(memcore.secBootMem):
                         self.setPortSetupValue(self.connectStage, usbIdList, True, True)
                     else:
                         self.updateConnectStatus('red')
-                        self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToJumpToFl'][self.languageIndex])
+                        if showError:
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToJumpToFl'][self.languageIndex])
                         return
                 else:
                     self.updateConnectStatus('red')
-                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_doubleCheckBmod'][self.languageIndex])
+                    if showError:
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_doubleCheckBmod'][self.languageIndex])
                     return
             elif self.connectStage == uidef.kConnectStage_Flashloader:
                 self.connectToDevice(self.connectStage)
@@ -212,7 +215,8 @@ class secBootMain(memcore.secBootMem):
                     self.updateConnectStatus('green')
                     self.connectStage = uidef.kConnectStage_ExternalMemory
                 else:
-                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToPingFl'][self.languageIndex])
+                    if showError:
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToPingFl'][self.languageIndex])
                     self._connectFailureHandler()
                     return
             elif self.connectStage == uidef.kConnectStage_ExternalMemory:
@@ -221,7 +225,8 @@ class secBootMain(memcore.secBootMem):
                     self.connectStage = uidef.kConnectStage_Reset
                     self.updateConnectStatus('blue')
                 else:
-                    self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToCfgBootDevice'][self.languageIndex])
+                    if showError:
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToCfgBootDevice'][self.languageIndex])
                     self._connectFailureHandler()
                     return
             elif self.connectStage == uidef.kConnectStage_Reset:
@@ -239,9 +244,32 @@ class secBootMain(memcore.secBootMem):
     def callbackConnectToDevice( self, event ):
         self._startGaugeTimer()
         self.printLog("'Connect to xxx' button is clicked")
-        if self.isSbFileEnabledToGen:
-            self.initSbAppBdfilesContent()
-        self._connectStateMachine()
+        if not self.isSbFileEnabledToGen:
+            self._connectStateMachine(True)
+        else:
+            if not self.isThereBoardConnection:
+                if self.connectStage == uidef.kConnectStage_Rom:
+                    self.initSbAppBdfilesContent()
+                else:
+                    # It means there is board connection
+                    self.isThereBoardConnection = True
+                self._connectStateMachine(False)
+                if not self.isThereBoardConnection:
+                    if self.connectStage == uidef.kConnectStage_Rom:
+                        # It means there is no board connection, but we need to set it as True for SB generation
+                        self.isThereBoardConnection = True
+                        self.connectToDevice(uidef.kConnectStage_Flashloader)
+                        self.isDeviceEnabledToOperate = False
+                        self.configureBootDevice()
+                        self.connectStage = uidef.kConnectStage_Reset
+                        self.updateConnectStatus('blue')
+                else:
+                    self.isThereBoardConnection = False
+            else:
+                self.isThereBoardConnection = False
+                self.isDeviceEnabledToOperate = True
+                self.connectStage = uidef.kConnectStage_Rom
+                self.updateConnectStatus('black')
         self._stopGaugeTimer()
 
     def callbackSetSecureBootType( self, event ):

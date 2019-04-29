@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.2.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.2.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.3.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.3.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 English | [中文](./README-zh.md)
 
@@ -232,7 +232,10 @@ define symbol m_data2_end              = 0x202BFFFF;
 
 ![NXP-MCUBootUtility_setGenerateSbFile](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_2_0_setGenerateSbFile.PNG)
 
-> Note: There is one limitation in generating .sb file，you need to reconnect device every time you want ro generate new .sb file，click 【Reset device】 button to move back to initial state，then click 【Connect to ROM】 button。  
+> Note1: There is one limitation in generating .sb file，you need to reconnect device every time you want ro generate new .sb file，click 【Reset device】 button to move back to initial state，then click 【Connect to ROM】 button.  
+> Note2: If there is necessary efuse operation in generated .sb file, tool will generate three .sb files in total. application_device.sb includes all operations(flash+efuse), application_device_flash.sb includes flash operations only, application_device_efuse.sb includes efuse operations only, it is flexible for production.  
+> Note3: For NOR Flash devices (FlexSPI NOR, LPSPI NOR), you can either connect or disconnect board to generate .sb file.  
+> Note4: [Scan], [Burn] buttons in eFuse Operation Utility window can also be used to generate .sb file which contains efuse operation only.  
 
 ### 4 Advanced Usage
 　　The NXP-MCUBootUtility is set to work in the Entry Mode by default. You can set it to Master Mode through the function menu bar Tools->Option. Some advanced functions are opened in the Master Mode, which is suitable for users who are very familiar with the NXP MCU chip and the Boot ROM.  

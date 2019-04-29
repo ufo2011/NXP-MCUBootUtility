@@ -340,8 +340,9 @@ kRevision_1_3_0_en =  "【v1.3.0】 \n" + \
                       "     1. HAB signed mode should not appliable for FlexSPI/SEMC NOR device Non-XIP boot with RT1020/1015 ROM \n" + \
                       "     2. HAB encrypted mode should not appliable for FlexSPI/SEMC NOR device boot with RT1020/1015 ROM \n" + \
                       "     3. Multiple .sb files(all, flash, efuse) should be generated if there is efuse operation in all-in-one action \n" + \
-                      "     4. Automatic image readback can be disabled to save operation time \n" + \
-                      "     5. The text of language option in menu bar should be static and easy understanding \n" + \
+                      "     4. Can generate .sb file without board connection when boot device type is NOR \n" + \
+                      "     5. Automatic image readback can be disabled to save operation time \n" + \
+                      "     6. The text of language option in menu bar should be static and easy understanding \n" + \
                       "  Bug: \n" + \
                       "     1. Cannot generate bootable image when original image (hex/bin) size is larger than 64KB \n" + \
                       "     2. Cannot download large image file (eg 6.8MB) in some case \n" + \
@@ -354,8 +355,9 @@ kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
                      u"     1. HAB签名模式在i.MXRT1020/1015下应不支持从FlexSPI NOR/SEMC NOR启动设备中Non-XIP启动 \n" + \
                      u"     2. HAB加密模式在i.MXRT1020/1015下应不支持从FlexSPI NOR/SEMC NOR启动设备中启动 \n" + \
                      u"     3. 当All-In-One操作中包含efuse烧写操作时，会生成3个.sb文件(全部操作、仅flash操作、仅efuse操作) \n" + \
-                     u"     4. 一键操作下的自动程序回读可以被禁掉，用以节省操作时间 \n" + \
-                     u"     5. 菜单栏里的语言选项标签应该是静态且易于理解的(中英双语同时显示) \n" + \
+                      "     4. 当启动设备是NOR型Flash时，可以不用连接板子直接生成.sb文件 \n" + \
+                     u"     5. 一键操作下的自动程序回读可以被禁掉，用以节省操作时间 \n" + \
+                     u"     6. 菜单栏里的语言选项标签应该是静态且易于理解的(中英双语同时显示) \n" + \
                      u"  缺陷: \n" + \
                      u"     1. 当输入的源image文件格式为hex或者bin且其大小超过64KB时，生成可启动程序会失败 \n" + \
                      u"     2. 当输入的源image文件非常大时(比如6.8MB)，下载可能会超时失败 \n" + \

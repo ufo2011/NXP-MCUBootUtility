@@ -128,3 +128,4 @@ kEfuseEntryModeRegion4IndexEnd   = 0x4F
 
 ##################################################
 kEfuseValue_Invalid = 0xdeadbeef
+kEfuseValue_Blank   = 0x00000000

@@ -71,6 +71,7 @@ class secBootRun(gencore.secBootGen):
         self.sdphostVectorsDir = os.path.join(self.exeTopRoot, 'tools', 'sdphost', 'win', 'vectors')
         self.blhostVectorsDir = os.path.join(self.exeTopRoot, 'tools', 'blhost', 'win', 'vectors')
 
+        self.isDeviceEnabledToOperate = True
         self.bootDeviceMemId = None
         self.bootDeviceMemBase = None
         self.semcNandImageCopies = None
@@ -82,9 +83,9 @@ class secBootRun(gencore.secBootGen):
         self.mcuDeviceBeeKey0Sel = None
         self.mcuDeviceBeeKey1Sel = None
 
-        self.comMemWriteUnit = 0
-        self.comMemEraseUnit = 0
-        self.comMemReadUnit = 0
+        self.comMemWriteUnit = 0x1
+        self.comMemEraseUnit = 0x1
+        self.comMemReadUnit = 0x1
 
         self.sbLastSharedFuseBootCfg1 = fusedef.kEfuseValue_Invalid
 
@@ -223,6 +224,8 @@ class secBootRun(gencore.secBootGen):
         return (status == boot.status.kStatus_Success)
 
     def readMcuDeviceFuseByBlhost( self, fuseIndex, fuseName, needToShow=True):
+        if not self.isDeviceEnabledToOperate and self.isSbFileEnabledToGen:
+            return fusedef.kEfuseValue_Blank
         status, results, cmdStr = self.blhost.efuseReadOnce(fuseIndex)
         self.printLog(cmdStr)
         if (status == boot.status.kStatus_Success):
@@ -367,6 +370,8 @@ class secBootRun(gencore.secBootGen):
         return True
 
     def _getFlexspiNorDeviceInfo ( self ):
+        if not self.isDeviceEnabledToOperate and self.isSbFileEnabledToGen:
+            return True
         filename = 'flexspiNorCfg.dat'
         filepath = os.path.join(self.blhostVectorsDir, filename)
         status, results, cmdStr = self.blhost.readMemory(self.bootDeviceMemBase + rundef.kFlexspiNorCfgInfo_StartAddr, rundef.kFlexspiNorCfgInfo_Length, filename, self.bootDeviceMemId)
@@ -446,26 +451,31 @@ class secBootRun(gencore.secBootGen):
         self.sbAppFlashBdContent += actionContent
 
     def _eraseFlexspiNorForConfigBlockLoading( self ):
-        status, results, cmdStr = self.blhost.flashEraseRegion(self.tgt.flexspiNorMemBase, rundef.kFlexspiNorCfgInfo_Length, rundef.kBootDeviceMemId_FlexspiNor)
+        status = boot.status.kStatus_Success
+        if self.isDeviceEnabledToOperate:
+            status, results, cmdStr = self.blhost.flashEraseRegion(self.tgt.flexspiNorMemBase, rundef.kFlexspiNorCfgInfo_Length, rundef.kBootDeviceMemId_FlexspiNor)
+            self.printLog(cmdStr)
         if self.isSbFileEnabledToGen:
             self._addFlashActionIntoSbAppBdContent("    erase " + self.sbAccessBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(self.tgt.flexspiNorMemBase))) + ".." + self.convertLongIntHexText(str(hex(self.tgt.flexspiNorMemBase + rundef.kFlexspiNorCfgInfo_Length))) + ";\n")
-        self.printLog(cmdStr)
         return (status == boot.status.kStatus_Success)
 
     def _programFlexspiNorConfigBlock ( self ):
         #if not self.tgt.isSipFlexspiNorDevice:
         if True:
+            status = boot.status.kStatus_Success
             # 0xf000000f is the tag to notify Flashloader to program FlexSPI NOR config block to the start of device
-            status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCfgBlock, 0x4, rundef.kFlexspiNorCfgInfo_Notify)
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCfgBlock, 0x4, rundef.kFlexspiNorCfgInfo_Notify)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(rundef.kFlexspiNorCfgInfo_Notify))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCfgBlock))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
-            status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCfgBlock)
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCfgBlock)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCfgBlock))) + ";\n")
-            self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 return True
             else:
@@ -479,72 +489,85 @@ class secBootRun(gencore.secBootGen):
         self._prepareForBootDeviceOperation()
         if self.bootDevice == uidef.kBootDevice_SemcNand:
             semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(self.bootDevice)
-            status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, semcNandOpt)
+            status = boot.status.kStatus_Success
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, semcNandOpt)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(semcNandOpt))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
-            status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, semcNandFcbOpt)
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, semcNandFcbOpt)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(semcNandFcbOpt))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
             for i in range(len(semcNandImageInfoList)):
                 if semcNandImageInfoList[i] != None:
-                    status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 8 + i * 4, 0x4, semcNandImageInfoList[i])
+                    if self.isDeviceEnabledToOperate:
+                        status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 8 + i * 4, 0x4, semcNandImageInfoList[i])
+                        self.printLog(cmdStr)
                     if self.isSbFileEnabledToGen:
                         self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(semcNandImageInfoList[i]))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 8 + i * 4))) + ";\n")
-                    self.printLog(cmdStr)
                     if status != boot.status.kStatus_Success:
                         return False
                 else:
                     break
-            status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
         elif self.bootDevice == uidef.kBootDevice_FlexspiNor:
             flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(self.bootDevice)
-            status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, flexspiNorOpt0)
+            status = boot.status.kStatus_Success
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, flexspiNorOpt0)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
-            status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, flexspiNorOpt1)
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, flexspiNorOpt1)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(flexspiNorOpt1))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
-            status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
             lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
-            status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, lpspiNorOpt0)
+            status = boot.status.kStatus_Success
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, lpspiNorOpt0)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(lpspiNorOpt0))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
-            status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, lpspiNorOpt1)
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, lpspiNorOpt1)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(lpspiNorOpt1))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
-            status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+                self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
                 self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            self.printLog(cmdStr)
             if status != boot.status.kStatus_Success:
                 return False
         else:

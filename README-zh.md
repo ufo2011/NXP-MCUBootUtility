@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.2.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.2.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.3.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.3.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 [English](./README.md) | 中文
 
@@ -232,7 +232,10 @@ define symbol m_data2_end              = 0x202BFFFF;
 
 ![NXP-MCUBootUtility_setGenerateSbFile](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_2_0_setGenerateSbFile.PNG)
 
-> Note: .sb格式文件生成有一个限制，即每次生成新.sb文件均需要重新连接，点击【Reset device】按钮后回到初始连接状态，然后点击【Connect to ROM】按钮。  
+> Note1: .sb格式文件生成有一个限制，即每次生成新.sb文件均需要重新连接，点击【Reset device】按钮后回到初始连接状态，然后点击【Connect to ROM】按钮。  
+> Note2: 当.sb文件中包含必要的efuse操作时，会一次性生成3个.sb格式文件，其中application_device.sb包含全部的操作（flash+efuse操作），application_device_flash.sb仅包含flash操作，application_device_efuse.sb仅包含efuse操作，这样做的目的是为了方便工厂量产。  
+> Note3: 对于NOR Flash（FlexSPI NOR、LPSPI NOR）型的启动设备生成.sb文件而言，既可连接板子在线操作（推荐），也可以不用连接板子离线操作。  
+> Note4: eFuse Operation Utility窗口里的【Scan】、【Burn】按钮可用于生成仅含自定义efuse操作的.sb文件，需要先点【Scan】按钮，然后填入想烧写的efuse值，最后再点【Burn】按钮便可在\NXP-MCUBootUtility\gen\sb_image\下生成burn_efuse.sb文件。  
 
 ### 4 软件进阶
 　　NXP-MCUBootUtility软件打开默认工作在Entry Mode下，可通过功能菜单栏Tools->Option选择进入Master Mode，在Master模式下开放了一些高级功能，适用于对NXP MCU芯片以及Boot ROM非常熟悉的用户。  

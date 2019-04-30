@@ -31,6 +31,7 @@
 import sys, os
 sys.path.append(os.path.abspath(".."))
 from boot.memoryrange import MemoryRange
+from ui import uidef
 
 cpu = 'MIMXRT1052'
 board = 'EVK'
@@ -47,6 +48,7 @@ flashloaderJumpAddr = 0x20000400
 availableCommands = 0x5EFDF
 supportedPeripheralSpeed_uart = [4800, 9600, 19200, 57600, 115200] # @todo Verify
 hasRemappedFuse = False
+flexspiNorDevice = uidef.kFlexspiNorDevice_ISSI_IS26KS512S
 flexspiNorMemBase = 0x60000000
 isSipFlexspiNorDevice = False
 isNonXipImageAppliableForXipableDeviceUnderClosedHab = True

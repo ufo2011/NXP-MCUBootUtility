@@ -11,13 +11,6 @@ sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_FlexspiNor
 from utils import sound
 
-g_flexspiNorOpt0_ISSI_IS25LP064A           = 0xc0000007
-g_flexspiNorOpt0_MXIC_MX25UM51245G         = 0xc0403037
-g_flexspiNorOpt0_MXIC_MX25UM51345G         = 0xc0403007
-g_flexspiNorOpt0_Micron_MT35X              = 0xc0600006
-g_flexspiNorOpt0_Adesto_ATXP032            = 0xc0803007
-g_flexspiNorOpt0_Cypress_S26KS512SDPBHI020 = 0xc0233007
-
 class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
 
     def __init__(self, parent):
@@ -287,18 +280,22 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
     def callbackUseTypicalDeviceModel( self, event ):
         txt = self.m_choice_deviceMode.GetString(self.m_choice_deviceMode.GetSelection())
         self.flexspiDeviceModel = txt
-        if txt == 'ISSI_IS25LP064A':
-            self.flexspiNorOpt0 = g_flexspiNorOpt0_ISSI_IS25LP064A
-        elif txt == 'MXIC_MX25UM51245G_MX66UM51245G_MX25LM51245G':
-            self.flexspiNorOpt0 = g_flexspiNorOpt0_MXIC_MX25UM51245G
-        elif txt == 'MXIC_MX25UM51345G':
-            self.flexspiNorOpt0 = g_flexspiNorOpt0_MXIC_MX25UM51345G
-        elif txt == 'Micron_MT35X':
-            self.flexspiNorOpt0 = g_flexspiNorOpt0_Micron_MT35X
-        elif txt == 'Adesto_ATXP032':
-            self.flexspiNorOpt0 = g_flexspiNorOpt0_Adesto_ATXP032
-        elif txt == 'Cypress_S26KS512SDPBHI020':
-            self.flexspiNorOpt0 = g_flexspiNorOpt0_Cypress_S26KS512SDPBHI020
+        if txt == uidef.kFlexspiNorDevice_ISSI_IS25LP064A:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_ISSI_IS25LP064A
+        elif txt == uidef.kFlexspiNorDevice_ISSI_IS26KS512S:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_ISSI_IS26KS512S
+        elif txt == uidef.kFlexspiNorDevice_MXIC_MX25UM51245G:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_MXIC_MX25UM51245G
+        elif txt == uidef.kFlexspiNorDevice_MXIC_MX25UM51345G:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_MXIC_MX25UM51345G
+        elif txt == uidef.kFlexspiNorDevice_Micron_MT35X:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Micron_MT35X
+        elif txt == uidef.kFlexspiNorDevice_Adesto_AT25SF128A:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Adesto_AT25SF128A
+        elif txt == uidef.kFlexspiNorDevice_Adesto_ATXP032:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Adesto_ATXP032
+        elif txt == uidef.kFlexspiNorDevice_Cypress_S26KS512S:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Cypress_S26KS512S
         else:
             pass
         if txt != 'No':

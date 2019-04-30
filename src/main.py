@@ -60,7 +60,6 @@ class secBootMain(memcore.secBootMem):
 
     def callbackSetMcuDevice( self, event ):
         self.setTargetSetupValue()
-        self.createMcuTarget()
         self._setUartUsbPort()
         self.applyFuseOperToRunMode()
         needToPlaySound = False
@@ -808,14 +807,15 @@ class secBootMain(memcore.secBootMem):
         msgText = ((uilang.kMsgLanguageContentDict['revisionHistory_v1_0_0'][self.languageIndex]) +
                    (uilang.kMsgLanguageContentDict['revisionHistory_v1_1_0'][self.languageIndex]) +
                    (uilang.kMsgLanguageContentDict['revisionHistory_v1_2_0'][self.languageIndex]) +
-                   (uilang.kMsgLanguageContentDict['revisionHistory_v1_3_0'][self.languageIndex]))
+                   (uilang.kMsgLanguageContentDict['revisionHistory_v1_3_0'][self.languageIndex]) +
+                   (uilang.kMsgLanguageContentDict['revisionHistory_v1_4_0'][self.languageIndex]))
         wx.MessageBox(msgText, uilang.kMsgLanguageContentDict['revisionHistory_title'][self.languageIndex], wx.OK | wx.ICON_INFORMATION)
 
 if __name__ == '__main__':
     app = wx.App()
 
     g_main_win = secBootMain(None)
-    g_main_win.SetTitle(u"NXP MCU Boot Utility v1.3.0")
+    g_main_win.SetTitle(u"NXP MCU Boot Utility v1.4.0")
     g_main_win.Show()
 
     g_task_detectUsbhid = threading.Thread(target=g_main_win.task_doDetectUsbhid)

@@ -363,6 +363,18 @@ kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
                      u"     2. 当输入的源image文件非常大时(比如6.8MB)，下载可能会超时失败 \n" + \
                      u"     3. 当切换显示语言时，有一些控件标签(如Connect按钮)不能实时更新 \n" + \
                      u"     4. /apps目录下RT1050 EVKB板子的一些LED demo是无效的 \n\n"
+kRevision_1_4_0_en =  "【v1.4.0】 \n" + \
+                      "  Feature: \n" + \
+                      "  Improvement: \n" + \
+                      "     1. Set default FlexSPI NOR device to align with  NXP EVK boards \n" + \
+                      "  Bug: \n" + \
+                      "     1. \n\n"
+kRevision_1_4_0_zh = u"【v1.4.0】 \n" + \
+                     u"  特性: \n" + \
+                     u"  改进: \n" + \
+                     u"     1. 默认FlexSPI NOR device应与恩智浦官方EVK板卡相匹配 \n" + \
+                     u"  缺陷: \n" + \
+                     u"     1. \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
@@ -379,6 +391,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v1_1_0':             [kRevision_1_1_0_en,                      kRevision_1_1_0_zh],
         'revisionHistory_v1_2_0':             [kRevision_1_2_0_en,                      kRevision_1_2_0_zh],
         'revisionHistory_v1_3_0':             [kRevision_1_3_0_en,                      kRevision_1_3_0_zh],
+        'revisionHistory_v1_4_0':             [kRevision_1_4_0_en,                      kRevision_1_4_0_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

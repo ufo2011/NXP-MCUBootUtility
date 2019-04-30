@@ -176,6 +176,33 @@ class secBootUi(secBootWin.secBootWin):
         self.m_choice_mcuDevice.SetSelection(self.toolCommDict['mcuDevice'])
         self.m_choice_bootDevice.SetSelection(self.toolCommDict['bootDevice'])
 
+    def _setFlexspiNorDeviceForEvkBoard( self ):
+        try:
+            flexspiNorOpt0 = uidef.kFlexspiNorOpt0_ISSI_IS25LP064A
+            flexspiNorOpt1 = 0x0
+            flexspiDeviceModel = self.tgt.flexspiNorDevice
+            if flexspiDeviceModel == uidef.kFlexspiNorDevice_ISSI_IS25LP064A:
+                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_ISSI_IS25LP064A
+            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_ISSI_IS26KS512S:
+                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_ISSI_IS26KS512S
+            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_MXIC_MX25UM51245G:
+                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_MXIC_MX25UM51245G
+            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_MXIC_MX25UM51345G:
+                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_MXIC_MX25UM51345G
+            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Micron_MT35X:
+                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Micron_MT35X
+            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Adesto_AT25SF128A:
+                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Adesto_AT25SF128A
+            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Adesto_ATXP032:
+                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Adesto_ATXP032
+            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Cypress_S26KS512S:
+                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Cypress_S26KS512S
+            else:
+                pass
+            uivar.setBootDeviceConfiguration(uidef.kBootDevice_FlexspiNor, flexspiNorOpt0, flexspiNorOpt1, flexspiDeviceModel)
+        except:
+            pass
+
     def setTargetSetupValue( self ):
         self.showPageInMainBootSeqWin(uidef.kPageIndex_ImageGenerationSequence)
         self.mcuSeries = self.m_choice_mcuSeries.GetString(self.m_choice_mcuSeries.GetSelection())
@@ -184,10 +211,12 @@ class secBootUi(secBootWin.secBootWin):
         self.toolCommDict['mcuSeries'] = self.m_choice_mcuSeries.GetSelection()
         self.toolCommDict['mcuDevice'] = self.m_choice_mcuDevice.GetSelection()
         self.toolCommDict['bootDevice'] = self.m_choice_bootDevice.GetSelection()
+        self.createMcuTarget()
         if self.bootDevice == uidef.kBootDevice_FlexspiNor:
             self.isNandDevice = False
             self.sbEnableBootDeviceMagic = 'flexspinor'
             self.sbAccessBootDeviceMagic = ''
+            self._setFlexspiNorDeviceForEvkBoard()
         elif self.bootDevice == uidef.kBootDevice_SemcNor:
             self.isNandDevice = False
             self.sbEnableBootDeviceMagic = 'semcnor'

@@ -23,6 +23,7 @@ from ui import ui_cfg_dcd
 from ui import ui_settings_cert
 from ui import ui_settings_fixed_otpmk_key
 from ui import ui_settings_flexible_user_keys
+from ui import ui_efuse_lock
 
 g_main_win = None
 g_task_detectUsbhid = None
@@ -648,6 +649,14 @@ class secBootMain(memcore.secBootMem):
             self._doFlashHabDek()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
+
+    def callbackSetEfuseLock( self, event ):
+        if self._checkIfSubWinHasBeenOpened():
+            return
+        efuseLockFrame = ui_efuse_lock.secBootUiEfuseLock(None)
+        efuseLockFrame.SetTitle("eFuse 0x400 Lock")
+        efuseLockFrame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
+        efuseLockFrame.Show(True)
 
     def callbackScanFuse( self, event ):
         if self.connectStage == uidef.kConnectStage_ExternalMemory or \

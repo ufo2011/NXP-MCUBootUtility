@@ -9,6 +9,7 @@ g_exeTopRoot = None
 g_isQuietSoundEffect = None
 g_languageIndex = None
 g_hasSubWinBeenOpened = False
+g_efuseDict = {'0x400':0x00000000}
 
 g_cfgFilename = None
 g_toolCommDict = {'isToolRunAsEntryMode':None,
@@ -448,3 +449,11 @@ def setRuntimeSettings( *args ):
             g_languageIndex = args[3]
     except:
         pass
+
+def getEfuseSettings( ):
+    global g_efuseDict
+    return g_efuseDict
+
+def setEfuseSettings( *args ):
+    global g_efuseDict
+    g_efuseDict = args[0]

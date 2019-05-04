@@ -720,13 +720,8 @@ class secBootWin ( wx.Frame ):
 
 		bSizer_fuseGroupTxt0 = wx.BoxSizer( wx.VERTICAL )
 
-		self.m_staticText_fuse400 = wx.StaticText( self.m_panel_fuseUtil, wx.ID_ANY, u"LOCK", wx.DefaultPosition, wx.Size( 31,20 ), 0 )
-		self.m_staticText_fuse400.Wrap( -1 )
-
-		self.m_staticText_fuse400.SetFont( wx.Font( 9, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "宋体" ) )
-		self.m_staticText_fuse400.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
-
-		bSizer_fuseGroupTxt0.Add( self.m_staticText_fuse400, 0, wx.ALL, 5 )
+		self.m_button_fuse400 = wx.Button( self.m_panel_fuseUtil, wx.ID_ANY, u"Lock", wx.DefaultPosition, wx.Size( 31,20 ), 0 )
+		bSizer_fuseGroupTxt0.Add( self.m_button_fuse400, 0, wx.ALL, 5 )
 
 		self.m_staticText_fuse410 = wx.StaticText( self.m_panel_fuseUtil, wx.ID_ANY, u"UUID0", wx.DefaultPosition, wx.Size( 31,20 ), 0 )
 		self.m_staticText_fuse410.Wrap( -1 )
@@ -1809,6 +1804,7 @@ class secBootWin ( wx.Frame ):
 		self.m_button_operBee.Bind( wx.EVT_BUTTON, self.callbackProgramBeeDek )
 		self.m_button_flashImage.Bind( wx.EVT_BUTTON, self.callbackFlashImage )
 		self.m_button_progDek.Bind( wx.EVT_BUTTON, self.callbackFlashHabDek )
+		self.m_button_fuse400.Bind( wx.EVT_BUTTON, self.callbackSetEfuseLock )
 		self.m_button_scan.Bind( wx.EVT_BUTTON, self.callbackScanFuse )
 		self.m_button_burn.Bind( wx.EVT_BUTTON, self.callbackBurnFuse )
 		self.m_button_readMem.Bind( wx.EVT_BUTTON, self.callbackReadMem )
@@ -1948,6 +1944,9 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackFlashHabDek( self, event ):
+		event.Skip()
+
+	def callbackSetEfuseLock( self, event ):
 		event.Skip()
 
 	def callbackScanFuse( self, event ):

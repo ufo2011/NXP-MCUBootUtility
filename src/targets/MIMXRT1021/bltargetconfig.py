@@ -54,6 +54,18 @@ isNonXipImageAppliableForXipableDeviceUnderClosedHab = False
 isSipFlexspiNorDevice = False
 isEccTypeSetInFuseMiscConf = False
 
+efuse_temp_reserved1 = {'Reserved':['x - Unlock']}
+efuse_temp_reserved2 = {'Reserved':['xx - Unlock']}
+efuse_0x400_bit14 = {'SRK':      ['0 - Unlock', '1 - W,0,RP']}
+efuse_0x400_bit15 = {'OTPMK_MSB':['0 - Unlock', '1 - W,0,RP']}
+efuseDescDiffDict = {'0x400_lock_bit7' :   efuse_temp_reserved1,
+                     '0x400_lock_bit14':   efuse_0x400_bit14,
+                     '0x400_lock_bit15':   efuse_0x400_bit15,
+                     '0x400_lock_bit17':   efuse_temp_reserved1,
+                     '0x400_lock_bit20':   efuse_temp_reserved1,
+                     '0x400_lock_bit25_24':efuse_temp_reserved2
+                    }
+
 # memory map
 memoryRange = {
     # ITCM, 256KByte

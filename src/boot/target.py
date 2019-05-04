@@ -61,6 +61,7 @@ class Target(object):
         self.isNonXipImageAppliableForXipableDeviceUnderClosedHab = misc.get_dict_default(kwargs, 'isNonXipImageAppliableForXipableDeviceUnderClosedHab', None)
         self.isSipFlexspiNorDevice = misc.get_dict_default(kwargs, 'isSipFlexspiNorDevice', None)
         self.isEccTypeSetInFuseMiscConf = misc.get_dict_default(kwargs, 'isEccTypeSetInFuseMiscConf', None)
+        self.efuseDescDiffDict = misc.get_dict_default(kwargs, 'efuseDescDiffDict', None)
 
     ##
     # @brief Check if a command is supported by the target.

@@ -3,11 +3,13 @@
 import wx
 import sys
 import os
+import time
 import fusedef
 sys.path.append(os.path.abspath(".."))
 from run import runcore
 from run import rundef
 from ui import uidef
+from ui import uivar
 from ui import uilang
 
 class secBootFuse(runcore.secBootRun):
@@ -129,3 +131,11 @@ class secBootFuse(runcore.secBootRun):
                         self.burnMcuDeviceFuseByBlhost(fusedef.kEfuseIndex_START + i, fuseValue, rundef.kActionFrom_BurnFuse)
                     self.toBeRefreshedFuseList[i] = True
         self.scanAllFuseRegions(True, True)
+
+    def task_doShowSettedEfuse( self ):
+        while True:
+            efuseDict = uivar.getEfuseSettings()
+            if efuseDict['0x400_lock'] != self.toBeBurnnedFuseList[0]:
+                self.toBeBurnnedFuseList[0] = efuseDict['0x400_lock']
+                self.showSettedEfuse(fusedef.kEfuseIndex_LOCK, efuseDict['0x400_lock'])
+            time.sleep(0.5)

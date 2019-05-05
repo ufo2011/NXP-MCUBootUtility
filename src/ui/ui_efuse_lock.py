@@ -3,10 +3,7 @@
 import wx
 import sys
 import os
-import math
-import uidef
 import uivar
-import uilang
 sys.path.append(os.path.abspath(".."))
 from win import efuseWin_Lock
 

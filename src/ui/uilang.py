@@ -209,6 +209,18 @@ kSubLanguageContentDict = {
         'button_semcnand_ok':                 ['Ok',                                    u"确定"],
         'button_semcnand_cancel':             ['Cancel',                                u"取消"],
 
+        #usdhcsd
+        'usdhcsd_title':                      ['uSDHC SD Device Configuration',         u"配置uSDHC接口SD卡启动设备"],
+        'panel_sdOpt':                        ['SD Option',                             u"SD卡选项"],
+        'sText_busWidth':                     ['Bus Width:',                            u"总线宽度："],
+        'sText_timingInterface':              ['Timing Interface:',                     u"总线时序模式："],
+        'sText_enablePowerCycle':             ['Enable Power Cycle:',                   u"使能供电时序："],
+        'sText_powerPolarity':                ['Power Polarity:',                       u"供电极性"],
+        'sText_powerUpTime':                  ['Power Up Time:',                        u"上电时间："],
+        'sText_powerDownTime':                ['Power Down Time:',                      u"掉电时间："],
+        'button_usdhcsd_ok':                  ['Ok',                                    u"确定"],
+        'button_usdhcsd_cancel':              ['Cancel',                                u"取消"],
+
         #otpmk
         'otpmkKey_title':                     ['Advanced Key Settings - Fixed OTPMK',   u"配置预设OTPMK密钥参数"],
         'panel_encryptionOpt':                ['Encryption Option',                     u"加密选项"],

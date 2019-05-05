@@ -166,6 +166,11 @@ def initVar(cfgFilename):
         g_lpspiNorOpt0 = cfgDict["cfgLpspiNor"][0]
         g_lpspiNorOpt1 = cfgDict["cfgLpspiNor"][1]
 
+        g_usdhcSdOpt = cfgDict["cfgUsdhcSd"][0]
+
+        g_usdhcMmcOpt1 = cfgDict["cfgUsdhcMmc"][0]
+        g_usdhcMmcOpt2 = cfgDict["cfgUsdhcMmc"][1]
+
         g_dcdCtrlDict = cfgDict["cfgDcd"][0]
         g_dcdSettingsDict = cfgDict["cfgDcd"][1]
 
@@ -219,10 +224,10 @@ def initVar(cfgFilename):
         g_semcNorOpt = 0xD0010101
         g_semcNorSetting = 0x00010601
 
-        g_usdhcSdOpt = 0xD0010101
+        g_usdhcSdOpt = 0xD0000000
 
-        g_usdhcMmcOpt1 = 0xD0010101
-        g_usdhcMmcOpt2 = 0xD0010101
+        g_usdhcMmcOpt1 = 0xC0000000
+        g_usdhcMmcOpt2 = 0x00000000
 
         g_dcdCtrlDict['isDcdEnabled'] = False
         g_dcdCtrlDict['dcdFileType'] = None
@@ -275,6 +280,9 @@ def deinitVar(cfgFilename=None):
         global g_semcNandImageInfoList
         global g_lpspiNorOpt0
         global g_lpspiNorOpt1
+        global g_usdhcSdOpt
+        global g_usdhcMmcOpt1
+        global g_usdhcMmcOpt2
         global g_dcdCtrlDict
         global g_dcdSettingsDict
         global g_certSettingsDict
@@ -288,6 +296,8 @@ def deinitVar(cfgFilename=None):
             "cfgFlexspiNor": [g_flexspiNorOpt0, g_flexspiNorOpt1, g_flexspiNorDeviceModel],
             "cfgSemcNand": [g_semcNandOpt, g_semcNandFcbOpt, g_semcNandImageInfoList],
             "cfgLpspiNor": [g_lpspiNorOpt0, g_lpspiNorOpt1],
+            "cfgUsdhcSd": [g_usdhcSdOpt],
+            "cfgUsdhcMmc": [g_usdhcMmcOpt1, g_usdhcMmcOpt2],
             "cfgDcd": [g_dcdCtrlDict, g_dcdSettingsDict],
             "cfgCertificate": [g_certSettingsDict],
             "cfgSnvsKey": [g_otpmkKeyOpt, g_otpmkEncryptedRegionStartList, g_otpmkEncryptedRegionLengthList],

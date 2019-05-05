@@ -22,12 +22,12 @@ class secBootUiUsdhcSd(bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd):
         runtimeSettings = uivar.getRuntimeSettings()
         langIndex = runtimeSettings[3]
         self.m_notebook_sdOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_sdOpt'][langIndex])
-        self.m_choice_busWidth.SetLabel(uilang.kSubLanguageContentDict['sText_busWidth'][langIndex])
-        self.m_choice_timingInterface.SetLabel(uilang.kSubLanguageContentDict['sText_timingInterface'][langIndex])
-        self.m_choice_enablePowerCycle.SetLabel(uilang.kSubLanguageContentDict['sText_enablePowerCycle'][langIndex])
-        self.m_choice_powerPolarity.SetLabel(uilang.kSubLanguageContentDict['sText_powerPolarity'][langIndex])
-        self.m_choice_powerUpTime.SetLabel(uilang.kSubLanguageContentDict['sText_powerUpTime'][langIndex])
-        self.m_choice_powerDownTime.SetLabel(uilang.kSubLanguageContentDict['sText_powerDownTime'][langIndex])
+        self.m_staticText_busWidth.SetLabel(uilang.kSubLanguageContentDict['sText_busWidth'][langIndex])
+        self.m_staticText_timingInterface.SetLabel(uilang.kSubLanguageContentDict['sText_timingInterface'][langIndex])
+        self.m_staticText_enablePowerCycle.SetLabel(uilang.kSubLanguageContentDict['sText_enablePowerCycle'][langIndex])
+        self.m_staticText_powerPolarity.SetLabel(uilang.kSubLanguageContentDict['sText_powerPolarity'][langIndex])
+        self.m_staticText_powerUpTime.SetLabel(uilang.kSubLanguageContentDict['sText_powerUpTime'][langIndex])
+        self.m_staticText_powerDownTime.SetLabel(uilang.kSubLanguageContentDict['sText_powerDownTime'][langIndex])
         self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_usdhcsd_ok'][langIndex])
         self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_usdhcsd_cancel'][langIndex])
 

@@ -171,7 +171,7 @@ class secBootUi(secBootWin.secBootWin):
         self.m_choice_mcuSeries.Clear()
         self.m_choice_bootDevice.Clear()
         self.m_choice_mcuSeries.SetItems(uidef.kMcuSeries_v1_0_0)
-        self.m_choice_bootDevice.SetItems(uidef.kBootDevice_v1_0_0)
+        self.m_choice_bootDevice.SetItems(uidef.kBootDevice_v1_4_0)
         self.m_choice_mcuSeries.SetSelection(self.toolCommDict['mcuSeries'])
         self.m_choice_mcuDevice.SetSelection(self.toolCommDict['mcuDevice'])
         self.m_choice_bootDevice.SetSelection(self.toolCommDict['bootDevice'])

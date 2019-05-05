@@ -37,6 +37,7 @@ kBootDevice_Dcd            = 'DCD'
 kBootDevice_RamFlashloader = 'RAM FLASHLOADER'
 
 kBootDevice_v1_0_0 = [kBootDevice_FlexspiNor, kBootDevice_SemcNand, kBootDevice_LpspiNor]
+kBootDevice_v1_4_0 = [kBootDevice_FlexspiNor, kBootDevice_SemcNand, kBootDevice_UsdhcSd, kBootDevice_UsdhcMmc, kBootDevice_LpspiNor]
 
 kFlexspiNorDevice_None              = 'No'
 kFlexspiNorDevice_ISSI_IS25LP064A   = 'ISSI_IS25LP064A_IS25WP064A'

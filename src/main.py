@@ -30,6 +30,7 @@ g_task_detectUsbhid = None
 g_task_playSound = None
 g_task_allInOneAction = None
 g_task_increaseGauge = None
+g_task_showSettedEfuse = None
 
 kRetryPingTimes = 5
 
@@ -839,5 +840,8 @@ if __name__ == '__main__':
     g_task_increaseGauge = threading.Thread(target=g_main_win.task_doIncreaseGauge)
     g_task_increaseGauge.setDaemon(True)
     g_task_increaseGauge.start()
+    g_task_showSettedEfuse = threading.Thread(target=g_main_win.task_doShowSettedEfuse)
+    g_task_showSettedEfuse.setDaemon(True)
+    g_task_showSettedEfuse.start()
 
     app.MainLoop()

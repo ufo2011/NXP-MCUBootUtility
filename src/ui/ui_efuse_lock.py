@@ -13,39 +13,39 @@ class secBootUiEfuseLock(efuseWin_Lock.efuseWin_Lock):
         efuseWin_Lock.efuseWin_Lock.__init__(self, parent)
         efuseDict = uivar.getEfuseSettings()
         self.efuseDict = efuseDict.copy()
-        self._recoverLastSettings()
 
     def setNecessaryInfo( self, efuseDescDiffDict ):
-        for key in efuseDescDiffDict['0x400_lock_bit7']:
+        for key in efuseDescDiffDict['0x400_lock_bit7'].keys():
             self.m_staticText_bit7.SetLabel(key)
             self.m_choice_bit7.Clear()
             self.m_choice_bit7.SetItems(efuseDescDiffDict['0x400_lock_bit7'][key])
             self.m_choice_bit7.SetSelection(0)
-        for key in efuseDescDiffDict['0x400_lock_bit14']:
+        for key in efuseDescDiffDict['0x400_lock_bit14'].keys():
             self.m_staticText_bit14.SetLabel(key)
             self.m_choice_bit14.Clear()
             self.m_choice_bit14.SetItems(efuseDescDiffDict['0x400_lock_bit14'][key])
             self.m_choice_bit14.SetSelection(0)
-        for key in efuseDescDiffDict['0x400_lock_bit15']:
+        for key in efuseDescDiffDict['0x400_lock_bit15'].keys():
             self.m_staticText_bit15.SetLabel(key)
             self.m_choice_bit15.Clear()
             self.m_choice_bit15.SetItems(efuseDescDiffDict['0x400_lock_bit15'][key])
             self.m_choice_bit15.SetSelection(0)
-        for key in efuseDescDiffDict['0x400_lock_bit17']:
+        for key in efuseDescDiffDict['0x400_lock_bit17'].keys():
             self.m_staticText_bit17.SetLabel(key)
             self.m_choice_bit17.Clear()
             self.m_choice_bit17.SetItems(efuseDescDiffDict['0x400_lock_bit17'][key])
             self.m_choice_bit17.SetSelection(0)
-        for key in efuseDescDiffDict['0x400_lock_bit20']:
+        for key in efuseDescDiffDict['0x400_lock_bit20'].keys():
             self.m_staticText_bit20.SetLabel(key)
             self.m_choice_bit20.Clear()
             self.m_choice_bit20.SetItems(efuseDescDiffDict['0x400_lock_bit20'][key])
             self.m_choice_bit20.SetSelection(0)
-        for key in efuseDescDiffDict['0x400_lock_bit25_24']:
+        for key in efuseDescDiffDict['0x400_lock_bit25_24'].keys():
             self.m_staticText_bit25_24.SetLabel(key)
             self.m_choice_bit25_24.Clear()
             self.m_choice_bit25_24.SetItems(efuseDescDiffDict['0x400_lock_bit25_24'][key])
             self.m_choice_bit25_24.SetSelection(0)
+        self._recoverLastSettings()
 
     def _recoverLastSettings ( self ):
         self.m_choice_bit1_0.SetSelection(self.efuseDict['0x400_lock'] & 0x00000003)
@@ -54,29 +54,46 @@ class secBootUiEfuseLock(efuseWin_Lock.efuseWin_Lock):
         self.m_choice_bit6.SetSelection((self.efuseDict['0x400_lock'] & 0x00000040) >> 6)
         bit7Str = self.m_choice_bit7.GetString(self.m_choice_bit7.GetSelection())
         if bit7Str[0] != 'x':
+            self.m_choice_bit7.Enable( True )
             self.m_choice_bit7.SetSelection((self.efuseDict['0x400_lock'] & 0x00000080) >> 7)
+        else:
+            self.m_choice_bit7.Enable( False )
         self.m_choice_bit9_8.SetSelection((self.efuseDict['0x400_lock'] & 0x00000300) >> 8)
         self.m_choice_bit11_10.SetSelection((self.efuseDict['0x400_lock'] & 0x00000c00) >> 10)
         self.m_choice_bit13_12.SetSelection((self.efuseDict['0x400_lock'] & 0x00003000) >> 12)
         bit14Str = self.m_choice_bit14.GetString(self.m_choice_bit14.GetSelection())
         if bit14Str[0] != 'x':
+            self.m_choice_bit14.Enable( True )
             self.m_choice_bit14.SetSelection((self.efuseDict['0x400_lock'] & 0x00004000) >> 14)
+        else:
+            self.m_choice_bit14.Enable( False )
         self.m_choice_bit15.SetSelection((self.efuseDict['0x400_lock'] & 0x00008000) >> 15)
         self.m_choice_bit16.SetSelection((self.efuseDict['0x400_lock'] & 0x00010000) >> 16)
         bit17Str = self.m_choice_bit17.GetString(self.m_choice_bit17.GetSelection())
         if bit17Str[0] != 'x':
+            self.m_choice_bit17.Enable( True )
             self.m_choice_bit17.SetSelection((self.efuseDict['0x400_lock'] & 0x00020000) >> 17)
+        else:
+            self.m_choice_bit17.Enable( False )
         self.m_choice_bit19_18.SetSelection((self.efuseDict['0x400_lock'] & 0x000c0000) >> 18)
         bit20Str = self.m_choice_bit20.GetString(self.m_choice_bit20.GetSelection())
         if bit20Str[0] != 'x':
+            self.m_choice_bit20.Enable( True )
             self.m_choice_bit20.SetSelection((self.efuseDict['0x400_lock'] & 0x00100000) >> 20)
+        else:
+            self.m_choice_bit20.Enable( False )
         self.m_choice_bit21.SetSelection((self.efuseDict['0x400_lock'] & 0x00200000) >> 21)
         self.m_choice_bit22.SetSelection((self.efuseDict['0x400_lock'] & 0x00400000) >> 22)
         self.m_choice_bit23.SetSelection((self.efuseDict['0x400_lock'] & 0x00800000) >> 23)
         bit25_24Str = self.m_choice_bit25_24.GetString(self.m_choice_bit25_24.GetSelection())
         if bit25_24Str[0] != 'x':
+            self.m_choice_bit25_24.Enable( True )
             self.m_choice_bit25_24.SetSelection((self.efuseDict['0x400_lock'] & 0x03000000) >> 24)
+        else:
+            self.m_choice_bit25_24.Enable( False )
         self.m_choice_bit27_26.SetSelection((self.efuseDict['0x400_lock'] & 0x0c000000) >> 26)
+        self.m_choice_bit29_28.Enable( False )
+        self.m_choice_bit30.Enable( False )
         self.m_choice_bit31.SetSelection((self.efuseDict['0x400_lock'] & 0x80000000) >> 31)
 
     def _getEfuseWord( self ):

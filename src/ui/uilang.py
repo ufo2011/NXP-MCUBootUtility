@@ -221,6 +221,21 @@ kSubLanguageContentDict = {
         'button_usdhcsd_ok':                  ['Ok',                                    u"确定"],
         'button_usdhcsd_cancel':              ['Cancel',                                u"取消"],
 
+        #usdhcmmc
+        'usdhcmmc_title':                     ['uSDHC MMC Device Configuration',        u"配置uSDHC接口MMC卡启动设备"],
+        'panel_mmcOpt0':                      ['MMC Option0',                           u"MMC卡选项0"],
+        'sText_partitionAccess':              ['Partition Access:',                     u"分割访问权限："],
+        'sText_enableBootConfig':             ['Enable Boot Config:',                   u"使能启动配置："],
+        'sText_bootBusWidth':                 ['Boot Bus Width:',                       u"启动总线宽度："],
+        'sText_bootMode':                     ['Boot Mode:',                            u"启动模式："],
+        'sText_enableBootPartition':          ['Enable Boot Partition:',                u"使能启动分割："],
+        'sText_enableBootAck':                ['Enable Boot Ack:',                      u"使能启动确认："],
+        'sText_resetBootBusConditions':       ['Reset Boot Bus Conditions:',            u"复位启动总线条件："],
+        'panel_mmcOpt1':                      ['MMC Option1',                           u"MMC卡选项1"],
+        'sText_enable1V8':                    ['Enable 1.8V:',                          u"使能1.8V："],
+        'button_usdhcmmc_ok':                 ['Ok',                                    u"确定"],
+        'button_usdhcmmc_cancel':             ['Cancel',                                u"取消"],
+
         #otpmk
         'otpmkKey_title':                     ['Advanced Key Settings - Fixed OTPMK',   u"配置预设OTPMK密钥参数"],
         'panel_encryptionOpt':                ['Encryption Option',                     u"加密选项"],

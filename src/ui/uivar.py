@@ -57,8 +57,8 @@ g_semcNandImageInfoList = [None] * 8
 
 g_usdhcSdOpt = None
 
+g_usdhcMmcOpt0 = None
 g_usdhcMmcOpt1 = None
-g_usdhcMmcOpt2 = None
 
 g_lpspiNorOpt0 = None
 g_lpspiNorOpt1 = None
@@ -130,8 +130,8 @@ def initVar(cfgFilename):
 
     global g_usdhcSdOpt
 
+    global g_usdhcMmcOpt0
     global g_usdhcMmcOpt1
-    global g_usdhcMmcOpt2
 
     global g_dcdCtrlDict
     global g_dcdSettingsDict
@@ -168,8 +168,8 @@ def initVar(cfgFilename):
 
         g_usdhcSdOpt = cfgDict["cfgUsdhcSd"][0]
 
-        g_usdhcMmcOpt1 = cfgDict["cfgUsdhcMmc"][0]
-        g_usdhcMmcOpt2 = cfgDict["cfgUsdhcMmc"][1]
+        g_usdhcMmcOpt0 = cfgDict["cfgUsdhcMmc"][0]
+        g_usdhcMmcOpt1 = cfgDict["cfgUsdhcMmc"][1]
 
         g_dcdCtrlDict = cfgDict["cfgDcd"][0]
         g_dcdSettingsDict = cfgDict["cfgDcd"][1]
@@ -226,8 +226,8 @@ def initVar(cfgFilename):
 
         g_usdhcSdOpt = 0xD0000000
 
-        g_usdhcMmcOpt1 = 0xC0000000
-        g_usdhcMmcOpt2 = 0x00000000
+        g_usdhcMmcOpt0 = 0xC0000000
+        g_usdhcMmcOpt1 = 0x00000000
 
         g_dcdCtrlDict['isDcdEnabled'] = False
         g_dcdCtrlDict['dcdFileType'] = None
@@ -281,8 +281,8 @@ def deinitVar(cfgFilename=None):
         global g_lpspiNorOpt0
         global g_lpspiNorOpt1
         global g_usdhcSdOpt
+        global g_usdhcMmcOpt0
         global g_usdhcMmcOpt1
-        global g_usdhcMmcOpt2
         global g_dcdCtrlDict
         global g_dcdSettingsDict
         global g_certSettingsDict
@@ -297,7 +297,7 @@ def deinitVar(cfgFilename=None):
             "cfgSemcNand": [g_semcNandOpt, g_semcNandFcbOpt, g_semcNandImageInfoList],
             "cfgLpspiNor": [g_lpspiNorOpt0, g_lpspiNorOpt1],
             "cfgUsdhcSd": [g_usdhcSdOpt],
-            "cfgUsdhcMmc": [g_usdhcMmcOpt1, g_usdhcMmcOpt2],
+            "cfgUsdhcMmc": [g_usdhcMmcOpt0, g_usdhcMmcOpt1],
             "cfgDcd": [g_dcdCtrlDict, g_dcdSettingsDict],
             "cfgCertificate": [g_certSettingsDict],
             "cfgSnvsKey": [g_otpmkKeyOpt, g_otpmkEncryptedRegionStartList, g_otpmkEncryptedRegionLengthList],
@@ -331,9 +331,9 @@ def getBootDeviceConfiguration( group ):
         global g_usdhcSdOpt
         return g_usdhcSdOpt
     elif group == uidef.kBootDevice_UsdhcMmc:
+        global g_usdhcMmcOpt0
         global g_usdhcMmcOpt1
-        global g_usdhcMmcOpt2
-        return g_usdhcMmcOpt1, g_usdhcMmcOpt2
+        return g_usdhcMmcOpt0, g_usdhcMmcOpt1
     elif group == uidef.kBootDevice_LpspiNor:
         global g_lpspiNorOpt0
         global g_lpspiNorOpt1
@@ -378,10 +378,10 @@ def setBootDeviceConfiguration( group, *args ):
         global g_usdhcSdOpt
         g_usdhcSdOpt = args[0]
     elif group == uidef.kBootDevice_UsdhcMmc:
+        global g_usdhcMmcOpt0
         global g_usdhcMmcOpt1
-        global g_usdhcMmcOpt2
-        g_usdhcMmcOpt1 = args[0]
-        g_usdhcMmcOpt2 = args[1]
+        g_usdhcMmcOpt0 = args[0]
+        g_usdhcMmcOpt1 = args[1]
     elif group == uidef.kBootDevice_LpspiNor:
         global g_lpspiNorOpt0
         global g_lpspiNorOpt1

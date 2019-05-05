@@ -109,7 +109,7 @@ class secBootMain(memcore.secBootMem):
             usdhcSdFrame.Show(True)
         elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
             usdhcMmcFrame = ui_cfg_usdhcmmc.secBootUiUsdhcMmc(None)
-            usdhcMmcFrame.SetTitle(u"uSDHC MMC Device Configuration")
+            usdhcMmcFrame.SetTitle(uilang.kSubLanguageContentDict['usdhcmmc_title'][self.languageIndex])
             usdhcMmcFrame.Show(True)
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
             lpspiNorFrame = ui_cfg_lpspinor.secBootUiCfgLpspiNor(None)

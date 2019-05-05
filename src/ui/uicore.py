@@ -1053,8 +1053,11 @@ class secBootUi(secBootWin.secBootWin):
             return '--------'
 
     def showScannedFuses( self , scannedFuseList ):
+        efuseDict = uivar.getEfuseSettings()
+
         self.m_textCtrl_fuse400.Clear()
         self.m_textCtrl_fuse400.write(self._parseReadFuseValue(scannedFuseList[0]))
+        efuseDict['0x400_lock'] = scannedFuseList[0]
         self.m_textCtrl_fuse410.Clear()
         self.m_textCtrl_fuse410.write(self._parseReadFuseValue(scannedFuseList[1]))
         self.m_textCtrl_fuse420.Clear()
@@ -1218,6 +1221,8 @@ class secBootUi(secBootWin.secBootWin):
         self.m_textCtrl_fuse8f0.Clear()
         self.m_textCtrl_fuse8f0.write(self._parseReadFuseValue(scannedFuseList[79]))
 
+        uivar.setEfuseSettings(efuseDict)
+
     def _parseUserFuseValue( self, fuseText ):
         if len(fuseText) >= 3 and fuseText[0:2] == '0x':
             return int(fuseText[2:len(fuseText)], 16)
@@ -1312,6 +1317,13 @@ class secBootUi(secBootWin.secBootWin):
         userFuseList[79] = self._parseUserFuseValue(self.m_textCtrl_fuse8f0.GetLineText(0))
 
         return userFuseList
+
+    def showSettedEfuse( self , fuseIndex, fuseValue ):
+        if fuseIndex == fusedef.kEfuseIndex_LOCK:
+            self.m_textCtrl_fuse400.Clear()
+            self.m_textCtrl_fuse400.write(self._parseReadFuseValue(fuseValue))
+        else:
+            pass
 
     def _initLanguage( self ):
         if self.toolCommDict['isEnglishLanguage']:

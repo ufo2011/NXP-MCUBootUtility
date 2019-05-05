@@ -16,6 +16,8 @@ import ui_settings_cert
 import ui_settings_fixed_otpmk_key
 import ui_settings_flexible_user_keys
 import ui_efuse_lock
+import ui_efuse_bootcfg1
+import ui_efuse_bootcfg2
 
-__all__ = ["uicore", "uidef", "uivar", "uilang", "ui_cfg_flexspinor", "ui_cfg_flexspinand", "ui_cfg_semcnor", "ui_cfg_semcnand", "ui_cfg_usdhcsd", "ui_cfg_usdhcmmc", "ui_cfg_lpspinor", "ui_cfg_dcd", "ui_settings_cert", "ui_settings_fixed_otpmk_key", "ui_settings_flexible_user_keys", "ui_efuse_lock"]
+__all__ = ["uicore", "uidef", "uivar", "uilang", "ui_cfg_flexspinor", "ui_cfg_flexspinand", "ui_cfg_semcnor", "ui_cfg_semcnand", "ui_cfg_usdhcsd", "ui_cfg_usdhcmmc", "ui_cfg_lpspinor", "ui_cfg_dcd", "ui_settings_cert", "ui_settings_fixed_otpmk_key", "ui_settings_flexible_user_keys", "ui_efuse_lock", "ui_efuse_bootcfg1", "ui_efuse_bootcfg2"]
 

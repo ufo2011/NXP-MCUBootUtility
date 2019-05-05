@@ -9,7 +9,13 @@ g_exeTopRoot = None
 g_isQuietSoundEffect = None
 g_languageIndex = None
 g_hasSubWinBeenOpened = False
-g_efuseDict = {'0x400_lock':0x00000000}
+g_efuseDict = {'0x400_lock':0x00000000,
+               '0x450_bootCfg0':0x00000000,
+               '0x460_bootCfg1':0x00000000,
+               '0x470_bootCfg2':0x00000000,
+               '0x6d0_miscConf0':0x00000000,
+               '0x6e0_miscConf1':0x00000000
+               }
 
 g_cfgFilename = None
 g_toolCommDict = {'isToolRunAsEntryMode':None,

@@ -24,6 +24,9 @@ from ui import ui_settings_cert
 from ui import ui_settings_fixed_otpmk_key
 from ui import ui_settings_flexible_user_keys
 from ui import ui_efuse_lock
+from ui import ui_efuse_bootcfg1
+from ui import ui_efuse_bootcfg2
+from ui import ui_efuse_miscconf0
 
 g_main_win = None
 g_task_detectUsbhid = None
@@ -658,6 +661,30 @@ class secBootMain(memcore.secBootMem):
         efuseLockFrame.SetTitle("eFuse 0x400 Lock")
         efuseLockFrame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
         efuseLockFrame.Show(True)
+
+    def callbackSetEfuseBootCfg1( self, event ):
+        if self._checkIfSubWinHasBeenOpened():
+            return
+        efuseBootCfg1Frame = ui_efuse_bootcfg1.secBootUiEfuseBootCfg1(None)
+        efuseBootCfg1Frame.SetTitle("eFuse 0x460 Boot Cfg1")
+        efuseBootCfg1Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
+        efuseBootCfg1Frame.Show(True)
+
+    def callbackSetEfuseBootCfg2( self, event ):
+        if self._checkIfSubWinHasBeenOpened():
+            return
+        efuseBootCfg2Frame = ui_efuse_bootcfg2.secBootUiEfuseBootCfg2(None)
+        efuseBootCfg2Frame.SetTitle("eFuse 0x470 Boot Cfg2")
+        efuseBootCfg2Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
+        efuseBootCfg2Frame.Show(True)
+
+    def callbackSetEfuseMiscConf0( self, event ):
+        if self._checkIfSubWinHasBeenOpened():
+            return
+        efuseMiscConf0Frame = ui_efuse_miscconf0.secBootUiEfuseMiscConf0(None)
+        efuseMiscConf0Frame.SetTitle("eFuse 0x6d0 Misc Conf0")
+        efuseMiscConf0Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
+        efuseMiscConf0Frame.Show(True)
 
     def callbackScanFuse( self, event ):
         if self.connectStage == uidef.kConnectStage_ExternalMemory or \

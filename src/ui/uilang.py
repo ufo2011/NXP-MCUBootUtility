@@ -222,7 +222,7 @@ kSubLanguageContentDict = {
         'button_usdhcsd_cancel':              ['Cancel',                                u"取消"],
 
         #usdhcmmc
-        'usdhcmmc_title':                     ['uSDHC MMC Device Configuration',        u"配置uSDHC接口MMC卡启动设备"],
+        'usdhcmmc_title':                     ['uSDHC (e)MMC Device Configuration',     u"配置uSDHC接口MMC卡启动设备"],
         'panel_mmcOpt0':                      ['MMC Option0',                           u"MMC卡选项0"],
         'sText_partitionAccess':              ['Partition Access:',                     u"分割访问权限："],
         'sText_enableBootConfig':             ['Enable Boot Config:',                   u"使能启动配置："],
@@ -392,12 +392,14 @@ kRevision_1_3_0_zh = u"【v1.3.0】 \n" + \
                      u"     4. /apps目录下RT1050 EVKB板子的一些LED demo是无效的 \n\n"
 kRevision_1_4_0_en =  "【v1.4.0】 \n" + \
                       "  Feature: \n" + \
+                      "     1. Support for loading bootable image into uSDHC SD/eMMC boot device  \n" + \
                       "  Improvement: \n" + \
                       "     1. Set default FlexSPI NOR device to align with  NXP EVK boards \n" + \
                       "  Bug: \n" + \
                       "     1. \n\n"
 kRevision_1_4_0_zh = u"【v1.4.0】 \n" + \
                      u"  特性: \n" + \
+                     u"     1. 支持下载Bootable image进主动启动设备 - uSDHC接口SD/eMMC卡 \n" + \
                      u"  改进: \n" + \
                      u"     1. 默认FlexSPI NOR device应与恩智浦官方EVK板卡相匹配 \n" + \
                      u"  缺陷: \n" + \

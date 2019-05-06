@@ -1239,9 +1239,11 @@ class secBootGen(uicore.secBootUi):
             elif self.bootDevice == uidef.kBootDevice_FlexspiNand:
                 pass
             elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
-                pass
+                usdhcSdOpt = uivar.getBootDeviceConfiguration(self.bootDevice)
+                destSbAppName += '_' + self.convertLongIntHexText(str(hex(usdhcSdOpt)))
             elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
-                pass
+                usdhcMmcOpt0, usdhcMmcOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
+                destSbAppName += '_' + self.convertLongIntHexText(str(hex(usdhcMmcOpt0))) + '_' + self.convertLongIntHexText(str(hex(usdhcMmcOpt1)))
             else:
                 pass
             self.destSbAppFilename = os.path.join(destSbAppPath, destSbAppName + destSbAppType)
@@ -1285,6 +1287,9 @@ class secBootGen(uicore.secBootUi):
             elif self.bootDevice == uidef.kBootDevice_SemcNand or \
                  self.bootDevice == uidef.kBootDevice_LpspiNor:
                 destAppFilename = self.destAppFilename
+            elif self.bootDevice == uidef.kBootDevice_UsdhcSd or \
+                 self.bootDevice == uidef.kBootDevice_UsdhcMmc:
+                destAppFilename = self.destAppNoPaddingFilename
             else:
                 pass
             destAppFilename = ' ' + "\"" + destAppFilename + "\""

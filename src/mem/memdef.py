@@ -9,6 +9,7 @@ kMemBlockOffsetToIvt_DCD = 0x40
 
 kMemBlockSize_NFCB       = 0x400
 kMemBlockSize_DBBT       = 0x420
+kMemBlockSize_MBRDPT     = 0x200
 kMemBlockSize_FDCB       = 0x200
 kMemBlockSize_EKIB       = 0x20
 kMemBlockSize_EPRDB      = 0x100

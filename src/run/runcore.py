@@ -428,6 +428,33 @@ class secBootRun(gencore.secBootGen):
         self.comMemReadUnit = pageByteSize
         return True
 
+    def _getUsdhcSdMmcDeviceInfo ( self ):
+        status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_ExternalMemoryAttribles, self.bootDeviceMemId)
+        self.printLog(cmdStr)
+        if (status == boot.status.kStatus_Success):
+            #typedef struct
+            #{
+            #    uint32_t availableAttributesFlag; //!< Available Atrributes, bit map
+            #    uint32_t startAddress;            //!< start Address of external memory
+            #    uint32_t flashSizeInKB;           //!< flash size of external memory
+            #    uint32_t pageSize;                //!< page size of external memory
+            #    uint32_t sectorSize;              //!< sector size of external memory
+            #    uint32_t blockSize;               //!< block size of external memory
+            #} external_memory_property_store_t;
+            blockByteSize = results[5]
+            totalSizeKB = results[2]
+            self.printDeviceStatus("Block Size (bytes)  = " + self.convertLongIntHexText(str(hex(blockByteSize))))
+            strTotalSizeGB = ("%.2f" % (totalSizeKB / 1024.0 / 1024))
+            self.printDeviceStatus("Total Size (GB)  = " + self.convertLongIntHexText(strTotalSizeGB))
+            self.comMemWriteUnit = blockByteSize
+            self.comMemEraseUnit = blockByteSize
+            self.comMemReadUnit = blockByteSize
+        else:
+            self.printDeviceStatus("Block Size (bytes)  = --------")
+            self.printDeviceStatus("Total Size (bytes)  = --------")
+            return False
+        return True
+
     def getBootDeviceInfoViaFlashloader ( self ):
         if self.bootDevice == uidef.kBootDevice_SemcNand:
             self.printDeviceStatus("--------SEMC NAND memory----------")
@@ -443,6 +470,12 @@ class secBootRun(gencore.secBootGen):
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
             self.printDeviceStatus("--------LPSPI NOR/EEPROM memory---")
             self._getLpspiNorDeviceInfo()
+        elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
+            self.printDeviceStatus("--------uSDHC SD Card info--------")
+            self._getUsdhcSdMmcDeviceInfo()
+        elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
+            self.printDeviceStatus("--------uSDHC (e)MMC Card info----")
+            self._getUsdhcSdMmcDeviceInfo()
         else:
             pass
 
@@ -487,91 +520,45 @@ class secBootRun(gencore.secBootGen):
 
     def configureBootDevice ( self ):
         self._prepareForBootDeviceOperation()
+        configOptList = []
         if self.bootDevice == uidef.kBootDevice_SemcNand:
             semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(self.bootDevice)
-            status = boot.status.kStatus_Success
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, semcNandOpt)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(semcNandOpt))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, semcNandFcbOpt)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(semcNandFcbOpt))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
+            configOptList.extend([semcNandOpt, semcNandFcbOpt])
             for i in range(len(semcNandImageInfoList)):
                 if semcNandImageInfoList[i] != None:
-                    if self.isDeviceEnabledToOperate:
-                        status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 8 + i * 4, 0x4, semcNandImageInfoList[i])
-                        self.printLog(cmdStr)
-                    if self.isSbFileEnabledToGen:
-                        self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(semcNandImageInfoList[i]))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 8 + i * 4))) + ";\n")
-                    if status != boot.status.kStatus_Success:
-                        return False
+                    configOptList.extend([semcNandImageInfoList[i]])
                 else:
                     break
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
         elif self.bootDevice == uidef.kBootDevice_FlexspiNor:
             flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(self.bootDevice)
-            status = boot.status.kStatus_Success
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, flexspiNorOpt0)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, flexspiNorOpt1)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(flexspiNorOpt1))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
+            configOptList.extend([flexspiNorOpt0, flexspiNorOpt1])
         elif self.bootDevice == uidef.kBootDevice_LpspiNor:
             lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
-            status = boot.status.kStatus_Success
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, lpspiNorOpt0)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(lpspiNorOpt0))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4, 0x4, lpspiNorOpt1)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(lpspiNorOpt1))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
-            if self.isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
+            configOptList.extend([lpspiNorOpt0, lpspiNorOpt1])
+        elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
+            usdhcSdOpt = uivar.getBootDeviceConfiguration(self.bootDevice)
+            configOptList.extend([usdhcSdOpt])
+        elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
+            usdhcMmcOpt0, usdhcMmcOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
+            configOptList.extend([usdhcMmcOpt0, usdhcMmcOpt1])
         else:
             pass
+        status = boot.status.kStatus_Success
+        for i in range(len(configOptList)):
+            if self.isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(rundef.kRamFreeSpaceStart_LoadCommOpt + 4 * i, 0x4, configOptList[i])
+                self.printLog(cmdStr)
+            if self.isSbFileEnabledToGen:
+                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(configOptList[i]))) + " > " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt + 4 * i))) + ";\n")
+            if status != boot.status.kStatus_Success:
+                return False
+        if self.isDeviceEnabledToOperate:
+            status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, rundef.kRamFreeSpaceStart_LoadCommOpt)
+            self.printLog(cmdStr)
+        if self.isSbFileEnabledToGen:
+            self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
+        if status != boot.status.kStatus_Success:
+            return False
         return True
 
     def _showOtpmkDek( self ):
@@ -898,6 +885,22 @@ class secBootRun(gencore.secBootGen):
                 self.printLog(cmdStr)
                 if status != boot.status.kStatus_Success:
                     return False
+        elif self.bootDevice == uidef.kBootDevice_UsdhcSd or \
+             self.bootDevice == uidef.kBootDevice_UsdhcMmc:
+            memEraseLen = misc.align_up(imageLen, self.comMemEraseUnit)
+            imageLoadAddr = self.bootDeviceMemBase + gendef.kIvtOffset_NAND_SD_EEPROM
+            if self.isSbFileEnabledToGen:
+                self._addFlashActionIntoSbAppBdContent("    erase " + self.sbAccessBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ".." + self.convertLongIntHexText(str(hex(imageLoadAddr + memEraseLen))) + ";\n")
+                self._addFlashActionIntoSbAppBdContent("    load " + self.sbAccessBootDeviceMagic + " myBinFile > " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ";\n")
+            else:
+                status, results, cmdStr = self.blhost.flashEraseRegion(imageLoadAddr, memEraseLen, self.bootDeviceMemId)
+                self.printLog(cmdStr)
+                if status != boot.status.kStatus_Success:
+                    return False
+                status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destAppNoPaddingFilename, self.bootDeviceMemId)
+                self.printLog(cmdStr)
+                if status != boot.status.kStatus_Success:
+                    return False
         else:
             pass
         if self.isConvertedAppUsed:
@@ -987,6 +990,10 @@ class secBootRun(gencore.secBootGen):
                     if not burnResult:
                         self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnMiscConf0'][self.languageIndex])
                         return False
+        elif self.bootDevice == uidef.kBootDevice_UsdhcSd:
+            pass
+        elif self.bootDevice == uidef.kBootDevice_UsdhcMmc:
+            pass
         else:
             pass
         return True
@@ -1114,7 +1121,10 @@ class secBootRun(gencore.secBootGen):
                 if self.bootDevice == uidef.kBootDevice_SemcNand:
                     semcNandOpt, semcNandFcbOpt, imageInfo = uivar.getBootDeviceConfiguration(self.bootDevice)
                     imageLoadAddr = self.bootDeviceMemBase + (imageInfo[i] >> 16) * self.semcNandBlockSize
-                elif self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_LpspiNor:
+                elif self.bootDevice == uidef.kBootDevice_FlexspiNor or \
+                     self.bootDevice == uidef.kBootDevice_LpspiNor or \
+                     self.bootDevice == uidef.kBootDevice_UsdhcSd or \
+                     self.bootDevice == uidef.kBootDevice_UsdhcMmc:
                     imageLoadAddr = self.bootDeviceMemBase
                 else:
                     pass

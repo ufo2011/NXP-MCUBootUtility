@@ -37,6 +37,7 @@ class secBootMem(fusecore.secBootFuse):
         self.needToShowKeyBlobIntr = None
         self.needToShowNfcbIntr = None
         self.needToShowDbbtIntr = None
+        self.needToShowMbrdptIntr = None
         self._initShowIntr()
 
     def _initShowIntr( self ):
@@ -53,6 +54,7 @@ class secBootMem(fusecore.secBootFuse):
         self.needToShowKeyBlobIntr = True
         self.needToShowNfcbIntr = True
         self.needToShowDbbtIntr = True
+        self.needToShowMbrdptIntr = True
 
     def _getCsfBlockInfo( self ):
         self.destAppCsfAddress = self.getVal32FromBinFile(self.destAppFilename, self.destAppIvtOffset + memdef.kMemberOffsetInIvt_Csf)
@@ -151,6 +153,31 @@ class secBootMem(fusecore.secBootFuse):
             pass
         return True
 
+    def _showUsdhcSdMmcMbrdpt( self ):
+        memFilename = 'usdhcSdMmcMbrdpt.dat'
+        memFilepath = os.path.join(self.blhostVectorsDir, memFilename)
+        mbrdptAddr = self.bootDeviceMemBase
+        status, results, cmdStr = self.blhost.readMemory(mbrdptAddr, memdef.kMemBlockSize_MBRDPT, memFilename, self.bootDeviceMemId)
+        self.printLog(cmdStr)
+        if status != boot.status.kStatus_Success:
+            return False
+        readoutMemLen = os.path.getsize(memFilepath)
+        memLeft = readoutMemLen
+        with open(memFilepath, 'rb') as fileObj:
+            while memLeft > 0:
+                contentToShow, memContent = self._getOneLineContentToShow(mbrdptAddr, memLeft, fileObj)
+                memLeft -= len(memContent)
+                mbrdptAddr += len(memContent)
+                if self.needToShowMbrdptIntr:
+                    self.printMem('----------------------------------MBR&DPT---------------------------------------------', uidef.kMemBlockColor_MBRDPT)
+                    self.needToShowMbrdptIntr = False
+                self.printMem(contentToShow, uidef.kMemBlockColor_MBRDPT)
+        try:
+            os.remove(memFilepath)
+        except:
+            pass
+        return True
+
     def _tryToSaveImageDataFile( self, readbackFilename ):
         if self.needToSaveReadbackImageData():
             savedBinFile = self.getImageDataFileToSave()
@@ -184,7 +211,12 @@ class secBootMem(fusecore.secBootFuse):
                 self._showSemcNandDbbt(dbbtAddr)
             # Only Readout first image
             imageMemBase = self.bootDeviceMemBase + (semcNandImageInfoList[0] >> 16) * self.semcNandBlockSize
-        elif self.bootDevice == uidef.kBootDevice_FlexspiNor or self.bootDevice == uidef.kBootDevice_LpspiNor:
+        elif self.bootDevice == uidef.kBootDevice_FlexspiNor or \
+             self.bootDevice == uidef.kBootDevice_LpspiNor:
+            imageMemBase = self.bootDeviceMemBase
+        elif self.bootDevice == uidef.kBootDevice_UsdhcSd or \
+             self.bootDevice == uidef.kBootDevice_UsdhcMmc:
+            self._showUsdhcSdMmcMbrdpt()
             imageMemBase = self.bootDeviceMemBase
         else:
             pass
@@ -209,10 +241,14 @@ class secBootMem(fusecore.secBootFuse):
                 memLeft -= len(memContent)
                 addr += len(memContent)
                 if addr <= imageMemBase + memdef.kMemBlockSize_FDCB:
-                    if self.needToShowCfgIntr:
-                        self.printMem('------------------------------------FDCB----------------------------------------------', uidef.kMemBlockColor_FDCB)
-                        self.needToShowCfgIntr = False
-                    self.printMem(contentToShow, uidef.kMemBlockColor_FDCB)
+                    if not self.isSdmmcCard:
+                        if self.needToShowCfgIntr:
+                            self.printMem('------------------------------------FDCB----------------------------------------------', uidef.kMemBlockColor_FDCB)
+                            self.needToShowCfgIntr = False
+                        self.printMem(contentToShow, uidef.kMemBlockColor_FDCB)
+                    else:
+                        if addr >= self.bootDeviceMemBase + memdef.kMemBlockSize_MBRDPT:
+                            self.printMem(contentToShow)
                 elif addr <= imageMemBase + self.destAppIvtOffset:
                     if self.secureBootType == uidef.kSecureBootType_BeeCrypto:
                         ekib0Start = imageMemBase + memdef.kMemBlockOffset_EKIB0
@@ -287,7 +323,11 @@ class secBootMem(fusecore.secBootFuse):
                             self.printMem(contentToShow, uidef.kMemBlockColor_KeyBlob)
                             hasShowed = True
                     if not hasShowed:
-                        self.printMem(contentToShow)
+                        if not self.isSdmmcCard:
+                            self.printMem(contentToShow)
+                        else:
+                            if addr >= self.bootDeviceMemBase + memdef.kMemBlockSize_MBRDPT:
+                                self.printMem(contentToShow)
             fileObj.close()
         self._initShowIntr()
         self._tryToSaveImageDataFile(memFilepath)

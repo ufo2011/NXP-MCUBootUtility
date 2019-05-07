@@ -102,6 +102,9 @@ class secBootWin ( wx.Frame ):
 		self.m_menuItem_aboutAuthor = wx.MenuItem( self.m_menu_help, wx.ID_ANY, u"About Author", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu_help.Append( self.m_menuItem_aboutAuthor )
 
+		self.m_menuItem_contributors = wx.MenuItem( self.m_menu_help, wx.ID_ANY, u"Contributors", wx.EmptyString, wx.ITEM_NORMAL )
+		self.m_menu_help.Append( self.m_menuItem_contributors )
+
 		self.m_menuItem_specialThanks = wx.MenuItem( self.m_menu_help, wx.ID_ANY, u"Special Thanks", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu_help.Append( self.m_menuItem_specialThanks )
 
@@ -1771,6 +1774,7 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetImageReadbackAsManual, id = self.m_menuItem_imageReadbackManual.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowHomePage, id = self.m_menuItem_homePage.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowAboutAuthor, id = self.m_menuItem_aboutAuthor.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackShowContributors, id = self.m_menuItem_contributors.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowSpecialThanks, id = self.m_menuItem_specialThanks.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowRevisionHistory, id = self.m_menuItem_revisionHistory.GetId() )
 		self.m_choice_mcuSeries.Bind( wx.EVT_CHOICE, self.callbackSetMcuSeries )
@@ -1862,6 +1866,9 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackShowAboutAuthor( self, event ):
+		event.Skip()
+
+	def callbackShowContributors( self, event ):
 		event.Skip()
 
 	def callbackShowSpecialThanks( self, event ):

@@ -836,6 +836,10 @@ class secBootMain(memcore.secBootMem):
                    (uilang.kMsgLanguageContentDict['aboutAuthor_blog'][self.languageIndex]))
         wx.MessageBox(msgText, uilang.kMsgLanguageContentDict['aboutAuthor_title'][self.languageIndex], wx.OK | wx.ICON_INFORMATION)
 
+    def callbackShowContributors( self, event ):
+        msgText = ((uilang.kMsgLanguageContentDict['contributors_info'][self.languageIndex]))
+        wx.MessageBox(msgText, uilang.kMsgLanguageContentDict['contributors_title'][self.languageIndex], wx.OK | wx.ICON_INFORMATION)
+
     def callbackShowSpecialThanks( self, event ):
         msgText = ((uilang.kMsgLanguageContentDict['specialThanks_info'][self.languageIndex]))
         wx.MessageBox(msgText, uilang.kMsgLanguageContentDict['specialThanks_title'][self.languageIndex], wx.OK | wx.ICON_INFORMATION)

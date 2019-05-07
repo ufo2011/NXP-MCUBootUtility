@@ -60,8 +60,9 @@ efuse_0x400_bit15    = {'ROM_PATCH':['0 - Unlock', '1 - W,0P']}
 efuse_0x400_bit17    = {'OTPMK':    ['0 - Unlock', '1 - W,0,RP']}
 efuse_0x400_bit20    = {'OTPMK_CRC':['0 - Unlock', '1 - W,0P']}
 efuse_0x400_bit25_24 = {'GP4':      ['00 - Unlock', '01 - WP', '10 - OP', '01 - W,OP']}
-efuse_0x460_bit13_12 = {'BEE_KEY0_SEL':['00 - From Register', '01 - GP4[127:0]', '10 - From OTPMK[255:128]', '11 - From SW-GP2']}
-efuse_0x460_bit15_14 = {'BEE_KEY1_SEL':['00 - From Register', '01 - GP4[127:0]', '10 - From OTPMK[255:128]', '11 - From SW-GP2']}
+efuse_0x460_bit13_12 = {'BEE_KEY0_SEL':['00 - From Register', '01 - GP4[127:0]', '10 - Reserved', '11 - From SW-GP2']}
+efuse_0x460_bit15_14 = {'BEE_KEY1_SEL':['00 - From Register', '01 - GP4[127:0]', '10 - Reserved', '11 - From SW-GP2']}
+efuse_0x460_bit31_30 = {'SD_BT_Power_Cycle_SEL':['00 - 20ms', '01 - 10ms', '10 - 5ms', '11 - 2.5ms']}
 efuseDescDiffDict = {'0x400_lock_bit7' :   efuse_0x400_bit7,
                      '0x400_lock_bit14':   uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit15':   efuse_0x400_bit15,
@@ -70,6 +71,8 @@ efuseDescDiffDict = {'0x400_lock_bit7' :   efuse_0x400_bit7,
                      '0x400_lock_bit25_24':efuse_0x400_bit25_24,
                      '0x460_bootcfg1_bit13_12':efuse_0x460_bit13_12,
                      '0x460_bootcfg1_bit15_14':efuse_0x460_bit15_14,
+                     '0x460_bootcfg1_bit31_30':efuse_0x460_bit31_30,
+                     '0x6d0_miscconf0_bit19_16':uidef_efuse.efuse_0x6d0_flexramPartion512KB,
                     }
 
 # memory map

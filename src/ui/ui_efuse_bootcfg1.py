@@ -25,6 +25,11 @@ class secBootUiEfuseBootCfg1(efuseWin_BootCfg1.efuseWin_BootCfg1):
             self.m_choice_bit15_14.Clear()
             self.m_choice_bit15_14.SetItems(efuseDescDiffDict['0x460_bootcfg1_bit15_14'][key])
             self.m_choice_bit15_14.SetSelection(0)
+        for key in efuseDescDiffDict['0x460_bootcfg1_bit31_30'].keys():
+            self.m_staticText_bit31_30.SetLabel(key)
+            self.m_choice_bit31_30.Clear()
+            self.m_choice_bit31_30.SetItems(efuseDescDiffDict['0x460_bootcfg1_bit31_30'][key])
+            self.m_choice_bit31_30.SetSelection(0)
         self._recoverLastSettings()
 
     def _recoverLastSettings ( self ):
@@ -56,7 +61,16 @@ class secBootUiEfuseBootCfg1(efuseWin_BootCfg1.efuseWin_BootCfg1):
         self.m_choice_bit27.SetSelection((self.efuseDict['0x460_bootCfg1'] & 0x08000000) >> 27)
         self.m_choice_bit28.Enable( False )
         self.m_choice_bit29.SetSelection((self.efuseDict['0x460_bootCfg1'] & 0x20000000) >> 29)
-        self.m_choice_bit31_30.SetSelection((self.efuseDict['0x460_bootCfg1'] & 0xc0000000) >> 30)
+        bit31_30Str = self.m_choice_bit31_30.GetString(self.m_choice_bit31_30.GetSelection())
+        if bit31_30Str[0] != 'x':
+            self.m_choice_bit31_30.Enable( True )
+            self.m_choice_bit31_30.SetSelection((self.efuseDict['0x460_bootCfg1'] & 0xc0000000) >> 30)
+        else:
+            self.m_choice_bit31_30.Enable( False )
+
+    def popupMsgBox( self, msgStr ):
+        messageText = (msgStr)
+        wx.MessageBox(messageText, "Error", wx.OK | wx.ICON_INFORMATION)
 
     def _getEfuseWord( self ):
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xfffffffd) | (self.m_choice_bit1.GetSelection() << 1)
@@ -69,8 +83,6 @@ class secBootUiEfuseBootCfg1(efuseWin_BootCfg1.efuseWin_BootCfg1):
         if sdramConfigOptions > 15:
             self.popupMsgBox('Illegal input detected! The input value should be in range [0, 15]')
             return False
-        else:
-            return True
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xfffff0ff) | (sdramConfigOptions<< 8)
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xffffcfff) | (self.m_choice_bit13_12.GetSelection() << 12)
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xffff3fff) | (self.m_choice_bit15_14.GetSelection() << 14)
@@ -87,7 +99,10 @@ class secBootUiEfuseBootCfg1(efuseWin_BootCfg1.efuseWin_BootCfg1):
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xfbffffff) | (self.m_choice_bit26.GetSelection() << 26)
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xf7ffffff) | (self.m_choice_bit27.GetSelection() << 27)
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xdfffffff) | (self.m_choice_bit29.GetSelection() << 29)
-        self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0x3fffffff) | (self.m_choice_bit31_30.GetSelection() << 30)
+        bit31_30Str = self.m_choice_bit31_30.GetString(self.m_choice_bit31_30.GetSelection())
+        if bit31_30Str[0] != 'x':
+            self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0x3fffffff) | (self.m_choice_bit31_30.GetSelection() << 30)
+        return True
 
     def callbackOk( self, event ):
         if not self._getEfuseWord():

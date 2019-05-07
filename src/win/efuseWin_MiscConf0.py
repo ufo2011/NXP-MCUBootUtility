@@ -124,37 +124,35 @@ class efuseWin_MiscConf0 ( wx.Frame ):
 
 		wSizer_bitIdx.Add( self.m_staticText_bitIdx0, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit7 = wx.StaticText( self, wx.ID_ANY, u"EnaBootFaiIndiPin", wx.DefaultPosition, wx.Size( 80,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit7 = wx.StaticText( self, wx.ID_ANY, u"BT_Failure_Pin", wx.DefaultPosition, wx.Size( 80,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit7.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit7, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit6 = wx.StaticText( self, wx.ID_ANY, u"USB_HANDLER_EN", wx.DefaultPosition, wx.Size( 80,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit6 = wx.StaticText( self, wx.ID_ANY, u"BT_USB_VBUS", wx.DefaultPosition, wx.Size( 80,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit6.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit6, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit5_0 = wx.StaticText( self, wx.ID_ANY, u"PAD_SETTINGS[5:0]", wx.DefaultPosition, wx.Size( 530,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit5_0 = wx.StaticText( self, wx.ID_ANY, u"BT_PAD_Settings (Speed - Drive Strength - Slew Rate)", wx.DefaultPosition, wx.Size( 530,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit5_0.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit5_0, 0, wx.ALL, 5 )
 
-		m_choice_bit7Choices = [ u"0 -Disable", u"1 -Enable" ]
+		m_choice_bit7Choices = [ u"0 - Disabled", u"1 - Enabled" ]
 		self.m_choice_bit7 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 80,-1 ), m_choice_bit7Choices, 0 )
 		self.m_choice_bit7.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit7, 0, wx.ALL, 5 )
 
-		m_choice_bit6Choices = [ u"0 -Not Handle", u"1 -Handle" ]
+		m_choice_bit6Choices = [ u"0 - Not Handle", u"1 - Handle" ]
 		self.m_choice_bit6 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 80,-1 ), m_choice_bit6Choices, 0 )
 		self.m_choice_bit6.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit6, 0, wx.ALL, 5 )
 
-		m_choice_bit5_0Choices = []
-		self.m_choice_bit5_0 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 530,-1 ), m_choice_bit5_0Choices, 0 )
-		self.m_choice_bit5_0.SetSelection( 0 )
-		wSizer_bitIdx.Add( self.m_choice_bit5_0, 0, wx.ALL, 5 )
+		self.m_textCtrl_bit5_0 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 530,-1 ), 0 )
+		wSizer_bitIdx.Add( self.m_textCtrl_bit5_0, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit15_13 = wx.StaticText( self, wx.ID_ANY, u"WDOG Timeout Select", wx.DefaultPosition, wx.Size( 260,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit15_13 = wx.StaticText( self, wx.ID_ANY, u"BT_WDOG_Timeout", wx.DefaultPosition, wx.Size( 260,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit15_13.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit15_13, 0, wx.ALL, 5 )
@@ -164,22 +162,22 @@ class efuseWin_MiscConf0 ( wx.Frame ):
 
 		wSizer_bitIdx.Add( self.m_staticText_bit12, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit11_8 = wx.StaticText( self, wx.ID_ANY, u"READ_RETRY_SEQ_ID[3:0]", wx.DefaultPosition, wx.Size( 350,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit11_8 = wx.StaticText( self, wx.ID_ANY, u"BT_Read_Retry_Sequence", wx.DefaultPosition, wx.Size( 350,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit11_8.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit11_8, 0, wx.ALL, 5 )
 
-		m_choice_bit15_13Choices = [ u"000 -64s", u"001 -32s", u"010 -16s", u"100 -8s", u"101 -4s", u"others -Reserved" ]
+		m_choice_bit15_13Choices = [ u"000 - 64s", u"001 - 32s", u"010 - 16s", u"011 - Reserved", u"100 - 8s", u"101 - 4s", u"110 - Reserved", u"111 - Reserved" ]
 		self.m_choice_bit15_13 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 260,-1 ), m_choice_bit15_13Choices, 0 )
 		self.m_choice_bit15_13.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit15_13, 0, wx.ALL, 5 )
 
-		m_choice_bit12Choices = [ u"x" ]
+		m_choice_bit12Choices = [ u"x - N/A" ]
 		self.m_choice_bit12 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 80,-1 ), m_choice_bit12Choices, 0 )
 		self.m_choice_bit12.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit12, 0, wx.ALL, 5 )
 
-		m_choice_bit11_8Choices = [ u"0000 - don't use read retry(RR) sequence embedded in ROM ", u"0001 - Micron 20nm RR sequence", u"0010 - Toshiba A19nm RR sequence", u"0011 - Toshiba 19nm RR sequence", u"0100 - SanDisk 19nm RR sequence", u"0101 - SanDisk 1ynmRR sequence", u"Others - Reserved" ]
+		m_choice_bit11_8Choices = [ u"0000 - Don't use read retry(RR) sequence", u"0001 - Micron 20nm RR sequence", u"0010 - Toshiba A19nm RR sequence", u"0011 - Toshiba 19nm RR sequence", u"0100 - SanDisk 19nm RR sequence", u"0101 - SanDisk 1ynmRR sequence", u"0110 - Reserved", u"0111 - Reserved", u"1000 - Reserved", u"1001 - Reserved", u"1010 - Reserved", u"1011 - Reserved", u"1100 - Reserved", u"1101 - Reserved", u"1110 - Reserved", u"1111 - Reserved" ]
 		self.m_choice_bit11_8 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 350,-1 ), m_choice_bit11_8Choices, 0 )
 		self.m_choice_bit11_8.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit11_8, 0, wx.ALL, 5 )
@@ -194,62 +192,62 @@ class efuseWin_MiscConf0 ( wx.Frame ):
 
 		wSizer_bitIdx.Add( self.m_staticText_bit21_20, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit19_16 = wx.StaticText( self, wx.ID_ANY, u"Default_FlexRAM_Part[3:0]", wx.DefaultPosition, wx.Size( 350,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit19_16 = wx.StaticText( self, wx.ID_ANY, u"Default_FlexRAM_Partion", wx.DefaultPosition, wx.Size( 350,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit19_16.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit19_16, 0, wx.ALL, 5 )
 
-		m_choice_bit23_22Choices = [ u"x" ]
+		m_choice_bit23_22Choices = [ u"xx - N/A" ]
 		self.m_choice_bit23_22 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 170,-1 ), m_choice_bit23_22Choices, 0 )
 		self.m_choice_bit23_22.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit23_22, 0, wx.ALL, 5 )
 
-		m_choice_bit21_20Choices = [ u"x" ]
+		m_choice_bit21_20Choices = [ u"xx - N/A" ]
 		self.m_choice_bit21_20 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 170,-1 ), m_choice_bit21_20Choices, 0 )
 		self.m_choice_bit21_20.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit21_20, 0, wx.ALL, 5 )
 
-		m_choice_bit19_16Choices = []
+		m_choice_bit19_16Choices = [ u"xxxx - ", u"0000 - " ]
 		self.m_choice_bit19_16 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 350,-1 ), m_choice_bit19_16Choices, 0 )
 		self.m_choice_bit19_16.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit19_16, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit31_30 = wx.StaticText( self, wx.ID_ANY, u"SD Calibration Step", wx.DefaultPosition, wx.Size( 170,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit31_30 = wx.StaticText( self, wx.ID_ANY, u"SD_Calibration_Step", wx.DefaultPosition, wx.Size( 170,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit31_30.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit31_30, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit29_28 = wx.StaticText( self, wx.ID_ANY, u"SPI Speed", wx.DefaultPosition, wx.Size( 170,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit29_28 = wx.StaticText( self, wx.ID_ANY, u"BT_LPSPI_Speed", wx.DefaultPosition, wx.Size( 170,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit29_28.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit29_28, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit27 = wx.StaticText( self, wx.ID_ANY, u"SPI Addressing", wx.DefaultPosition, wx.Size( 80,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit27 = wx.StaticText( self, wx.ID_ANY, u"BT_LPSPI_Addr", wx.DefaultPosition, wx.Size( 80,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit27.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit27, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit26_25 = wx.StaticText( self, wx.ID_ANY, u"Port Select", wx.DefaultPosition, wx.Size( 170,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit26_25 = wx.StaticText( self, wx.ID_ANY, u"BT_LPSPI_Port", wx.DefaultPosition, wx.Size( 170,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit26_25.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit26_25, 0, wx.ALL, 5 )
 
-		self.m_staticText_bit24 = wx.StaticText( self, wx.ID_ANY, u"EEPROM_RecoEna", wx.DefaultPosition, wx.Size( 80,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
+		self.m_staticText_bit24 = wx.StaticText( self, wx.ID_ANY, u"Recovery_BT", wx.DefaultPosition, wx.Size( 80,-1 ), wx.ALIGN_CENTER_HORIZONTAL|wx.BORDER_SIMPLE )
 		self.m_staticText_bit24.Wrap( -1 )
 
 		wSizer_bitIdx.Add( self.m_staticText_bit24, 0, wx.ALL, 5 )
 
-		m_choice_bit31_30Choices = [ u"00 - 1" ]
+		m_choice_bit31_30Choices = [ u"00 - 1", u"01 - Reserved", u"10 - Reserved", u"11 - Reserved" ]
 		self.m_choice_bit31_30 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 170,-1 ), m_choice_bit31_30Choices, 0 )
 		self.m_choice_bit31_30.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit31_30, 0, wx.ALL, 5 )
 
-		m_choice_bit29_28Choices = [ u"00 - 20MHz (default)", u"01 -10MHz", u"10 -5MHz", u"11 -2MHz" ]
+		m_choice_bit29_28Choices = [ u"00 - 20MHz", u"01 - 10MHz", u"10 - 5MHz", u"11 - 2MHz" ]
 		self.m_choice_bit29_28 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 170,-1 ), m_choice_bit29_28Choices, 0 )
 		self.m_choice_bit29_28.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit29_28, 0, wx.ALL, 5 )
 
-		m_choice_bit27Choices = [ u"0 - 3-bytes (24-bit)", u"1 - 2-bytes (16-bit)" ]
+		m_choice_bit27Choices = [ u"0 - 3bytes (24-bit)", u"1 - 2bytes (16-bit)" ]
 		self.m_choice_bit27 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 80,-1 ), m_choice_bit27Choices, 0 )
 		self.m_choice_bit27.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit27, 0, wx.ALL, 5 )
@@ -259,7 +257,7 @@ class efuseWin_MiscConf0 ( wx.Frame ):
 		self.m_choice_bit26_25.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit26_25, 0, wx.ALL, 5 )
 
-		m_choice_bit24Choices = [ u"0 -Disable", u"1 -Enable" ]
+		m_choice_bit24Choices = [ u"0 - Disabled", u"1 - Enabled" ]
 		self.m_choice_bit24 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 80,-1 ), m_choice_bit24Choices, 0 )
 		self.m_choice_bit24.SetSelection( 0 )
 		wSizer_bitIdx.Add( self.m_choice_bit24, 0, wx.ALL, 5 )

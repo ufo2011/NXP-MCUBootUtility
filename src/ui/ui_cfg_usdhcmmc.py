@@ -304,15 +304,15 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
     def callbackOk( self, event ):
         self._getBusWidth()
         self._getTimingInterface()
-        self._getPartitionAccess( self )
-        self._getEnableBootConfig( self )
+        self._getPartitionAccess()
+        self._getEnableBootConfig()
         enableBootConfig = self.usdhcMmcOpt0 & 0x00000001
         if enableBootConfig:
-            self._getBootBusWidth( self )
-            self._getBootMode( self )
-            self._getEnableBootPartition( self )
-            self._getEnableBootAck( self )
-            self._getResetBootBusConditions( self )
+            self._getBootBusWidth()
+            self._getBootMode()
+            self._getEnableBootPartition()
+            self._getEnableBootAck()
+            self._getResetBootBusConditions()
         self._getEnable1V8()
         self._getEnablePowerCycle()
         self._getPowerPolarity()

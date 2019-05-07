@@ -32,6 +32,7 @@ import sys, os
 sys.path.append(os.path.abspath(".."))
 from boot.memoryrange import MemoryRange
 from ui import uidef
+from ui import uidef_efuse
 
 cpu = 'MIMXRT1015'
 board = 'EVK'
@@ -54,16 +55,18 @@ isNonXipImageAppliableForXipableDeviceUnderClosedHab = False
 isSipFlexspiNorDevice = False
 isEccTypeSetInFuseMiscConf = False
 
-efuse_temp_reserved1 = {'Reserved':['x - Unlock']}
-efuse_temp_reserved2 = {'Reserved':['xx - Unlock']}
 efuse_0x400_bit14 = {'SRK':      ['0 - Unlock', '1 - W,0,RP']}
 efuse_0x400_bit15 = {'OTPMK_MSB':['0 - Unlock', '1 - W,0,RP']}
-efuseDescDiffDict = {'0x400_lock_bit7' :   efuse_temp_reserved1,
+efuse_0x460_bit13_12 = {'BEE_KEY0_SEL':['00 - From Register', '01 - Reserved', '10 - From OTPMK', '11 - From SW-GP2']}
+efuse_0x460_bit15_14 = {'BEE_KEY1_SEL':['00 - From Register', '01 - Reserved', '10 - From OTPMK', '11 - From SW-GP2']}
+efuseDescDiffDict = {'0x400_lock_bit7' :   uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit14':   efuse_0x400_bit14,
                      '0x400_lock_bit15':   efuse_0x400_bit15,
-                     '0x400_lock_bit17':   efuse_temp_reserved1,
-                     '0x400_lock_bit20':   efuse_temp_reserved1,
-                     '0x400_lock_bit25_24':efuse_temp_reserved2
+                     '0x400_lock_bit17':   uidef_efuse.efuse_temp_reserved1,
+                     '0x400_lock_bit20':   uidef_efuse.efuse_temp_reserved1,
+                     '0x400_lock_bit25_24':uidef_efuse.efuse_temp_reserved2,
+                     '0x460_bootcfg1_bit13_12':efuse_0x460_bit13_12,
+                     '0x460_bootcfg1_bit15_14':efuse_0x460_bit15_14,
                     }
 
 # memory map

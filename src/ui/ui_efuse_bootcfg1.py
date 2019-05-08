@@ -43,7 +43,7 @@ class secBootUiEfuseBootCfg1(efuseWin_BootCfg1.efuseWin_BootCfg1):
         self.m_choice_bit7.Enable( False )
 
         self.m_textCtrl_bit11_8.Clear()
-        self.m_textCtrl_bit11_8.write(str((self.efuseDict['0x460_bootCfg1'] & 0x00000f00) >> 8))
+        self.m_textCtrl_bit11_8.write(str(hex((self.efuseDict['0x460_bootCfg1'] & 0x00000f00) >> 8)))
         self.m_choice_bit13_12.SetSelection((self.efuseDict['0x460_bootCfg1'] & 0x00003000) >> 12)
         self.m_choice_bit15_14.SetSelection((self.efuseDict['0x460_bootCfg1'] & 0x0000c000) >> 14)
 
@@ -79,9 +79,15 @@ class secBootUiEfuseBootCfg1(efuseWin_BootCfg1.efuseWin_BootCfg1):
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xffffffef) | (self.m_choice_bit4.GetSelection() << 4)
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xffffffdf) | (self.m_choice_bit5.GetSelection() << 5)
 
-        sdramConfigOptions = int(self.m_textCtrl_bit11_8.GetLineText(0))
-        if sdramConfigOptions > 15:
-            self.popupMsgBox('Illegal input detected! The input value should be in range [0, 15]')
+        sdramConfigOptionsStr = self.m_textCtrl_bit11_8.GetLineText(0)
+        sdramConfigOptions = 0
+        if len(sdramConfigOptionsStr) >= 3 and sdramConfigOptionsStr[0:2] == '0x':
+            sdramConfigOptions = int(sdramConfigOptionsStr[2:len(sdramConfigOptionsStr)], 16)
+            if sdramConfigOptions >= 0x10:
+                self.popupMsgBox('Illegal input detected! The input value should be in range [0, 15]')
+                return False
+        else:
+            self.popupMsgBox('Illegal input detected! You should input like this format: 0x2')
             return False
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xfffff0ff) | (sdramConfigOptions<< 8)
         self.efuseDict['0x460_bootCfg1'] = (self.efuseDict['0x460_bootCfg1'] & 0xffffcfff) | (self.m_choice_bit13_12.GetSelection() << 12)

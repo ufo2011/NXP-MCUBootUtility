@@ -711,7 +711,9 @@ class secBootMain(memcore.secBootMem):
     def _doViewMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
             if self.isBootableAppAllowedToView:
+                self._startGaugeTimer()
                 self.readProgrammedMemoryAndShow()
+                self._stopGaugeTimer()
             else:
                 self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_hasnotFlashImage'][self.languageIndex])
         else:
@@ -725,7 +727,9 @@ class secBootMain(memcore.secBootMem):
 
     def _doReadMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
+            self._startGaugeTimer()
             self.readBootDeviceMemory()
+            self._stopGaugeTimer()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
@@ -737,7 +741,9 @@ class secBootMain(memcore.secBootMem):
 
     def _doEraseMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
+            self._startGaugeTimer()
             self.eraseBootDeviceMemory()
+            self._stopGaugeTimer()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
@@ -749,7 +755,9 @@ class secBootMain(memcore.secBootMem):
 
     def _doWriteMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
+            self._startGaugeTimer()
             self.writeBootDeviceMemory()
+            self._stopGaugeTimer()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 

@@ -135,7 +135,16 @@ class secBootFuse(runcore.secBootRun):
     def task_doShowSettedEfuse( self ):
         while True:
             efuseDict = uivar.getEfuseSettings()
-            if efuseDict['0x400_lock'] != self.toBeBurnnedFuseList[0]:
+            if self.toBeBurnnedFuseList[0] != None and efuseDict['0x400_lock'] != self.toBeBurnnedFuseList[0]:
                 self.toBeBurnnedFuseList[0] = efuseDict['0x400_lock']
                 self.showSettedEfuse(fusedef.kEfuseIndex_LOCK, efuseDict['0x400_lock'])
+            if self.toBeBurnnedFuseList[6] != None and efuseDict['0x460_bootCfg1'] != self.toBeBurnnedFuseList[6]:
+                self.toBeBurnnedFuseList[6] = efuseDict['0x460_bootCfg1']
+                self.showSettedEfuse(fusedef.kEfuseIndex_BOOT_CFG1, efuseDict['0x460_bootCfg1'])
+            if self.toBeBurnnedFuseList[7] != None and efuseDict['0x470_bootCfg2'] != self.toBeBurnnedFuseList[7]:
+                self.toBeBurnnedFuseList[7] = efuseDict['0x470_bootCfg2']
+                self.showSettedEfuse(fusedef.kEfuseIndex_BOOT_CFG2, efuseDict['0x470_bootCfg2'])
+            if self.toBeBurnnedFuseList[45] != None and efuseDict['0x6d0_miscConf0'] != self.toBeBurnnedFuseList[45]:
+                self.toBeBurnnedFuseList[45] = efuseDict['0x6d0_miscConf0']
+                self.showSettedEfuse(fusedef.kEfuseIndex_MISC_CONF0, efuseDict['0x6d0_miscConf0'])
             time.sleep(0.5)

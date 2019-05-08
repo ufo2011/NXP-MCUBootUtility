@@ -24,6 +24,8 @@ from ui import ui_settings_cert
 from ui import ui_settings_fixed_otpmk_key
 from ui import ui_settings_flexible_user_keys
 from ui import ui_efuse_lock
+from ui import ui_efuse_bootcfg0_flexspinor_10bits
+from ui import ui_efuse_bootcfg0_flexspinor_12bits
 from ui import ui_efuse_bootcfg1
 from ui import ui_efuse_bootcfg2
 from ui import ui_efuse_miscconf0
@@ -661,6 +663,23 @@ class secBootMain(memcore.secBootMem):
         efuseLockFrame.SetTitle("eFuse 0x400 Lock")
         efuseLockFrame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
         efuseLockFrame.Show(True)
+
+    def callbackSetEfuseBootCfg0( self, event ):
+        if self._checkIfSubWinHasBeenOpened():
+            return
+        efuseBootCfg0Frame = None
+        if self.bootDevice == uidef.kBootDevice_FlexspiNor:
+            if self.tgt.flexspiNorEfuseBootCfg0Bits == 10:
+                efuseBootCfg0Frame = ui_efuse_bootcfg0_flexspinor_10bits.secBootUiEfuseBootCfg0FlexspiNor10bits(None)
+            elif self.tgt.flexspiNorEfuseBootCfg0Bits == 12:
+                efuseBootCfg0Frame = ui_efuse_bootcfg0_flexspinor_12bits.secBootUiEfuseBootCfg0FlexspiNor12bits(None)
+            else:
+                pass
+            efuseBootCfg0Frame.SetTitle("eFuse 0x450 Boot Cfg0 - FlexSPI NOR")
+        else:
+            return
+        efuseBootCfg0Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
+        efuseBootCfg0Frame.Show(True)
 
     def callbackSetEfuseBootCfg1( self, event ):
         if self._checkIfSubWinHasBeenOpened():

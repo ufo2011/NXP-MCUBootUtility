@@ -138,6 +138,9 @@ class secBootFuse(runcore.secBootRun):
             if self.toBeBurnnedFuseList[0] != None and efuseDict['0x400_lock'] != self.toBeBurnnedFuseList[0]:
                 self.toBeBurnnedFuseList[0] = efuseDict['0x400_lock']
                 self.showSettedEfuse(fusedef.kEfuseIndex_LOCK, efuseDict['0x400_lock'])
+            if self.toBeBurnnedFuseList[5] != None and efuseDict['0x450_bootCfg0'] != self.toBeBurnnedFuseList[5]:
+                self.toBeBurnnedFuseList[5] = efuseDict['0x450_bootCfg0']
+                self.showSettedEfuse(fusedef.kEfuseIndex_BOOT_CFG0, efuseDict['0x450_bootCfg0'])
             if self.toBeBurnnedFuseList[6] != None and efuseDict['0x460_bootCfg1'] != self.toBeBurnnedFuseList[6]:
                 self.toBeBurnnedFuseList[6] = efuseDict['0x460_bootCfg1']
                 self.showSettedEfuse(fusedef.kEfuseIndex_BOOT_CFG1, efuseDict['0x460_bootCfg1'])

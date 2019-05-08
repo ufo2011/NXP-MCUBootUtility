@@ -51,6 +51,7 @@ supportedPeripheralSpeed_uart = [4800, 9600, 19200, 57600, 115200] # @todo Verif
 hasRemappedFuse = True
 flexspiNorDevice = uidef.kFlexspiNorDevice_None
 flexspiNorMemBase = 0x70000000
+flexspiNorEfuseBootCfg0Bits = 12
 isNonXipImageAppliableForXipableDeviceUnderClosedHab = True
 isSipFlexspiNorDevice = True
 isEccTypeSetInFuseMiscConf = True
@@ -60,6 +61,25 @@ efuse_0x400_bit15    = {'ROM_PATCH':               ['0 - Unlock', '1 - W,0P']}
 efuse_0x400_bit17    = {'OTPMK':                   ['0 - Unlock', '1 - W,0,RP']}
 efuse_0x400_bit20    = {'OTPMK_CRC':               ['0 - Unlock', '1 - W,0P']}
 efuse_0x400_bit25_24 = {'GP4':                     ['00 - Unlock', '01 - WP', '10 - OP', '01 - W,OP']}
+efuse_0x450_bit0     = {'Flash_Auto_Probe':        ['0 - Disabled', '1 - Enabled']}
+efuse_0x450_bit3_2   = {'Flash_Probe_Type':        ['00 - QuadSPI NOR', '01 - Macronix Octal FLASH', '10 - Micron Octal FLASH', '11 - Adesto Octal FLASH']}
+efuse_0x450_bit7_4   = {'Boot_Device_Selection':   ['0000 - FlexSPI NOR',
+                                                    '0001 - Reserved',
+                                                    '0010 - Reserved',
+                                                    '0011 - Reserved',
+                                                    '0100 - uSDHC SD',
+                                                    '0101 - uSDHC SD',
+                                                    '0110 - uSDHC SD',
+                                                    '0111 - uSDHC SD',
+                                                    '1000 - uSDHC (e)MMC',
+                                                    '1001 - uSDHC (e)MMC',
+                                                    '1010 - uSDHC (e)MMC',
+                                                    '1011 - uSDHC (e)MMC',
+                                                    '1100 - Reserved',
+                                                    '1101 - Reserved',
+                                                    '1110 - Reserved',
+                                                    '1111 - Reserved',
+                                                    ]}
 efuse_0x460_bit13_12 = {'BEE_KEY0_SEL':            ['00 - From Register', '01 - GP4[127:0]', '10 - Reserved', '11 - From SW-GP2']}
 efuse_0x460_bit15_14 = {'BEE_KEY1_SEL':            ['00 - From Register', '01 - GP4[127:0]', '10 - Reserved', '11 - From SW-GP2']}
 efuse_0x460_bit31_30 = {'SD_BT_Power_Cycle_SEL':   ['00 - 20ms', '01 - 10ms', '10 - 5ms', '11 - 2.5ms']}
@@ -81,6 +101,9 @@ efuseDescDiffDict = {'0x400_lock_bit7' :        efuse_0x400_bit7,
                      '0x400_lock_bit17':        efuse_0x400_bit17,
                      '0x400_lock_bit20':        efuse_0x400_bit20,
                      '0x400_lock_bit25_24':     efuse_0x400_bit25_24,
+                     '0x450_bootcfg0_bit0':     efuse_0x450_bit0,
+                     '0x450_bootcfg0_bit3_2':   efuse_0x450_bit3_2,
+                     '0x450_bootcfg0_bit7_4':   efuse_0x450_bit7_4,
                      '0x460_bootcfg1_bit13_12': efuse_0x460_bit13_12,
                      '0x460_bootcfg1_bit15_14': efuse_0x460_bit15_14,
                      '0x460_bootcfg1_bit31_30': efuse_0x460_bit31_30,

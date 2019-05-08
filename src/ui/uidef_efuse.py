@@ -1,6 +1,8 @@
 import wx
 import sys, os
 
+kEfuseFieldColor_Valid  = wx.Colour( 141, 180, 226 )
+
 efuse_temp_reserved1 = {'Reserved':['x - N/A']}
 efuse_temp_reserved2 = {'Reserved':['xx - N/A']}
 efuse_temp_reserved7 = {'Reserved':['xxxxxxx - N/A']}

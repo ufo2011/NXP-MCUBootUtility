@@ -678,6 +678,7 @@ class secBootMain(memcore.secBootMem):
                 pass
             efuseBootCfg0Frame.SetTitle("eFuse 0x450 Boot Cfg0 - FlexSPI NOR")
         else:
+            uivar.setRuntimeSettings(False)
             return
         efuseBootCfg0Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
         efuseBootCfg0Frame.Show(True)
@@ -714,6 +715,7 @@ class secBootMain(memcore.secBootMem):
             efuseMiscConf1Frame = ui_efuse_miscconf1_flexspinor.secBootUiEfuseMiscConf1FlexspiNor(None)
             efuseMiscConf1Frame.SetTitle("eFuse 0x6e0 Misc Conf1 - FlexSPI NOR")
         else:
+            uivar.setRuntimeSettings(False)
             return
         efuseMiscConf1Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
         efuseMiscConf1Frame.Show(True)

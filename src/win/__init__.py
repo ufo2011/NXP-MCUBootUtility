@@ -18,6 +18,8 @@ import efuseWin_BootCfg0_FlexspiNor_12bits
 import efuseWin_BootCfg1
 import efuseWin_BootCfg2
 import efuseWin_MiscConf0
+import efuseWin_MiscConf1_FlexspiNor
+
 __all__ = ["secBootWin",
            "bootDeviceWin_FlexspiNor",
            "bootDeviceWin_FlexspiNand",
@@ -35,4 +37,6 @@ __all__ = ["secBootWin",
            "efuseWin_BootCfg0_FlexspiNor_12bits",
            "efuseWin_BootCfg1",
            "efuseWin_BootCfg2",
-           "efuseWin_MiscConf0"]
+           "efuseWin_MiscConf0",
+           "efuseWin_MiscConf1_FlexspiNor",
+           ]

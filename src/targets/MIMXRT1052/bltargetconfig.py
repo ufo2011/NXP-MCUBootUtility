@@ -91,18 +91,22 @@ efuse_0x470_bit13    = {'BT_uSDHC_HYS':            ['0', '1']}
 efuse_0x470_bit14    = {'BT_eMMC4.4':              ['0', '1']}
 efuse_0x470_bit15    = {'BT_SD2_Polar':            ['0 - Low Active', '1 - High Active']}
 efuse_0x470_bit30_24 = {'BT_eMMC4.4_DLL_Delayline':['N/A']}
+
 efuseDescDiffDict = {'0x400_lock_bit7' :        uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit14':        efuse_0x400_bit14,
                      '0x400_lock_bit15':        efuse_0x400_bit15,
                      '0x400_lock_bit17':        uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit20':        uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit25_24':     uidef_efuse.efuse_temp_reserved2,
+
                      '0x450_bootcfg0_bit0':     uidef_efuse.efuse_temp_reserved1,
                      '0x450_bootcfg0_bit3_2':   efuse_0x450_bit3_2,
                      '0x450_bootcfg0_bit7_4':   efuse_0x450_bit7_4,
+
                      '0x460_bootcfg1_bit13_12': efuse_0x460_bit13_12,
                      '0x460_bootcfg1_bit15_14': efuse_0x460_bit15_14,
                      '0x460_bootcfg1_bit31_30': efuse_0x460_bit31_30,
+
                      '0x470_bootcfg2_bit0':     efuse_0x470_bit0,
                      '0x470_bootcfg2_bit3':     efuse_0x470_bit3,
                      '0x470_bootcfg2_bit5':     efuse_0x470_bit5,
@@ -115,7 +119,17 @@ efuseDescDiffDict = {'0x400_lock_bit7' :        uidef_efuse.efuse_temp_reserved1
                      '0x470_bootcfg2_bit14':    efuse_0x470_bit14,
                      '0x470_bootcfg2_bit15':    efuse_0x470_bit15,
                      '0x470_bootcfg2_bit30_24': efuse_0x470_bit30_24,
+
                      '0x6d0_miscconf0_bit19_16':uidef_efuse.efuse_0x6d0_flexramPartion512KB,
+
+                     '0x6e0_miscconf1_bit0':    uidef_efuse.efuse_temp_reserved1,
+                     '0x6e0_miscconf1_bit3_1':  uidef_efuse.efuse_temp_reserved3,
+                     '0x6e0_miscconf1_bit5_4':  uidef_efuse.efuse_temp_reserved2,
+                     '0x6e0_miscconf1_bit6':    uidef_efuse.efuse_temp_reserved1,
+                     '0x6e0_miscconf1_bit11_8': uidef_efuse.efuse_temp_reserved4,
+                     '0x6e0_miscconf1_bit15_12':uidef_efuse.efuse_temp_reserved4,
+                     '0x6e0_miscconf1_bit23_16':uidef_efuse.efuse_temp_reserved8,
+                     '0x6e0_miscconf1_bit31_24':uidef_efuse.efuse_temp_reserved8,
                     }
 
 # memory map

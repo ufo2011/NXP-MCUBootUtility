@@ -22,6 +22,7 @@ import ui_efuse_bootcfg0_flexspinor_12bits
 import ui_efuse_bootcfg1
 import ui_efuse_bootcfg2
 import ui_efuse_miscconf0
+import ui_efuse_miscconf1_flexspinor
 
 __all__ = ["uicore",
            "uidef",
@@ -44,5 +45,7 @@ __all__ = ["uicore",
            "ui_efuse_bootcfg0_flexspinor_12bits",
            "ui_efuse_bootcfg1",
            "ui_efuse_bootcfg2",
-           "ui_efuse_miscconf0"]
+           "ui_efuse_miscconf0",
+           "ui_efuse_miscconf1_flexspinor",
+           ]
 

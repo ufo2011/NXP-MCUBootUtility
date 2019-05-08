@@ -75,6 +75,13 @@ class secBootUiEfuseBootCfg2(efuseWin_BootCfg2.efuseWin_BootCfg2):
             self.m_staticText_bit30_24.SetLabel(key)
         self._recoverLastSettings()
 
+    def _convertLongIntHexText( self, hexText ):
+        lastStr = hexText[len(hexText) - 1]
+        if lastStr == 'l' or lastStr == 'L':
+            return hexText[0:len(hexText) - 1]
+        else:
+            return hexText
+
     def _recoverLastSettings ( self ):
         bit0Str = self.m_choice_bit0.GetString(self.m_choice_bit0.GetSelection())
         if bit0Str[0] != 'x':
@@ -154,7 +161,7 @@ class secBootUiEfuseBootCfg2(efuseWin_BootCfg2.efuseWin_BootCfg2):
             self.m_choice_bit15.Enable( False )
 
         self.m_textCtrl_bit19_16.Clear()
-        self.m_textCtrl_bit19_16.write(str(hex((self.efuseDict['0x470_bootCfg2'] & 0x000f0000) >> 16)))
+        self.m_textCtrl_bit19_16.write(self._convertLongIntHexText(str(hex((self.efuseDict['0x470_bootCfg2'] & 0x000f0000) >> 16))))
         self.m_staticText_bit19_16.SetBackgroundColour(uidef_efuse.kEfuseFieldColor_Valid)
         self.m_choice_bit20.SetSelection((self.efuseDict['0x470_bootCfg2'] & 0x00100000) >> 20)
         self.m_staticText_bit20.SetBackgroundColour(uidef_efuse.kEfuseFieldColor_Valid)
@@ -165,7 +172,7 @@ class secBootUiEfuseBootCfg2(efuseWin_BootCfg2.efuseWin_BootCfg2):
         bit30_24Label = self.m_staticText_bit30_24.GetLabel()
         if bit30_24Label != 'Reserved':
             self.m_textCtrl_bit30_24.Clear()
-            self.m_textCtrl_bit30_24.write(str(hex((self.efuseDict['0x470_bootCfg2'] & 0x7f000000) >> 24)))
+            self.m_textCtrl_bit30_24.write(self._convertLongIntHexText(str(hex((self.efuseDict['0x470_bootCfg2'] & 0x7f000000) >> 24))))
             self.m_staticText_bit30_24.SetBackgroundColour(uidef_efuse.kEfuseFieldColor_Valid)
         else:
             self.m_textCtrl_bit30_24.Enable( False )

@@ -29,6 +29,7 @@ from ui import ui_efuse_bootcfg0_flexspinor_12bits
 from ui import ui_efuse_bootcfg1
 from ui import ui_efuse_bootcfg2
 from ui import ui_efuse_miscconf0
+from ui import ui_efuse_miscconf1_flexspinor
 
 g_main_win = None
 g_task_detectUsbhid = None
@@ -704,6 +705,18 @@ class secBootMain(memcore.secBootMem):
         efuseMiscConf0Frame.SetTitle("eFuse 0x6d0 Misc Conf0")
         efuseMiscConf0Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
         efuseMiscConf0Frame.Show(True)
+
+    def callbackSetEfuseMiscConf1( self, event ):
+        if self._checkIfSubWinHasBeenOpened():
+            return
+        efuseMiscConf1Frame = None
+        if self.bootDevice == uidef.kBootDevice_FlexspiNor:
+            efuseMiscConf1Frame = ui_efuse_miscconf1_flexspinor.secBootUiEfuseMiscConf1FlexspiNor(None)
+            efuseMiscConf1Frame.SetTitle("eFuse 0x6e0 Misc Conf1 - FlexSPI NOR")
+        else:
+            return
+        efuseMiscConf1Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
+        efuseMiscConf1Frame.Show(True)
 
     def callbackScanFuse( self, event ):
         if self.connectStage == uidef.kConnectStage_ExternalMemory or \

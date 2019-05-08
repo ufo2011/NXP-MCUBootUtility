@@ -396,6 +396,7 @@ kRevision_1_4_0_en =  "【v1.4.0】 \n" + \
                       "     1. Support for loading bootable image into uSDHC SD/eMMC boot device  \n" + \
                       "  Improvement: \n" + \
                       "     1. Set default FlexSPI NOR device to align with  NXP EVK boards \n" + \
+                      "     2. Enable real-time gauge for Flash Programmer actions \n" + \
                       "  Bug: \n" + \
                       "     1. \n\n"
 kRevision_1_4_0_zh = u"【v1.4.0】 \n" + \
@@ -403,6 +404,7 @@ kRevision_1_4_0_zh = u"【v1.4.0】 \n" + \
                      u"     1. 支持下载Bootable image进主动启动设备 - uSDHC接口SD/eMMC卡 \n" + \
                      u"  改进: \n" + \
                      u"     1. 默认FlexSPI NOR device应与恩智浦官方EVK板卡相匹配 \n" + \
+                     u"     2. 为通用Flash编程器里的操作添加实时进度条显示 \n" + \
                      u"  缺陷: \n" + \
                      u"     1. \n\n"
 

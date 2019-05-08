@@ -23,9 +23,16 @@ class secBootUiEfuseMiscConf0(efuseWin_MiscConf0.efuseWin_MiscConf0):
             self.m_choice_bit19_16.SetSelection(0)
         self._recoverLastSettings()
 
+    def _convertLongIntHexText( self, hexText ):
+        lastStr = hexText[len(hexText) - 1]
+        if lastStr == 'l' or lastStr == 'L':
+            return hexText[0:len(hexText) - 1]
+        else:
+            return hexText
+
     def _recoverLastSettings ( self ):
         self.m_textCtrl_bit5_0.Clear()
-        self.m_textCtrl_bit5_0.write(str(hex(self.efuseDict['0x6d0_miscConf0'] & 0x0000003f)))
+        self.m_textCtrl_bit5_0.write(self._convertLongIntHexText(str(hex(self.efuseDict['0x6d0_miscConf0'] & 0x0000003f))))
         self.m_staticText_bit5_0.SetBackgroundColour(uidef_efuse.kEfuseFieldColor_Valid)
         self.m_choice_bit6.SetSelection((self.efuseDict['0x6d0_miscConf0'] & 0x00000040) >> 6)
         self.m_staticText_bit6.SetBackgroundColour(uidef_efuse.kEfuseFieldColor_Valid)

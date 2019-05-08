@@ -33,6 +33,13 @@ class secBootUiEfuseBootCfg1(efuseWin_BootCfg1.efuseWin_BootCfg1):
             self.m_choice_bit31_30.SetSelection(0)
         self._recoverLastSettings()
 
+    def _convertLongIntHexText( self, hexText ):
+        lastStr = hexText[len(hexText) - 1]
+        if lastStr == 'l' or lastStr == 'L':
+            return hexText[0:len(hexText) - 1]
+        else:
+            return hexText
+
     def _recoverLastSettings ( self ):
         self.m_choice_bit0.Enable( False )
         self.m_choice_bit1.SetSelection((self.efuseDict['0x460_bootCfg1'] & 0x00000002) >> 1)
@@ -49,7 +56,7 @@ class secBootUiEfuseBootCfg1(efuseWin_BootCfg1.efuseWin_BootCfg1):
         self.m_choice_bit7.Enable( False )
 
         self.m_textCtrl_bit11_8.Clear()
-        self.m_textCtrl_bit11_8.write(str(hex((self.efuseDict['0x460_bootCfg1'] & 0x00000f00) >> 8)))
+        self.m_textCtrl_bit11_8.write(self._convertLongIntHexText(str(hex((self.efuseDict['0x460_bootCfg1'] & 0x00000f00) >> 8))))
         self.m_staticText_bit11_8.SetBackgroundColour(uidef_efuse.kEfuseFieldColor_Valid)
         self.m_choice_bit13_12.SetSelection((self.efuseDict['0x460_bootCfg1'] & 0x00003000) >> 12)
         self.m_staticText_bit13_12.SetBackgroundColour(uidef_efuse.kEfuseFieldColor_Valid)

@@ -81,10 +81,13 @@ efuseDescDiffDict = {'0x400_lock_bit7' :        uidef_efuse.efuse_temp_reserved1
                      '0x400_lock_bit17':        uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit20':        uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit25_24':     uidef_efuse.efuse_temp_reserved2,
+
                      '0x450_bootcfg0_bit7_4':   efuse_0x450_bit7_4,
+
                      '0x460_bootcfg1_bit13_12': efuse_0x460_bit13_12,
                      '0x460_bootcfg1_bit15_14': efuse_0x460_bit15_14,
                      '0x460_bootcfg1_bit31_30': uidef_efuse.efuse_temp_reserved2,
+
                      '0x470_bootcfg2_bit0':     uidef_efuse.efuse_temp_reserved1,
                      '0x470_bootcfg2_bit3':     uidef_efuse.efuse_temp_reserved1,
                      '0x470_bootcfg2_bit5':     uidef_efuse.efuse_temp_reserved1,
@@ -97,7 +100,17 @@ efuseDescDiffDict = {'0x400_lock_bit7' :        uidef_efuse.efuse_temp_reserved1
                      '0x470_bootcfg2_bit14':    uidef_efuse.efuse_temp_reserved1,
                      '0x470_bootcfg2_bit15':    uidef_efuse.efuse_temp_reserved1,
                      '0x470_bootcfg2_bit30_24': uidef_efuse.efuse_temp_reserved7,
+
                      '0x6d0_miscconf0_bit19_16':uidef_efuse.efuse_0x6d0_flexramPartion128KB,
+
+                     '0x6e0_miscconf1_bit0':    uidef_efuse.efuse_temp_reserved1,
+                     '0x6e0_miscconf1_bit3_1':  uidef_efuse.efuse_temp_reserved3,
+                     '0x6e0_miscconf1_bit5_4':  uidef_efuse.efuse_temp_reserved2,
+                     '0x6e0_miscconf1_bit6':    uidef_efuse.efuse_temp_reserved1,
+                     '0x6e0_miscconf1_bit11_8': uidef_efuse.efuse_temp_reserved4,
+                     '0x6e0_miscconf1_bit15_12':uidef_efuse.efuse_temp_reserved4,
+                     '0x6e0_miscconf1_bit23_16':uidef_efuse.efuse_temp_reserved8,
+                     '0x6e0_miscconf1_bit31_24':uidef_efuse.efuse_temp_reserved8,
                     }
 
 # memory map

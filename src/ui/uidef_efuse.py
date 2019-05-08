@@ -5,7 +5,12 @@ kEfuseFieldColor_Valid  = wx.Colour( 141, 180, 226 )
 
 efuse_temp_reserved1 = {'Reserved':['x - N/A']}
 efuse_temp_reserved2 = {'Reserved':['xx - N/A']}
+efuse_temp_reserved3 = {'Reserved':['xxx - N/A']}
+efuse_temp_reserved4 = {'Reserved':['xxxx - N/A']}
+efuse_temp_reserved5 = {'Reserved':['xxxxx - N/A']}
+efuse_temp_reserved6 = {'Reserved':['xxxxxx - N/A']}
 efuse_temp_reserved7 = {'Reserved':['xxxxxxx - N/A']}
+efuse_temp_reserved8 = {'Reserved':['xxxxxxxx - N/A']}
 
 efuse_0x6d0_flexramPartion128KB = {'Default_FlexRAM_Partion':['0000 -  32KB ITCM,  32KB DTCM,  64KB OCRAM',
                                                               '0001 -  32KB ITCM,  64KB DTCM,  32KB OCRAM',

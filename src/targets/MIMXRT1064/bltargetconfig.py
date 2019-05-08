@@ -95,18 +95,46 @@ efuse_0x470_bit13    = {'BT_uSDHC_HYS':            ['0', '1']}
 efuse_0x470_bit14    = {'BT_eMMC4.4':              ['0', '1']}
 efuse_0x470_bit15    = {'BT_SD2_Polar':            ['0 - Low Active', '1 - High Active']}
 efuse_0x470_bit30_24 = {'BT_eMMC4.4_DLL_Delayline':['N/A']}
+efuse_0x6e0_bit0     = {'SIP_Test':                ['0 - Disabled', '1 - Enabled']}
+efuse_0x6e0_bit3_1   = {'xSPI_Flash_BT_Frequency': ['000 - 100MHz', '001 - 120MHz', '010 - 133MHz', '011 - 166MHz', '100 - Reserved', '101 - 80MHz', '110 - 60MHz', '111 - Reserved']}
+efuse_0x6e0_bit5_4   = {'xSPI_Flash_Hold_Time':    ['00 - 500us', '01 - 1ms', '10 - 3ms', '11 - 10ms']}
+efuse_0x6e0_bit6     = {'JEDEC_Hw_RST':            ['0 - Disabled', '1 - Enabled']}
+efuse_0x6e0_bit11_8  = {'xSPI_Flash_Dummy_Cycle':  ['N/A']}
+efuse_0x6e0_bit15_12 = {'xSPI_Flash_Image_Size':   ['0000 - 256KB * FlexSPI_NOR_Secondary_Image_Offset',
+                                                    '0001 - 1MB',
+                                                    '0010 - 2MB',
+                                                    '0011 - 3MB',
+                                                    '0100 - 4MB',
+                                                    '0101 - 5MB',
+                                                    '0110 - 6MB',
+                                                    '0111 - 7MB',
+                                                    '1000 - 8MB',
+                                                    '1001 - 9MB',
+                                                    '1010 - 10MB',
+                                                    '1011 - 11MB',
+                                                    '1100 - 12MB',
+                                                    '1101 - 256KB',
+                                                    '1110 - 512KB',
+                                                    '1111 - 768KB',
+                                                   ]}
+efuse_0x6e0_bit23_16 = {'FlexSPI_NOR_Secondary_Image_Offset (256KB * fuse value)':['N/A']}
+efuse_0x6e0_bit31_24 = {'BT_Pin_SEL':              ['N/A']}
+
 efuseDescDiffDict = {'0x400_lock_bit7' :        efuse_0x400_bit7,
                      '0x400_lock_bit14':        uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit15':        efuse_0x400_bit15,
                      '0x400_lock_bit17':        efuse_0x400_bit17,
                      '0x400_lock_bit20':        efuse_0x400_bit20,
                      '0x400_lock_bit25_24':     efuse_0x400_bit25_24,
+
                      '0x450_bootcfg0_bit0':     efuse_0x450_bit0,
                      '0x450_bootcfg0_bit3_2':   efuse_0x450_bit3_2,
                      '0x450_bootcfg0_bit7_4':   efuse_0x450_bit7_4,
+
                      '0x460_bootcfg1_bit13_12': efuse_0x460_bit13_12,
                      '0x460_bootcfg1_bit15_14': efuse_0x460_bit15_14,
                      '0x460_bootcfg1_bit31_30': efuse_0x460_bit31_30,
+
                      '0x470_bootcfg2_bit0':     efuse_0x470_bit0,
                      '0x470_bootcfg2_bit3':     efuse_0x470_bit3,
                      '0x470_bootcfg2_bit5':     efuse_0x470_bit5,
@@ -119,7 +147,17 @@ efuseDescDiffDict = {'0x400_lock_bit7' :        efuse_0x400_bit7,
                      '0x470_bootcfg2_bit14':    efuse_0x470_bit14,
                      '0x470_bootcfg2_bit15':    efuse_0x470_bit15,
                      '0x470_bootcfg2_bit30_24': efuse_0x470_bit30_24,
+
                      '0x6d0_miscconf0_bit19_16':uidef_efuse.efuse_0x6d0_flexramPartion512KB,
+
+                     '0x6e0_miscconf1_bit0':    efuse_0x6e0_bit0,
+                     '0x6e0_miscconf1_bit3_1':  efuse_0x6e0_bit3_1,
+                     '0x6e0_miscconf1_bit5_4':  efuse_0x6e0_bit5_4,
+                     '0x6e0_miscconf1_bit6':    efuse_0x6e0_bit6,
+                     '0x6e0_miscconf1_bit11_8': efuse_0x6e0_bit11_8,
+                     '0x6e0_miscconf1_bit15_12':efuse_0x6e0_bit15_12,
+                     '0x6e0_miscconf1_bit23_16':efuse_0x6e0_bit23_16,
+                     '0x6e0_miscconf1_bit31_24':efuse_0x6e0_bit31_24,
                     }
 
 # memory map

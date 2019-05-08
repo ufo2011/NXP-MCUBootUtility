@@ -1170,6 +1170,7 @@ class secBootUi(secBootWin.secBootWin):
         efuseDict['0x6d0_miscConf0'] = scannedFuseList[45]
         self.m_textCtrl_fuse6e0.Clear()
         self.m_textCtrl_fuse6e0.write(self._parseReadFuseValue(scannedFuseList[46]))
+        efuseDict['0x6e0_miscConf1'] = scannedFuseList[46]
         self.m_textCtrl_fuse6f0.Clear()
         self.m_textCtrl_fuse6f0.write(self._parseReadFuseValue(scannedFuseList[47]))
 
@@ -1352,6 +1353,9 @@ class secBootUi(secBootWin.secBootWin):
         elif fuseIndex == fusedef.kEfuseIndex_MISC_CONF0:
             self.m_textCtrl_fuse6d0.Clear()
             self.m_textCtrl_fuse6d0.write(self._parseReadFuseValue(fuseValue))
+        elif fuseIndex == fusedef.kEfuseIndex_MISC_CONF1:
+            self.m_textCtrl_fuse6e0.Clear()
+            self.m_textCtrl_fuse6e0.write(self._parseReadFuseValue(fuseValue))
         else:
             pass
 

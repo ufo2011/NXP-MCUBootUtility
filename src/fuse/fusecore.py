@@ -150,4 +150,7 @@ class secBootFuse(runcore.secBootRun):
             if self.toBeBurnnedFuseList[45] != None and efuseDict['0x6d0_miscConf0'] != self.toBeBurnnedFuseList[45]:
                 self.toBeBurnnedFuseList[45] = efuseDict['0x6d0_miscConf0']
                 self.showSettedEfuse(fusedef.kEfuseIndex_MISC_CONF0, efuseDict['0x6d0_miscConf0'])
+            if self.toBeBurnnedFuseList[46] != None and efuseDict['0x6e0_miscConf1'] != self.toBeBurnnedFuseList[46]:
+                self.toBeBurnnedFuseList[46] = efuseDict['0x6e0_miscConf1']
+                self.showSettedEfuse(fusedef.kEfuseIndex_MISC_CONF1, efuseDict['0x6e0_miscConf1'])
             time.sleep(0.5)

@@ -55,23 +55,47 @@ isNonXipImageAppliableForXipableDeviceUnderClosedHab = True
 isSipFlexspiNorDevice = True
 isEccTypeSetInFuseMiscConf = True
 
-efuse_0x400_bit7     = {'GP4_R':    ['0 - Unlock', '1 - RP']}
-efuse_0x400_bit15    = {'ROM_PATCH':['0 - Unlock', '1 - W,0P']}
-efuse_0x400_bit17    = {'OTPMK':    ['0 - Unlock', '1 - W,0,RP']}
-efuse_0x400_bit20    = {'OTPMK_CRC':['0 - Unlock', '1 - W,0P']}
-efuse_0x400_bit25_24 = {'GP4':      ['00 - Unlock', '01 - WP', '10 - OP', '01 - W,OP']}
-efuse_0x460_bit13_12 = {'BEE_KEY0_SEL':['00 - From Register', '01 - GP4[127:0]', '10 - Reserved', '11 - From SW-GP2']}
-efuse_0x460_bit15_14 = {'BEE_KEY1_SEL':['00 - From Register', '01 - GP4[127:0]', '10 - Reserved', '11 - From SW-GP2']}
-efuse_0x460_bit31_30 = {'SD_BT_Power_Cycle_SEL':['00 - 20ms', '01 - 10ms', '10 - 5ms', '11 - 2.5ms']}
-efuseDescDiffDict = {'0x400_lock_bit7' :   efuse_0x400_bit7,
-                     '0x400_lock_bit14':   uidef_efuse.efuse_temp_reserved1,
-                     '0x400_lock_bit15':   efuse_0x400_bit15,
-                     '0x400_lock_bit17':   efuse_0x400_bit17,
-                     '0x400_lock_bit20':   efuse_0x400_bit20,
-                     '0x400_lock_bit25_24':efuse_0x400_bit25_24,
-                     '0x460_bootcfg1_bit13_12':efuse_0x460_bit13_12,
-                     '0x460_bootcfg1_bit15_14':efuse_0x460_bit15_14,
-                     '0x460_bootcfg1_bit31_30':efuse_0x460_bit31_30,
+efuse_0x400_bit7     = {'GP4_R':                   ['0 - Unlock', '1 - RP']}
+efuse_0x400_bit15    = {'ROM_PATCH':               ['0 - Unlock', '1 - W,0P']}
+efuse_0x400_bit17    = {'OTPMK':                   ['0 - Unlock', '1 - W,0,RP']}
+efuse_0x400_bit20    = {'OTPMK_CRC':               ['0 - Unlock', '1 - W,0P']}
+efuse_0x400_bit25_24 = {'GP4':                     ['00 - Unlock', '01 - WP', '10 - OP', '01 - W,OP']}
+efuse_0x460_bit13_12 = {'BEE_KEY0_SEL':            ['00 - From Register', '01 - GP4[127:0]', '10 - Reserved', '11 - From SW-GP2']}
+efuse_0x460_bit15_14 = {'BEE_KEY1_SEL':            ['00 - From Register', '01 - GP4[127:0]', '10 - Reserved', '11 - From SW-GP2']}
+efuse_0x460_bit31_30 = {'SD_BT_Power_Cycle_SEL':   ['00 - 20ms', '01 - 10ms', '10 - 5ms', '11 - 2.5ms']}
+efuse_0x470_bit0     = {'BT_SD_Pad':               ['0 - Normal', '1 - Overridden']}
+efuse_0x470_bit3     = {'BT_SDMMC':                ['0 - Enabled', '1 - Disabled']}
+efuse_0x470_bit5     = {'BT_SD2_Volt':             ['0 - 3.3V', '1 - 1.8V']}
+efuse_0x470_bit6     = {'BT_SD1_Polar':            ['0 - Low Active', '1 - High Active']}
+efuse_0x470_bit8     = {'BT_uSDHC_SRE':            ['0 - Enabled', '1 - Disabled']}
+efuse_0x470_bit9     = {'BT_uSDHC_SION':           ['0 - Enabled', '1 - Disabled']}
+efuse_0x470_bit11    = {'BT_eMMC_Pullup':          ['0 - 47K', '1 - 22K']}
+efuse_0x470_bit12    = {'BT_uSDHC_Pulldown':       ['0 - No Action', '1 - Pull Down']}
+efuse_0x470_bit13    = {'BT_uSDHC_HYS':            ['0', '1']}
+efuse_0x470_bit14    = {'BT_eMMC4.4':              ['0', '1']}
+efuse_0x470_bit15    = {'BT_SD2_Polar':            ['0 - Low Active', '1 - High Active']}
+efuse_0x470_bit30_24 = {'BT_eMMC4.4_DLL_Delayline':['N/A']}
+efuseDescDiffDict = {'0x400_lock_bit7' :        efuse_0x400_bit7,
+                     '0x400_lock_bit14':        uidef_efuse.efuse_temp_reserved1,
+                     '0x400_lock_bit15':        efuse_0x400_bit15,
+                     '0x400_lock_bit17':        efuse_0x400_bit17,
+                     '0x400_lock_bit20':        efuse_0x400_bit20,
+                     '0x400_lock_bit25_24':     efuse_0x400_bit25_24,
+                     '0x460_bootcfg1_bit13_12': efuse_0x460_bit13_12,
+                     '0x460_bootcfg1_bit15_14': efuse_0x460_bit15_14,
+                     '0x460_bootcfg1_bit31_30': efuse_0x460_bit31_30,
+                     '0x470_bootcfg2_bit0':     efuse_0x470_bit0,
+                     '0x470_bootcfg2_bit3':     efuse_0x470_bit3,
+                     '0x470_bootcfg2_bit5':     efuse_0x470_bit5,
+                     '0x470_bootcfg2_bit6':     efuse_0x470_bit6,
+                     '0x470_bootcfg2_bit8':     efuse_0x470_bit8,
+                     '0x470_bootcfg2_bit9':     efuse_0x470_bit9,
+                     '0x470_bootcfg2_bit11':    efuse_0x470_bit11,
+                     '0x470_bootcfg2_bit12':    efuse_0x470_bit12,
+                     '0x470_bootcfg2_bit13':    efuse_0x470_bit13,
+                     '0x470_bootcfg2_bit14':    efuse_0x470_bit14,
+                     '0x470_bootcfg2_bit15':    efuse_0x470_bit15,
+                     '0x470_bootcfg2_bit30_24': efuse_0x470_bit30_24,
                      '0x6d0_miscconf0_bit19_16':uidef_efuse.efuse_0x6d0_flexramPartion512KB,
                     }
 

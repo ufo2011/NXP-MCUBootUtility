@@ -3,6 +3,7 @@ import sys, os
 
 efuse_temp_reserved1 = {'Reserved':['x - N/A']}
 efuse_temp_reserved2 = {'Reserved':['xx - N/A']}
+efuse_temp_reserved7 = {'Reserved':['xxxxxxx - N/A']}
 
 efuse_0x6d0_flexramPartion128KB = {'Default_FlexRAM_Partion':['0000 -  32KB ITCM,  32KB DTCM,  64KB OCRAM',
                                                               '0001 -  32KB ITCM,  64KB DTCM,  32KB OCRAM',

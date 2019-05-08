@@ -7,6 +7,8 @@ sys.setdefaultencoding('utf-8')
 import os
 import time
 import threading
+import inspect
+import ctypes
 from mem import memcore
 from ui import uidef
 from ui import uivar
@@ -42,6 +44,17 @@ kRetryPingTimes = 5
 
 kBootloaderType_Rom         = 0
 kBootloaderType_Flashloader = 1
+
+def _async_raise(tid, exctype):
+    tid = ctypes.c_long(tid)
+    if not inspect.isclass(exctype):
+        exctype = type(exctype)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
 
 class secBootMain(memcore.secBootMem):
 
@@ -807,10 +820,18 @@ class secBootMain(memcore.secBootMem):
     def callbackSaveLog( self, event ):
         self.saveLog()
 
+    def _stopTask( self, thread ):
+        _async_raise(thread.ident, SystemExit)
+
     def _deinitToolToExit( self ):
         uivar.setAdvancedSettings(uidef.kAdvancedSettings_Tool, self.toolCommDict)
         uivar.deinitVar()
         #exit(0)
+        self._stopTask(g_task_detectUsbhid)
+        self._stopTask(g_task_playSound)
+        self._stopTask(g_task_allInOneAction)
+        self._stopTask(g_task_increaseGauge)
+        self._stopTask(g_task_showSettedEfuse)
         global g_main_win
         g_main_win.Show(False)
         try:

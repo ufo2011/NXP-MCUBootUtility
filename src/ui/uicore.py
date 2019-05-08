@@ -1084,8 +1084,10 @@ class secBootUi(secBootWin.secBootWin):
         self.m_textCtrl_fuse450.write(self._parseReadFuseValue(scannedFuseList[5]))
         self.m_textCtrl_fuse460.Clear()
         self.m_textCtrl_fuse460.write(self._parseReadFuseValue(scannedFuseList[6]))
+        efuseDict['0x460_bootCfg1'] = scannedFuseList[6]
         self.m_textCtrl_fuse470.Clear()
         self.m_textCtrl_fuse470.write(self._parseReadFuseValue(scannedFuseList[7]))
+        efuseDict['0x470_bootCfg2'] = scannedFuseList[7]
         self.m_textCtrl_fuse480.Clear()
         self.m_textCtrl_fuse480.write(self._parseReadFuseValue(scannedFuseList[8]))
         self.m_textCtrl_fuse490.Clear()
@@ -1164,6 +1166,7 @@ class secBootUi(secBootWin.secBootWin):
         self.m_textCtrl_fuse6c0.write(self._parseReadFuseValue(scannedFuseList[44]))
         self.m_textCtrl_fuse6d0.Clear()
         self.m_textCtrl_fuse6d0.write(self._parseReadFuseValue(scannedFuseList[45]))
+        efuseDict['0x6d0_miscConf0'] = scannedFuseList[45]
         self.m_textCtrl_fuse6e0.Clear()
         self.m_textCtrl_fuse6e0.write(self._parseReadFuseValue(scannedFuseList[46]))
         self.m_textCtrl_fuse6f0.Clear()
@@ -1336,6 +1339,15 @@ class secBootUi(secBootWin.secBootWin):
         if fuseIndex == fusedef.kEfuseIndex_LOCK:
             self.m_textCtrl_fuse400.Clear()
             self.m_textCtrl_fuse400.write(self._parseReadFuseValue(fuseValue))
+        elif fuseIndex == fusedef.kEfuseIndex_BOOT_CFG1:
+            self.m_textCtrl_fuse460.Clear()
+            self.m_textCtrl_fuse460.write(self._parseReadFuseValue(fuseValue))
+        elif fuseIndex == fusedef.kEfuseIndex_BOOT_CFG2:
+            self.m_textCtrl_fuse470.Clear()
+            self.m_textCtrl_fuse470.write(self._parseReadFuseValue(fuseValue))
+        elif fuseIndex == fusedef.kEfuseIndex_MISC_CONF0:
+            self.m_textCtrl_fuse6d0.Clear()
+            self.m_textCtrl_fuse6d0.write(self._parseReadFuseValue(fuseValue))
         else:
             pass
 

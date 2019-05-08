@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.3.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.3.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.4.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.4.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 English | [中文](./README-zh.md)
 
@@ -16,7 +16,9 @@ English | [中文](./README-zh.md)
 > * User image file can be either bare image file or bootable image file 
 > * Support for converting bare image into bootable image  
 > * Support for converting bare image into .sb file for MfgTool and RT-Flash
-> * Support for loading bootable image into FlexSPI NOR and SEMC NAND boot devices  
+> * Support for loading bootable image into FlexSPI NOR boot device  
+> * Support for loading bootable image into SEMC NAND boot device  
+> * Support for loading bootable image into uSDHC SD/eMMC boot device  
 > * Support for loading bootable image into LPSPI NOR/EEPROM recovery boot device  
 > * Support DCD which can help load image to SDRAM  
 > * Support development boot case (Unsigned)  
@@ -257,6 +259,10 @@ define symbol m_data2_end              = 0x202BFFFF;
 ![NXP-MCUBootUtility_fuseLockerBits](http://henjay724.com/image/cnblogs/nxpSecBoot_fuseLockerBits.PNG)
 
 　　From the above figure, eFuse 0x400 is the Locker of each Fuse function area. We can lock the SW_GP2, and GP4 areas by burning eFuse 0x400. So how do you burn it? In fact, it is very simple, fill in the value you want to burn directly in each eFuse box, click the [Burn] button.  
+
+　　For some mixed eFuse fields, you can also click the index button, then each efuse bits as below：  
+
+![NXP-MCUBootUtility_fuseViewer](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_4_0_fuseViewer.PNG)
 
 #### 4.3 Universal Flash Programmer
 　　In the Master Mode, you can click the [Read], [Erase], [Write] button to implement any read and write operations of the configured Flash, so that the NXP-MCUBootUtility tool can be used as a general-purpose Flash programmer.

@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.3.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.3.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v1.4.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v1.4.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 [English](./README.md) | 中文
 
@@ -15,7 +15,9 @@
 > * 源image文件既可以是裸源image文件，也可以是含启动文件头的bootable image文件  
 > * 支持将裸源image文件自动转换成i.MXRT能启动的Bootable image  
 > * 支持将裸源image文件自动转换成MfgTool和RT-Flash工具能下载的.sb格式文件  
-> * 支持下载Bootable image进主动启动设备 - FlexSPI NOR、SEMC NAND接口Flash  
+> * 支持下载Bootable image进主动启动设备 - FlexSPI接口NOR Flash  
+> * 支持下载Bootable image进主动启动设备 - SEMC接口NAND Flash  
+> * 支持下载Bootable image进主动启动设备 - uSDHC接口SD/eMMC卡  
 > * 支持下载Bootable image进备份启动设备 - LPSPI接口NOR/EEPROM Flash  
 > * 支持DCD配置功能，可用于加载image进SDRAM执行  
 > * 支持用于开发阶段的非安全加密启动（未签名加密）  
@@ -257,6 +259,10 @@ define symbol m_data2_end              = 0x202BFFFF;
 ![NXP-MCUBootUtility_fuseLockerBits](http://henjay724.com/image/cnblogs/nxpSecBoot_fuseLockerBits.PNG)
 
 　　从上图可知eFuse 0x400即是各Fuse功能区域的Locker，我们可以通过烧录eFuse 0x400来锁住SW_GP2, GP4区域。那么如何烧录呢？其实非常简单，直接在各eFuse框内填写想要烧录的值，点击【Burn】按钮即可。  
+
+　　对于一些混合功能的eFuse区域，除了可以在对应框内直接填写想要烧录的值外，也可以点击索引按钮，在弹出的界面里编辑：  
+
+![NXP-MCUBootUtility_fuseViewer](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_4_0_fuseViewer.PNG)
 
 #### 4.3 通用Flash编程器
 　　进入Master模式下，可以点击【Read】、【Erase】、【Write】按钮实现已配置Flash的任意读擦写操作，这样可以将NXP-MCUBootUtility工具当做通用Flash编程器。  

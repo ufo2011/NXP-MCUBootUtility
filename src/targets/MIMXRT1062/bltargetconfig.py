@@ -61,7 +61,7 @@ efuse_0x400_bit15    = {'ROM_PATCH':               ['0 - Unlock', '1 - W,0P']}
 efuse_0x400_bit17    = {'OTPMK':                   ['0 - Unlock', '1 - W,0,RP']}
 efuse_0x400_bit20    = {'OTPMK_CRC':               ['0 - Unlock', '1 - W,0P']}
 efuse_0x400_bit25_24 = {'GP4':                     ['00 - Unlock', '01 - WP', '10 - OP', '01 - W,OP']}
-efuse_0x450_bit0     = {'Flash_Auto_Probe':        ['0 - Disabled', '1 - Enabled']}
+efuse_0x450_bit0     = {'Auto_Probe':              ['0 - Disabled', '1 - Enabled']}
 efuse_0x450_bit3_2   = {'Flash_Probe_Type':        ['00 - QuadSPI NOR', '01 - Macronix Octal FLASH', '10 - Micron Octal FLASH', '11 - Adesto Octal FLASH']}
 efuse_0x450_bit7_4   = {'Boot_Device_Selection':   ['0000 - FlexSPI NOR',
                                                     '0001 - SEMC NOR',

@@ -51,12 +51,30 @@ supportedPeripheralSpeed_uart = [4800, 9600, 19200, 57600, 115200] # @todo Verif
 hasRemappedFuse = False
 flexspiNorDevice = uidef.kFlexspiNorDevice_ISSI_IS25LP064A
 flexspiNorMemBase = 0x60000000
+flexspiNorEfuseBootCfg0Bits = 10
 isNonXipImageAppliableForXipableDeviceUnderClosedHab = False
 isSipFlexspiNorDevice = False
 isEccTypeSetInFuseMiscConf = False
 
 efuse_0x400_bit14    = {'SRK':                     ['0 - Unlock', '1 - W,0,RP']}
 efuse_0x400_bit15    = {'OTPMK_MSB':               ['0 - Unlock', '1 - W,0,RP']}
+efuse_0x450_bit7_4   = {'Boot_Device_Selection':   ['0000 - FlexSPI NOR',
+                                                    '0001 - SEMC NOR',
+                                                    '0010 - uSDHC SD',
+                                                    '0011 - uSDHC SD',
+                                                    '0100 - SEMC NAND',
+                                                    '0101 - SEMC NAND',
+                                                    '0110 - SEMC NAND',
+                                                    '0111 - SEMC NAND',
+                                                    '1000 - uSDHC (e)MMC',
+                                                    '1001 - uSDHC (e)MMC',
+                                                    '1010 - uSDHC (e)MMC',
+                                                    '1011 - uSDHC (e)MMC',
+                                                    '1100 - FlexSPI NAND',
+                                                    '1101 - FlexSPI NAND',
+                                                    '1110 - FlexSPI NAND',
+                                                    '1111 - FlexSPI NAND',
+                                                    ]}
 efuse_0x460_bit13_12 = {'BEE_KEY0_SEL':            ['00 - From Register', '01 - Reserved', '10 - From OTPMK', '11 - From SW-GP2']}
 efuse_0x460_bit15_14 = {'BEE_KEY1_SEL':            ['00 - From Register', '01 - Reserved', '10 - From OTPMK', '11 - From SW-GP2']}
 efuse_0x460_bit31_30 = {'SD_BT_Power_Cycle_SEL':   ['00 - 20ms', '01 - 10ms', '10 - 5ms', '11 - 2.5ms']}
@@ -78,6 +96,7 @@ efuseDescDiffDict = {'0x400_lock_bit7' :        uidef_efuse.efuse_temp_reserved1
                      '0x400_lock_bit17':        uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit20':        uidef_efuse.efuse_temp_reserved1,
                      '0x400_lock_bit25_24':     uidef_efuse.efuse_temp_reserved2,
+                     '0x450_bootcfg0_bit7_4':   efuse_0x450_bit7_4,
                      '0x460_bootcfg1_bit13_12': efuse_0x460_bit13_12,
                      '0x460_bootcfg1_bit15_14': efuse_0x460_bit15_14,
                      '0x460_bootcfg1_bit31_30': efuse_0x460_bit31_30,

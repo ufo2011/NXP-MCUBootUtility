@@ -756,13 +756,10 @@ class secBootWin ( wx.Frame ):
 
 		bSizer_fuseGroupTxt0.Add( self.m_staticText_fuse440, 0, wx.ALL, 5 )
 
-		self.m_staticText_fuse450 = wx.StaticText( self.m_panel_fuseUtil, wx.ID_ANY, u"0x450:", wx.DefaultPosition, wx.Size( 31,20 ), 0 )
-		self.m_staticText_fuse450.Wrap( -1 )
+		self.m_button_fuse450 = wx.Button( self.m_panel_fuseUtil, wx.ID_ANY, u"Cfg0", wx.DefaultPosition, wx.Size( 31,20 ), 0 )
+		self.m_button_fuse450.SetFont( wx.Font( 8, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
 
-		self.m_staticText_fuse450.SetFont( wx.Font( 9, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "宋体" ) )
-		self.m_staticText_fuse450.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
-
-		bSizer_fuseGroupTxt0.Add( self.m_staticText_fuse450, 0, wx.ALL, 5 )
+		bSizer_fuseGroupTxt0.Add( self.m_button_fuse450, 0, wx.ALL, 5 )
 
 		self.m_button_fuse460 = wx.Button( self.m_panel_fuseUtil, wx.ID_ANY, u"Cfg1", wx.DefaultPosition, wx.Size( 31,20 ), 0 )
 		self.m_button_fuse460.SetFont( wx.Font( 8, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
@@ -1802,6 +1799,7 @@ class secBootWin ( wx.Frame ):
 		self.m_button_flashImage.Bind( wx.EVT_BUTTON, self.callbackFlashImage )
 		self.m_button_progDek.Bind( wx.EVT_BUTTON, self.callbackFlashHabDek )
 		self.m_button_fuse400.Bind( wx.EVT_BUTTON, self.callbackSetEfuseLock )
+		self.m_button_fuse450.Bind( wx.EVT_BUTTON, self.callbackSetEfuseBootCfg0 )
 		self.m_button_fuse460.Bind( wx.EVT_BUTTON, self.callbackSetEfuseBootCfg1 )
 		self.m_button_fuse470.Bind( wx.EVT_BUTTON, self.callbackSetEfuseBootCfg2 )
 		self.m_button_fuse6d0.Bind( wx.EVT_BUTTON, self.callbackSetEfuseMiscConf0 )
@@ -1950,6 +1948,9 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetEfuseLock( self, event ):
+		event.Skip()
+
+	def callbackSetEfuseBootCfg0( self, event ):
 		event.Skip()
 
 	def callbackSetEfuseBootCfg1( self, event ):

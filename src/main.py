@@ -37,6 +37,7 @@ g_main_win = None
 g_task_detectUsbhid = None
 g_task_playSound = None
 g_task_allInOneAction = None
+g_task_accessMem = None
 g_task_increaseGauge = None
 g_task_showSettedEfuse = None
 
@@ -64,6 +65,8 @@ class secBootMain(memcore.secBootMem):
         self.isBootableAppAllowedToView = False
         self.lastTime = None
         self.isAllInOneActionTaskPending = False
+        self.isAccessMemTaskPending = False
+        self.accessMemType = ''
         self.isThereBoardConnection = False
 
     def _startGaugeTimer( self ):
@@ -733,14 +736,35 @@ class secBootMain(memcore.secBootMem):
         efuseMiscConf1Frame.setNecessaryInfo(self.tgt.efuseDescDiffDict)
         efuseMiscConf1Frame.Show(True)
 
+    def task_doAccessMem( self ):
+        while True:
+            if self.isAccessMemTaskPending:
+                if self.accessMemType == 'ScanFuse':
+                    self.scanAllFuseRegions()
+                    if self.isSbFileEnabledToGen:
+                        self.initSbEfuseBdfileContent()
+                elif self.accessMemType == 'BurnFuse':
+                    self.burnAllFuseRegions()
+                    if self.isSbFileEnabledToGen:
+                        self.genSbEfuseImage()
+                elif self.accessMemType == 'ReadMem':
+                    self.readBootDeviceMemory()
+                elif self.accessMemType == 'EraseMem':
+                    self.eraseBootDeviceMemory()
+                elif self.accessMemType == 'WriteMem':
+                    self.writeBootDeviceMemory()
+                else:
+                    pass
+                self.isAccessMemTaskPending = False
+                self._stopGaugeTimer()
+            time.sleep(1)
+
     def callbackScanFuse( self, event ):
         if self.connectStage == uidef.kConnectStage_ExternalMemory or \
            self.connectStage == uidef.kConnectStage_Reset:
             self._startGaugeTimer()
-            self.scanAllFuseRegions()
-            if self.isSbFileEnabledToGen:
-                self.initSbEfuseBdfileContent()
-            self._stopGaugeTimer()
+            self.isAccessMemTaskPending = True
+            self.accessMemType = 'ScanFuse'
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
 
@@ -748,10 +772,8 @@ class secBootMain(memcore.secBootMem):
         if self.connectStage == uidef.kConnectStage_ExternalMemory or \
            self.connectStage == uidef.kConnectStage_Reset:
             self._startGaugeTimer()
-            self.burnAllFuseRegions()
-            if self.isSbFileEnabledToGen:
-                self.genSbEfuseImage()
-            self._stopGaugeTimer()
+            self.isAccessMemTaskPending = True
+            self.accessMemType = 'BurnFuse'
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
 
@@ -775,8 +797,8 @@ class secBootMain(memcore.secBootMem):
     def _doReadMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
             self._startGaugeTimer()
-            self.readBootDeviceMemory()
-            self._stopGaugeTimer()
+            self.isAccessMemTaskPending = True
+            self.accessMemType = 'ReadMem'
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
@@ -789,8 +811,8 @@ class secBootMain(memcore.secBootMem):
     def _doEraseMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
             self._startGaugeTimer()
-            self.eraseBootDeviceMemory()
-            self._stopGaugeTimer()
+            self.isAccessMemTaskPending = True
+            self.accessMemType = 'EraseMem'
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
@@ -803,8 +825,8 @@ class secBootMain(memcore.secBootMem):
     def _doWriteMem( self ):
         if self.connectStage == uidef.kConnectStage_Reset:
             self._startGaugeTimer()
-            self.writeBootDeviceMemory()
-            self._stopGaugeTimer()
+            self.isAccessMemTaskPending = True
+            self.accessMemType = 'WriteMem'
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
@@ -830,6 +852,7 @@ class secBootMain(memcore.secBootMem):
         self._stopTask(g_task_detectUsbhid)
         self._stopTask(g_task_playSound)
         self._stopTask(g_task_allInOneAction)
+        self._stopTask(g_task_accessMem)
         self._stopTask(g_task_increaseGauge)
         self._stopTask(g_task_showSettedEfuse)
         global g_main_win
@@ -931,6 +954,9 @@ if __name__ == '__main__':
     g_task_allInOneAction = threading.Thread(target=g_main_win.task_doAllInOneAction)
     g_task_allInOneAction.setDaemon(True)
     g_task_allInOneAction.start()
+    g_task_accessMem = threading.Thread(target=g_main_win.task_doAccessMem)
+    g_task_accessMem.setDaemon(True)
+    g_task_accessMem.start()
     g_task_increaseGauge = threading.Thread(target=g_main_win.task_doIncreaseGauge)
     g_task_increaseGauge.setDaemon(True)
     g_task_increaseGauge.start()

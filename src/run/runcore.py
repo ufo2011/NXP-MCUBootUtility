@@ -333,6 +333,18 @@ class secBootRun(gencore.secBootGen):
         else:
             pass
 
+    def _showAsOptimalMemoryUnit( self, memSizeBytes ):
+        strMemSize = ''
+        if memSizeBytes >= 0x40000000:
+            strMemSize = str(memSizeBytes / 0x40000000) + ' GB'
+        elif memSizeBytes >= 0x100000:
+            strMemSize = str(memSizeBytes / 0x100000) + ' MB'
+        elif memSizeBytes >= 0x400:
+            strMemSize = str(memSizeBytes / 0x400) + ' KB'
+        else:
+            strMemSize = str(memSizeBytes) + ' Bytes'
+        return strMemSize
+
     def _getSemcNandDeviceInfo ( self ):
         filename = 'semcNandFcb.dat'
         filepath = os.path.join(self.blhostVectorsDir, filename)
@@ -348,17 +360,17 @@ class secBootRun(gencore.secBootGen):
             pagesInBlock = self.getVal32FromBinFile(filepath, rundef.kSemcNandFcbOffset_PagesInBlock)
             blocksInPlane = self.getVal32FromBinFile(filepath, rundef.kSemcNandFcbOffset_BlocksInPlane)
             planesInDevice = self.getVal32FromBinFile(filepath, rundef.kSemcNandFcbOffset_PlanesInDevice)
-            self.printDeviceStatus("Page Size (bytes) = " + self.convertLongIntHexText(str(hex(pageByteSize))))
-            self.printDeviceStatus("Pages In Block    = " + self.convertLongIntHexText(str(hex(pagesInBlock))))
-            self.printDeviceStatus("Blocks In Plane   = " + self.convertLongIntHexText(str(hex(blocksInPlane))))
-            self.printDeviceStatus("Planes In Device  = " + self.convertLongIntHexText(str(hex(planesInDevice))))
+            self.printDeviceStatus("Page Size         = " + self._showAsOptimalMemoryUnit(pageByteSize))
+            self.printDeviceStatus("Pages In Block    = " + str(pagesInBlock))
+            self.printDeviceStatus("Blocks In Plane   = " + str(blocksInPlane))
+            self.printDeviceStatus("Planes In Device  = " + str(planesInDevice))
             self.semcNandImageCopies = firmwareCopies
             self.semcNandBlockSize = pageByteSize * pagesInBlock
             self.comMemWriteUnit = pageByteSize
             self.comMemEraseUnit = pageByteSize * pagesInBlock
             self.comMemReadUnit = pageByteSize
         else:
-            self.printDeviceStatus("Page Size (bytes) = --------")
+            self.printDeviceStatus("Page Size         = --------")
             self.printDeviceStatus("Pages In Block    = --------")
             self.printDeviceStatus("Blocks In Plane   = --------")
             self.printDeviceStatus("Planes In Device  = --------")
@@ -383,16 +395,16 @@ class secBootRun(gencore.secBootGen):
             pageByteSize = self.getVal32FromBinFile(filepath, rundef.kFlexspiNorCfgOffset_PageByteSize)
             sectorByteSize = self.getVal32FromBinFile(filepath, rundef.kFlexspiNorCfgOffset_SectorByteSize)
             blockByteSize = self.getVal32FromBinFile(filepath, rundef.kFlexspiNorCfgOffset_BlockByteSize)
-            self.printDeviceStatus("Page Size (bytes)   = " + self.convertLongIntHexText(str(hex(pageByteSize))))
-            self.printDeviceStatus("Sector Size (bytes) = " + self.convertLongIntHexText(str(hex(sectorByteSize))))
-            self.printDeviceStatus("Block Size (bytes)  = " + self.convertLongIntHexText(str(hex(blockByteSize))))
+            self.printDeviceStatus("Page Size   = " + self._showAsOptimalMemoryUnit(pageByteSize))
+            self.printDeviceStatus("Sector Size = " + self._showAsOptimalMemoryUnit(sectorByteSize))
+            self.printDeviceStatus("Block Size  = " + self._showAsOptimalMemoryUnit(blockByteSize))
             self.comMemWriteUnit = pageByteSize
             self.comMemEraseUnit = sectorByteSize
             self.comMemReadUnit = pageByteSize
         else:
-            self.printDeviceStatus("Page Size (bytes)   = --------")
-            self.printDeviceStatus("Sector Size (bytes) = --------")
-            self.printDeviceStatus("Block Size (bytes)  = --------")
+            self.printDeviceStatus("Page Size   = --------")
+            self.printDeviceStatus("Sector Size = --------")
+            self.printDeviceStatus("Block Size  = --------")
             return False
         try:
             os.remove(filepath)
@@ -420,9 +432,9 @@ class secBootRun(gencore.secBootGen):
             totalByteSize = int(math.pow(2, val + 19))
         else:
             totalByteSize = int(math.pow(2, val + 3))
-        self.printDeviceStatus("Page Size (bytes)   = " + self.convertLongIntHexText(str(hex(pageByteSize))))
-        self.printDeviceStatus("Sector Size (bytes) = " + self.convertLongIntHexText(str(hex(sectorByteSize))))
-        self.printDeviceStatus("Total Size (bytes)  = " + self.convertLongIntHexText(str(hex(totalByteSize))))
+        self.printDeviceStatus("Page Size   = " + self._showAsOptimalMemoryUnit(pageByteSize))
+        self.printDeviceStatus("Sector Size = " + self._showAsOptimalMemoryUnit(sectorByteSize))
+        self.printDeviceStatus("Total Size  = " + self._showAsOptimalMemoryUnit(totalByteSize))
         self.comMemWriteUnit = pageByteSize
         self.comMemEraseUnit = sectorByteSize
         self.comMemReadUnit = pageByteSize
@@ -443,15 +455,15 @@ class secBootRun(gencore.secBootGen):
             #} external_memory_property_store_t;
             blockByteSize = results[5]
             totalSizeKB = results[2]
-            self.printDeviceStatus("Block Size (bytes)  = " + self.convertLongIntHexText(str(hex(blockByteSize))))
+            self.printDeviceStatus("Block Size  = " + self._showAsOptimalMemoryUnit(blockByteSize))
             strTotalSizeGB = ("%.2f" % (totalSizeKB / 1024.0 / 1024))
-            self.printDeviceStatus("Total Size (GB)  = " + self.convertLongIntHexText(strTotalSizeGB))
+            self.printDeviceStatus("Total Size  = " + self.convertLongIntHexText(strTotalSizeGB)) + ' GB'
             self.comMemWriteUnit = blockByteSize
             self.comMemEraseUnit = blockByteSize
             self.comMemReadUnit = blockByteSize
         else:
-            self.printDeviceStatus("Block Size (bytes)  = --------")
-            self.printDeviceStatus("Total Size (bytes)  = --------")
+            self.printDeviceStatus("Block Size  = --------")
+            self.printDeviceStatus("Total Size  = --------")
             return False
         return True
 

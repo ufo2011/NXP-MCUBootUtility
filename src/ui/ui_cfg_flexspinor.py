@@ -296,6 +296,12 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
             self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Adesto_ATXP032
         elif txt == uidef.kFlexspiNorDevice_Cypress_S26KS512S:
             self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Cypress_S26KS512S
+        elif txt == uidef.kFlexspiNorDevice_GigaDevice_GD25LB256E:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_GigaDevice_GD25LB256E
+        elif txt == uidef.kFlexspiNorDevice_GigaDevice_GD25LT256E:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_GigaDevice_GD25LT256E
+        elif txt == uidef.kFlexspiNorDevice_GigaDevice_GD25LX256E:
+            self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_GigaDevice_GD25LX256E
         else:
             pass
         if txt != 'No':

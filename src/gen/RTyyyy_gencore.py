@@ -578,11 +578,14 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         bdContent += "    startAddress = " + self.convertLongIntHexText(str(hex(startAddress))) + ";\n"
         bdContent += "    ivtOffset = " + self.convertLongIntHexText(str(hex(self.destAppIvtOffset))) + ";\n"
         bdContent += "    initialLoadSize = " + self.convertLongIntHexText(str(hex(self.destAppInitialLoadSize))) + ";\n"
-        dcdConvResult, dcdContent = self._addDcdContentIfAppliable()
-        if dcdConvResult:
-            bdContent += dcdContent
+        if bootDevice != RTyyyy_uidef.kBootDevice_RamFlashloader:
+            dcdConvResult, dcdContent = self._addDcdContentIfAppliable()
+            if dcdConvResult:
+                bdContent += dcdContent
+            else:
+                return False
         else:
-            return False
+            pass
         if secureBootType == RTyyyy_uidef.kSecureBootType_HabAuth:
             #bdContent += "    cstFolderPath = \"" + self.cstBinFolder + "\";\n"
             #bdContent += "    cstFolderPath = \"" + self.cstBinToElftosbPath + "\";\n"

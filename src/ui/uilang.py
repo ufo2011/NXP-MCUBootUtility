@@ -472,6 +472,7 @@ kRevision_2_1_0_en =  "【v2.1.0】 \n" + \
                       "     2. [RTyyyy] Support efuse memory operation for RT117x A0 \n" + \
                       "     3. [RTyyyy] Can import user fuse table file to set efuse value \n" + \
                       "     4. [RTyyyy] Enable OTFAD encryption secure boot mode (User Key) for RT117x A0 \n" + \
+                      "     5. [RTyyyy] Support RT1170/1010 bootable image from SDK as source input \n" + \
                       "  Improvement: \n" + \
                       "     1. Specify file path instead of file to save readback data \n" + \
                       "     2. If readback data is enabled to be saved in file, then it will not displayed on the screen \n" + \
@@ -490,6 +491,7 @@ kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"     2. [RTyyyy] 支持RT117x的eFuse回读与烧写 \n" + \
                      u"     3. [RTyyyy] 支持导入用户fuse配置文件去设置fuse \n" + \
                      u"     4. [RTyyyy] 为RT117x A0开启OTFAD加密(User Key)支持 \n" + \
+                     u"     5. [RTyyyy] 支持RT1170/RT1010 SDK生成的Bootable image作为源文件输入 \n" + \
                      u"  改进: \n" + \
                      u"     1. 指定目录而不是指定文件去存放回读的数据 \n" + \
                      u"     2. 如果回读的数据已经选择保存到文件中，那么点击Read按钮将不会在窗口显示数据 \n" + \

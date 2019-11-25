@@ -692,7 +692,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             self.printDeviceStatus("--------SEMC NAND memory----------")
             self._getSemcNandDeviceInfo()
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_SemcNor:
-            self.printDeviceStatus("--------SEMC Nor memory----------")
+            self.printDeviceStatus("--------SEMC NOR memory-----------")
             self._getSemcNorDeviceInfo()
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_FlexspiNor:
             self.printDeviceStatus("--------FlexSPI NOR memory--------")
@@ -764,7 +764,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                     configOptList.extend([semcNandImageInfoList[i]])
                 else:
                     break
-        if self.bootDevice == RTyyyy_uidef.kBootDevice_SemcNor:
+        elif self.bootDevice == RTyyyy_uidef.kBootDevice_SemcNor:
             semcNorOpt, semcNorSetting, semcNorDeviceModel= uivar.getBootDeviceConfiguration(self.bootDevice)
             configOptList.extend([semcNorOpt])
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_FlexspiNor:

@@ -468,9 +468,10 @@ kRevision_2_0_0_zh = u"【v2.0.0】 \n" + \
                      u"     4. 在通用Flash编程器模式下无法擦除/读取外部启动设备的最后两个Page \n\n"
 kRevision_2_1_0_en =  "【v2.1.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. [RTyyyy] Support efuse memory operation for RT117x A0 \n" + \
-                      "     2. [RTyyyy] Can import user fuse table file to set efuse value \n" + \
-                      "     3. [RTyyyy] Enable OTFAD encryption secure boot mode (User Key) for RT117x A0 \n" + \
+                      "     1. [RTyyyy] Support for loading bootable image into SEMC NOR boot device  \n" + \
+                      "     2. [RTyyyy] Support efuse memory operation for RT117x A0 \n" + \
+                      "     3. [RTyyyy] Can import user fuse table file to set efuse value \n" + \
+                      "     4. [RTyyyy] Enable OTFAD encryption secure boot mode (User Key) for RT117x A0 \n" + \
                       "  Improvement: \n" + \
                       "  Bugfix: \n" + \
                       "     1. 'Cmd Pads' is not set correctly for some typical octal-flash models in FlexSPI NOR configuration \n" + \
@@ -482,9 +483,10 @@ kRevision_2_1_0_en =  "【v2.1.0】 \n" + \
                       "     1. Add sound effect (Contra) \n\n"
 kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. [RTyyyy] 支持RT117x的eFuse回读与烧写 \n" + \
-                     u"     2. [RTyyyy] 支持导入用户fuse配置文件去设置fuse \n" + \
-                     u"     3. [RTyyyy] 为RT117x A0开启OTFAD加密(User Key)支持 \n" + \
+                     u"     1. [RTyyyy] 支持下载Bootable image进主动启动设备 - SEMC NOR接口Flash \n" + \
+                     u"     2. [RTyyyy] 支持RT117x的eFuse回读与烧写 \n" + \
+                     u"     3. [RTyyyy] 支持导入用户fuse配置文件去设置fuse \n" + \
+                     u"     4. [RTyyyy] 为RT117x A0开启OTFAD加密(User Key)支持 \n" + \
                      u"  改进: \n" + \
                      u"  修复: \n" + \
                      u"     1. 在FlexSPI NOR配置界面里，对于一些octal-flash模型，其Cmd Pads参数没有被正确设置 \n" + \

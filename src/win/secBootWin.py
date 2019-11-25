@@ -1733,8 +1733,8 @@ class secBootWin ( wx.Frame ):
 		self.m_checkBox_saveImageData = wx.CheckBox( self.m_panel_memView, wx.ID_ANY, u"Save image/data file to", wx.DefaultPosition, wx.Size( 140,-1 ), 0 )
 		wSizer_memView.Add( self.m_checkBox_saveImageData, 0, wx.ALL, 5 )
 
-		self.m_filePicker_savedBinFile = wx.FilePickerCtrl( self.m_panel_memView, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.Size( 210,-1 ), wx.FLP_DEFAULT_STYLE )
-		wSizer_memView.Add( self.m_filePicker_savedBinFile, 0, wx.ALL, 5 )
+		self.m_dirPicker_savedBinFolder = wx.DirPickerCtrl( self.m_panel_memView, wx.ID_ANY, wx.EmptyString, u"Select a folder", wx.DefaultPosition, wx.Size( 210,-1 ), wx.DIRP_DEFAULT_STYLE )
+		wSizer_memView.Add( self.m_dirPicker_savedBinFolder, 0, wx.ALL, 5 )
 
 
 		self.m_panel_memView.SetSizer( wSizer_memView )

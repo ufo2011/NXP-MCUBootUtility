@@ -24,10 +24,10 @@ class secBootMem(runcore.secBootRun):
 
     def tryToSaveImageDataFile( self, readbackFilename ):
         if self.needToSaveReadbackImageData():
-            savedBinFile = self.getImageDataFileToSave()
-            if os.path.isfile(savedBinFile):
-                if readbackFilename != savedBinFile:
-                    shutil.copy(readbackFilename, savedBinFile)
+            savedBinFolder = self.getImageDataFolderToSave()
+            if os.path.isdir(savedBinFolder):
+                savedBinFile = os.path.join(savedBinFolder, u"readbackBootDeviceMemory.dat")
+                shutil.copy(readbackFilename, savedBinFile)
             else:
                 finalBinFile = os.path.join(self.userFolder, os.path.split(readbackFilename)[1])
                 shutil.copy(readbackFilename, finalBinFile)

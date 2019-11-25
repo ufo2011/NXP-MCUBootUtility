@@ -732,9 +732,9 @@ class secBootUi(secBootWin.secBootWin):
     def needToSaveReadbackImageData( self ):
         return self.m_checkBox_saveImageData.GetValue()
 
-    def getImageDataFileToSave( self ):
-        savedBinFile = self.m_filePicker_savedBinFile.GetPath()
-        return savedBinFile.encode('utf-8').encode("gbk")
+    def getImageDataFolderToSave( self ):
+        savedBinFolder = self.m_dirPicker_savedBinFolder.GetPath()
+        return savedBinFolder.encode('utf-8').encode("gbk")
 
     def setImageDataFilePath( self, filePath ):
         self.m_filePicker_savedBinFile.SetPath(filePath)

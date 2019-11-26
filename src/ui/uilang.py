@@ -483,6 +483,7 @@ kRevision_2_1_0_en =  "【v2.1.0】 \n" + \
                       "     4. [RTyyyy] Some fields are not aligned with selected MCU device in Flexible User Key Setting \n" + \
                       "     5. [RTyyyy] Cannot generate bootable image when original image size is less than 4KB \n" + \
                       "     6. [RTyyyy] Signed flashloader cannot be generated if DCD is enabled \n" + \
+                      "     7. [RTyyyy] Cannot mark DCD in readback image if it comes from source bootable image \n" + \
                       "  Interest: \n" + \
                       "     1. Add sound effect (Contra) \n\n"
 kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
@@ -502,6 +503,7 @@ kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"     4. [RTyyyy] 在用户自定义Key设置界面里，有些选项与当前选中的MCU型号不匹配 \n" + \
                      u"     5. [RTyyyy] 当输入的源image文件大小小于4KB时，生成可启动程序会失败 \n" + \
                      u"     6. [RTyyyy] 当DCD使能的时候，无法生成含签名的Flashloader \n" + \
+                     u"     7. [RTyyyy] 如果DCD来自源Bootable image，则无法在读回的image中标记DCD \n" + \
                      u"  个性: \n" + \
                      u"     1. 增加魂斗罗音效 \n\n"
 

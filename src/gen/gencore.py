@@ -125,7 +125,7 @@ class secBootGen(uicore.secBootUi):
             self.isConvertedAppUsed = True
         return appFilename, appType
 
-    def convertImageFormatToSrec( self, appFilename, appName, appType):
+    def convertImageFormatToSrec( self, appFilename, appName, appType, ideType = None):
         appFormat = self.getUserAppFileFormat()
         destSrecAppFilename = os.path.join(self.userFileFolder, appName + gendef.kAppImageFileExtensionList_S19[0])
         if appFormat == uidef.kAppImageFormat_AutoDetect:
@@ -134,13 +134,22 @@ class secBootGen(uicore.secBootUi):
             elif (appType.lower() in gendef.kAppImageFileExtensionList_Hex) or (appType.lower() in gendef.kAppImageFileExtensionList_Bin):
                 return self._convertHexOrBinToSrec(appFilename, destSrecAppFilename, appType)
             else:
-                appFilename, appType = self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_ElfFromIar)
-                if appType.lower() in gendef.kAppImageFileExtensionList_S19:
-                    return appFilename, appType
-                appFilename, appType = self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_AxfFromMcux)
-                if appType.lower() in gendef.kAppImageFileExtensionList_S19:
-                    return appFilename, appType
-                return self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_AxfFromMdk)
+                if ideType == None:
+                    appFilename, appType = self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_ElfFromIar)
+                    if appType.lower() in gendef.kAppImageFileExtensionList_S19:
+                        return appFilename, appType
+                    appFilename, appType = self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_AxfFromMcux)
+                    if appType.lower() in gendef.kAppImageFileExtensionList_S19:
+                        return appFilename, appType
+                    return self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_AxfFromMdk)
+                elif ideType == gendef.kIdeType_MCUX:
+                    return self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_AxfFromMcux)
+                elif ideType == gendef.kIdeType_IAR:
+                    return self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_ElfFromIar)
+                elif ideType == gendef.kIdeType_MDK:
+                    return self._convertElfOrAxfToSrec(appFilename, destSrecAppFilename, uidef.kAppImageFormat_AxfFromMdk)
+                else:
+                    pass
         elif appFormat == uidef.kAppImageFormat_AxfFromMdk or \
              appFormat == uidef.kAppImageFormat_ElfFromIar or \
              appFormat == uidef.kAppImageFormat_AxfFromMcux or \

@@ -366,14 +366,14 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         except:
             return False
 
-    def _RTyyyy_getImageInfo( self, srcAppFilename ):
+    def _RTyyyy_getImageInfo( self, srcAppFilename, ideType=None ):
         startAddress = None
         entryPointAddress = None
         lengthInByte = 0
         if os.path.isfile(srcAppFilename):
             appPath, appFilename = os.path.split(srcAppFilename)
             appName, appType = os.path.splitext(appFilename)
-            srcAppFilename, appType = self.convertImageFormatToSrec(srcAppFilename, appName, appType)
+            srcAppFilename, appType = self.convertImageFormatToSrec(srcAppFilename, appName, appType, ideType)
             isConvSuccessed = False
             if appType.lower() in gendef.kAppImageFileExtensionList_Elf:
                 try:
@@ -780,10 +780,10 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                return False
             return self._RTyyyy_isValidNonXipAppImage(imageStartAddr)
 
-    def createMatchedAppBdfile( self ):
+    def _createMatchedAppBdfile( self, ideRetryType ):
         self.srcAppFilename = self.getUserAppFilePath()
         self._setDestAppInitialBootHeaderInfo(self.bootDevice)
-        imageStartAddr, imageEntryAddr, imageLength = self._RTyyyy_getImageInfo(self.srcAppFilename)
+        imageStartAddr, imageEntryAddr, imageLength = self._RTyyyy_getImageInfo(self.srcAppFilename, ideRetryType)
         if imageStartAddr == None or imageEntryAddr == None:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_notFound'][self.languageIndex])
             return False
@@ -818,6 +818,19 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operCertError_notGen'][self.languageIndex])
             return False
         return self._updateBdfileContent(self.secureBootType, self.bootDevice, imageStartAddr, imageEntryAddr)
+
+    def createMatchedAppBdfile( self ):
+        ideRetryCnt = 2
+        ideRetryType = None
+        ideRetryResult = False
+        while ((ideRetryCnt != 0) and not ideRetryResult):
+            if ideRetryCnt == 1:
+                ideRetryType = gendef.kIdeType_MCUX
+            ideRetryResult = self._createMatchedAppBdfile(ideRetryType)
+            ideRetryCnt = ideRetryCnt - 1
+            if not ideRetryResult:
+                self.deinitGauge()
+        return ideRetryResult
 
     def _adjustDestAppFilenameForBd( self ):
         srcAppName = os.path.splitext(os.path.split(self.srcAppFilename)[1])[0]

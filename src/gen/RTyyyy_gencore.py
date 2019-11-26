@@ -60,6 +60,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         self.dcdModelFolder = os.path.join(self.exeTopRoot, 'src', 'targets', 'dcd_model')
         self.dcdSdramBaseAddress = None
         self.isDcdFromSrcApp = False
+        self.destAppDcdLength = 0
 
         self.srcAppFilename = None
         self.destAppFilename = os.path.join(self.exeTopRoot, 'gen', 'bootable_image', 'ivt_application.bin')
@@ -331,6 +332,9 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                     fileObj.close()
                 self._enableDcdBecauseOfSrcApp()
                 self.isDcdFromSrcApp = True
+                self.destAppDcdLength = len(dcdDataBytes)
+        else:
+            self.destAppDcdLength = 0
 
     def _extractImageDataFromSrcApp(self, wholeSrcAppBytes, appName ):
         destAppIvtOffset = self.destAppIvtOffset - self.tgt.xspiNorCfgInfoOffset
@@ -411,6 +415,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                         self._extractDcdDataFromSrcApp(initialLoadAppBytes)
                         startAddress, entryPointAddress, lengthInByte = self._extractImageDataFromSrcApp(srecObj.as_binary(), appName)
                     else:
+                        self.destAppDcdLength = 0
                         #entryPointAddress = srecObj.execution_start_address
                         entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
                         lengthInByte = len(srecObj.as_binary())

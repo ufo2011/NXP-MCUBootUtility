@@ -51,10 +51,13 @@ class secBootGen(uicore.secBootUi):
         # ----------------------------------------------------------------
         # |      fromelf          |    No      |    Yes     |    No      |   // A folder will be generated for IAR, All contents are error for MCUX
         # ----------------------------------------------------------------
+        ideutilToolPath = None
         if appFormat == uidef.kAppImageFormat_ElfFromIar or appFormat == uidef.kAppImageFormat_AxfFromMdk:
             batContent = "\"" + self.iarElfConvToolPath + "\" --srec-s3only \"" + appFilename +"\" \"" + destSrecAppFilename + "\""
+            ideutilToolPath = self.iarElfConvToolPath
         elif appFormat == uidef.kAppImageFormat_AxfFromMcux or appFormat == uidef.kAppImageFormat_ElfFromGcc:
             batContent = "\"" + self.mcuxAxfConvToolPath + "\" -O srec \"" + appFilename +"\" \"" + destSrecAppFilename + "\""
+            ideutilToolPath = self.mcuxAxfConvToolPath
         #elif appFormat == uidef.kAppImageFormat_AxfFromMdk:
         #    batContent = "\"" + self.mdkAxfConvToolPath + "\" --m32 \"" + appFilename +"\" --output \"" + destSrecAppFilename + "\""
         else:
@@ -63,8 +66,11 @@ class secBootGen(uicore.secBootUi):
             fileObj.write(batContent)
             fileObj.close()
         try:
-            #os.system(self.appFmtBatFilename)
-            process = subprocess.Popen(self.appFmtBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            os.system(self.appFmtBatFilename)
+            #curdir = os.getcwd()
+            #os.chdir(os.path.split(ideutilToolPath)[0])
+            #process = subprocess.Popen(self.appFmtBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            #os.chdir(curdir)
         except:
             pass
         if os.path.isfile(destSrecAppFilename):

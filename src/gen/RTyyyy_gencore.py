@@ -442,6 +442,8 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
              executeBase = self.tgt.memoryRange['dtcm'].start
         elif ((vectorAddr >= self.tgt.memoryRange['ocram'].start) and (vectorAddr < self.tgt.memoryRange['ocram'].start + self.tgt.memoryRange['ocram'].length)):
              executeBase = self.tgt.memoryRange['ocram'].start
+        elif (('itcm_cm4' in self.tgt.memoryRange) and ((vectorAddr >= self.tgt.memoryRange['itcm_cm4'].start) and (vectorAddr < self.tgt.memoryRange['itcm_cm4'].start + self.tgt.memoryRange['itcm_cm4'].length))):
+            executeBase = self.tgt.memoryRange['itcm_cm4'].start
         elif ((vectorAddr >= self.tgt.flexspiNorMemBase) and (vectorAddr < self.tgt.flexspiNorMemBase + RTyyyy_rundef.kBootDeviceMemXipSize_FlexspiNor)):
              executeBase = self.tgt.flexspiNorMemBase
         elif ((vectorAddr >= RTyyyy_rundef.kBootDeviceMemBase_SemcNor) and (vectorAddr < RTyyyy_rundef.kBootDeviceMemBase_SemcNor + RTyyyy_rundef.kBootDeviceMemXipSize_SemcNor)):

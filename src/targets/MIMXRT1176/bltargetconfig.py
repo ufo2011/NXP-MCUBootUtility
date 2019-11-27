@@ -86,8 +86,10 @@ efuseDescDiffDict = {
 
 # memory map
 memoryRange = {
-    # ITCM, 512KByte
+    # ITCM_CM7, 512KByte
     'itcm' : MemoryRange(0x00000000, 0x80000, 'state_mem0.dat'),
+    # ITCM_CM4, 128KByte
+    'itcm_cm4' : MemoryRange(0x1FFE0000, 0x20000, 'state_mem0.dat'),
     # DTCM, 512KByte
     'dtcm' : MemoryRange(0x20000000, 0x80000, 'state_mem1.dat'),
     # OCRAM, 2MByte

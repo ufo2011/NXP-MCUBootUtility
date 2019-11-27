@@ -469,11 +469,12 @@ kRevision_2_0_0_zh = u"【v2.0.0】 \n" + \
 kRevision_2_1_0_en =  "【v2.1.0】 \n" + \
                       "  Feature: \n" + \
                       "     1. [RTyyyy] Support for loading bootable image into SEMC NOR boot device \n" + \
-                      "     2. [RTyyyy] Support two FlexSPI map addresses for RT117x A0 \n" + \
-                      "     3. [RTyyyy] Support efuse memory operation for RT117x A0 \n" + \
-                      "     4. [RTyyyy] Can import user fuse table file to set efuse value \n" + \
-                      "     5. [RTyyyy] Enable OTFAD encryption secure boot mode (User Key) for RT117x A0 \n" + \
-                      "     6. [RTyyyy] Support RT1170/1010 bootable image from SDK as source input \n" + \
+                      "     2. [RTyyyy] Support operation under both CM7 and CM4 of RT117x A0 \n" + \
+                      "     3. [RTyyyy] Support two FlexSPI map addresses for RT117x A0 \n" + \
+                      "     4. [RTyyyy] Support efuse memory operation for RT117x A0 \n" + \
+                      "     5. [RTyyyy] Can import user fuse table file to set efuse value \n" + \
+                      "     6. [RTyyyy] Enable OTFAD encryption secure boot mode (User Key) for RT117x A0 \n" + \
+                      "     7. [RTyyyy] Support RT1170/1010 bootable image from SDK as source input \n" + \
                       "  Improvement: \n" + \
                       "     1. [RTyyyy] Image format auto detection can be used for axf file from MCUX or GCC \n" + \
                       "     2. Specify file path instead of file to save readback data \n" + \
@@ -492,11 +493,12 @@ kRevision_2_1_0_en =  "【v2.1.0】 \n" + \
 kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"  特性: \n" + \
                      u"     1. [RTyyyy] 支持下载Bootable image进主动启动设备 - SEMC NOR接口Flash \n" + \
-                     u"     2. [RTyyyy] 支持RT1170的两个FlexSPI XIP映射地址 \n" + \
-                     u"     3. [RTyyyy] 支持RT1170的eFuse回读与烧写 \n" + \
-                     u"     4. [RTyyyy] 支持导入用户fuse配置文件去设置fuse \n" + \
-                     u"     5. [RTyyyy] 为RT1170 A0开启OTFAD加密(User Key)支持 \n" + \
-                     u"     6. [RTyyyy] 支持RT1170/RT1010 SDK生成的Bootable image作为源文件输入 \n" + \
+                     u"     2. [RTyyyy] 在RT1170无论是CM7还是CM4作为主核下均能正常工作 \n" + \
+                     u"     3. [RTyyyy] 支持RT1170的两个FlexSPI XIP映射地址 \n" + \
+                     u"     4. [RTyyyy] 支持RT1170的eFuse回读与烧写 \n" + \
+                     u"     5. [RTyyyy] 支持导入用户fuse配置文件去设置fuse \n" + \
+                     u"     6. [RTyyyy] 为RT1170 A0开启OTFAD加密(User Key)支持 \n" + \
+                     u"     7. [RTyyyy] 支持RT1170/RT1010 SDK生成的Bootable image作为源文件输入 \n" + \
                      u"  改进: \n" + \
                      u"     1. [RTyyyy] 程序格式自动检测选项也可用于MCUX生成的axf格式源文件 \n" + \
                      u"     2. 指定目录而不是指定文件去存放回读的数据 \n" + \

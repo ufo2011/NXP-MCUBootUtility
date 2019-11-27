@@ -414,7 +414,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
             if self.keyStorageRegion == RTyyyy_uidef.kKeyStorageRegion_FixedOtpmkKey:
                 otpmkKeySettingsFrame = ui_settings_fixed_otpmk_key.secBootUiSettingsFixedOtpmkKey(None)
                 otpmkKeySettingsFrame.SetTitle(uilang.kSubLanguageContentDict['otpmkKey_title'][self.languageIndex])
-                otpmkKeySettingsFrame.setNecessaryInfo(self.secureBootType)
+                otpmkKeySettingsFrame.setNecessaryInfo(self.secureBootType, self.tgt.flexspiNorMemBase)
                 otpmkKeySettingsFrame.Show(True)
             elif self.keyStorageRegion == RTyyyy_uidef.kKeyStorageRegion_FlexibleUserKeys:
                 userKeySettingsFrame = None

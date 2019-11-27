@@ -123,6 +123,15 @@ class secBootWin ( wx.Frame ):
 
 		self.m_menu_tools.AppendSubMenu( self.m_menu_efuseGroup, u"eFuse Group" )
 
+		self.m_menu_flexspiXipRegion = wx.Menu()
+		self.m_menuItem_flexspiXipRegion0 = wx.MenuItem( self.m_menu_flexspiXipRegion, wx.ID_ANY, u"0", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_flexspiXipRegion.Append( self.m_menuItem_flexspiXipRegion0 )
+
+		self.m_menuItem_flexspiXipRegion1 = wx.MenuItem( self.m_menu_flexspiXipRegion, wx.ID_ANY, u"1", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_flexspiXipRegion.Append( self.m_menuItem_flexspiXipRegion1 )
+
+		self.m_menu_tools.AppendSubMenu( self.m_menu_flexspiXipRegion, u"FlexSPI XIP Region" )
+
 		self.m_menubar.Append( self.m_menu_tools, u"Tools" )
 
 		self.m_menu_window = wx.Menu()
@@ -1837,6 +1846,8 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo1, id = self.m_menuItem_efuseGroup1.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo2, id = self.m_menuItem_efuseGroup2.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo3, id = self.m_menuItem_efuseGroup3.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo0, id = self.m_menuItem_flexspiXipRegion0.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo1, id = self.m_menuItem_flexspiXipRegion1.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowHomePage, id = self.m_menuItem_homePage.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowAboutAuthor, id = self.m_menuItem_aboutAuthor.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowContributors, id = self.m_menuItem_contributors.GetId() )
@@ -1963,6 +1974,12 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetEfuseGroupTo3( self, event ):
+		event.Skip()
+
+	def callbackSetFlexspiXipRegionTo0( self, event ):
+		event.Skip()
+
+	def callbackSetFlexspiXipRegionTo1( self, event ):
 		event.Skip()
 
 	def callbackShowHomePage( self, event ):

@@ -463,6 +463,21 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
     def callbackSetEfuseGroupTo3( self, event ):
         self._switchEfuseGroup()
 
+    def _switchFlexspiXipRegion( self ):
+        self.setFlexspiXipRegion()
+        if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
+            self.RTyyyy_updateFlexspiNorMemBase()
+        elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
+            pass
+        else:
+            pass
+
+    def callbackSetFlexspiXipRegionTo0( self, event ):
+        self._switchFlexspiXipRegion()
+
+    def callbackSetFlexspiXipRegionTo1( self, event ):
+        self._switchFlexspiXipRegion()
+
     def _doSetLanguage( self ):
         self.setLanguage()
         if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:

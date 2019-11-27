@@ -90,6 +90,10 @@ class secBootUi(secBootWin.secBootWin):
         self._initEfuseGroup()
         self.setEfuseGroup()
 
+        self.flexspiXipRegionSel = 0
+        self._initFlexspiXipRegion()
+        self.setFlexspiXipRegion()
+
         self.isUartPortSelected = None
         self.isUsbhidPortSelected = None
         self.uartComPort = None
@@ -264,6 +268,30 @@ class secBootUi(secBootWin.secBootWin):
             self.m_menuItem_efuseGroup2.Check(False)
             self.m_menuItem_efuseGroup3.Check(False)
         self.toolCommDict['efuseGroupSel'] = self.efuseGroupSel
+
+    def _initFlexspiXipRegion( self ):
+        if self.toolCommDict['flexspiXipRegionSel'] == 0:
+            self.m_menuItem_flexspiXipRegion0.Check(True)
+            self.m_menuItem_flexspiXipRegion1.Check(False)
+        elif self.toolCommDict['flexspiXipRegionSel'] == 1:
+            self.m_menuItem_flexspiXipRegion0.Check(False)
+            self.m_menuItem_flexspiXipRegion1.Check(True)
+        else:
+            pass
+
+    def setFlexspiXipRegion( self ):
+        if self.mcuSeries == uidef.kMcuSeries_iMXRT11yy:
+            if self.m_menuItem_flexspiXipRegion0.IsChecked():
+                self.flexspiXipRegionSel = 0
+            elif self.m_menuItem_flexspiXipRegion1.IsChecked():
+                self.flexspiXipRegionSel = 1
+            else:
+                pass
+        else:
+            self.flexspiXipRegionSel = 0
+            self.m_menuItem_flexspiXipRegion0.Check(True)
+            self.m_menuItem_flexspiXipRegion1.Check(False)
+        self.toolCommDict['flexspiXipRegionSel'] = self.flexspiXipRegionSel
 
     def checkIfSubWinHasBeenOpened( self ):
         runtimeSettings = uivar.getRuntimeSettings()

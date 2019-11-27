@@ -19,7 +19,7 @@ from boot import bltest
 from boot import target
 from utils import misc
 
-def RTyyyy_createTarget(device, exeBinRoot):
+def RTyyyy_createTarget(device, exeBinRoot, flexspiXipRegionSel ):
     # Build path to target directory and config file.
     cpu = "MIMXRT1052"
     if device == uidef.kMcuDevice_iMXRT1011:
@@ -63,6 +63,14 @@ def RTyyyy_createTarget(device, exeBinRoot):
     # Create the target object.
     tgt = target.Target(**targetConfig)
 
+    # Set main flexspi nor XIP region
+    if flexspiXipRegionSel == 0:
+        tgt.flexspiNorMemBase = tgt.flexspiNorMemBase0
+    elif flexspiXipRegionSel == 1:
+        tgt.flexspiNorMemBase = tgt.flexspiNorMemBase1
+    else:
+        pass
+
     return tgt, targetBaseDir
 
 ##
@@ -104,7 +112,15 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         self.RTyyyy_createMcuTarget()
 
     def RTyyyy_createMcuTarget( self ):
-        self.tgt, self.cpuDir = RTyyyy_createTarget(self.mcuDevice, self.exeBinRoot)
+        self.tgt, self.cpuDir = RTyyyy_createTarget(self.mcuDevice, self.exeBinRoot, self.flexspiXipRegionSel)
+
+    def RTyyyy_updateFlexspiNorMemBase( self ):
+        if self.mcuSeries == uidef.kMcuSeries_iMXRT10yy:
+            pass
+        elif self.mcuSeries == uidef.kMcuSeries_iMXRT11yy:
+            self.RTyyyy_createMcuTarget()
+        else:
+            pass
 
     def RTyyyy_getUsbid( self ):
         self.RTyyyy_createMcuTarget()
@@ -753,6 +769,32 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             self.printLog(cmdStr)
             return (status == boot.status.kStatus_Success)
 
+    def RTyyyy_setFlexspiNorInstance( self ):
+        if self.mcuSeries == uidef.kMcuSeries_iMXRT10yy:
+            pass
+        elif self.mcuSeries == uidef.kMcuSeries_iMXRT11yy:
+            # In RT1170 flashloader, 0xFC900001/0xFC900002 is used to switch XIP region
+            #  0xFC900001 -> XIP 0x30000000
+            #  0xFC900002 -> XIP 0x60000000
+            configOpt = rundef.kFlexspiNorCfgInfo_Instance + self.flexspiXipRegionSel
+            status = boot.status.kStatus_Success
+            if self.RTyyyy_isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.fillMemory(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt, 0x4, configOpt)
+                self.printLog(cmdStr)
+            if self.isSbFileEnabledToGen:
+                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(configOpt))) + " > " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
+            if status != boot.status.kStatus_Success:
+                return False
+            if self.RTyyyy_isDeviceEnabledToOperate:
+                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt)
+                self.printLog(cmdStr)
+            if self.isSbFileEnabledToGen:
+                self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
+            if status != boot.status.kStatus_Success:
+                return False
+        else:
+            pass
+
     def RTyyyy_configureBootDevice ( self ):
         self._RTyyyy_prepareForBootDeviceOperation()
         configOptList = []
@@ -770,6 +812,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_FlexspiNor:
             flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
             configOptList.extend([flexspiNorOpt0, flexspiNorOpt1])
+            self.RTyyyy_setFlexspiNorInstance()
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_LpspiNor:
             lpspiNorOpt0, lpspiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
             configOptList.extend([lpspiNorOpt0, lpspiNorOpt1])

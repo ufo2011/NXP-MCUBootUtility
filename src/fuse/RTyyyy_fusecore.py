@@ -109,7 +109,7 @@ class secBootRTyyyyFuse(RTyyyy_runcore.secBootRTyyyyRun):
         else:
             pass
 
-    def _burnFuseLockRegion( self, srcFuseValue, destFuseValue ):
+    def _burnFuseLockRegion( self, srcFuseValue, destFuseValue, fuseIdxKey='kEfuseIndex_LOCK' ):
         destFuseValue = destFuseValue | srcFuseValue
         if self.mcuSeries == uidef.kMcuSeries_iMXRT10yy:
             # High-4bits cannot be burned along with low-28bits for fuse lock region, this is design limitation
@@ -127,7 +127,7 @@ class secBootRTyyyyFuse(RTyyyy_runcore.secBootRTyyyyRun):
             if srcLock != destLock:
                 self.burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], destLock, RTyyyy_rundef.kActionFrom_BurnFuse)
         elif self.mcuSeries == uidef.kMcuSeries_iMXRT11yy:
-            self.burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], destFuseValue, RTyyyy_rundef.kActionFrom_BurnFuse)
+            self.burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict[fuseIdxKey], destFuseValue, RTyyyy_rundef.kActionFrom_BurnFuse)
         else:
             pass
 
@@ -141,6 +141,9 @@ class secBootRTyyyyFuse(RTyyyy_runcore.secBootRTyyyyRun):
             self.scanAllFuseRegions(False)
         else:
             self._swapRemappedScannedFuseIfAppliable()
+        lockOperDict = {'kEfuseIndex_LOCK':None,
+                        'kEfuseIndex_LOCK2':None,
+                       }
         for i in range(RTyyyy_fusedef.kGroupEfuseWords):
             idx = curFuseGroupStartIndex + i
             if self.runModeFuseFlagList[idx]:
@@ -148,11 +151,17 @@ class secBootRTyyyyFuse(RTyyyy_runcore.secBootRTyyyyRun):
                    self.toBeBurnnedFuseList[idx] != None and \
                    self.scannedFuseList[idx] != None:
                     if idx == self.tgt.efusemapIndexDict['kEfuseIndex_LOCK']:
-                        self._burnFuseLockRegion(self.scannedFuseList[idx], self.toBeBurnnedFuseList[idx])
+                        lockOperDict['kEfuseIndex_LOCK'] = [self.scannedFuseList[idx], self.toBeBurnnedFuseList[idx]]
+                    elif (('kEfuseIndex_LOCK2' in self.tgt.efusemapIndexDict) and (idx == self.tgt.efusemapIndexDict['kEfuseIndex_LOCK2'])):
+                        lockOperDict['kEfuseIndex_LOCK2'] = [self.scannedFuseList[idx], self.toBeBurnnedFuseList[idx]]
                     else:
                         fuseValue = self.toBeBurnnedFuseList[idx] | self.scannedFuseList[idx]
                         self.burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_START'] + idx, fuseValue, RTyyyy_rundef.kActionFrom_BurnFuse)
                     self.toBeRefreshedFuseList[idx] = True
+        if lockOperDict['kEfuseIndex_LOCK'] !=None:
+            self._burnFuseLockRegion(lockOperDict['kEfuseIndex_LOCK'][0], lockOperDict['kEfuseIndex_LOCK'][1])
+        if lockOperDict['kEfuseIndex_LOCK2'] !=None:
+            self._burnFuseLockRegion(lockOperDict['kEfuseIndex_LOCK2'][0], lockOperDict['kEfuseIndex_LOCK2'][1])
         self.scanAllFuseRegions(True, True)
 
     def RTyyyy_task_doShowSettedEfuse( self ):

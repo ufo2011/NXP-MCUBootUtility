@@ -476,9 +476,10 @@ kRevision_2_1_0_en =  "【v2.1.0】 \n" + \
                       "     6. [RTyyyy] Enable OTFAD encryption secure boot mode (User Key) for RT117x A0 \n" + \
                       "     7. [RTyyyy] Support RT1170/1010 bootable image from SDK as source input \n" + \
                       "  Improvement: \n" + \
-                      "     1. [RTyyyy] Image format auto detection can be used for axf file from MCUX or GCC \n" + \
-                      "     2. Specify file path instead of file to save readback data \n" + \
-                      "     3. If readback data is enabled to be saved in file, then it will not displayed on the screen \n" + \
+                      "     1. [RTyyyy] Lock word should be placed at the end of operation when generating user efuse .sb file \n" + \
+                      "     2. [RTyyyy] Image format auto detection can be used for axf file from MCUX or GCC \n" + \
+                      "     3. Specify file path instead of file to save readback data \n" + \
+                      "     4. If readback data is enabled to be saved in file, then it will not displayed on the screen \n" + \
                       "  Bugfix: \n" + \
                       "     1. 'Cmd Pads' is not set correctly for some typical octal-flash models in FlexSPI NOR configuration \n" + \
                       "     2. 'Max Frequency' option is not exactly aligned with selected MCU device in FlexSPI NOR configuration \n" + \
@@ -501,9 +502,10 @@ kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"     6. [RTyyyy] 为RT1170 A0开启OTFAD加密(User Key)支持 \n" + \
                      u"     7. [RTyyyy] 支持RT1170/RT1010 SDK生成的Bootable image作为源文件输入 \n" + \
                      u"  改进: \n" + \
-                     u"     1. [RTyyyy] 程序格式自动检测选项也可用于MCUX生成的axf格式源文件 \n" + \
-                     u"     2. 指定目录而不是指定文件去存放回读的数据 \n" + \
-                     u"     3. 如果回读的数据已经选择保存到文件中，那么点击Read按钮将不会在窗口显示数据 \n" + \
+                     u"     1. [RTyyyy] 生成用户efuse烧录sb文件时应将lock位操作放在最后面 \n" + \
+                     u"     2. [RTyyyy] 程序格式自动检测选项也可用于MCUX生成的axf格式源文件 \n" + \
+                     u"     3. 指定目录而不是指定文件去存放回读的数据 \n" + \
+                     u"     4. 如果回读的数据已经选择保存到文件中，那么点击Read按钮将不会在窗口显示数据 \n" + \
                      u"  修复: \n" + \
                      u"     1. 在FlexSPI NOR配置界面里，对于一些octal-flash模型，其Cmd Pads参数没有被正确设置 \n" + \
                      u"     2. 在FlexSPI NOR配置界面里，Max Frequency参数选项与当前MCU型号不完全匹配 \n" + \

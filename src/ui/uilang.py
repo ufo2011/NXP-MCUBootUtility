@@ -483,11 +483,12 @@ kRevision_2_1_0_en =  "【v2.1.0】 \n" + \
                       "     1. 'Cmd Pads' is not set correctly for some typical octal-flash models in FlexSPI NOR configuration \n" + \
                       "     2. 'Max Frequency' option is not exactly aligned with selected MCU device in FlexSPI NOR configuration \n" + \
                       "     3. [RTyyyy] Cannot show total size of SD/eMMC correctly, so SD/eMMC cannot be programmed \n" + \
-                      "     4. [RTyyyy] Some fields are not aligned with selected MCU device in Flexible User Key Setting \n" + \
-                      "     5. [RTyyyy] Cannot generate bootable image when original image size is less than 4KB \n" + \
-                      "     6. [RTyyyy] Sometimes tool cannot recognize .axf format from MCUX or Keil MDK \n" + \
-                      "     7. [RTyyyy] Signed flashloader cannot be generated if DCD is enabled \n" + \
-                      "     8. [RTyyyy] Cannot mark DCD in readback image if it comes from source bootable image \n" + \
+                      "     4. [RTyyyy] Cannot save eMMC device configuration \n" + \
+                      "     5. [RTyyyy] Some fields are not aligned with selected MCU device in Flexible User Key Setting \n" + \
+                      "     6. [RTyyyy] Cannot generate bootable image when original image size is less than 4KB \n" + \
+                      "     7. [RTyyyy] Sometimes tool cannot recognize .axf format from MCUX or Keil MDK \n" + \
+                      "     8. [RTyyyy] Signed flashloader cannot be generated if DCD is enabled \n" + \
+                      "     9. [RTyyyy] Cannot mark DCD in readback image if it comes from source bootable image \n" + \
                       "  Interest: \n" + \
                       "     1. Add sound effect (Contra) \n\n"
 kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
@@ -507,11 +508,12 @@ kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"     1. 在FlexSPI NOR配置界面里，对于一些octal-flash模型，其Cmd Pads参数没有被正确设置 \n" + \
                      u"     2. 在FlexSPI NOR配置界面里，Max Frequency参数选项与当前MCU型号不完全匹配 \n" + \
                      u"     3. [RTyyyy] SD/eMMC总容量未能正确显示，导致无法编程SD/eMMC \n" + \
-                     u"     4. [RTyyyy] 在用户自定义Key设置界面里，有些选项与当前选中的MCU型号不匹配 \n" + \
-                     u"     5. [RTyyyy] 当输入的源image文件大小小于4KB时，生成可启动程序会失败 \n" + \
-                     u"     6. [RTyyyy] 有时候无法识别MCUX或Keil MDK生成的axf格式源文件 \n" + \
-                     u"     7. [RTyyyy] 当DCD使能的时候，无法生成含签名的Flashloader \n" + \
-                     u"     8. [RTyyyy] 如果DCD来自源Bootable image，则无法在读回的image中标记DCD \n" + \
+                     u"     4. [RTyyyy] 无法正常保存默认eMMC设备配置(主要是Partition Access参数) \n" + \
+                     u"     5. [RTyyyy] 在用户自定义Key设置界面里，有些选项与当前选中的MCU型号不匹配 \n" + \
+                     u"     6. [RTyyyy] 当输入的源image文件大小小于4KB时，生成可启动程序会失败 \n" + \
+                     u"     7. [RTyyyy] 有时候无法识别MCUX或Keil MDK生成的axf格式源文件 \n" + \
+                     u"     8. [RTyyyy] 当DCD使能的时候，无法生成含签名的Flashloader \n" + \
+                     u"     9. [RTyyyy] 如果DCD来自源Bootable image，则无法在读回的image中标记DCD \n" + \
                      u"  个性: \n" + \
                      u"     1. 增加魂斗罗音效 \n\n"
 

@@ -17,7 +17,7 @@ import wx.xrc
 class secBootWin ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"NXP MCU Boot Utility", pos = wx.DefaultPosition, size = wx.Size( 1095,730 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"NXP MCU Boot Utility", pos = wx.DefaultPosition, size = wx.Size( 1122,730 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
@@ -358,6 +358,7 @@ class secBootWin ( wx.Frame ):
 
 		wSizer_genSeq = wx.WrapSizer( wx.HORIZONTAL, wx.WRAPSIZER_DEFAULT_FLAGS )
 
+		wSizer_genSeq.SetMinSize( wx.Size( 800,-1 ) )
 		self.m_panel_doAuth = wx.Panel( self.m_panel_genSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		self.m_panel_doAuth.SetBackgroundColour( wx.Colour( 64, 64, 64 ) )
 
@@ -598,6 +599,7 @@ class secBootWin ( wx.Frame ):
 
 		wSizer_loadSeq = wx.WrapSizer( wx.HORIZONTAL, wx.WRAPSIZER_DEFAULT_FLAGS )
 
+		wSizer_loadSeq.SetMinSize( wx.Size( 800,-1 ) )
 		self.m_panel_progSrk = wx.Panel( self.m_panel_loadSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		self.m_panel_progSrk.SetBackgroundColour( wx.Colour( 64, 64, 64 ) )
 

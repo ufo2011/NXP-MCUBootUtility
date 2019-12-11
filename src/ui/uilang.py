@@ -518,6 +518,20 @@ kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"     9. [RTyyyy] 如果DCD来自源Bootable image，则无法在读回的image中标记DCD \n" + \
                      u"  个性: \n" + \
                      u"     1. 增加魂斗罗音效 \n\n"
+kRevision_2_2_0_en =  "【v2.2.0】 \n" + \
+                      "  Feature: \n" + \
+                      "     1. [RTxxx] Support FlexSPI NOR boot device for i.MXRT6xx B0 \n" + \
+                      "  Improvement: \n" + \
+                      "     1.  \n" + \
+                      "  Bugfix: \n" + \
+                      "     1.  \n\n"
+kRevision_2_2_0_zh = u"【v2.2.0】 \n" + \
+                     u"  特性: \n" + \
+                     u"     1. [RTxxx] 为i.MXRT6xx B0支持FlexSPI NOR启动设备 \n" + \
+                     u"  改进: \n" + \
+                     u"     1.  \n" + \
+                     u"  修复: \n" + \
+                     u"     1.  \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
@@ -539,6 +553,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v1_4_0':             [kRevision_1_4_0_en,                      kRevision_1_4_0_zh],
         'revisionHistory_v2_0_0':             [kRevision_2_0_0_en,                      kRevision_2_0_0_zh],
         'revisionHistory_v2_1_0':             [kRevision_2_1_0_en,                      kRevision_2_1_0_zh],
+        'revisionHistory_v2_2_0':             [kRevision_2_2_0_en,                      kRevision_2_2_0_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

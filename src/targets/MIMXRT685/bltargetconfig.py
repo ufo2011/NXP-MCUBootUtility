@@ -51,9 +51,9 @@ availableCommands = 0x5EFDF
 supportedPeripheralSpeed_uart = [4800, 9600, 19200, 57600, 115200] # @todo Verify
 availableSecureBootTypes = RTxxx_uidef.kSecureBootType_Latest
 hasRemappedFuse = None
-availableBootDevices = [RTxxx_uidef.kBootDevice_QuadspiNor]
+availableBootDevices = [RTxxx_uidef.kBootDevice_FlexspiNor]
 flexspiNorDevice = uidef.kFlexspiNorDevice_None
-flexspiNorMemBase0 = None
+flexspiNorMemBase0 = 0x08000000
 flexspiNorMemBase1 = None
 flexspiFreqs = None
 xspiNorCfgInfoOffset = 0x400
@@ -64,7 +64,7 @@ isEccTypeSetInFuseMiscConf = None
 isSwEccSetAsDefaultInNandOpt = None
 
 quadspiNorDevice = None
-quadspiNorMemBase = 0x08000000
+quadspiNorMemBase = None
 
 registerAddrDict = None
 registerDefnDict  = None

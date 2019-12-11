@@ -80,6 +80,9 @@ class Target(object):
         self.efusemapIndexDict = misc.get_dict_default(kwargs, 'efusemapIndexDict', None)
         self.efusemapDefnDict = misc.get_dict_default(kwargs, 'efusemapDefnDict', None)
         self.efuseDescDiffDict = misc.get_dict_default(kwargs, 'efuseDescDiffDict', None)
+        self.otpmapIndexDict = misc.get_dict_default(kwargs, 'otpmapIndexDict', None)
+        self.otpmapDefnDict = misc.get_dict_default(kwargs, 'otpmapDefnDict', None)
+        self.otpDescDiffDict = misc.get_dict_default(kwargs, 'otpDescDiffDict', None)
 
     ##
     # @brief Check if a command is supported by the target.

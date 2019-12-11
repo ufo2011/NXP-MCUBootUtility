@@ -121,6 +121,15 @@ class secBootWin ( wx.Frame ):
 		self.m_menuItem_efuseGroup3 = wx.MenuItem( self.m_menu_efuseGroup, wx.ID_ANY, u"3", wx.EmptyString, wx.ITEM_RADIO )
 		self.m_menu_efuseGroup.Append( self.m_menuItem_efuseGroup3 )
 
+		self.m_menuItem_efuseGroup4 = wx.MenuItem( self.m_menu_efuseGroup, wx.ID_ANY, u"4", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_efuseGroup.Append( self.m_menuItem_efuseGroup4 )
+
+		self.m_menuItem_efuseGroup5 = wx.MenuItem( self.m_menu_efuseGroup, wx.ID_ANY, u"5", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_efuseGroup.Append( self.m_menuItem_efuseGroup5 )
+
+		self.m_menuItem_efuseGroup6 = wx.MenuItem( self.m_menu_efuseGroup, wx.ID_ANY, u"6", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_efuseGroup.Append( self.m_menuItem_efuseGroup6 )
+
 		self.m_menu_tools.AppendSubMenu( self.m_menu_efuseGroup, u"eFuse Group" )
 
 		self.m_menu_flexspiXipRegion = wx.Menu()
@@ -1848,6 +1857,9 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo1, id = self.m_menuItem_efuseGroup1.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo2, id = self.m_menuItem_efuseGroup2.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo3, id = self.m_menuItem_efuseGroup3.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo4, id = self.m_menuItem_efuseGroup4.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo5, id = self.m_menuItem_efuseGroup5.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo6, id = self.m_menuItem_efuseGroup6.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo0, id = self.m_menuItem_flexspiXipRegion0.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo1, id = self.m_menuItem_flexspiXipRegion1.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowHomePage, id = self.m_menuItem_homePage.GetId() )
@@ -1976,6 +1988,15 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetEfuseGroupTo3( self, event ):
+		event.Skip()
+
+	def callbackSetEfuseGroupTo4( self, event ):
+		event.Skip()
+
+	def callbackSetEfuseGroupTo5( self, event ):
+		event.Skip()
+
+	def callbackSetEfuseGroupTo6( self, event ):
 		event.Skip()
 
 	def callbackSetFlexspiXipRegionTo0( self, event ):

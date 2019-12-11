@@ -225,13 +225,23 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
         while True:
             if self.isAccessMemTaskPending:
                 if self.accessMemType == 'ScanFuse':
-                    self.scanAllFuseRegions()
-                    if self.isSbFileEnabledToGen:
-                        self.initSbEfuseBdfileContent()
+                    if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
+                        self.RTyyyy_scanAllFuseRegions()
+                        if self.isSbFileEnabledToGen:
+                            self.initSbEfuseBdfileContent()
+                    elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
+                        self.RTxxx_scanAllOtpRegions()
+                    else:
+                        pass
                 elif self.accessMemType == 'BurnFuse':
-                    self.burnAllFuseRegions()
-                    if self.isSbFileEnabledToGen:
-                        self.genSbEfuseImage()
+                    if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
+                        self.RTyyyy_burnAllFuseRegions()
+                        if self.isSbFileEnabledToGen:
+                            self.genSbEfuseImage()
+                    elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
+                        self.RTxxx_burnAllOtpRegions()
+                    else:
+                        pass
                 elif self.accessMemType == 'SaveFuse':
                     self.saveFuseRegions()
                 elif self.accessMemType == 'LoadFuse':
@@ -453,8 +463,14 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
 
     def _switchEfuseGroup( self ):
         self.setEfuseGroup()
-        self.updateFuseGroupText()
-        self.updateFuseRegionField()
+        if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
+            self.RTyyyy_updateFuseGroupText()
+            self.RTyyyy_updateFuseRegionField()
+        elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
+            self.RTxxx_updateOtpGroupText()
+            self.RTxxx_updateOtpRegionField()
+        else:
+            pass
 
     def callbackSetEfuseGroupTo0( self, event ):
         self._switchEfuseGroup()
@@ -466,6 +482,15 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
         self._switchEfuseGroup()
 
     def callbackSetEfuseGroupTo3( self, event ):
+        self._switchEfuseGroup()
+
+    def callbackSetEfuseGroupTo4( self, event ):
+        self._switchEfuseGroup()
+
+    def callbackSetEfuseGroupTo5( self, event ):
+        self._switchEfuseGroup()
+
+    def callbackSetEfuseGroupTo6( self, event ):
         self._switchEfuseGroup()
 
     def _switchFlexspiXipRegion( self ):

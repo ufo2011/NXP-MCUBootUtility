@@ -126,6 +126,10 @@ efuseDescDiffDict = {'0x400_lock_bit7' :        RTyyyy_uidef_efuse.efuse_temp_re
                      '0x6e0_miscconf1_bit31_24':RTyyyy_uidef_efuse.efuse_temp_reserved8,
                     }
 
+otpmapIndexDict = None
+otpmapDefnDict  = None
+otpDescDiffDict = None
+
 # memory map
 memoryRange = {
     # ITCM, 128KByte

@@ -84,6 +84,10 @@ efuseDescDiffDict = {
                      '0xc70_flexramcfg_bit21_16':RTyyyy_uidef_efuse.efuse_0xc70_flexramPartion512KB,
                     }
 
+otpmapIndexDict = None
+otpmapDefnDict  = None
+otpDescDiffDict = None
+
 # memory map
 memoryRange = {
     # ITCM_CM7, 512KByte

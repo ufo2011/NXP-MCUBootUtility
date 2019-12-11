@@ -22,7 +22,7 @@ from ui import ui_cfg_semcnor
 from ui import ui_cfg_semcnand
 from ui import ui_cfg_usdhcsd
 from ui import ui_cfg_usdhcmmc
-from ui import ui_cfg_lpspinor
+from ui import ui_cfg_recoveryspinor
 
 g_main_win = None
 g_task_detectUsbhid = None
@@ -132,7 +132,7 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             usdhcMmcFrame.SetTitle(uilang.kSubLanguageContentDict['usdhcmmc_title'][self.languageIndex])
             usdhcMmcFrame.Show(True)
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_LpspiNor:
-            lpspiNorFrame = ui_cfg_lpspinor.secBootUiCfgLpspiNor(None)
+            lpspiNorFrame = ui_cfg_recoveryspinor.secBootUiCfgRecoverySpiNor(None)
             lpspiNorFrame.SetTitle(uilang.kSubLanguageContentDict['lpspinor_title'][self.languageIndex])
             lpspiNorFrame.Show(True)
         else:

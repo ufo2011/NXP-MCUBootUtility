@@ -7,7 +7,7 @@ import bootDeviceWin_SemcNor
 import bootDeviceWin_SemcNand
 import bootDeviceWin_UsdhcSd
 import bootDeviceWin_UsdhcMmc
-import bootDeviceWin_LpspiNor
+import bootDeviceWin_RecoverySpiNor
 import bootDeviceWin_DCD
 import advSettingsWin_Cert
 import advSettingsWin_FixedOtpmkKey
@@ -29,7 +29,7 @@ __all__ = ["secBootWin",
            "bootDeviceWin_SemcNand",
            "bootDeviceWin_UsdhcSd",
            "bootDeviceWin_UsdhcMmc",
-           "bootDeviceWin_LpspiNor",
+           "bootDeviceWin_RecoverySpiNor",
            "bootDeviceWin_DCD",
            "advSettingsWin_Cert",
            "advSettingsWin_FixedOtpmkKey",

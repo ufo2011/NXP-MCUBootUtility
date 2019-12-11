@@ -131,10 +131,15 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             usdhcMmcFrame = ui_cfg_usdhcmmc.secBootUiUsdhcMmc(None)
             usdhcMmcFrame.SetTitle(uilang.kSubLanguageContentDict['usdhcmmc_title'][self.languageIndex])
             usdhcMmcFrame.Show(True)
-        elif self.bootDevice == RTyyyy_uidef.kBootDevice_LpspiNor:
-            lpspiNorFrame = ui_cfg_recoveryspinor.secBootUiCfgRecoverySpiNor(None)
-            lpspiNorFrame.SetTitle(uilang.kSubLanguageContentDict['lpspinor_title'][self.languageIndex])
-            lpspiNorFrame.Show(True)
+        elif self.bootDevice == RTyyyy_uidef.kBootDevice_LpspiNor or \
+             self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
+            recoverySpiNorFrame = ui_cfg_recoveryspinor.secBootUiCfgRecoverySpiNor(None)
+            if self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
+                recoverySpiNorFrame.SetTitle(uilang.kSubLanguageContentDict['flexcommspinor_title'][self.languageIndex])
+            else:
+                recoverySpiNorFrame.SetTitle(uilang.kSubLanguageContentDict['lpspinor_title'][self.languageIndex])
+            recoverySpiNorFrame.setNecessaryInfo(self.mcuSeries)
+            recoverySpiNorFrame.Show(True)
         else:
             pass
 

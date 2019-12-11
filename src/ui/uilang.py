@@ -189,6 +189,7 @@ kSubLanguageContentDict = {
 
         #lpspinor
         'lpspinor_title':                     ['LPSPI NOR/EEPROM Device Configuration', u"配置LPSPI接口NOR/EEPROM启动设备"],
+        'flexcommspinor_title':               ['Flexcomm SPI NOR Device Configuration', u"配置Flexcomm SPI接口NOR Flash启动设备"],
         'panel_memOpt':                       ['Memory Option',                         u"存储器选项"],
         'sText_deviceType':                   ['Device Type:',                          u"设备类型："],
         'sText_pageSize':                     ['Page Size (Bytes):',                    u"页大小(B)："],
@@ -520,14 +521,16 @@ kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"     1. 增加魂斗罗音效 \n\n"
 kRevision_2_2_0_en =  "【v2.2.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. [RTxxx] Support FlexSPI NOR boot device for i.MXRT6xx B0 \n" + \
+                      "     1. Support i.MXRT6xx B0, switch to FlexSPI NOR boot device \n" + \
+                      "     2. [RTxxx] Support for loading bootable image into Flexcomm SPI NOR recovery boot device \n" + \
                       "  Improvement: \n" + \
                       "     1.  \n" + \
                       "  Bugfix: \n" + \
                       "     1.  \n\n"
 kRevision_2_2_0_zh = u"【v2.2.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. [RTxxx] 为i.MXRT6xx B0支持FlexSPI NOR启动设备 \n" + \
+                     u"     1. [RTxxx] 为i.MXRT6xx B0启动设备从QuadSPI NOR切换到FlexSPI NOR \n" + \
+                     u"     2. [RTxxx] 支持下载Bootable image进主动启动设备 - Flexcomm SPI接口NOR Flash \n" + \
                      u"  改进: \n" + \
                      u"     1.  \n" + \
                      u"  修复: \n" + \

@@ -119,8 +119,27 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         self.printLog(cmdStr)
         return (status == boot.status.kStatus_Success)
 
+    def RTxxx_readMcuDeviceOtpByBlhost( self, otpIndex, otpName, needToShow=True):
+        status, results, cmdStr = self.blhost.efuseReadOnce(otpIndex)
+        self.printLog(cmdStr)
+        if (status == boot.status.kStatus_Success):
+            if needToShow:
+                self.printDeviceStatus(otpName + " = " + self.convertLongIntHexText(str(hex(results[1]))))
+            return results[1]
+        else:
+            if needToShow:
+                self.printDeviceStatus(otpName + " = --------")
+            return None
+
+    def _RTxxx_readMcuDeviceOtpBootCfg( self ):
+        self.RTxxx_readMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpIndex_BOOT_CFG0'], '(0x60) BOOT_CFG0')
+        self.RTxxx_readMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpIndex_BOOT_CFG1'], '(0x61) BOOT_CFG1')
+        self.RTxxx_readMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpIndex_BOOT_CFG2'], '(0x62) BOOT_CFG2')
+        self.RTxxx_readMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpIndex_BOOT_CFG3'], '(0x63) BOOT_CFG3')
+
     def RTxxx_getMcuDeviceInfoViaRom( self ):
-        self.printDeviceStatus("--------MCU device Register----------")
+        self.printDeviceStatus("--------MCU device otpmap--------")
+        self._RTxxx_readMcuDeviceOtpBootCfg()
 
     def _getXspiNorDeviceInfo ( self ):
         if not self.RTxxx_isDeviceEnabledToOperate:

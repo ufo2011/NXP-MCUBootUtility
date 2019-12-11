@@ -32,6 +32,7 @@ import sys, os
 sys.path.append(os.path.abspath(".."))
 from boot.memoryrange import MemoryRange
 from ui import RTxxx_uidef
+from ui import RTxxx_uidef_otp
 from ui import uidef
 
 cpu = 'MIMXRT685'
@@ -72,6 +73,10 @@ registerDefnDict  = None
 efusemapIndexDict = None
 efusemapDefnDict  = None
 efuseDescDiffDict = None
+
+otpmapIndexDict = RTxxx_uidef_otp.efusemapIndexDict_RTxxx
+otpmapDefnDict  = None
+otpDescDiffDict = None
 
 # memory map
 memoryRange = {

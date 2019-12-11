@@ -73,6 +73,10 @@ efusemapIndexDict = None
 efusemapDefnDict  = None
 efuseDescDiffDict = None
 
+otpmapIndexDict = None
+otpmapDefnDict  = None
+otpDescDiffDict = None
+
 # memory map
 memoryRange = {
     # SRAM, 3MByte

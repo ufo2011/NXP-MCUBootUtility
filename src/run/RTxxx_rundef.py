@@ -1,5 +1,8 @@
 import sys, os
 
+kActionFrom_AllInOne = 0x0
+kActionFrom_BurnOtp = 0x1
+
 kBootDeviceMemBase_FlexspiNor     = 0x08000000
 kBootDeviceMemBase_FlexcommSpiNor = 0x0
 kBootDeviceMemBase_UsdhcSd        = 0x0

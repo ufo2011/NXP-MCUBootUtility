@@ -86,7 +86,7 @@ class secBootRTxxxOtp(RTxxx_runcore.secBootRTxxxRun):
                    self.toBeBurnnedOtpList[idx] != None and \
                    self.scannedOtpList[idx] != None:
                     otpValue = self.toBeBurnnedOtpList[idx] | self.scannedOtpList[idx]
-                    self.RTxxx_burnMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpIndex_START'] + idx, otpValue, RTyyyy_rundef.kActionFrom_BurnFuse)
+                    self.RTxxx_burnMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpIndex_START'] + idx, otpValue, RTxxx_rundef.kActionFrom_BurnOtp)
                     self.toBeRefreshedOtpList[idx] = True
         self.RTxxx_scanAllOtpRegions(True, True)
 

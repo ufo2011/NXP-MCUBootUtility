@@ -985,6 +985,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         return (status == boot.status.kStatus_Success)
 
     def burnSrkData ( self ):
+        if self.isHabCertFastBoot:
+            return True
         if os.path.isfile(self.srkFuseFilename):
             isReady, isBlank = self._isDeviceFuseSrkRegionReadyForBurn(self.srkFuseFilename)
             if isReady:

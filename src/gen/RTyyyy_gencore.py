@@ -38,7 +38,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         self.srkFolder = os.path.join(self.exeTopRoot, 'gen', 'hab_cert')
         self.srkTableFilename = None
         self.srkFuseFilename = None
-        self.crtSrkCaPemFileList = [None] * 4
+        self.crtSrkCaOrUsrPemFileList = [None] * 4
         self.crtCsfUsrPemFileList = [None] * 4
         self.crtImgUsrPemFileList = [None] * 4
         self.certBackupFolder = os.path.join(self.exeTopRoot, 'gen', 'hab_cert', 'backup')
@@ -51,6 +51,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         self.opensslBinFolder = os.path.join(self.exeTopRoot, 'tools', 'openssl', '1.1.0j', 'win32')
         self.habDekFilename = os.path.join(self.exeTopRoot, 'gen', 'hab_crypto', 'hab_dek.bin')
         self.habDekDataOffset = None
+        self.isHabCertFastBoot = False
 
         self.dcdFolder = os.path.join(self.exeTopRoot, 'gen', 'dcd_file')
         self.dcdBinFilename = os.path.join(self.exeTopRoot, 'gen', 'dcd_file', RTyyyy_gendef.kStdDcdFilename_Bin)
@@ -208,6 +209,10 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
 
     def _setSrkFilenames( self ):
         certSettingsDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_Cert)
+        if certSettingsDict['caFlagSet'] == 'y':
+            self.isHabCertFastBoot = False
+        else:
+            self.isHabCertFastBoot = True
         srkTableName = 'SRK'
         srkFuseName = 'SRK'
         for i in range(certSettingsDict['SRKs']):
@@ -215,20 +220,32 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             srkFuseName += '_' + str(i + 1)
         srkTableName += '_table.bin'
         srkFuseName += '_fuse.bin'
-        self.srkTableFilename = os.path.join(self.srkFolder, srkTableName)
+        if not self.isHabCertFastBoot:
+            self.srkTableFilename = os.path.join(self.srkFolder, srkTableName)
+        else:
+            self.srkTableFilename = os.path.join(self.srkFolder, 'SRK_fast_boot_table.bin')
         self.srkFuseFilename = os.path.join(self.srkFolder, srkFuseName)
 
-    def _getCrtSrkCaPemFilenames( self ):
+    def _getCrtSrkCaUsrPemFilenames( self ):
         certSettingsDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_Cert)
+        if certSettingsDict['caFlagSet'] == 'y':
+            self.isHabCertFastBoot = False
+        else:
+            self.isHabCertFastBoot = True
         for i in range(certSettingsDict['SRKs']):
-            self.crtSrkCaPemFileList[i] = self.cstCrtsFolder + '\\'
-            self.crtSrkCaPemFileList[i] += 'SRK' + str(i + 1) + '_sha256'
-            if certSettingsDict['cstVersion'] == RTyyyy_uidef.kCstVersion_v3_1_0 and certSettingsDict['useEllipticCurveCrypto'] == 'y':
-                self.crtSrkCaPemFileList[i] += '_' + certSettingsDict['pkiTreeKeyCn']
-                self.crtSrkCaPemFileList[i] += '_v3_ca_crt.pem'
+            caUsrStr = None
+            if not self.isHabCertFastBoot:
+                caUsrStr = 'ca'
             else:
-                self.crtSrkCaPemFileList[i] += '_' + str(certSettingsDict['pkiTreeKeyLen'])
-                self.crtSrkCaPemFileList[i] += '_65537_v3_ca_crt.pem'
+                caUsrStr = 'usr'
+            self.crtSrkCaOrUsrPemFileList[i] = self.cstCrtsFolder + '\\'
+            self.crtSrkCaOrUsrPemFileList[i] += 'SRK' + str(i + 1) + '_sha256'
+            if certSettingsDict['cstVersion'] == RTyyyy_uidef.kCstVersion_v3_1_0 and certSettingsDict['useEllipticCurveCrypto'] == 'y':
+                self.crtSrkCaOrUsrPemFileList[i] += '_' + certSettingsDict['pkiTreeKeyCn']
+                self.crtSrkCaOrUsrPemFileList[i] += '_v3_' + caUsrStr + '_crt.pem'
+            else:
+                self.crtSrkCaOrUsrPemFileList[i] += '_' + str(certSettingsDict['pkiTreeKeyLen'])
+                self.crtSrkCaOrUsrPemFileList[i] += '_65537_v3_' + caUsrStr + '_crt.pem'
 
     def _getCrtCsfImgUsrPemFilenames( self ):
         certSettingsDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_Cert)
@@ -252,19 +269,20 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
 
     def _updateSrkBatfileContent( self ):
         self._setSrkFilenames()
-        self._getCrtSrkCaPemFilenames()
+        self._getCrtSrkCaUsrPemFilenames()
         self._getCrtCsfImgUsrPemFilenames()
         certSettingsDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_Cert)
         batContent = "\"" + self.srktoolPath + "\""
         batContent += " -h 4"
-        batContent += " -t " + "\"" + self.srkTableFilename + "\""
-        batContent += " -e " + "\"" + self.srkFuseFilename + "\""
+        if not self.isHabCertFastBoot:
+            batContent += " -t " + "\"" + self.srkTableFilename + "\""
+            batContent += " -e " + "\"" + self.srkFuseFilename + "\""
         batContent += " -d sha256"
         batContent += " -c "
         for i in range(certSettingsDict['SRKs']):
             if i != 0:
                 batContent += ','
-            batContent += "\"" + self.crtSrkCaPemFileList[i] + "\""
+            batContent += "\"" + self.crtSrkCaOrUsrPemFileList[i] + "\""
         batContent += " -f 1"
         with open(self.srkBatFilename, 'wb') as fileObj:
             fileObj.write(batContent)
@@ -301,8 +319,9 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         os.mkdir(backupFoldername)
         shutil.copytree(self.cstKeysFolder, os.path.join(backupFoldername, 'keys'))
         shutil.copytree(self.cstCrtsFolder, os.path.join(backupFoldername, 'crts'))
-        shutil.copy(self.srkTableFilename, backupFoldername)
-        shutil.copy(self.srkFuseFilename, backupFoldername)
+        if not self.isHabCertFastBoot:
+            shutil.copy(self.srkTableFilename, backupFoldername)
+            shutil.copy(self.srkFuseFilename, backupFoldername)
         shutil.make_archive(backupFoldername, 'zip', root_dir=backupFoldername)
         shutil.rmtree(backupFoldername)
 
@@ -652,30 +671,49 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             bdContent += "{\n"
             bdContent += "}\n"
             ########################################################################
-            bdContent += "\nsection (SEC_CSF_INSTALL_SRK;\n"
-            #bdContent += "    InstallSRK_Table=\"" + self.srkTableFilename + "\",\n"
-            bdContent += "    InstallSRK_Table=\"" + self.genCertToElftosbPath + os.path.split(self.srkTableFilename)[1] + "\",\n"
-            bdContent += "    InstallSRK_SourceIndex=0\n"
-            bdContent += "    )\n"
-            bdContent += "{\n"
-            bdContent += "}\n"
-            bdContent += "\nsection (SEC_CSF_INSTALL_CSFK;\n"
-            #bdContent += "    InstallCSFK_File=\"" + self.crtCsfUsrPemFileList[0] + "\",\n"
-            bdContent += "    InstallCSFK_File=\"" + self.cstCrtsToElftosbPath + os.path.split(self.crtCsfUsrPemFileList[0])[1] + "\",\n"
-            bdContent += "    InstallCSFK_CertificateFormat=\"x509\"\n"
-            bdContent += "    )\n"
-            bdContent += "{\n"
-            bdContent += "}\n"
-            bdContent += "\nsection (SEC_CSF_AUTHENTICATE_CSF)\n"
-            bdContent += "{\n"
-            bdContent += "}\n"
-            bdContent += "\nsection (SEC_CSF_INSTALL_KEY;\n"
-            #bdContent += "    InstallKey_File=\"" + self.crtImgUsrPemFileList[0] + "\",\n"
-            bdContent += "    InstallKey_File=\"" + self.cstCrtsToElftosbPath + os.path.split(self.crtImgUsrPemFileList[0])[1] + "\",\n"
-            bdContent += "    InstallKey_VerificationIndex=0,\n"
-            bdContent += "    InstallKey_TargetIndex=2)\n"
-            bdContent += "{\n"
-            bdContent += "}\n"
+            if not self.isHabCertFastBoot:
+                bdContent += "\nsection (SEC_CSF_INSTALL_SRK;\n"
+                #bdContent += "    InstallSRK_Table=\"" + self.srkTableFilename + "\",\n"
+                bdContent += "    InstallSRK_Table=\"" + self.genCertToElftosbPath + os.path.split(self.srkTableFilename)[1] + "\",\n"
+                bdContent += "    InstallSRK_SourceIndex=0\n"
+                bdContent += "    )\n"
+                bdContent += "{\n"
+                bdContent += "}\n"
+                bdContent += "\nsection (SEC_CSF_INSTALL_CSFK;\n"
+                #bdContent += "    InstallCSFK_File=\"" + self.crtCsfUsrPemFileList[0] + "\",\n"
+                bdContent += "    InstallCSFK_File=\"" + self.cstCrtsToElftosbPath + os.path.split(self.crtCsfUsrPemFileList[0])[1] + "\",\n"
+                bdContent += "    InstallCSFK_CertificateFormat=\"x509\"\n"
+                bdContent += "    )\n"
+                bdContent += "{\n"
+                bdContent += "}\n"
+                bdContent += "\nsection (SEC_CSF_AUTHENTICATE_CSF)\n"
+                bdContent += "{\n"
+                bdContent += "}\n"
+                bdContent += "\nsection (SEC_CSF_INSTALL_KEY;\n"
+                #bdContent += "    InstallKey_File=\"" + self.crtImgUsrPemFileList[0] + "\",\n"
+                bdContent += "    InstallKey_File=\"" + self.cstCrtsToElftosbPath + os.path.split(self.crtImgUsrPemFileList[0])[1] + "\",\n"
+                bdContent += "    InstallKey_VerificationIndex=0,\n"
+                bdContent += "    InstallKey_TargetIndex=2)\n"
+                bdContent += "{\n"
+                bdContent += "}\n"
+            else:
+                bdContent += "\nsection (SEC_CSF_INSTALL_SRK;\n"
+                #bdContent += "    InstallSRK_Table=\"" + self.srkTableFilename + "\",\n"
+                bdContent += "    InstallSRK_Table=\"" + self.genCertToElftosbPath + os.path.split(self.srkTableFilename)[1] + "\",\n"
+                bdContent += "    InstallSRK_SourceIndex=0\n"
+                bdContent += "    )\n"
+                bdContent += "{\n"
+                bdContent += "}\n"
+                bdContent += "\nsection (SEC_CSF_INSTALL_NOCAK;\n"
+                #bdContent += "    InstallNOCAK_File=\"" + self.crtSrkCaOrUsrPemFileList[0] + "\",\n"
+                bdContent += "    InstallNOCAK_File=\"" + self.cstCrtsToElftosbPath + os.path.split(self.crtSrkCaOrUsrPemFileList[0])[1] + "\",\n"
+                bdContent += "    InstallNOCAK_CertificateFormat=\"x509\"\n"
+                bdContent += "    )\n"
+                bdContent += "{\n"
+                bdContent += "}\n"
+                bdContent += "\nsection (SEC_CSF_AUTHENTICATE_CSF)\n"
+                bdContent += "{\n"
+                bdContent += "}\n"
             bdContent += "\nsection (SEC_CSF_AUTHENTICATE_DATA;\n"
             bdContent += "    AuthenticateData_VerificationIndex=2,\n"
             bdContent += "    AuthenticateData_Engine=\"DCP\",\n"
@@ -731,7 +769,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
 
     def _tryToReuseExistingCert( self ):
         self._setSrkFilenames()
-        self._getCrtSrkCaPemFilenames()
+        self._getCrtSrkCaUsrPemFilenames()
         self._getCrtCsfImgUsrPemFilenames()
 
     def isCertificateGenerated( self, secureBootType ):
@@ -739,13 +777,18 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
            secureBootType == RTyyyy_uidef.kSecureBootType_HabCrypto or \
            ((secureBootType in RTyyyy_uidef.kSecureBootType_HwCrypto) and self.isCertEnabledForHwCrypto):
             self._tryToReuseExistingCert()
-            if (os.path.isfile(self.srkTableFilename) and \
-                os.path.isfile(self.srkFuseFilename) and \
-                os.path.isfile(self.crtSrkCaPemFileList[0]) and \
-                os.path.isfile(self.crtCsfUsrPemFileList[0]) and \
-                os.path.isfile(self.crtImgUsrPemFileList[0])):
-                self.showSuperRootKeys()
-                return True
+            if os.path.isfile(self.crtSrkCaOrUsrPemFileList[0]):
+                if not self.isHabCertFastBoot:
+                    if (os.path.isfile(self.srkTableFilename) and \
+                        os.path.isfile(self.srkFuseFilename) and \
+                        os.path.isfile(self.crtImgUsrPemFileList[0]) and \
+                        os.path.isfile(self.crtCsfUsrPemFileList[0])):
+                        self.showSuperRootKeys()
+                        return True
+                    else:
+                        return False
+                else:
+                    return True
             else:
                 return False
         elif secureBootType == RTyyyy_uidef.kSecureBootType_Development or \

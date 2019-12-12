@@ -320,6 +320,11 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         self.isXspiNorErasedForImage = True
         return True
 
+    def RTxxx_burnMcuDeviceOtpByBlhost( self, otpIndex, otpValue, actionFrom=RTxxx_rundef.kActionFrom_AllInOne):
+        status, results, cmdStr = self.blhost.efuseProgramOnce(otpIndex, self.getFormattedFuseValue(otpValue))
+        self.printLog(cmdStr)
+        return (status == boot.status.kStatus_Success)
+
     def RTxxx_flashBootableImage ( self ):
         self._RTxxx_prepareForBootDeviceOperation()
         imageLen = os.path.getsize(self.destAppFilename)
@@ -360,6 +365,38 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
             except:
                 pass
             self.isConvertedAppUsed = False
+        return True
+
+    def _getMcuDeviceFlexcommSpiCfg( self ):
+        flexcommSpi = self.RTxxx_readMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpLocation_FlexcommSpiCfg'], '', False)
+        return flexcommSpi
+
+    def RTxxx_burnBootDeviceOtps( self ):
+        if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor:
+            pass
+        elif self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
+            setFlexcommSpiCfg = 0
+            flexcommSpiNorOpt0, flexcommSpiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
+            # Set Spi Index
+            spiIndex = ((flexcommSpiNorOpt0 & 0x00F00000) >> 20)
+            setFlexcommSpiCfg = (setFlexcommSpiCfg & (~self.tgt.otpmapDefnDict['kOtpMask_RedundantSpiPort']) | (spiIndex << self.tgt.otpmapDefnDict['kOtpShift_RedundantSpiPort']))
+            getFlexcommSpiCfg = self._getMcuDeviceFlexcommSpiCfg()
+            if getFlexcommSpiCfg != None:
+                getFlexcommSpiCfg = getFlexcommSpiCfg | setFlexcommSpiCfg
+                if (getFlexcommSpiCfg & self.tgt.otpmapDefnDict['kOtpMask_RedundantSpiPort']) != setFlexcommSpiCfg:
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['burnOtpError_bootCfg0HasBeenBurned'][self.languageIndex])
+                    return False
+                else:
+                    burnResult = self.RTxxx_burnMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpLocation_FlexcommSpiCfg'], getFlexcommSpiCfg)
+                    if not burnResult:
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['burnOtpError_failToBurnBootCfg0'][self.languageIndex])
+                        return False
+        elif self.bootDevice == RTxxx_uidef.kBootDevice_UsdhcSd:
+            pass
+        elif self.bootDevice == RTxxx_uidef.kBootDevice_UsdhcMmc:
+            pass
+        else:
+            pass
         return True
 
     def RTxxx_resetMcuDevice( self ):

@@ -52,7 +52,7 @@ availableCommands = 0x5EFDF
 supportedPeripheralSpeed_uart = [4800, 9600, 19200, 57600, 115200] # @todo Verify
 availableSecureBootTypes = RTxxx_uidef.kSecureBootType_Latest
 hasRemappedFuse = None
-availableBootDevices = [RTxxx_uidef.kBootDevice_FlexspiNor]
+availableBootDevices = RTxxx_uidef.kSecureBootType_Latest
 flexspiNorDevice = uidef.kFlexspiNorDevice_None
 flexspiNorMemBase0 = 0x08000000
 flexspiNorMemBase1 = None
@@ -74,8 +74,8 @@ efusemapIndexDict = None
 efusemapDefnDict  = None
 efuseDescDiffDict = None
 
-otpmapIndexDict = RTxxx_uidef_otp.efusemapIndexDict_RTxxx
-otpmapDefnDict  = None
+otpmapIndexDict = RTxxx_uidef_otp.otpmapIndexDict_RTxxx
+otpmapDefnDict  = RTxxx_uidef_otp.otpmapDefnDict_RTxxx
 otpDescDiffDict = None
 
 # memory map

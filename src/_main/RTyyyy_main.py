@@ -534,7 +534,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
                     self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_failToFlashImage'][self.languageIndex])
                 else:
                     self.isBootableAppAllowedToView = True
-                    if self.burnBootDeviceFuses():
+                    if self.RTyyyy_burnBootDeviceFuses():
                         if (self.secureBootType == RTyyyy_uidef.kSecureBootType_HabAuth) or \
                            (self.secureBootType in RTyyyy_uidef.kSecureBootType_HwCrypto and self.isCertEnabledForHwCrypto):
                             if self.mcuDeviceHabStatus != RTyyyy_fusedef.kHabStatus_Closed0 and \

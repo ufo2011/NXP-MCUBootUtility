@@ -708,4 +708,9 @@ kMsgLanguageContentDict = {
         'connectError_doubleCheckIsp':        ['Make sure that you have put MCU in ISP (In-System Programming) modes (ISP[2:0] pins = 3\'b010 (USB) or 3\'b110 (UART))!',
                                               u"请检查ISP[2:0]引脚状态是否为3\'b010 (USB)或3\'b110 (UART)以确认微控制器处于ROM ISP模式！"],
 
+        'burnOtpError_bootCfg0HasBeenBurned': ['Otp BOOT_CFG0[19:17] REDUNDANT_SPI_PORT has been burned, it is program-once!',
+                                                u"Otp BOOT_CFG0[19:17]已经被烧录，它只可被烧写一次！"],
+        'burnOtpError_failToBurnBootCfg0':   ['Otp BOOT_CFG0[19:17] REDUNDANT_SPI_PORT region was not burned successfully!',
+                                              u"Otp BOOT_CFG0[19:17]区域未成功烧录！"],
+
 }

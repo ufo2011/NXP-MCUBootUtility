@@ -523,20 +523,12 @@ kRevision_2_2_0_en =  "【v2.2.0】 \n" + \
                       "  Feature: \n" + \
                       "     1. Support i.MXRT6xx B0, switch to FlexSPI NOR boot device \n" + \
                       "     2. [RTxxx] Support for loading bootable image into Flexcomm SPI NOR recovery boot device \n" + \
-                      "     3. [RTxxx] Support otp memory operation \n" + \
-                      "  Improvement: \n" + \
-                      "     1.  \n" + \
-                      "  Bugfix: \n" + \
-                      "     1.  \n\n"
+                      "     3. [RTxxx] Support otp memory operation \n\n"
 kRevision_2_2_0_zh = u"【v2.2.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. [RTxxx] 为i.MXRT6xx B0启动设备从QuadSPI NOR切换到FlexSPI NOR \n" + \
+                     u"     1. [RTxxx] 将i.MXRT6xx B0启动设备从QuadSPI NOR切换到FlexSPI NOR \n" + \
                      u"     2. [RTxxx] 支持下载Bootable image进主动启动设备 - Flexcomm SPI接口NOR Flash \n" + \
-                     u"     3. [RTxxx] 支持OTP回读与烧写 \n" + \
-                     u"  改进: \n" + \
-                     u"     1.  \n" + \
-                     u"  修复: \n" + \
-                     u"     1.  \n\n"
+                     u"     3. [RTxxx] 支持OTP回读与烧写 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

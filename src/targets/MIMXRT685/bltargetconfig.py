@@ -74,8 +74,8 @@ efusemapIndexDict = None
 efusemapDefnDict  = None
 efuseDescDiffDict = None
 
-otpmapIndexDict = RTxxx_uidef_otp.efusemapIndexDict_RTxxx
-otpmapDefnDict  = None
+otpmapIndexDict = RTxxx_uidef_otp.otpmapIndexDict_RTxxx
+otpmapDefnDict  = RTxxx_uidef_otp.otpmapDefnDict_RTxxx
 otpDescDiffDict = None
 
 # memory map

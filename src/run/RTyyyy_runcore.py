@@ -1348,7 +1348,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         lpspiCfg = self.RTyyyy_readMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseLocation_LpspiCfg'], '', False)
         return lpspiCfg
 
-    def burnBootDeviceFuses( self ):
+    def RTyyyy_burnBootDeviceFuses( self ):
         if self.bootDevice == RTyyyy_uidef.kBootDevice_SemcNand:
             setSemcNandCfg = 0
             semcNandOpt, semcNandFcbOpt, imageInfo = uivar.getBootDeviceConfiguration(self.bootDevice)

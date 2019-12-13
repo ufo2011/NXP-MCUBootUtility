@@ -521,7 +521,7 @@ kRevision_2_1_0_zh = u"【v2.1.0】 \n" + \
                      u"     1. 增加魂斗罗音效 \n\n"
 kRevision_2_2_0_en =  "【v2.2.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. Support i.MXRT6xx B0, switch to FlexSPI NOR boot device \n" + \
+                      "     1. [RTxxx] Support i.MXRT6xx B0, switch to FlexSPI NOR boot device \n" + \
                       "     2. [RTxxx] Support for loading bootable image into Flexcomm SPI NOR recovery boot device \n" + \
                       "     3. [RTxxx] Support otp memory operation \n\n"
 kRevision_2_2_0_zh = u"【v2.2.0】 \n" + \

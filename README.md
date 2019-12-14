@@ -5,7 +5,7 @@
 English | [中文](./README-zh.md)
 
 ```text
-对于MCUBootUtility，RT-Flash工具，有任何使用上的问题，可以在《痞子衡嵌入式》博客下留言，也可以扫码加入QQ交流群。  
+对于MCUBootUtility，MCUBootFlasher（RT-Flash）工具，有任何使用上的问题，可以在《痞子衡嵌入式》博客下留言，也可以扫码加入QQ交流群。  
 ```
 
 <img src="http://henjay724.com/image/cnblogs/MCUBootUtility_qq.png" style="zoom:100%" />

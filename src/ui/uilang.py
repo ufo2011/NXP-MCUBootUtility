@@ -79,6 +79,7 @@ kMainLanguageContentDict = {
 
         'sText_secureBootType':               ['Secure Boot Type',                      u"安全启动模式："],
         'button_allInOneAction':              ['All-In-One Action',                     u"一键启动"],
+        'button_genSbFileAction':             ['Gen-Sb-File Action',                    u"一键生成"],
 
         'panel_genSeq':                       ['Image Generation Sequence',             u"       生成可启动程序       "],
         'sText_serial':                       ['Serial (8 digits):',                    u"序列号（仅8位数字）："],

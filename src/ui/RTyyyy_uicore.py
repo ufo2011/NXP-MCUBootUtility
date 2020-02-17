@@ -49,41 +49,6 @@ class secBootRTyyyyUi(memcore.secBootMem):
         else:
             self.m_choice_bootDevice.SetSelection(0)
 
-    def _setFlexspiNorDeviceForEvkBoard( self ):
-        try:
-            flexspiNorOpt0 = uidef.kFlexspiNorOpt0_ISSI_IS25LP064A
-            flexspiNorOpt1 = 0x0
-            flexspiDeviceModel = self.tgt.flexspiNorDevice
-            if flexspiDeviceModel == uidef.kFlexspiNorDevice_ISSI_IS25LP064A:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_ISSI_IS25LP064A
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_ISSI_IS26KS512S:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_ISSI_IS26KS512S
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_MXIC_MX25UM51245G:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_MXIC_MX25UM51245G
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_MXIC_MX25UM51345G:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_MXIC_MX25UM51345G
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Micron_MT35X:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Micron_MT35X
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Adesto_AT25SF128A:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Adesto_AT25SF128A
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Adesto_ATXP032:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Adesto_ATXP032
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Cypress_S26KS512S:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Cypress_S26KS512S
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_GigaDevice_GD25LB256E:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_GigaDevice_GD25LB256E
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_GigaDevice_GD25LT256E:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_GigaDevice_GD25LT256E
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_GigaDevice_GD25LX256E:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_GigaDevice_GD25LX256E
-            elif flexspiDeviceModel == uidef.kFlexspiNorDevice_Winbond_W25Q128JV:
-                flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Winbond_W25Q128JV
-            else:
-                pass
-            uivar.setBootDeviceConfiguration(uidef.kBootDevice_XspiNor, flexspiNorOpt0, flexspiNorOpt1, flexspiDeviceModel)
-        except:
-            pass
-
     def RTyyyy_setTargetSetupValue( self ):
         self.showPageInMainBootSeqWin(uidef.kPageIndex_ImageGenerationSequence)
         self.bootDevice = self.m_choice_bootDevice.GetString(self.m_choice_bootDevice.GetSelection())
@@ -97,7 +62,7 @@ class secBootRTyyyyUi(memcore.secBootMem):
             self.isSdmmcCard = False
             self.sbEnableBootDeviceMagic = 'flexspinor'
             self.sbAccessBootDeviceMagic = ''
-            self._setFlexspiNorDeviceForEvkBoard()
+            self.setFlexspiNorDeviceForEvkBoard()
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_SemcNor:
             self.isXipableDevice = True
             self.isNandDevice = False

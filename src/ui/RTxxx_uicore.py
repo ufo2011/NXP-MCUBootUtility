@@ -36,22 +36,22 @@ class secBootRTxxxUi(RTyyyy_main.secBootRTyyyyMain):
         else:
             self.m_choice_bootDevice.SetSelection(0)
 
-    def _RTxxx_refreshBootDeviceList( self ):
-        if self.tgt.availableBootDevices != None:
-            self.m_choice_bootDevice.Clear()
-            self.m_choice_bootDevice.SetItems(self.tgt.availableBootDevices)
-            retSel = self.m_choice_bootDevice.FindString(self.bootDevice)
-            if retSel != wx.NOT_FOUND:
-                self.m_choice_bootDevice.SetSelection(retSel)
-            else:
-                self.m_choice_bootDevice.SetSelection(0)
-
     def RTxxx_setTargetSetupValue( self ):
         self.bootDevice = self.m_choice_bootDevice.GetString(self.m_choice_bootDevice.GetSelection())
         self.RTxxx_createMcuTarget()
         self.refreshBootDeviceList()
         self.bootDevice = self.m_choice_bootDevice.GetString(self.m_choice_bootDevice.GetSelection())
         self.toolCommDict['bootDevice'] = self.m_choice_bootDevice.GetSelection()
+        if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor:
+            self.setFlexspiNorDeviceForEvkBoard()
+        elif self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
+            pass
+        elif self.bootDevice == RTxxx_uidef.kBootDevice_UsdhcSd:
+            pass
+        elif self.bootDevice == RTxxx_uidef.kBootDevice_UsdhcMmc:
+            pass
+        else:
+            pass
 
     def _RTxxx_initSecureBootSeqValue( self ):
         if not self.initSecureBootTypeList():

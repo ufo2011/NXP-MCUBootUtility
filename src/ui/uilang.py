@@ -529,6 +529,20 @@ kRevision_2_2_0_zh = u"【v2.2.0】 \n" + \
                      u"     1. [RTxxx] 将i.MXRT6xx B0启动设备从QuadSPI NOR切换到FlexSPI NOR \n" + \
                      u"     2. [RTxxx] 支持下载Bootable image进主动启动设备 - Flexcomm SPI接口NOR Flash \n" + \
                      u"     3. [RTxxx] 支持OTP回读与烧写 \n\n"
+kRevision_2_3_0_en =  "【v2.3.0】 \n" + \
+                      "  Feature: \n" + \
+                      "     1. [RTxxx] Add more selections of FlexSPI NOR model \n" + \
+                      "  Improvement: \n" + \
+                      "     1. \n" + \
+                      "  Bugfix: \n" + \
+                      "     1. \n\n"
+kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
+                     u"  特性: \n" + \
+                     u"     1. [RTxxx] 在FlexSPI NOR模型参数里增加更多选项 \n" + \
+                     u"  改进: \n" + \
+                     u"     1. \n" + \
+                     u"  修复: \n" + \
+                     u"     1. \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
@@ -551,6 +565,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v2_0_0':             [kRevision_2_0_0_en,                      kRevision_2_0_0_zh],
         'revisionHistory_v2_1_0':             [kRevision_2_1_0_en,                      kRevision_2_1_0_zh],
         'revisionHistory_v2_2_0':             [kRevision_2_2_0_en,                      kRevision_2_2_0_zh],
+        'revisionHistory_v2_3_0':             [kRevision_2_3_0_en,                      kRevision_2_3_0_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

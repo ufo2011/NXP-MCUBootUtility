@@ -177,6 +177,15 @@ class secBootUi(secBootWin.secBootWin):
     def setGenSbFile( self ):
         self.isSbFileEnabledToGen = self.m_menuItem_genSbFileYes.IsChecked()
         self.toolCommDict['isSbFileEnabledToGen'] = self.isSbFileEnabledToGen
+        langIndex = 0
+        if self.m_menuItem_english.IsChecked():
+            langIndex = uilang.kLanguageIndex_English
+        else:
+            langIndex = uilang.kLanguageIndex_Chinese
+        if self.isSbFileEnabledToGen:
+            self.m_button_allInOneAction.SetLabel(uilang.kMainLanguageContentDict['button_genSbFileAction'][langIndex])
+        else:
+            self.m_button_allInOneAction.SetLabel(uilang.kMainLanguageContentDict['button_allInOneAction'][langIndex])
 
     def _initImageReadback( self ):
         if self.toolCommDict['isAutomaticImageReadback']:

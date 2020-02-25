@@ -3,6 +3,7 @@
 import sys
 import os
 import rundef
+import boot
 sys.path.append(os.path.abspath(".."))
 from gen import gencore
 from ui import uidef
@@ -40,4 +41,24 @@ class secBootRun(gencore.secBootGen):
             strMemSize = str(memSizeBytes) + ' Bytes'
         return strMemSize
 
+    def _formatBootloaderVersion( self, version):
+        identifier0 = chr((version & 0xff000000) >> 24)
+        identifier1 = str((version & 0xff0000) >> 16)
+        identifier2 = str((version & 0xff00) >> 8)
+        identifier3 = str(version & 0xff)
+        return identifier0 + identifier1 + '.' + identifier2 + '.' + identifier3
+
+    def getMcuDeviceBootloaderVersion( self ):
+        status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_CurrentVersion)
+        self.printLog(cmdStr)
+        if status == boot.status.kStatus_Success:
+            self.printDeviceStatus('Current Version  = ' + self._formatBootloaderVersion(results[0]))
+        else:
+            pass
+        status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_TargetVersion)
+        self.printLog(cmdStr)
+        if status == boot.status.kStatus_Success:
+            self.printDeviceStatus('Target Version   = ' + self._formatBootloaderVersion(results[0]))
+        else:
+            pass
 

@@ -437,6 +437,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         self.RTyyyy_readMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_SW_GP2_3'], '(0x6C0) SW_GP2_3')
 
     def getMcuDeviceInfoViaFlashloader( self ):
+        self.printDeviceStatus("--------MCU Flashloader info-------")
+        self.getMcuDeviceBootloaderVersion()
         self.printDeviceStatus("--------MCU device eFusemap--------")
         if self.mcuSeries == uidef.kMcuSeries_iMXRT10yy:
             #self._readMcuDeviceFuseTester()

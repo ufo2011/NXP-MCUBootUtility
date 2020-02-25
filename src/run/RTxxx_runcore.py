@@ -138,6 +138,8 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         self.RTxxx_readMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpIndex_BOOT_CFG3'], '(0x63) BOOT_CFG3')
 
     def RTxxx_getMcuDeviceInfoViaRom( self ):
+        self.printDeviceStatus("----------MCU ROM info-----------")
+        self.getMcuDeviceBootloaderVersion()
         self.printDeviceStatus("--------MCU device otpmap--------")
         self._RTxxx_readMcuDeviceOtpBootCfg()
 

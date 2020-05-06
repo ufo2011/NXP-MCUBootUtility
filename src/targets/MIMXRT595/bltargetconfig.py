@@ -42,7 +42,7 @@ build = 'Release'
 
 availablePeripherals = 0x11
 romUsbVid = '0x1FC9'
-romUsbPid = '0x0020'
+romUsbPid = '0x0023'
 hasSdpReadRegisterCmd = None
 flashloaderUsbVid = None
 flashloaderUsbPid = None
@@ -53,7 +53,7 @@ supportedPeripheralSpeed_uart = [4800, 9600, 19200, 57600, 115200] # @todo Verif
 availableSecureBootTypes = RTxxx_uidef.kSecureBootType_Latest
 hasRemappedFuse = None
 availableBootDevices = RTxxx_uidef.kBootDevice_Latest
-flexspiNorDevice = uidef.kFlexspiNorDevice_None
+flexspiNorDevice = uidef.kFlexspiNorDevice_MXIC_MX25UM51345G
 flexspiNorMemBase0 = 0x08000000
 flexspiNorMemBase1 = None
 flexspiFreqs = None

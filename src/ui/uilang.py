@@ -532,14 +532,16 @@ kRevision_2_2_0_zh = u"【v2.2.0】 \n" + \
                      u"     3. [RTxxx] 支持OTP回读与烧写 \n\n"
 kRevision_2_3_0_en =  "【v2.3.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. [RTxxx] Add more selections of FlexSPI NOR model \n" + \
+                      "     1. [RTxxx] Support i.MXRT5xx B0 \n" + \
+                      "     2. [RTxxx] Add more selections of FlexSPI NOR model \n" + \
                       "  Improvement: \n" + \
                       "     1. Can show ROM/Flashloader version info in device status window \n" + \
                       "  Bugfix: \n" + \
                       "     1. \n\n"
 kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. [RTxxx] 在FlexSPI NOR模型参数里增加更多选项 \n" + \
+                     u"     1. [RTxxx] 支持i.MXRT5xx B0 \n" + \
+                     u"     2. [RTxxx] 在FlexSPI NOR模型参数里增加更多选项 \n" + \
                      u"  改进: \n" + \
                      u"     1. 可以在目标器件状态窗口显示ROM/Flashloader的版本信息 \n" + \
                      u"  修复: \n" + \

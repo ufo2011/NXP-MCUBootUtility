@@ -1136,7 +1136,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                     if not self._lockFuseSwGp2():
                         return False
             else:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_swgp2HasBeenBurned'][self.languageIndex])
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_swgp2HasBeenBurned'][self.languageIndex], "Note")
         else:
             pass
         if needToBurnGp4:
@@ -1152,7 +1152,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                     if not self._lockFuseGp4():
                         return False
             else:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_gp4HasBeenBurned'][self.languageIndex])
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_gp4HasBeenBurned'][self.languageIndex], "Note")
         else:
             pass
         if needToBurnUserKey5:
@@ -1168,7 +1168,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                     #if not self._lockFuseUserKey5():
                     #    return False
             else:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_userkey5HasBeenBurned'][self.languageIndex])
+                self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_userkey5HasBeenBurned'][self.languageIndex], "Note")
         else:
             pass
         return True

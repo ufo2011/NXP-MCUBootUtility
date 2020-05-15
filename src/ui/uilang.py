@@ -537,7 +537,8 @@ kRevision_2_3_0_en =  "【v2.3.0】 \n" + \
                       "  Improvement: \n" + \
                       "     1. Can show ROM/Flashloader version info in device status window \n" + \
                       "  Bugfix: \n" + \
-                      "     1. Erase region for FDCB is incorrect in generated sb-file\n\n"
+                      "     1. [RTyyyy] Erase region for FDCB is incorrect in generated sb-file \n" + \
+                      "     2. [RTyyyy] fuse lock programming limitation doesn't exist in all RT devices \n\n"
 kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                      u"  特性: \n" + \
                      u"     1. [RTxxx] 支持i.MXRT5xx B0 \n" + \
@@ -545,7 +546,8 @@ kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                      u"  改进: \n" + \
                      u"     1. 可以在目标器件状态窗口显示ROM/Flashloader的版本信息 \n" + \
                      u"  修复: \n" + \
-                     u"     1. [RTyyyy] 生成的.sb文件里擦除FDCB区域的长度指定有误 \n\n"
+                     u"     1. [RTyyyy] 生成的.sb文件里擦除FDCB区域的长度指定有误 \n" + \
+                     u"     2. [RTyyyy] Fuse Lock烧写限制不是存在于所有i.MXRT型号 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

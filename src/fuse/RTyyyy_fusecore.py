@@ -126,6 +126,10 @@ class secBootRTyyyyFuse(RTyyyy_runcore.secBootRTyyyyRun):
             destLock = destFuseValue & RTyyyy_fusedef.kEfuseMask_LockHigh
             if srcLock != destLock:
                 self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], destLock, RTyyyy_rundef.kActionFrom_BurnFuse)
+            # Some RT doesn't have this design limitation, so we should try again to make sure lock has been really burnned
+            destLock = destFuseValue
+            if srcLock != destLock:
+                self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], destLock, RTyyyy_rundef.kActionFrom_BurnFuse)
         elif self.mcuSeries == uidef.kMcuSeries_iMXRT11yy:
             self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict[fuseIdxKey], destFuseValue, RTyyyy_rundef.kActionFrom_BurnFuse)
         else:

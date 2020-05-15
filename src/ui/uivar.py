@@ -218,7 +218,7 @@ def initVar(cfgFilename):
                           'isDymaticUsbDetection':True,
                           'soundEffectType':'contra',
                           'isSbFileEnabledToGen':False,
-                          'isAutomaticImageReadback':True,
+                          'isAutomaticImageReadback':False,
                           'flashloaderResident':None,
                           'efuseGroupSel':0,
                           'flexspiXipRegionSel':0,

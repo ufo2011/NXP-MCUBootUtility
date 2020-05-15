@@ -1066,9 +1066,9 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             if not burnResult:
                 lock = lock & (~RTyyyy_fusedef.kEfuseMask_LockHigh)
                 burnResult = self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], lock)
-                if not burnResult:
-                    self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnSwgp2Lock'][self.languageIndex])
-                    return False
+                #if not burnResult:
+                #    self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnSwgp2Lock'][self.languageIndex])
+                #    return False
         return True
 
     def _lockFuseGp4( self ):
@@ -1079,9 +1079,9 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             if not burnResult:
                 lock = lock & (~RTyyyy_fusedef.kEfuseMask_LockHigh)
                 burnResult = self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], lock)
-                if not burnResult:
-                    self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnGp4Lock'][self.languageIndex])
-                    return False
+                #if not burnResult:
+                #    self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnGp4Lock'][self.languageIndex])
+                #    return False
         return True
 
     def burnHwCryptoDekData ( self ):

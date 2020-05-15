@@ -711,9 +711,9 @@ class secBootUi(secBootWin.secBootWin):
         self.m_button_progSrk.Enable( False )
         self.Refresh()
 
-    def popupMsgBox( self, msgStr ):
+    def popupMsgBox( self, msgStr, msgType="Error" ):
         messageText = (msgStr.encode('utf-8'))
-        wx.MessageBox(messageText, "Error", wx.OK | wx.ICON_INFORMATION)
+        wx.MessageBox(messageText, msgType, wx.OK | wx.ICON_INFORMATION)
 
     def printLog( self, logStr ):
         try:

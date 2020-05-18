@@ -110,26 +110,23 @@ class secBootRTyyyyFuse(RTyyyy_runcore.secBootRTyyyyRun):
             pass
 
     def _burnFuseLockRegion( self, srcFuseValue, destFuseValue, fuseIdxKey='kEfuseIndex_LOCK' ):
-        destFuseValue = destFuseValue | srcFuseValue
+        destFuseValue = (destFuseValue | srcFuseValue) ^ srcFuseValue
         if self.mcuSeries == uidef.kMcuSeries_iMXRT10yy:
             # High-4bits cannot be burned along with low-28bits for fuse lock region, this is design limitation
-            srcLock = srcFuseValue & RTyyyy_fusedef.kEfuseMask_LockLow
-            destLock = destFuseValue & RTyyyy_fusedef.kEfuseMask_LockLow
-            if srcLock != destLock:
+            lowLock = destFuseValue & RTyyyy_fusedef.kEfuseMask_LockLow
+            if lowLock:
                 # Don't allow to lock Fuse SRK because SRK will be OP+RP+WP if lock bit is set and then ROM cannot get SRK
-                if ((srcLock & RTyyyy_fusedef.kEfuseMask_LockSrk) == 0) and \
-                   ((destLock & RTyyyy_fusedef.kEfuseMask_LockSrk) != 0):
-                    destLock = destLock & (~RTyyyy_fusedef.kEfuseMask_LockSrk)
+                if (lowLock & RTyyyy_fusedef.kEfuseMask_LockSrk):
+                    lowLock = lowLock & (~RTyyyy_fusedef.kEfuseMask_LockSrk)
                     self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_cannotBurnSrkLock'][self.languageIndex])
-                self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], destLock, RTyyyy_rundef.kActionFrom_BurnFuse)
-            srcLock = srcFuseValue & RTyyyy_fusedef.kEfuseMask_LockHigh
-            destLock = destFuseValue & RTyyyy_fusedef.kEfuseMask_LockHigh
-            if srcLock != destLock:
-                self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], destLock, RTyyyy_rundef.kActionFrom_BurnFuse)
+                self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict[fuseIdxKey], lowLock, RTyyyy_rundef.kActionFrom_BurnFuse)
+            highLock = destFuseValue & RTyyyy_fusedef.kEfuseMask_LockHigh
+            if highLock:
+                self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict[fuseIdxKey], highLock, RTyyyy_rundef.kActionFrom_BurnFuse)
             # Some RT doesn't have this design limitation, so we should try again to make sure lock has been really burnned
             destLock = destFuseValue
-            if srcLock != destLock:
-                self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], destLock, RTyyyy_rundef.kActionFrom_BurnFuse)
+            if destLock:
+                self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict[fuseIdxKey], destLock, RTyyyy_rundef.kActionFrom_BurnFuse)
         elif self.mcuSeries == uidef.kMcuSeries_iMXRT11yy:
             self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict[fuseIdxKey], destFuseValue, RTyyyy_rundef.kActionFrom_BurnFuse)
         else:
@@ -159,13 +156,15 @@ class secBootRTyyyyFuse(RTyyyy_runcore.secBootRTyyyyRun):
                     elif (('kEfuseIndex_LOCK2' in self.tgt.efusemapIndexDict) and (idx == self.tgt.efusemapIndexDict['kEfuseIndex_LOCK2'])):
                         lockOperDict['kEfuseIndex_LOCK2'] = [self.scannedFuseList[idx], self.toBeBurnnedFuseList[idx]]
                     else:
-                        fuseValue = self.toBeBurnnedFuseList[idx] | self.scannedFuseList[idx]
+                        # We need to do | operation first, in case user set 1 to 0 wrongly
+                        # Then we do ^ operation, because only bit 1 in fuse word will take affect, bit 0 will be bypassed by OCOTP controller
+                        fuseValue = (self.toBeBurnnedFuseList[idx] | self.scannedFuseList[idx]) ^ self.scannedFuseList[idx]
                         self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_START'] + idx, fuseValue, RTyyyy_rundef.kActionFrom_BurnFuse)
                     self.toBeRefreshedFuseList[idx] = True
         if lockOperDict['kEfuseIndex_LOCK'] !=None:
-            self._burnFuseLockRegion(lockOperDict['kEfuseIndex_LOCK'][0], lockOperDict['kEfuseIndex_LOCK'][1])
+            self._burnFuseLockRegion(lockOperDict['kEfuseIndex_LOCK'][0], lockOperDict['kEfuseIndex_LOCK'][1], 'kEfuseIndex_LOCK')
         if lockOperDict['kEfuseIndex_LOCK2'] !=None:
-            self._burnFuseLockRegion(lockOperDict['kEfuseIndex_LOCK2'][0], lockOperDict['kEfuseIndex_LOCK2'][1])
+            self._burnFuseLockRegion(lockOperDict['kEfuseIndex_LOCK2'][0], lockOperDict['kEfuseIndex_LOCK2'][1], 'kEfuseIndex_LOCK2')
         self.RTyyyy_scanAllFuseRegions(True, True)
 
     def RTyyyy_task_doShowSettedEfuse( self ):

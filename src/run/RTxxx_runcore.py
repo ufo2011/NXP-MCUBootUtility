@@ -384,12 +384,14 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
             setFlexcommSpiCfg = (setFlexcommSpiCfg & (~self.tgt.otpmapDefnDict['kOtpMask_RedundantSpiPort']) | (spiIndex << self.tgt.otpmapDefnDict['kOtpShift_RedundantSpiPort']))
             getFlexcommSpiCfg = self._getMcuDeviceFlexcommSpiCfg()
             if getFlexcommSpiCfg != None:
-                getFlexcommSpiCfg = getFlexcommSpiCfg | setFlexcommSpiCfg
-                if (getFlexcommSpiCfg & self.tgt.otpmapDefnDict['kOtpMask_RedundantSpiPort']) != setFlexcommSpiCfg:
+                destFlexcommSpiCfg = setFlexcommSpiCfg | getFlexcommSpiCfg
+                if (destFlexcommSpiCfg & self.tgt.otpmapDefnDict['kOtpMask_RedundantSpiPort']) != setFlexcommSpiCfg:
                     self.popupMsgBox(uilang.kMsgLanguageContentDict['burnOtpError_bootCfg0HasBeenBurned'][self.languageIndex])
                     return False
                 else:
-                    burnResult = self.RTxxx_burnMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpLocation_FlexcommSpiCfg'], getFlexcommSpiCfg)
+                    # We do ^ operation here, because only bit 1 in fuse word will take affect, bit 0 will be bypassed by OCOTP controller
+                    destFlexcommSpiCfg = destFlexcommSpiCfg ^ getFlexcommSpiCfg
+                    burnResult = self.RTxxx_burnMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpLocation_FlexcommSpiCfg'], destFlexcommSpiCfg)
                     if not burnResult:
                         self.popupMsgBox(uilang.kMsgLanguageContentDict['burnOtpError_failToBurnBootCfg0'][self.languageIndex])
                         return False

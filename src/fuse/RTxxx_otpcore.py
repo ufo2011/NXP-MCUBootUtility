@@ -85,7 +85,9 @@ class secBootRTxxxOtp(RTxxx_runcore.secBootRTxxxRun):
                 if self.toBeBurnnedOtpList[idx] != self.scannedOtpList[idx] and \
                    self.toBeBurnnedOtpList[idx] != None and \
                    self.scannedOtpList[idx] != None:
-                    otpValue = self.toBeBurnnedOtpList[idx] | self.scannedOtpList[idx]
+                    # We need to do | operation first, in case user set 1 to 0 wrongly
+                    # Then we do ^ operation, because only bit 1 in fuse word will take affect, bit 0 will be bypassed by OCOTP controller
+                    otpValue = (self.toBeBurnnedOtpList[idx] | self.scannedOtpList[idx]) ^ self.scannedOtpList[idx]
                     self.RTxxx_burnMcuDeviceOtpByBlhost(self.tgt.otpmapIndexDict['kOtpIndex_START'] + idx, otpValue, RTxxx_rundef.kActionFrom_BurnOtp)
                     self.toBeRefreshedOtpList[idx] = True
         self.RTxxx_scanAllOtpRegions(True, True)

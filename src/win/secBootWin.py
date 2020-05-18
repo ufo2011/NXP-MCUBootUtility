@@ -63,18 +63,6 @@ class secBootWin ( wx.Frame ):
 
 		self.m_menu_tools.AppendSubMenu( self.m_menu_usbDetection, u"USB Detection" )
 
-		self.m_menu_soundEffect = wx.Menu()
-		self.m_menuItem_soundEffectContra = wx.MenuItem( self.m_menu_soundEffect, wx.ID_ANY, u"Contra", wx.EmptyString, wx.ITEM_RADIO )
-		self.m_menu_soundEffect.Append( self.m_menuItem_soundEffectContra )
-
-		self.m_menuItem_soundEffectMario = wx.MenuItem( self.m_menu_soundEffect, wx.ID_ANY, u"Mario", wx.EmptyString, wx.ITEM_RADIO )
-		self.m_menu_soundEffect.Append( self.m_menuItem_soundEffectMario )
-
-		self.m_menuItem_soundEffectQuiet = wx.MenuItem( self.m_menu_soundEffect, wx.ID_ANY, u"Quiet", wx.EmptyString, wx.ITEM_RADIO )
-		self.m_menu_soundEffect.Append( self.m_menuItem_soundEffectQuiet )
-
-		self.m_menu_tools.AppendSubMenu( self.m_menu_soundEffect, u"Sound Effect" )
-
 		self.m_menu_genSbFile = wx.Menu()
 		self.m_menuItem_genSbFileYes = wx.MenuItem( self.m_menu_genSbFile, wx.ID_ANY, u"Yes", wx.EmptyString, wx.ITEM_RADIO )
 		self.m_menu_genSbFile.Append( self.m_menuItem_genSbFileYes )
@@ -153,6 +141,18 @@ class secBootWin ( wx.Frame ):
 		self.m_menubar.Append( self.m_menu_tools, u"Tools" )
 
 		self.m_menu_window = wx.Menu()
+		self.m_menu_soundEffect = wx.Menu()
+		self.m_menuItem_soundEffectContra = wx.MenuItem( self.m_menu_soundEffect, wx.ID_ANY, u"Contra", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_soundEffect.Append( self.m_menuItem_soundEffectContra )
+
+		self.m_menuItem_soundEffectMario = wx.MenuItem( self.m_menu_soundEffect, wx.ID_ANY, u"Mario", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_soundEffect.Append( self.m_menuItem_soundEffectMario )
+
+		self.m_menuItem_soundEffectQuiet = wx.MenuItem( self.m_menu_soundEffect, wx.ID_ANY, u"Quiet", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_soundEffect.Append( self.m_menuItem_soundEffectQuiet )
+
+		self.m_menu_window.AppendSubMenu( self.m_menu_soundEffect, u"Sound Effect" )
+
 		self.m_menubar.Append( self.m_menu_window, u"Window" )
 
 		self.m_menu_help = wx.Menu()
@@ -1851,9 +1851,6 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsMaster, id = self.m_menuItem_runModeMaster.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsDynamic, id = self.m_menuItem_usbDetectionDynamic.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsStatic, id = self.m_menuItem_usbDetectionStatic.GetId() )
-		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsContra, id = self.m_menuItem_soundEffectContra.GetId() )
-		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsMario, id = self.m_menuItem_soundEffectMario.GetId() )
-		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsQuiet, id = self.m_menuItem_soundEffectQuiet.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetGenSbFileAsYes, id = self.m_menuItem_genSbFileYes.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetGenSbFileAsNo, id = self.m_menuItem_genSbFileNo.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetImageReadbackAsAutomatic, id = self.m_menuItem_imageReadbackAutomatic.GetId() )
@@ -1873,6 +1870,9 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseLockerAsManual, id = self.m_menuItem_efuseLockerManual.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo0, id = self.m_menuItem_flexspiXipRegion0.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo1, id = self.m_menuItem_flexspiXipRegion1.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsContra, id = self.m_menuItem_soundEffectContra.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsMario, id = self.m_menuItem_soundEffectMario.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsQuiet, id = self.m_menuItem_soundEffectQuiet.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowHomePage, id = self.m_menuItem_homePage.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowAboutAuthor, id = self.m_menuItem_aboutAuthor.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowContributors, id = self.m_menuItem_contributors.GetId() )
@@ -1956,15 +1956,6 @@ class secBootWin ( wx.Frame ):
 	def callbackSetUsbDetectionAsStatic( self, event ):
 		event.Skip()
 
-	def callbackSetSoundEffectAsContra( self, event ):
-		event.Skip()
-
-	def callbackSetSoundEffectAsMario( self, event ):
-		event.Skip()
-
-	def callbackSetSoundEffectAsQuiet( self, event ):
-		event.Skip()
-
 	def callbackSetGenSbFileAsYes( self, event ):
 		event.Skip()
 
@@ -2020,6 +2011,15 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetFlexspiXipRegionTo1( self, event ):
+		event.Skip()
+
+	def callbackSetSoundEffectAsContra( self, event ):
+		event.Skip()
+
+	def callbackSetSoundEffectAsMario( self, event ):
+		event.Skip()
+
+	def callbackSetSoundEffectAsQuiet( self, event ):
 		event.Skip()
 
 	def callbackShowHomePage( self, event ):

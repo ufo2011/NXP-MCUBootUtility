@@ -132,6 +132,15 @@ class secBootWin ( wx.Frame ):
 
 		self.m_menu_tools.AppendSubMenu( self.m_menu_efuseGroup, u"eFuse Group" )
 
+		self.m_menu_efuseLocker = wx.Menu()
+		self.m_menuItem_efuseLockerAutomatic = wx.MenuItem( self.m_menu_efuseLocker, wx.ID_ANY, u"Automatic", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_efuseLocker.Append( self.m_menuItem_efuseLockerAutomatic )
+
+		self.m_menuItem_efuseLockerManual = wx.MenuItem( self.m_menu_efuseLocker, wx.ID_ANY, u"Manual", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_efuseLocker.Append( self.m_menuItem_efuseLockerManual )
+
+		self.m_menu_tools.AppendSubMenu( self.m_menu_efuseLocker, u"eFuse Locker" )
+
 		self.m_menu_flexspiXipRegion = wx.Menu()
 		self.m_menuItem_flexspiXipRegion0 = wx.MenuItem( self.m_menu_flexspiXipRegion, wx.ID_ANY, u"0", wx.EmptyString, wx.ITEM_RADIO )
 		self.m_menu_flexspiXipRegion.Append( self.m_menuItem_flexspiXipRegion0 )
@@ -1860,6 +1869,8 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo4, id = self.m_menuItem_efuseGroup4.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo5, id = self.m_menuItem_efuseGroup5.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseGroupTo6, id = self.m_menuItem_efuseGroup6.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetEfuseLockerAsAutomatic, id = self.m_menuItem_efuseLockerAutomatic.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetEfuseLockerAsManual, id = self.m_menuItem_efuseLockerManual.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo0, id = self.m_menuItem_flexspiXipRegion0.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo1, id = self.m_menuItem_flexspiXipRegion1.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackShowHomePage, id = self.m_menuItem_homePage.GetId() )
@@ -1997,6 +2008,12 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetEfuseGroupTo6( self, event ):
+		event.Skip()
+
+	def callbackSetEfuseLockerAsAutomatic( self, event ):
+		event.Skip()
+
+	def callbackSetEfuseLockerAsManual( self, event ):
 		event.Skip()
 
 	def callbackSetFlexspiXipRegionTo0( self, event ):

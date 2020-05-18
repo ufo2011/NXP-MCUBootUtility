@@ -1059,6 +1059,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         return isReady, isBlank
 
     def _lockFuseSwGp2( self ):
+        if not self.isAutomaticEfuseLocker:
+            return True
         lock = self.RTyyyy_readMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], '', False)
         if lock != None:
             lock = lock | (RTyyyy_fusedef.kEfuseMask_WLockSwGp2 | RTyyyy_fusedef.kEfuseMask_RLockSwGp2)
@@ -1072,6 +1074,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         return True
 
     def _lockFuseGp4( self ):
+        if not self.isAutomaticEfuseLocker:
+            return True
         lock = self.RTyyyy_readMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], '', False)
         if lock != None:
             lock = lock | (RTyyyy_fusedef.kEfuseMask_WLockGp4 | RTyyyy_fusedef.kEfuseMask_RLockGp4)

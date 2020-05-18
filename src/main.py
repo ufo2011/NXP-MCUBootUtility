@@ -493,6 +493,12 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
     def callbackSetEfuseGroupTo6( self, event ):
         self._switchEfuseGroup()
 
+    def callbackSetEfuseLockerAsAutomatic( self, event ):
+        self.setEfuseLocker()
+
+    def callbackSetEfuseLockerAsManual( self, event ):
+        self.setEfuseLocker()
+
     def _switchFlexspiXipRegion( self ):
         self.setFlexspiXipRegion()
         if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:

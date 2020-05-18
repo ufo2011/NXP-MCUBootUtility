@@ -46,6 +46,10 @@ kMainLanguageContentDict = {
         'mItem_flashloaderResidentDtcm':      ['DTCM',                                  u"DTCM"],
         'mItem_flashloaderResidentOcram':     ['OCRAM',                                 u"OCRAM"],
         'subMenu_efuseGroup':                 ['eFuse Group',                           u"eFuse分组号"],
+        'subMenu_efuseLocker':                ['eFuse Locker',                          u"eFuse锁定"],
+        'mItem_efuseLockerAutomatic':         ['Automatic',                             u"自动"],
+        'mItem_efuseLockerManual':            ['Manual',                                u"手动"],
+        'subMenu_flexspiXipRegion':           ['FlexSPI XIP Region',                    u"FlexSPI原地执行映射空间"],
         'menu_window':                        ['Window',                                u"界面"],
         'menu_help':                          ['Help',                                  u"帮助"],
         'mItem_homePage':                     ['Home Page',                             u"项目主页"],
@@ -532,19 +536,21 @@ kRevision_2_2_0_zh = u"【v2.2.0】 \n" + \
                      u"     3. [RTxxx] 支持OTP回读与烧写 \n\n"
 kRevision_2_3_0_en =  "【v2.3.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. [RTxxx] Support i.MXRT5xx B0 \n" + \
+                      "     1. [RTxxx] Support i.MXRT5xx B0/1 \n" + \
                       "     2. [RTxxx] Add more selections of FlexSPI NOR model \n" + \
                       "  Improvement: \n" + \
                       "     1. Can show ROM/Flashloader version info in device status window \n" + \
+                      "     2. [RTyyyy] Provide fuse lock control option for secure boot cases \n" + \
                       "  Bugfix: \n" + \
                       "     1. [RTyyyy] Erase region for FDCB is incorrect in generated sb-file \n" + \
                       "     2. [RTyyyy] fuse lock programming limitation doesn't exist in all RT devices \n\n"
 kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. [RTxxx] 支持i.MXRT5xx B0 \n" + \
+                     u"     1. [RTxxx] 支持i.MXRT5xx B0/1 \n" + \
                      u"     2. [RTxxx] 在FlexSPI NOR模型参数里增加更多选项 \n" + \
                      u"  改进: \n" + \
                      u"     1. 可以在目标器件状态窗口显示ROM/Flashloader的版本信息 \n" + \
+                      "     2. [RTyyyy] 加密启动模式下，提供烧进fuse的用户密钥锁定设置 \n" + \
                      u"  修复: \n" + \
                      u"     1. [RTyyyy] 生成的.sb文件里擦除FDCB区域的长度指定有误 \n" + \
                      u"     2. [RTyyyy] Fuse Lock烧写限制不是存在于所有i.MXRT型号 \n\n"

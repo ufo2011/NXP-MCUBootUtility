@@ -92,6 +92,10 @@ class secBootUi(secBootWin.secBootWin):
         self._initEfuseGroup()
         self.setEfuseGroup()
 
+        self.isAutomaticEfuseLocker = None
+        self._initEfuseLocker()
+        self.setEfuseLocker()
+
         self.flexspiXipRegionSel = 0
         self._initFlexspiXipRegion()
         self.setFlexspiXipRegion()
@@ -299,6 +303,23 @@ class secBootUi(secBootWin.secBootWin):
             self.m_menuItem_efuseGroup5.Check(False)
             self.m_menuItem_efuseGroup6.Check(False)
         self.toolCommDict['efuseGroupSel'] = self.efuseGroupSel
+
+    def _initEfuseLocker( self ):
+        if self.toolCommDict['isAutomaticEfuseLocker']:
+            self.m_menuItem_efuseLockerAutomatic.Check(True)
+            self.m_menuItem_efuseLockerManual.Check(False)
+        else:
+            self.m_menuItem_efuseLockerAutomatic.Check(False)
+            self.m_menuItem_efuseLockerManual.Check(True)
+
+    def setEfuseLocker( self ):
+        if self.m_menuItem_efuseLockerAutomatic.IsChecked():
+            self.isAutomaticEfuseLocker = True
+        elif self.m_menuItem_efuseLockerManual.IsChecked():
+            self.isAutomaticEfuseLocker = False
+        else:
+            pass
+        self.toolCommDict['isAutomaticEfuseLocker'] = self.isAutomaticEfuseLocker
 
     def _initFlexspiXipRegion( self ):
         if self.toolCommDict['flexspiXipRegionSel'] == 0:
@@ -1185,6 +1206,10 @@ class secBootUi(secBootWin.secBootWin):
         self.m_menuItem_flashloaderResidentDtcm.SetItemLabel(uilang.kMainLanguageContentDict['mItem_flashloaderResidentDtcm'][langIndex])
         self.m_menuItem_flashloaderResidentOcram.SetItemLabel(uilang.kMainLanguageContentDict['mItem_flashloaderResidentOcram'][langIndex])
         self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_efuseGroup'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_efuseGroup'][langIndex])
+        self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_efuseLocker'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_efuseLocker'][langIndex])
+        self.m_menuItem_efuseLockerAutomatic.SetItemLabel(uilang.kMainLanguageContentDict['mItem_efuseLockerAutomatic'][langIndex])
+        self.m_menuItem_efuseLockerManual.SetItemLabel(uilang.kMainLanguageContentDict['mItem_efuseLockerManual'][langIndex])
+        self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_flexspiXipRegion'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_flexspiXipRegion'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Window, uilang.kMainLanguageContentDict['menu_window'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Help, uilang.kMainLanguageContentDict['menu_help'][langIndex])
         self.m_menuItem_homePage.SetItemLabel(uilang.kMainLanguageContentDict['mItem_homePage'][langIndex])

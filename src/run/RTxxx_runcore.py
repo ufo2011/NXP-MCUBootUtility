@@ -143,7 +143,7 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         self.printDeviceStatus("--------MCU device otpmap--------")
         self._RTxxx_readMcuDeviceOtpBootCfg()
 
-    def _getXspiNorDeviceInfo ( self ):
+    def _getXspiNorDeviceInfo ( self, useDefault=False ):
         if not self.RTxxx_isDeviceEnabledToOperate:
             return True
         filename = 'xspiNorCfg.dat'
@@ -164,10 +164,22 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
             self.comMemEraseUnit = sectorByteSize
             self.comMemReadUnit = pageByteSize
         else:
-            self.printDeviceStatus("Page Size   = --------")
-            self.printDeviceStatus("Sector Size = --------")
-            self.printDeviceStatus("Block Size  = --------")
-            return False
+            if not useDefault:
+                self.printDeviceStatus("Page Size   = --------")
+                self.printDeviceStatus("Sector Size = --------")
+                self.printDeviceStatus("Block Size  = --------")
+                return False
+            else:
+                pageByteSize = rundef.kXspiNorDefaultMemInfo_PageSize
+                sectorByteSize = rundef.kXspiNorDefaultMemInfo_SectorSize
+                blockByteSize = rundef.kXspiNorDefaultMemInfo_BlockSize
+                self.printDeviceStatus("Page Size   = * " + self.showAsOptimalMemoryUnit(pageByteSize))
+                self.printDeviceStatus("Sector Size = * " + self.showAsOptimalMemoryUnit(sectorByteSize))
+                self.printDeviceStatus("Block Size  = * " + self.showAsOptimalMemoryUnit(blockByteSize))
+                self.printDeviceStatus("Note: Cannot get correct FDCB, just use default memory info here")
+                self.comMemWriteUnit = pageByteSize
+                self.comMemEraseUnit = sectorByteSize
+                self.comMemReadUnit = pageByteSize
         try:
             os.remove(filepath)
         except:
@@ -211,12 +223,12 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
                 self.printDeviceStatus("--------QuadSPI NOR memory--------")
             else:
                 pass
-            if not self._getXspiNorDeviceInfo():
+            if not self._getXspiNorDeviceInfo(False):
                 if not self._eraseXspiNorForConfigBlockLoading():
                     return False
                 if not self._programXspiNorConfigBlock():
                     return False
-                self._getXspiNorDeviceInfo()
+                self._getXspiNorDeviceInfo(True)
         elif self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
             self.printDeviceStatus("--Flexcomm SPI NOR memory--")
             self._getFlexcommSpiNorDeviceInfo()

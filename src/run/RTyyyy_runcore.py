@@ -619,7 +619,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         #     pass
         return True
 
-    def _getFlexspiNorDeviceInfo ( self ):
+    def _getFlexspiNorDeviceInfo ( self, useDefault=False ):
         if not self.RTyyyy_isDeviceEnabledToOperate and self.isSbFileEnabledToGen:
             return True
         filename = 'flexspiNorCfg.dat'
@@ -640,10 +640,22 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             self.comMemEraseUnit = sectorByteSize
             self.comMemReadUnit = pageByteSize
         else:
-            self.printDeviceStatus("Page Size   = --------")
-            self.printDeviceStatus("Sector Size = --------")
-            self.printDeviceStatus("Block Size  = --------")
-            return False
+            if not useDefault:
+                self.printDeviceStatus("Page Size   = --------")
+                self.printDeviceStatus("Sector Size = --------")
+                self.printDeviceStatus("Block Size  = --------")
+                return False
+            else:
+                pageByteSize = rundef.kXspiNorDefaultMemInfo_PageSize
+                sectorByteSize = rundef.kXspiNorDefaultMemInfo_SectorSize
+                blockByteSize = rundef.kXspiNorDefaultMemInfo_BlockSize
+                self.printDeviceStatus("Page Size   = * " + self.showAsOptimalMemoryUnit(pageByteSize))
+                self.printDeviceStatus("Sector Size = * " + self.showAsOptimalMemoryUnit(sectorByteSize))
+                self.printDeviceStatus("Block Size  = * " + self.showAsOptimalMemoryUnit(blockByteSize))
+                self.printDeviceStatus("Note: Cannot get correct FDCB, just use default memory info here")
+                self.comMemWriteUnit = pageByteSize
+                self.comMemEraseUnit = sectorByteSize
+                self.comMemReadUnit = pageByteSize
         try:
             os.remove(filepath)
         except:
@@ -714,12 +726,12 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             self._getSemcNorDeviceInfo()
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_FlexspiNor:
             self.printDeviceStatus("--------FlexSPI NOR memory--------")
-            if not self._getFlexspiNorDeviceInfo():
+            if not self._getFlexspiNorDeviceInfo(False):
                 if not self._eraseFlexspiNorForConfigBlockLoading():
                     return False
                 if not self._programFlexspiNorConfigBlock():
                     return False
-                self._getFlexspiNorDeviceInfo()
+                self._getFlexspiNorDeviceInfo(True)
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_LpspiNor:
             self.printDeviceStatus("--------LPSPI NOR/EEPROM memory---")
             self._getLpspiNorDeviceInfo()

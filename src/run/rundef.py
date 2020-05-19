@@ -28,3 +28,8 @@ kFlexspiNorCfgOffset_FlexspiTag     = 0x000
 kFlexspiNorCfgOffset_PageByteSize   = 0x1c0
 kFlexspiNorCfgOffset_SectorByteSize = 0x1c4
 kFlexspiNorCfgOffset_BlockByteSize  = 0x1d0
+
+
+kXspiNorDefaultMemInfo_PageSize    = 0x100
+kXspiNorDefaultMemInfo_SectorSize  = 0x1000
+kXspiNorDefaultMemInfo_BlockSize   = 0x20000

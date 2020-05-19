@@ -544,8 +544,9 @@ kRevision_2_3_0_en =  "【v2.3.0】 \n" + \
                       "     3. [RTyyyy] Provide fuse lock control option for secure boot cases \n" + \
                       "  Bugfix: \n" + \
                       "     1. Sometimes fuse/otp programming returns error status \n" + \
-                      "     2. [RTyyyy] Erase region for FDCB is incorrect in generated sb-file \n" + \
-                      "     3. [RTyyyy] fuse lock programming limitation doesn't exist in all RT devices \n\n"
+                      "     2. Sometimes it cannot show correct flash memory info \n" + \
+                      "     3. [RTyyyy] Erase region for FDCB is incorrect in generated sb-file \n" + \
+                      "     4. [RTyyyy] fuse lock programming limitation doesn't exist in all RT devices \n\n"
 kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                      u"  特性: \n" + \
                      u"     1. [RTxxx] 支持i.MXRT5xx B0/1 \n" + \
@@ -556,8 +557,9 @@ kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                       "     3. [RTyyyy] 加密启动模式下，提供烧进fuse的用户密钥锁定设置 \n" + \
                      u"  修复: \n" + \
                      u"     1. 有时候烧写fuse/otp时会返回错误状态 \n" + \
-                     u"     2. [RTyyyy] 生成的.sb文件里擦除FDCB区域的长度指定有误 \n" + \
-                     u"     3. [RTyyyy] Fuse Lock烧写限制不是存在于所有i.MXRT型号 \n\n"
+                     u"     2. 有时候配置flash时无法显示其Page/Sector/Block Size信息 \n" + \
+                     u"     3. [RTyyyy] 生成的.sb文件里擦除FDCB区域的长度指定有误 \n" + \
+                     u"     4. [RTyyyy] Fuse Lock烧写限制不是存在于所有i.MXRT型号 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

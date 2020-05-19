@@ -34,10 +34,8 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 		self.m_choice_deviceMode.SetSelection( 0 )
 		wSizer_win.Add( self.m_choice_deviceMode, 0, wx.ALL, 5 )
 
-		self.m_staticText_winNull0 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 100,-1 ), 0 )
-		self.m_staticText_winNull0.Wrap( -1 )
-
-		wSizer_win.Add( self.m_staticText_winNull0, 0, wx.ALL, 5 )
+		self.m_checkBox_keepFdcb = wx.CheckBox( self, wx.ID_ANY, u"Keep FDCB", wx.DefaultPosition, wx.Size( 80,-1 ), 0 )
+		wSizer_win.Add( self.m_checkBox_keepFdcb, 0, wx.ALL, 5 )
 
 		self.m_notebook_norOpt0 = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_panel_norOpt0 = wx.Panel( self.m_notebook_norOpt0, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
@@ -185,7 +183,15 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 
 		wSizer_win.Add( self.m_notebook_norOpt1, 1, wx.EXPAND |wx.ALL, 5 )
 
-		self.m_staticText_winNull1 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 356,-1 ), 0 )
+		self.m_staticText_winNull0 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 45,-1 ), 0 )
+		self.m_staticText_winNull0.Wrap( -1 )
+
+		wSizer_win.Add( self.m_staticText_winNull0, 0, wx.ALL, 5 )
+
+		self.m_button_completeFdcb = wx.Button( self, wx.ID_ANY, u"Complete FDCB Settings (256bytes)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		wSizer_win.Add( self.m_button_completeFdcb, 0, wx.ALL, 5 )
+
+		self.m_staticText_winNull1 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 84,-1 ), 0 )
 		self.m_staticText_winNull1.Wrap( -1 )
 
 		wSizer_win.Add( self.m_staticText_winNull1, 0, wx.ALL, 5 )

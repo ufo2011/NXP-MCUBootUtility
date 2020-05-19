@@ -540,7 +540,8 @@ kRevision_2_3_0_en =  "【v2.3.0】 \n" + \
                       "     2. [RTxxx] Add more selections of FlexSPI NOR model \n" + \
                       "  Improvement: \n" + \
                       "     1. Can show ROM/Flashloader version info in device status window \n" + \
-                      "     2. [RTyyyy] Provide fuse lock control option for secure boot cases \n" + \
+                      "     2. Provide option to keep FDCB from source image file \n" + \
+                      "     3. [RTyyyy] Provide fuse lock control option for secure boot cases \n" + \
                       "  Bugfix: \n" + \
                       "     1. Sometimes fuse/otp programming returns error status \n" + \
                       "     2. [RTyyyy] Erase region for FDCB is incorrect in generated sb-file \n" + \
@@ -551,7 +552,8 @@ kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                      u"     2. [RTxxx] 在FlexSPI NOR模型参数里增加更多选项 \n" + \
                      u"  改进: \n" + \
                      u"     1. 可以在目标器件状态窗口显示ROM/Flashloader的版本信息 \n" + \
-                      "     2. [RTyyyy] 加密启动模式下，提供烧进fuse的用户密钥锁定设置 \n" + \
+                      "     2. 提供保留源image文件里的FDCB头的选项设置 \n" + \
+                      "     3. [RTyyyy] 加密启动模式下，提供烧进fuse的用户密钥锁定设置 \n" + \
                      u"  修复: \n" + \
                      u"     1. 有时候烧写fuse/otp时会返回错误状态 \n" + \
                      u"     2. [RTyyyy] 生成的.sb文件里擦除FDCB区域的长度指定有误 \n" + \

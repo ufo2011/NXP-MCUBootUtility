@@ -749,19 +749,24 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         #if not self.tgt.isSipFlexspiNorDevice:
         if True:
             status = boot.status.kStatus_Success
-            # 0xf000000f is the tag to notify Flashloader to program FlexSPI NOR config block to the start of device
-            if self.RTyyyy_isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(RTyyyy_rundef.kRamFreeSpaceStart_LoadCfgBlock, 0x4, rundef.kFlexspiNorCfgInfo_Notify)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(rundef.kFlexspiNorCfgInfo_Notify))) + " > " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCfgBlock))) + ";\n")
-            if status != boot.status.kStatus_Success:
-                return False
-            if self.RTyyyy_isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, RTyyyy_rundef.kRamFreeSpaceStart_LoadCfgBlock)
-                self.printLog(cmdStr)
-            if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCfgBlock))) + ";\n")
+            if self.isFdcbFromSrcApp:
+                if self.RTyyyy_isDeviceEnabledToOperate:
+                    status, results, cmdStr = self.blhost.writeMemory(self.bootDeviceMemBase + self.tgt.xspiNorCfgInfoOffset, self.fdcbBinFilename, self.bootDeviceMemId)
+                    self.printLog(cmdStr)
+            else:
+                # 0xf000000f is the tag to notify Flashloader to program FlexSPI NOR config block to the start of device
+                if self.RTyyyy_isDeviceEnabledToOperate:
+                    status, results, cmdStr = self.blhost.fillMemory(RTyyyy_rundef.kRamFreeSpaceStart_LoadCfgBlock, 0x4, rundef.kFlexspiNorCfgInfo_Notify)
+                    self.printLog(cmdStr)
+                if self.isSbFileEnabledToGen:
+                    self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(rundef.kFlexspiNorCfgInfo_Notify))) + " > " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCfgBlock))) + ";\n")
+                if status != boot.status.kStatus_Success:
+                    return False
+                if self.RTyyyy_isDeviceEnabledToOperate:
+                    status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, RTyyyy_rundef.kRamFreeSpaceStart_LoadCfgBlock)
+                    self.printLog(cmdStr)
+                if self.isSbFileEnabledToGen:
+                    self._addFlashActionIntoSbAppBdContent("    enable " + self.sbEnableBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCfgBlock))) + ";\n")
             if self.isSbFileEnabledToGen:
                 return True
             else:
@@ -812,7 +817,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             semcNorOpt, semcNorSetting, semcNorDeviceModel= uivar.getBootDeviceConfiguration(self.bootDevice)
             configOptList.extend([semcNorOpt])
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_FlexspiNor:
-            flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
+            flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
             configOptList.extend([flexspiNorOpt0, flexspiNorOpt1])
             self.RTyyyy_setFlexspiNorInstance()
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_LpspiNor:
@@ -1274,6 +1279,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                    (self.secureBootType in RTyyyy_uidef.kSecureBootType_HwCrypto and self.keyStorageRegion == RTyyyy_uidef.kKeyStorageRegion_FlexibleUserKeys):
                     if not self._programFlexspiNorConfigBlock():
                         self.isFlexspiNorErasedForImage = False
+                        self.isFdcbFromSrcApp = False
                         return False
             if self.secureBootType in RTyyyy_uidef.kSecureBootType_HwCrypto and self.keyStorageRegion == RTyyyy_uidef.kKeyStorageRegion_FlexibleUserKeys:
                 destEncAppFilename = None
@@ -1296,6 +1302,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                     self._extractOtfadKeyblobFromDestEncAppFile()
                     if not self._programFlexspiNorOtfadKeyBlob():
                         self.isFlexspiNorErasedForImage = False
+                        self.isFdcbFromSrcApp = False
                         return False
                 else:
                     pass
@@ -1308,6 +1315,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                     status, results, cmdStr = self.blhost.writeMemory(imageLoadAddr, self.destAppNoPaddingFilename, self.bootDeviceMemId)
                     self.printLog(cmdStr)
             self.isFlexspiNorErasedForImage = False
+            self.isFdcbFromSrcApp = False
             if status != boot.status.kStatus_Success:
                 return False
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_LpspiNor:

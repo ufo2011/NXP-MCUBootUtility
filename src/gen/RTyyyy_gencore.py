@@ -14,6 +14,7 @@ from ui import RTyyyy_uidef
 from ui import uidef
 from ui import uivar
 from ui import uilang
+from run import rundef
 from run import RTyyyy_rundef
 from mem import RTyyyy_memdef
 from utils import elf
@@ -104,6 +105,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         self.destFlFilename = os.path.join(self.exeTopRoot, 'gen', 'bootable_image', 'ivt_flashloader_signed.bin')
 
         self.isConvertedAppUsed = False
+        self.isFdcbFromSrcApp = False
 
         self.destAppIvtOffset = None
         self.destAppInitialLoadSize = 0
@@ -372,6 +374,9 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
 
     def _RTyyyy_isSrcAppBootableImage( self, initialLoadAppBytes ):
         try:
+            fdcbTag = self.getVal32FromByteArray(initialLoadAppBytes, 0)
+            if fdcbTag != rundef.kFlexspiNorCfgTag_Flexspi:
+                return False
             destAppIvtOffset = self.destAppIvtOffset - self.tgt.xspiNorCfgInfoOffset
             ivtTag = initialLoadAppBytes[destAppIvtOffset + RTyyyy_memdef.kMemberOffsetInIvt_Tag]
             ivtLen = initialLoadAppBytes[destAppIvtOffset + RTyyyy_memdef.kMemberOffsetInIvt_Len]
@@ -431,6 +436,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                     startAddress = srecObj.minimum_address
                     initialLoadAppBytes = srecObj.as_binary(startAddress, startAddress + self.destAppInitialLoadSize)
                     if self._RTyyyy_isSrcAppBootableImage(initialLoadAppBytes):
+                        self.extractFdcbDataFromSrcApp(initialLoadAppBytes)
                         self._extractDcdDataFromSrcApp(initialLoadAppBytes)
                         startAddress, entryPointAddress, lengthInByte = self._extractImageDataFromSrcApp(srecObj.as_binary(), appName)
                     else:
@@ -1221,7 +1227,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                 pass
             destSbAppName += '_' + self.sbEnableBootDeviceMagic
             if self.bootDevice == RTyyyy_uidef.kBootDevice_FlexspiNor:
-                flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(self.bootDevice)
+                flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(self.bootDevice)
                 if flexspiNorDeviceModel == 'No':
                     destSbAppName += '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt1)))
                 else:

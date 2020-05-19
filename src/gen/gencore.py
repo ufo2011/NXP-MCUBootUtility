@@ -10,6 +10,7 @@ from ui import uicore
 from ui import uidef
 from ui import uivar
 from ui import uilang
+from mem import memdef
 
 class secBootGen(uicore.secBootUi):
 
@@ -24,6 +25,9 @@ class secBootGen(uicore.secBootUi):
         self.mcuxAxfConvToolPath = os.path.join(self.exeTopRoot, 'tools', 'ide_utils', 'mcuxpresso', 'arm-none-eabi-objcopy.exe')
         self.appFmtBatFilename = os.path.join(self.exeTopRoot, 'gen', 'user_file', 'imx_format_conv.bat')
         self.isConvertedAppUsed = False
+
+        self.fdcbBinFilename = os.path.join(self.exeTopRoot, 'gen', 'bootable_image', 'bt_fdcb.bin')
+        self.isFdcbFromSrcApp = False
 
     def isInTheRangeOfFlexram( self, start, length ):
         if ((start >= self.tgt.memoryRange['itcm'].start) and (start + length <= self.tgt.memoryRange['itcm'].start + self.tgt.memoryRange['itcm'].length)) or \
@@ -190,3 +194,12 @@ class secBootGen(uicore.secBootUi):
                 byteStr = chr((val32 & (0xFF << (i * 8))) >> (i * 8))
                 fileObj.write(byteStr)
             fileObj.close()
+
+    def extractFdcbDataFromSrcApp(self, initialLoadAppBytes ):
+        flexspiNorOpt0, flexspiNorOpt1, flexspiDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
+        self.isFdcbFromSrcApp = isFdcbKept
+        if self.isFdcbFromSrcApp:
+            with open(self.fdcbBinFilename, 'wb') as fileObj:
+                fileObj.write(initialLoadAppBytes[0:memdef.kMemBlockSize_FDCB])
+                fileObj.close()
+

@@ -4,6 +4,7 @@ import sys
 import os
 import shutil
 import boot
+import memdef
 import RTxxx_memdef
 sys.path.append(os.path.abspath(".."))
 from fuse import RTxxx_otpcore
@@ -64,7 +65,7 @@ class secBootRTxxxMem(RTxxx_otpcore.secBootRTxxxOtp):
                 addr += len(memContent)
                 if addr <= imageMemBase + RTxxx_memdef.kMemBlockOffset_FDCB:
                     self.printMem(contentToShow)
-                elif addr <= imageMemBase + RTxxx_memdef.kMemBlockOffset_FDCB + RTxxx_memdef.kMemBlockSize_FDCB:
+                elif addr <= imageMemBase + RTxxx_memdef.kMemBlockOffset_FDCB + memdef.kMemBlockSize_FDCB:
                     if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor or \
                        self.bootDevice == RTxxx_uidef.kBootDevice_QuadspiNor:
                         if self.needToShowCfgIntr:

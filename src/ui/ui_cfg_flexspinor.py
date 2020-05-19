@@ -16,7 +16,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
     def __init__(self, parent):
         bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor.__init__(self, parent)
         self._setLanguage()
-        flexspiNorOpt0, flexspiNorOpt1, flexspiDeviceModel = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
+        flexspiNorOpt0, flexspiNorOpt1, flexspiDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
         #1. Prepare Flash option
         # 0xc0000006 is the tag for Serial NOR parameter selection
         # bit [31:28] Tag fixed to 0x0C
@@ -43,6 +43,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         self.flexspiNorOpt0 = flexspiNorOpt0
         self.flexspiNorOpt1 = flexspiNorOpt1
         self.flexspiDeviceModel = flexspiDeviceModel
+        self.isFdcbKept = isFdcbKept
 
     def _setLanguage( self ):
         runtimeSettings = uivar.getRuntimeSettings()
@@ -90,6 +91,8 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
             self.m_textCtrl_dummyCycles.Enable( False )
 
     def _recoverLastSettings ( self ):
+        self.m_checkBox_keepFdcb.SetValue(self.isFdcbKept)
+
         self.m_choice_deviceMode.SetSelection(self.m_choice_deviceMode.FindString(self.flexspiDeviceModel))
 
         deviceType = (self.flexspiNorOpt0 & 0x00F00000) >> 20
@@ -313,7 +316,11 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         else:
             pass
 
+    def _getKeepFdcb( self ):
+        self.isFdcbKept = self.m_checkBox_keepFdcb.GetValue()
+
     def callbackOk( self, event ):
+        self._getKeepFdcb()
         self._getDeviceType()
         self._getQueryPads()
         self._getCmdPads()
@@ -329,7 +336,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
             self._getEnableSecondPinmux()
             self._getStatusOverride()
             self._getDummyCycles()
-        uivar.setBootDeviceConfiguration(uidef.kBootDevice_XspiNor, self.flexspiNorOpt0, self.flexspiNorOpt1, self.flexspiDeviceModel)
+        uivar.setBootDeviceConfiguration(uidef.kBootDevice_XspiNor, self.flexspiNorOpt0, self.flexspiNorOpt1, self.flexspiDeviceModel, self.isFdcbKept)
         uivar.setRuntimeSettings(False)
         self.Show(False)
         runtimeSettings = uivar.getRuntimeSettings()

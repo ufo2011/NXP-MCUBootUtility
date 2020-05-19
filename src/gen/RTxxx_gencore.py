@@ -16,6 +16,7 @@ from ui import uivar
 from ui import uilang
 from run import rundef
 from run import RTxxx_rundef
+from mem import memdef
 from mem import RTxxx_memdef
 from utils import elf
 
@@ -33,12 +34,10 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
         self.elftosbPath = os.path.join(self.exeTopRoot, 'tools', 'elftosb5', 'win', 'elftosb.exe')
         self.appJsonBatFilename = os.path.join(self.exeTopRoot, 'gen', 'json_file', 'imx_application_gen.bat')
 
-        self.fdcbBinFilename = os.path.join(self.exeTopRoot, 'gen', 'bootable_image', 'bt_fdcb.bin')
+        self.isConvertedAppUsed = False
         self.isFdcbFromSrcApp = False
 
-        self.isConvertedAppUsed = False
-
-        self.destAppInitialLoadSize = RTxxx_memdef.kMemBlockSize_FDCB
+        self.destAppInitialLoadSize = memdef.kMemBlockSize_FDCB
         self.destAppVectorAddress = 0
         self.destAppVectorOffset = None
         self.destAppBinaryBytes = 0
@@ -64,12 +63,6 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
             fileObj.close()
         self.isConvertedAppUsed = True
 
-    def _extractFdcbDataFromSrcApp(self, initialLoadAppBytes ):
-        with open(self.fdcbBinFilename, 'wb') as fileObj:
-            fileObj.write(initialLoadAppBytes[0:RTxxx_memdef.kMemBlockSize_FDCB])
-            fileObj.close()
-        self.isFdcbFromSrcApp = True
-
     def _RTxxx_isSrcAppBootableImage( self, initialLoadAppBytes ):
         fdcbTag = self.getVal32FromByteArray(initialLoadAppBytes, 0)
         if fdcbTag != rundef.kFlexspiNorCfgTag_Flexspi:
@@ -93,10 +86,10 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
                     initialLoadAppBytes = srecObj.as_binary(startAddress, startAddress + self.destAppInitialLoadSize)
                     if (self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor or self.bootDevice == RTxxx_uidef.kBootDevice_QuadspiNor) and \
                        self._RTxxx_isSrcAppBootableImage(initialLoadAppBytes):
-                        self._extractFdcbDataFromSrcApp(initialLoadAppBytes)
+                        self.extractFdcbDataFromSrcApp(initialLoadAppBytes)
                         startAddress += RTxxx_gendef.kBootImageOffset_NOR_SD_EEPROM - RTxxx_memdef.kMemBlockOffset_FDCB
                         entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
-                        lengthInByte = len(srecObj.as_binary()) - RTxxx_memdef.kMemBlockSize_FDCB
+                        lengthInByte = len(srecObj.as_binary()) - memdef.kMemBlockSize_FDCB
                         self._RTxxx_generatePlainImageBinary(srecObj.as_binary(startAddress, startAddress + lengthInByte), appName, startAddress, lengthInByte)
                     else:
                         entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))

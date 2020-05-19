@@ -265,7 +265,7 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         # 0xf000000f is the tag to notify Flashloader to program FlexSPI/QuadSPI NOR config block to the start of device
         if self.isFdcbFromSrcApp:
             if self.RTxxx_isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.writeMemory(self.bootDeviceMemBase + RTxxx_memdef.kMemBlockOffset_FDCB, self.fdcbBinFilename, self.bootDeviceMemId)
+                status, results, cmdStr = self.blhost.writeMemory(self.bootDeviceMemBase + self.tgt.xspiNorCfgInfoOffset, self.fdcbBinFilename, self.bootDeviceMemId)
                 self.printLog(cmdStr)
         else:
             if self.RTxxx_isDeviceEnabledToOperate:
@@ -283,7 +283,7 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         configOptList = []
         if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor or \
            self.bootDevice == RTxxx_uidef.kBootDevice_QuadspiNor:
-            flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
+            flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
             configOptList.extend([flexspiNorOpt0, flexspiNorOpt1])
         elif self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
             flexcommSpiNorOpt0, flexcommSpiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)

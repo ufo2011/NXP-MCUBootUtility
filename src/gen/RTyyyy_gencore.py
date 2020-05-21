@@ -1307,6 +1307,10 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         sbBatContent = "\"" + self.elftosbPath + "\""
         sbBatContent += " -f kinetis -V -c " + "\"" + sbAppBdFilename + "\"" + ' -o ' + "\"" + destSbAppFilename + "\"" + destAppFilename
         if sbType == RTyyyy_gendef.kSbFileType_All or sbType == RTyyyy_gendef.kSbFileType_Flash:
+            if self.bootDevice == RTyyyy_uidef.kBootDevice_FlexspiNor:
+                flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
+                if flexspiNorDeviceModel == uidef.kFlexspiNorDevice_FDCB:
+                    sbBatContent += ' ' + "\"" + self.cfgFdcbBinFilename + "\""
             if self.secureBootType == RTyyyy_uidef.kSecureBootType_HabCrypto:
                 sbBatContent += ' ' + "\"" + self.habDekFilename + "\""
             if self.secureBootType == RTyyyy_uidef.kSecureBootType_OtfadCrypto and self.keyStorageRegion == RTyyyy_uidef.kKeyStorageRegion_FlexibleUserKeys:

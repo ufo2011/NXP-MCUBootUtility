@@ -29,7 +29,7 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 
 		wSizer_win.Add( self.m_staticText_deviceModel, 0, wx.ALL, 5 )
 
-		m_choice_deviceModeChoices = [ u"No", u"ISSI_IS25LPxxxA_IS25WPxxxA", u"ISSI_IS26KSxxxS", u"Macronix_MX25UMxxx45G_MX66UMxxx45G_MX25LMxxx45G", u"Macronix_MX25UM51345G", u"Macronix_MX25UM51345G_2nd", u"Micron_MT35XLxxxA_MT35XUxxxA", u"Adesto_AT25SFxxxA", u"Adesto_ATXPxxx", u"Cypress_S26KSxxxS", u"GigaDevice_GD25LBxxxE", u"GigaDevice_GD25LTxxxE", u"GigaDevice_GD25LXxxxE", u"Winbond_W25QxxxJV" ]
+		m_choice_deviceModeChoices = [ u"No", u"Complete_FDCB", u"ISSI_IS25LPxxxA_IS25WPxxxA", u"ISSI_IS26KSxxxS", u"Macronix_MX25UMxxx45G_MX66UMxxx45G_MX25LMxxx45G", u"Macronix_MX25UM51345G", u"Macronix_MX25UM51345G_2nd", u"Micron_MT35XLxxxA_MT35XUxxxA", u"Adesto_AT25SFxxxA", u"Adesto_ATXPxxx", u"Cypress_S26KSxxxS", u"GigaDevice_GD25LBxxxE", u"GigaDevice_GD25LTxxxE", u"GigaDevice_GD25LXxxxE", u"Winbond_W25QxxxJV" ]
 		self.m_choice_deviceMode = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 340,-1 ), m_choice_deviceModeChoices, 0 )
 		self.m_choice_deviceMode.SetSelection( 0 )
 		wSizer_win.Add( self.m_choice_deviceMode, 0, wx.ALL, 5 )
@@ -183,15 +183,15 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 
 		wSizer_win.Add( self.m_notebook_norOpt1, 1, wx.EXPAND |wx.ALL, 5 )
 
-		self.m_staticText_winNull0 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 45,-1 ), 0 )
+		self.m_staticText_winNull0 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 20,-1 ), 0 )
 		self.m_staticText_winNull0.Wrap( -1 )
 
 		wSizer_win.Add( self.m_staticText_winNull0, 0, wx.ALL, 5 )
 
-		self.m_button_completeFdcb = wx.Button( self, wx.ID_ANY, u"Complete FDCB Settings (256bytes)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button_completeFdcb = wx.Button( self, wx.ID_ANY, u"Complete FDCB Configuration (512bytes)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		wSizer_win.Add( self.m_button_completeFdcb, 0, wx.ALL, 5 )
 
-		self.m_staticText_winNull1 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 84,-1 ), 0 )
+		self.m_staticText_winNull1 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 78,-1 ), 0 )
 		self.m_staticText_winNull1.Wrap( -1 )
 
 		wSizer_win.Add( self.m_staticText_winNull1, 0, wx.ALL, 5 )
@@ -212,6 +212,7 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 		self.Bind( wx.EVT_CLOSE, self.callbackClose )
 		self.m_choice_deviceMode.Bind( wx.EVT_CHOICE, self.callbackUseTypicalDeviceModel )
 		self.m_choice_hasOption1.Bind( wx.EVT_CHOICE, self.callbackHasOption1 )
+		self.m_button_completeFdcb.Bind( wx.EVT_BUTTON, self.callbackSetCompleteFdcb )
 		self.m_button_ok.Bind( wx.EVT_BUTTON, self.callbackOk )
 		self.m_button_cancel.Bind( wx.EVT_BUTTON, self.callbackCancel )
 
@@ -227,6 +228,9 @@ class bootDeviceWin_FlexspiNor ( wx.Frame ):
 		event.Skip()
 
 	def callbackHasOption1( self, event ):
+		event.Skip()
+
+	def callbackSetCompleteFdcb( self, event ):
 		event.Skip()
 
 	def callbackOk( self, event ):

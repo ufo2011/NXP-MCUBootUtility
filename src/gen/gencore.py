@@ -27,6 +27,7 @@ class secBootGen(uicore.secBootUi):
         self.isConvertedAppUsed = False
 
         self.fdcbBinFilename = os.path.join(self.exeTopRoot, 'gen', 'bootable_image', 'bt_fdcb.bin')
+        self.cfgFdcbBinFilename = os.path.join(self.exeTopRoot, 'gen', 'fdcb_file', 'cfg_fdcb.bin')
         self.isFdcbFromSrcApp = False
 
     def isInTheRangeOfFlexram( self, start, length ):

@@ -816,6 +816,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
 
     def RTyyyy_configureBootDevice ( self ):
         self._RTyyyy_prepareForBootDeviceOperation()
+        flexspiNorDeviceModel = None
         configOptList = []
         if self.bootDevice == RTyyyy_uidef.kBootDevice_SemcNand:
             semcNandOpt, semcNandFcbOpt, semcNandImageInfoList = uivar.getBootDeviceConfiguration(self.bootDevice)
@@ -844,14 +845,23 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         else:
             pass
         status = boot.status.kStatus_Success
-        for i in range(len(configOptList)):
+        if flexspiNorDeviceModel == uidef.kFlexspiNorDevice_FDCB:
             if self.RTyyyy_isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt + 4 * i, 0x4, configOptList[i])
+                status, results, cmdStr = self.blhost.writeMemory(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt, self.cfgFdcbBinFilename, self.bootDeviceMemId)
                 self.printLog(cmdStr)
             if self.isSbFileEnabledToGen:
-                self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(configOptList[i]))) + " > " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt + 4 * i))) + ";\n")
+                self._addFlashActionIntoSbAppBdContent("    load " + self.sbAccessBootDeviceMagic + " cfgFdcbBinFile > " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt))) + ";\n")
             if status != boot.status.kStatus_Success:
                 return False
+        else:
+            for i in range(len(configOptList)):
+                if self.RTyyyy_isDeviceEnabledToOperate:
+                    status, results, cmdStr = self.blhost.fillMemory(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt + 4 * i, 0x4, configOptList[i])
+                    self.printLog(cmdStr)
+                if self.isSbFileEnabledToGen:
+                    self._addFlashActionIntoSbAppBdContent("    load " + self.convertLongIntHexText(str(hex(configOptList[i]))) + " > " + self.convertLongIntHexText(str(hex(RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt + 4 * i))) + ";\n")
+                if status != boot.status.kStatus_Success:
+                    return False
         if self.RTyyyy_isDeviceEnabledToOperate:
             status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, RTyyyy_rundef.kRamFreeSpaceStart_LoadCommOpt)
             self.printLog(cmdStr)

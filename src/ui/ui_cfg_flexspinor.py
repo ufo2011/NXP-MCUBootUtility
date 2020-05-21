@@ -7,8 +7,10 @@ import math
 import uidef
 import uivar
 import uilang
+import ui_cfg_fdcb
 sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_FlexspiNor
+from mem import memdef
 from utils import sound
 
 class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
@@ -16,6 +18,8 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
     def __init__(self, parent):
         bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor.__init__(self, parent)
         self._setLanguage()
+        self.mcuSeries = None
+        self.cfgFdcbBinFilename = None
         flexspiNorOpt0, flexspiNorOpt1, flexspiDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
         #1. Prepare Flash option
         # 0xc0000006 is the tag for Serial NOR parameter selection
@@ -67,11 +71,13 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_flexspinor_ok'][langIndex])
         self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_flexspinor_cancel'][langIndex])
 
-    def setNecessaryInfo( self, flexspiFreqs ):
+    def setNecessaryInfo( self, mcuSeries, flexspiFreqs, cfgFdcbBinFilename ):
         if flexspiFreqs != None:
             self.m_choice_maxFrequency.Clear()
             self.m_choice_maxFrequency.SetItems(flexspiFreqs)
             self.m_choice_maxFrequency.SetSelection(0)
+        self.mcuSeries = mcuSeries
+        self.cfgFdcbBinFilename = cfgFdcbBinFilename
         self._recoverLastSettings()
 
     def _updateOpt1Field ( self, isEnabled ):
@@ -304,7 +310,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
             self.flexspiNorOpt0 = uidef.kFlexspiNorOpt0_Winbond_W25Q128JV
         else:
             pass
-        if txt != 'No':
+        if txt != 'No' and  txt != 'Complete_FDCB':
             self._recoverLastSettings()
 
     def callbackHasOption1( self, event ):
@@ -316,26 +322,42 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         else:
             pass
 
+    def callbackSetCompleteFdcb( self, event ):
+        if self.flexspiDeviceModel == 'Complete_FDCB':
+            fdcbFrame = ui_cfg_fdcb.secBootUiCfgFdcb(None)
+            fdcbFrame.SetTitle(u"Complete FDCB Configuration")
+            fdcbFrame.setNecessaryInfo(self.cfgFdcbBinFilename)
+            fdcbFrame.Show(True)
+
     def _getKeepFdcb( self ):
         self.isFdcbKept = self.m_checkBox_keepFdcb.GetValue()
 
+    def popupMsgBox( self, msgStr ):
+        messageText = (msgStr)
+        wx.MessageBox(messageText, "Error", wx.OK | wx.ICON_INFORMATION)
+
     def callbackOk( self, event ):
         self._getKeepFdcb()
-        self._getDeviceType()
-        self._getQueryPads()
-        self._getCmdPads()
-        self._getQuadModeSetting()
-        self._getMiscMode()
-        self._getMaxFrequency()
-        self._getHasOpt1()
-        hasOption1 = (self.flexspiNorOpt0 & 0x0F000000) >> 24
-        if hasOption1:
-            self._getFlashConnection()
-            self._getDriveStrength()
-            self._getDqsPinmuxGroup()
-            self._getEnableSecondPinmux()
-            self._getStatusOverride()
-            self._getDummyCycles()
+        if self.flexspiDeviceModel == 'Complete_FDCB':
+            if not (os.path.isfile(self.cfgFdcbBinFilename) and os.path.getsize(self.cfgFdcbBinFilename) == memdef.kMemBlockSize_FDCB):
+                self.popupMsgBox('FDCB has not been specified！')
+                return
+        else:
+            self._getDeviceType()
+            self._getQueryPads()
+            self._getCmdPads()
+            self._getQuadModeSetting()
+            self._getMiscMode()
+            self._getMaxFrequency()
+            self._getHasOpt1()
+            hasOption1 = (self.flexspiNorOpt0 & 0x0F000000) >> 24
+            if hasOption1:
+                self._getFlashConnection()
+                self._getDriveStrength()
+                self._getDqsPinmuxGroup()
+                self._getEnableSecondPinmux()
+                self._getStatusOverride()
+                self._getDummyCycles()
         uivar.setBootDeviceConfiguration(uidef.kBootDevice_XspiNor, self.flexspiNorOpt0, self.flexspiNorOpt1, self.flexspiDeviceModel, self.isFdcbKept)
         uivar.setRuntimeSettings(False)
         self.Show(False)

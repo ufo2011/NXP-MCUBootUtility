@@ -292,6 +292,7 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
 
     def RTxxx_configureBootDevice ( self ):
         self._RTxxx_prepareForBootDeviceOperation()
+        flexspiNorDeviceModel = None
         configOptList = []
         if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor or \
            self.bootDevice == RTxxx_uidef.kBootDevice_QuadspiNor:
@@ -303,12 +304,19 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         else:
             pass
         status = boot.status.kStatus_Success
-        for i in range(len(configOptList)):
+        if flexspiNorDeviceModel == uidef.kFlexspiNorDevice_FDCB:
             if self.RTxxx_isDeviceEnabledToOperate:
-                status, results, cmdStr = self.blhost.fillMemory(RTxxx_rundef.kRamFreeSpaceStart_LoadCommOpt + 4 * i, 0x4, configOptList[i])
+                status, results, cmdStr = self.blhost.writeMemory(RTxxx_rundef.kRamFreeSpaceStart_LoadCommOpt, self.cfgFdcbBinFilename, self.bootDeviceMemId)
                 self.printLog(cmdStr)
                 if status != boot.status.kStatus_Success:
                     return False
+        else:
+            for i in range(len(configOptList)):
+                if self.RTxxx_isDeviceEnabledToOperate:
+                    status, results, cmdStr = self.blhost.fillMemory(RTxxx_rundef.kRamFreeSpaceStart_LoadCommOpt + 4 * i, 0x4, configOptList[i])
+                    self.printLog(cmdStr)
+                    if status != boot.status.kStatus_Success:
+                        return False
         if self.RTxxx_isDeviceEnabledToOperate:
             status, results, cmdStr = self.blhost.configureMemory(self.bootDeviceMemId, RTxxx_rundef.kRamFreeSpaceStart_LoadCommOpt)
             self.printLog(cmdStr)

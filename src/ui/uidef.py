@@ -48,6 +48,7 @@ kMcuDevice_Latest = kMcuDevice_v2_0_0
 kBootDevice_XspiNor        = 'XSPI NOR'
 
 kFlexspiNorDevice_None                  = 'No'
+kFlexspiNorDevice_FDCB                  = 'Complete_FDCB'
 kFlexspiNorDevice_ISSI_IS25LP064A       = 'ISSI_IS25LPxxxA_IS25WPxxxA'
 kFlexspiNorDevice_ISSI_IS26KS512S       = 'ISSI_IS26KSxxxS'
 kFlexspiNorDevice_MXIC_MX25UM51245G     = 'Macronix_MX25UMxxx45G_MX66UMxxx45G_MX25LMxxx45G'

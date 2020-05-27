@@ -362,7 +362,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_deviceModeSeqNum, 0, wx.ALL, 5 )
 
-		m_choice_deviceModeSeqNumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_deviceModeSeqNumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_deviceModeSeqNum = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_deviceModeSeqNumChoices, 0 )
 		self.m_choice_deviceModeSeqNum.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_deviceModeSeqNum, 0, wx.ALL, 5 )
@@ -382,7 +382,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_configCmdSeqs0Num, 0, wx.ALL, 5 )
 
-		m_choice_configCmdSeqs0NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_configCmdSeqs0NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_configCmdSeqs0Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_configCmdSeqs0NumChoices, 0 )
 		self.m_choice_configCmdSeqs0Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_configCmdSeqs0Num, 0, wx.ALL, 5 )
@@ -402,7 +402,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_configCmdSeqs1Num, 0, wx.ALL, 5 )
 
-		m_choice_configCmdSeqs1NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_configCmdSeqs1NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_configCmdSeqs1Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_configCmdSeqs1NumChoices, 0 )
 		self.m_choice_configCmdSeqs1Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_configCmdSeqs1Num, 0, wx.ALL, 5 )
@@ -422,7 +422,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_configCmdSeqs2Num, 0, wx.ALL, 5 )
 
-		m_choice_configCmdSeqs2NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_configCmdSeqs2NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_configCmdSeqs2Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_configCmdSeqs2NumChoices, 0 )
 		self.m_choice_configCmdSeqs2Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_configCmdSeqs2Num, 0, wx.ALL, 5 )
@@ -442,7 +442,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq0Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq0NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq0NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq0Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq0NumChoices, 0 )
 		self.m_choice_lutCustomSeq0Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq0Num, 0, wx.ALL, 5 )
@@ -462,7 +462,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq1Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq1NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq1NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq1Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq1NumChoices, 0 )
 		self.m_choice_lutCustomSeq1Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq1Num, 0, wx.ALL, 5 )
@@ -482,7 +482,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq2Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq2NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq2NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq2Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq2NumChoices, 0 )
 		self.m_choice_lutCustomSeq2Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq2Num, 0, wx.ALL, 5 )
@@ -502,7 +502,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq3Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq3NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq3NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq3Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq3NumChoices, 0 )
 		self.m_choice_lutCustomSeq3Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq3Num, 0, wx.ALL, 5 )
@@ -522,7 +522,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq4Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq4NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq4NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq4Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq4NumChoices, 0 )
 		self.m_choice_lutCustomSeq4Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq4Num, 0, wx.ALL, 5 )
@@ -542,7 +542,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq5Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq5NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq5NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq5Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq5NumChoices, 0 )
 		self.m_choice_lutCustomSeq5Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq5Num, 0, wx.ALL, 5 )
@@ -562,7 +562,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq6Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq6NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq6NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq6Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq6NumChoices, 0 )
 		self.m_choice_lutCustomSeq6Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq6Num, 0, wx.ALL, 5 )
@@ -582,7 +582,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq7Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq7NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq7NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq7Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq7NumChoices, 0 )
 		self.m_choice_lutCustomSeq7Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq7Num, 0, wx.ALL, 5 )
@@ -602,7 +602,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq8Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq8NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq8NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq8Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq8NumChoices, 0 )
 		self.m_choice_lutCustomSeq8Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq8Num, 0, wx.ALL, 5 )
@@ -622,7 +622,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq9Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq9NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq9NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq9Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq9NumChoices, 0 )
 		self.m_choice_lutCustomSeq9Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq9Num, 0, wx.ALL, 5 )
@@ -642,7 +642,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq10Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq10NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq10NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq10Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq10NumChoices, 0 )
 		self.m_choice_lutCustomSeq10Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq10Num, 0, wx.ALL, 5 )
@@ -662,7 +662,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_lutSeq.Add( self.m_staticText_lutCustomSeq11Num, 0, wx.ALL, 5 )
 
-		m_choice_lutCustomSeq11NumChoices = [ u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
+		m_choice_lutCustomSeq11NumChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16" ]
 		self.m_choice_lutCustomSeq11Num = wx.Choice( self.m_panel_lutSeq, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_lutCustomSeq11NumChoices, 0 )
 		self.m_choice_lutCustomSeq11Num.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq11Num, 0, wx.ALL, 5 )

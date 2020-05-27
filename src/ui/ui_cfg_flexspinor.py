@@ -19,6 +19,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor.__init__(self, parent)
         self._setLanguage()
         self.mcuSeries = None
+        self.flexspiFreqs = None
         self.cfgFdcbBinFilename = None
         flexspiNorOpt0, flexspiNorOpt1, flexspiDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
         #1. Prepare Flash option
@@ -76,6 +77,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
             self.m_choice_maxFrequency.Clear()
             self.m_choice_maxFrequency.SetItems(flexspiFreqs)
             self.m_choice_maxFrequency.SetSelection(0)
+            self.flexspiFreqs = flexspiFreqs
         self.mcuSeries = mcuSeries
         self.cfgFdcbBinFilename = cfgFdcbBinFilename
         self._recoverLastSettings()
@@ -326,7 +328,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         if self.flexspiDeviceModel == 'Complete_FDCB':
             fdcbFrame = ui_cfg_fdcb.secBootUiCfgFdcb(None)
             fdcbFrame.SetTitle(u"Complete FDCB Configuration")
-            fdcbFrame.setNecessaryInfo(self.cfgFdcbBinFilename)
+            fdcbFrame.setNecessaryInfo(self.mcuSeries, self.flexspiFreqs, self.cfgFdcbBinFilename)
             fdcbFrame.Show(True)
 
     def _getKeepFdcb( self ):

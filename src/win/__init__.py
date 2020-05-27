@@ -3,6 +3,7 @@
 import secBootWin
 import bootDeviceWin_FlexspiNor
 import bootDeviceWin_FDCB
+import bootDeviceWin_LUT
 import bootDeviceWin_FlexspiNand
 import bootDeviceWin_SemcNor
 import bootDeviceWin_SemcNand
@@ -26,6 +27,7 @@ import RT10yy_efuseWin_MiscConf1_FlexspiNor
 __all__ = ["secBootWin",
            "bootDeviceWin_FlexspiNor",
            "bootDeviceWin_FDCB",
+           "bootDeviceWin_LUT",
            "bootDeviceWin_FlexspiNand",
            "bootDeviceWin_SemcNor",
            "bootDeviceWin_SemcNand",

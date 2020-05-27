@@ -17,7 +17,7 @@ import wx.xrc
 class bootDeviceWin_FDCB ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 1367,699 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 1374,699 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
@@ -218,7 +218,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		fgSizer_ipCfg1.Add( self.m_staticText_sflashPadType, 0, wx.ALL, 5 )
 
-		m_choice_sflashPadTypeChoices = [ u"1 - Single pad", u"2 - Dual Pads", u"3 - Quad pads", u"4 - Octal pads" ]
+		m_choice_sflashPadTypeChoices = [ u"1 - Single pad", u"2 - Dual Pads", u"4 - Quad pads", u"8 - Octal pads" ]
 		self.m_choice_sflashPadType = wx.Choice( self.m_panel_ipCfg1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_sflashPadTypeChoices, 0 )
 		self.m_choice_sflashPadType.SetSelection( 0 )
 		fgSizer_ipCfg1.Add( self.m_choice_sflashPadType, 0, wx.ALL, 5 )
@@ -291,27 +291,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 		self.m_textCtrl_commandInterval = wx.TextCtrl( self.m_panel_ipCfg1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer_ipCfg1.Add( self.m_textCtrl_commandInterval, 0, wx.ALL, 5 )
 
-		self.m_staticText_busyOffset = wx.StaticText( self.m_panel_ipCfg1, wx.ID_ANY, u"busyOffset:", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText_busyOffset.Wrap( -1 )
-
-		fgSizer_ipCfg1.Add( self.m_staticText_busyOffset, 0, wx.ALL, 5 )
-
-		m_choice_busyOffsetChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16", u"17", u"18", u"19", u"20", u"21", u"22", u"23", u"24", u"25", u"26", u"27", u"28", u"29", u"30", u"31" ]
-		self.m_choice_busyOffset = wx.Choice( self.m_panel_ipCfg1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_busyOffsetChoices, 0 )
-		self.m_choice_busyOffset.SetSelection( 0 )
-		fgSizer_ipCfg1.Add( self.m_choice_busyOffset, 0, wx.ALL, 5 )
-
-		self.m_staticText_busyBitPolarity = wx.StaticText( self.m_panel_ipCfg1, wx.ID_ANY, u"busyBitPolarity:", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText_busyBitPolarity.Wrap( -1 )
-
-		fgSizer_ipCfg1.Add( self.m_staticText_busyBitPolarity, 0, wx.ALL, 5 )
-
-		m_choice_busyBitPolarityChoices = [ u"0 - busy bit is 1", u"1 - busy bit is 0" ]
-		self.m_choice_busyBitPolarity = wx.Choice( self.m_panel_ipCfg1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_busyBitPolarityChoices, 0 )
-		self.m_choice_busyBitPolarity.SetSelection( 0 )
-		fgSizer_ipCfg1.Add( self.m_choice_busyBitPolarity, 0, wx.ALL, 5 )
-
-		self.m_staticText_dataValidTime0time_100ps = wx.StaticText( self.m_panel_ipCfg1, wx.ID_ANY, u"dataValidTime[0].time_100ps:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_dataValidTime0time_100ps = wx.StaticText( self.m_panel_ipCfg1, wx.ID_ANY, u"dataValidTime[0].time_100ps:", wx.DefaultPosition, wx.Size( 160,-1 ), 0 )
 		self.m_staticText_dataValidTime0time_100ps.Wrap( -1 )
 
 		fgSizer_ipCfg1.Add( self.m_staticText_dataValidTime0time_100ps, 0, wx.ALL, 5 )
@@ -342,6 +322,26 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		self.m_textCtrl_dataValidTime1delay_cells = wx.TextCtrl( self.m_panel_ipCfg1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer_ipCfg1.Add( self.m_textCtrl_dataValidTime1delay_cells, 0, wx.ALL, 5 )
+
+		self.m_staticText_busyOffset = wx.StaticText( self.m_panel_ipCfg1, wx.ID_ANY, u"busyOffset:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_busyOffset.Wrap( -1 )
+
+		fgSizer_ipCfg1.Add( self.m_staticText_busyOffset, 0, wx.ALL, 5 )
+
+		m_choice_busyOffsetChoices = [ u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"10", u"11", u"12", u"13", u"14", u"15", u"16", u"17", u"18", u"19", u"20", u"21", u"22", u"23", u"24", u"25", u"26", u"27", u"28", u"29", u"30", u"31" ]
+		self.m_choice_busyOffset = wx.Choice( self.m_panel_ipCfg1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_busyOffsetChoices, 0 )
+		self.m_choice_busyOffset.SetSelection( 0 )
+		fgSizer_ipCfg1.Add( self.m_choice_busyOffset, 0, wx.ALL, 5 )
+
+		self.m_staticText_busyBitPolarity = wx.StaticText( self.m_panel_ipCfg1, wx.ID_ANY, u"busyBitPolarity:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_busyBitPolarity.Wrap( -1 )
+
+		fgSizer_ipCfg1.Add( self.m_staticText_busyBitPolarity, 0, wx.ALL, 5 )
+
+		m_choice_busyBitPolarityChoices = [ u"0 - busy bit is 1", u"1 - busy bit is 0" ]
+		self.m_choice_busyBitPolarity = wx.Choice( self.m_panel_ipCfg1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_busyBitPolarityChoices, 0 )
+		self.m_choice_busyBitPolarity.SetSelection( 0 )
+		fgSizer_ipCfg1.Add( self.m_choice_busyBitPolarity, 0, wx.ALL, 5 )
 
 
 		self.m_panel_ipCfg1.SetSizer( fgSizer_ipCfg1 )
@@ -677,7 +677,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 		self.m_choice_lutCustomSeq11Id.SetSelection( 0 )
 		fgSizer_lutSeq.Add( self.m_choice_lutCustomSeq11Id, 0, wx.ALL, 5 )
 
-		self.m_button_lookupTable = wx.Button( self.m_panel_lutSeq, wx.ID_ANY, u"lookupTable", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button_lookupTable = wx.Button( self.m_panel_lutSeq, wx.ID_ANY, u"lookupTable", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
 		fgSizer_lutSeq.Add( self.m_button_lookupTable, 0, wx.ALL, 5 )
 
 
@@ -802,7 +802,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 		self.m_choice_halfClkForNonReadCmd.SetSelection( 0 )
 		fgSizer_memInfo.Add( self.m_choice_halfClkForNonReadCmd, 0, wx.ALL, 5 )
 
-		self.m_staticText_needRestoreNoCmdMode = wx.StaticText( self.m_panel_memInfo, wx.ID_ANY, u"needRestoreNoCmdMode:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_needRestoreNoCmdMode = wx.StaticText( self.m_panel_memInfo, wx.ID_ANY, u"needRestoreNoCmdMode:", wx.DefaultPosition, wx.Size( 145,-1 ), 0 )
 		self.m_staticText_needRestoreNoCmdMode.Wrap( -1 )
 
 		fgSizer_memInfo.Add( self.m_staticText_needRestoreNoCmdMode, 0, wx.ALL, 5 )
@@ -820,6 +820,16 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 		self.m_textCtrl_blockSize = wx.TextCtrl( self.m_panel_memInfo, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer_memInfo.Add( self.m_textCtrl_blockSize, 0, wx.ALL, 5 )
 
+		self.m_staticText_isNonBlockingMode = wx.StaticText( self.m_panel_memInfo, wx.ID_ANY, u"isNonBlockingMode:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_isNonBlockingMode.Wrap( -1 )
+
+		fgSizer_memInfo.Add( self.m_staticText_isNonBlockingMode, 0, wx.ALL, 5 )
+
+		m_choice_isNonBlockingModeChoices = [ u"0 - No", u"1 - Yes" ]
+		self.m_choice_isNonBlockingMode = wx.Choice( self.m_panel_memInfo, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice_isNonBlockingModeChoices, 0 )
+		self.m_choice_isNonBlockingMode.SetSelection( 0 )
+		fgSizer_memInfo.Add( self.m_choice_isNonBlockingMode, 0, wx.ALL, 5 )
+
 
 		self.m_panel_memInfo.SetSizer( fgSizer_memInfo )
 		self.m_panel_memInfo.Layout()
@@ -828,7 +838,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		wSizer_win.Add( self.m_notebook_memInfo, 1, wx.EXPAND |wx.ALL, 5 )
 
-		self.m_staticText_winNull0 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		self.m_staticText_winNull0 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 100,-1 ), 0 )
 		self.m_staticText_winNull0.Wrap( -1 )
 
 		wSizer_win.Add( self.m_staticText_winNull0, 0, wx.ALL, 5 )
@@ -838,10 +848,10 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		wSizer_win.Add( self.m_staticText_binFile, 0, wx.ALL, 5 )
 
-		self.m_filePicker_binFile = wx.FilePickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.Size( 400,-1 ), wx.FLP_DEFAULT_STYLE )
+		self.m_filePicker_binFile = wx.FilePickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.Size( 600,-1 ), wx.FLP_DEFAULT_STYLE )
 		wSizer_win.Add( self.m_filePicker_binFile, 0, wx.ALL, 5 )
 
-		self.m_staticText_winNull1 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 326,-1 ), 0 )
+		self.m_staticText_winNull1 = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 91,-1 ), 0 )
 		self.m_staticText_winNull1.Wrap( -1 )
 
 		wSizer_win.Add( self.m_staticText_winNull1, 0, wx.ALL, 5 )
@@ -860,6 +870,7 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 		# Connect Events
 		self.Bind( wx.EVT_CLOSE, self.callbackClose )
+		self.m_button_lookupTable.Bind( wx.EVT_BUTTON, self.callbackSetLookupTable )
 		self.m_filePicker_binFile.Bind( wx.EVT_FILEPICKER_CHANGED, self.callbackSelectFdcbFile )
 		self.m_button_ok.Bind( wx.EVT_BUTTON, self.callbackOk )
 		self.m_button_cancel.Bind( wx.EVT_BUTTON, self.callbackCancel )
@@ -870,6 +881,9 @@ class bootDeviceWin_FDCB ( wx.Frame ):
 
 	# Virtual event handlers, overide them in your derived class
 	def callbackClose( self, event ):
+		event.Skip()
+
+	def callbackSetLookupTable( self, event ):
 		event.Skip()
 
 	def callbackSelectFdcbFile( self, event ):

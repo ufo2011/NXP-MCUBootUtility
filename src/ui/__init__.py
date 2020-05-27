@@ -10,6 +10,7 @@ import uivar
 import uilang
 import ui_cfg_flexspinor
 import ui_cfg_fdcb
+import ui_cfg_lut
 import ui_cfg_flexspinand
 import ui_cfg_semcnor
 import ui_cfg_semcnand
@@ -42,6 +43,7 @@ __all__ = ["RTxxx_uicore",
            "uilang",
            "ui_cfg_flexspinor",
            "ui_cfg_fdcb",
+           "ui_cfg_lut",
            "ui_cfg_flexspinand",
            "ui_cfg_semcnor",
            "ui_cfg_semcnand",

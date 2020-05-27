@@ -3,15 +3,21 @@
 import wx
 import sys
 import os
+import array
+import struct
 import shutil
 import uidef
 import uivar
 import uilang
 import ui_cfg_lut
+import uidef_fdcb
 sys.path.append(os.path.abspath(".."))
 from win import bootDeviceWin_FDCB
 from mem import memdef
 from utils import sound
+
+kAccessType_Set = 0
+kAccessType_Get = 1
 
 class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
 
@@ -19,6 +25,7 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
         bootDeviceWin_FDCB.bootDeviceWin_FDCB.__init__(self, parent)
         self.mcuSeries = None
         self.cfgFdcbBinFilename = None
+        self.fdcbBuffer = array.array('c', [chr(0xff)]) * memdef.kMemBlockSize_FDCB
 
     def setNecessaryInfo( self, mcuSeries, flexspiFreqs, cfgFdcbBinFilename ):
         if flexspiFreqs != None:
@@ -76,9 +83,48 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
         else:
             pass
 
+    def _convertPackFmt( self, byteNum ):
+        fmt = '<B'
+        if byteNum == 4:
+            fmt = '<I'
+        elif byteNum == 2:
+            fmt = '<H'
+        #elif byteNum == 1:
+        else:
+            pass
+        return fmt
+
+    def _getMemberFromFdcb( self, buf, offset, byteNum ):
+        return struct.unpack_from(self._convertPackFmt(byteNum), buf[offset:offset+byteNum], 0)
+
+    def _setMemberForFdcb( self, offset, byteNum, data ):
+        struct.pack_into(self._convertPackFmt(byteNum), self.fdcbBuffer, offset, data)
+
+    def _accessTag( self, accessType=kAccessType_Get, fdcbBuf=None):
+        if accessType == kAccessType_Set:
+            tag = self._getMemberFromFdcb(fdcbBuf, uidef_fdcb.kFlexspiFdcbOffset_tag, uidef_fdcb.kFlexspiFdcbLength_tag)
+            self.m_textCtrl_tag.Clear()
+            self.m_textCtrl_tag.write(str(hex(tag[0])))
+        else:
+            self._setMemberForFdcb(uidef_fdcb.kFlexspiFdcbOffset_tag, uidef_fdcb.kFlexspiFdcbLength_tag, int(self.m_textCtrl_tag.GetLineText(0), 16))
+
+    def _accessVersion( self, accessType=kAccessType_Get, fdcbBuf=None):
+        if accessType == kAccessType_Set:
+            version = self._getMemberFromFdcb(fdcbBuf, uidef_fdcb.kFlexspiFdcbOffset_version, uidef_fdcb.kFlexspiFdcbLength_version)
+            self.m_textCtrl_version.Clear()
+            self.m_textCtrl_version.write(str(hex(version[0])))
+        else:
+            self._setMemberForFdcb(uidef_fdcb.kFlexspiFdcbOffset_version, uidef_fdcb.kFlexspiFdcbLength_version, int(self.m_textCtrl_version.GetLineText(0), 16))
+
     def _recoverLastSettings ( self ):
         if os.path.isfile(self.cfgFdcbBinFilename):
             self.m_filePicker_binFile.SetPath(self.cfgFdcbBinFilename)
+            fdcbBuf = None
+            with open(self.cfgFdcbBinFilename, 'rb') as fileObj:
+                fdcbBuf = fileObj.read()
+                fileObj.close()
+            self._accessTag(kAccessType_Set, fdcbBuf)
+            self._accessVersion(kAccessType_Set, fdcbBuf)
 
     def callbackSetLookupTable( self, event ):
         lutFrame = ui_cfg_lut.secBootUiCfgLut(None)
@@ -94,11 +140,17 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
         if os.path.isfile(fdcbPath) and os.path.getsize(fdcbPath) == memdef.kMemBlockSize_FDCB:
             if self.cfgFdcbBinFilename != fdcbPath:
                 shutil.copy(fdcbPath, self.cfgFdcbBinFilename)
+            self._recoverLastSettings()
         else:
             self.popupMsgBox('FDCB file should be 512 bytes raw binary')
             self.m_filePicker_binFile.SetPath('')
 
     def callbackOk( self, event ):
+        self._accessTag(kAccessType_Get)
+        self._accessVersion(kAccessType_Get)
+        with open(self.cfgFdcbBinFilename, 'wb') as fileObj:
+            fdcbBuf = fileObj.write(self.fdcbBuffer)
+            fileObj.close()
         uivar.setRuntimeSettings(False)
         self.Show(False)
         runtimeSettings = uivar.getRuntimeSettings()

@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v2.2.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v2.2.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v2.3.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v2.3.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 English | [中文](./README-zh.md)
 
@@ -82,6 +82,7 @@ English | [中文](./README-zh.md)
                       \bee_crypto         -- Generated BEE encryption related files
                       \bootable_image     -- Generated bootable image file
                       \dcd_file           -- Generated DCD data file
+                      \fdcb_file          -- Generated FDCB file based on configuration
                       \hab_cert           -- Generated HAB signature related files
                       \hab_crypto         -- Generated HAB encryption related files
                       \json_file          -- Generated JSON files based on configuration

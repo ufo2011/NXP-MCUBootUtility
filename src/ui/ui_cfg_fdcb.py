@@ -258,10 +258,9 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
 
     def _accessDeviceType( self, accessType=kAccessType_Get, fdcbBuf=None):
         if accessType == kAccessType_Set:
-            deviceType = self._getMemberFromFdcb(fdcbBuf, uidef_fdcb.kFlexspiFdcbOffset_deviceType, uidef_fdcb.kFlexspiFdcbLength_deviceType)
-            self.m_choice_deviceType.SetSelection(deviceType[0])
+            self.m_choice_deviceType.SetSelection(0)
         else:
-            self._setMemberForFdcb(uidef_fdcb.kFlexspiFdcbOffset_deviceType, uidef_fdcb.kFlexspiFdcbLength_deviceType, self.m_choice_deviceType.GetSelection())
+            self._setMemberForFdcb(uidef_fdcb.kFlexspiFdcbOffset_deviceType, uidef_fdcb.kFlexspiFdcbLength_deviceType, 1)
 
     def _accessSflashPadType( self, accessType=kAccessType_Get, fdcbBuf=None):
         if accessType == kAccessType_Set:
@@ -531,6 +530,10 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
         else:
             self._setMemberForFdcb(uidef_fdcb.kFlexspiFdcbOffset_isNonBlockingMode, uidef_fdcb.kFlexspiFdcbLength_isNonBlockingMode, self.m_choice_isNonBlockingMode.GetSelection())
 
+    def _recoverLutTable( self, fdcbBytes ):
+        for i in range(uidef_fdcb.kFlexspiFdcbLength_lookupTable):
+            self.fdcbBuffer[uidef_fdcb.kFlexspiFdcbOffset_lookupTable + i] = fdcbBytes[uidef_fdcb.kFlexspiFdcbOffset_lookupTable + i]
+
     def _recoverLastSettings ( self ):
         if os.path.isfile(self.cfgFdcbBinFilename):
             self.m_filePicker_binFile.SetPath(self.cfgFdcbBinFilename)
@@ -577,6 +580,7 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
             self._accessNeedRestoreNoCmdMode(kAccessType_Set, fdcbBuf)
             self._accessBlockSize(kAccessType_Set, fdcbBuf)
             self._accessIsNonBlockingMode(kAccessType_Set, fdcbBuf)
+            self._recoverLutTable(fdcbBuf)
 
     def callbackSetLookupTable( self, event ):
         lutFrame = ui_cfg_lut.secBootUiCfgLut(None)
@@ -594,6 +598,7 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
             if self.cfgFdcbBinFilename != fdcbPath:
                 shutil.copy(fdcbPath, self.cfgFdcbBinFilename)
             self._recoverLastSettings()
+            self.m_filePicker_binFile.SetPath(fdcbPath)
         else:
             self.popupMsgBox('FDCB file should be 512 bytes raw binary')
             self.m_filePicker_binFile.SetPath('')

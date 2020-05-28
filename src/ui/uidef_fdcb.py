@@ -140,3 +140,16 @@ kFlexspiFdcbLength_blockSize = 0x4
 kFlexspiFdcbOffset_isNonBlockingMode = 0x1d1
 kFlexspiFdcbLength_isNonBlockingMode = 0x1
 
+kFlexspiLutRegShift_Op0  = 0
+kFlexspiLutRegMask_Op0   = 0x000000FF
+kFlexspiLutRegShift_Pad0 = 8
+kFlexspiLutRegMask_Pad0  = 0x00000300
+kFlexspiLutRegShift_Cmd0 = 10
+kFlexspiLutRegMask_Cmd0  = 0x0000FC00
+kFlexspiLutRegShift_Op1  = 16
+kFlexspiLutRegMask_Op1   = 0x00FF0000
+kFlexspiLutRegShift_Pad1 = 24
+kFlexspiLutRegMask_Pad1  = 0x03000000
+kFlexspiLutRegShift_Cmd1 = 26
+kFlexspiLutRegMask_Cmd1  = 0xFC000000
+

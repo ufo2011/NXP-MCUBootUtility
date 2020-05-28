@@ -581,6 +581,7 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
     def callbackSetLookupTable( self, event ):
         lutFrame = ui_cfg_lut.secBootUiCfgLut(None)
         lutFrame.SetTitle(u"LUT Configuration")
+        lutFrame.setNecessaryInfo(self.cfgFdcbBinFilename)
         lutFrame.Show(True)
 
     def popupMsgBox( self, msgStr ):
@@ -638,7 +639,7 @@ class secBootUiCfgFdcb(bootDeviceWin_FDCB.bootDeviceWin_FDCB):
         self._accessBlockSize(kAccessType_Get)
         self._accessIsNonBlockingMode(kAccessType_Get)
         with open(self.cfgFdcbBinFilename, 'wb') as fileObj:
-            fdcbBuf = fileObj.write(self.fdcbBuffer)
+            fileObj.write(self.fdcbBuffer)
             fileObj.close()
         uivar.setRuntimeSettings(False)
         self.Show(False)

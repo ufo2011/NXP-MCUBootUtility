@@ -740,3 +740,5 @@ class secBootRTxxxUi(RTyyyy_main.secBootRTyyyyMain):
         self.m_textCtrl_fuse8e0.write(self.parseReadFuseValue(scannedFuseList[78]))
         self.m_textCtrl_fuse8f0.write(self.parseReadFuseValue(scannedFuseList[79]))
 
+    def RTxxx_setLanguage( self ):
+        pass

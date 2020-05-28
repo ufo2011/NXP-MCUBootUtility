@@ -174,6 +174,7 @@ kSubLanguageContentDict = {
         'flexspinor_title':                   ['FlexSPI NOR Device Configuration',      u"配置FlexSPI接口NOR Flash启动设备"],
         'quadspinor_title':                   ['QuadSPI NOR Device Configuration',      u"配置QuadSPI接口NOR Flash启动设备"],
         'sText_deviceModel':                  ['Use Typical Device Model:',             u"使用典型设备型号："],
+        'cBox_keepFdcb':                      ['Keep FDCB',                             u"保留原FDCB"],
         'panel_norOpt0':                      ['Nor Option0',                           u"NOR选项0"],
         'sText_deviceType':                   ['Device Type:',                          u"设备类型："],
         'sText_queryPads':                    ['Query Pads:',                           u"查询管脚数："],
@@ -189,6 +190,7 @@ kSubLanguageContentDict = {
         'sText_enableSecondPinmux':           ['Enable Second Pinmux:',                 u"使能第二组Pinmux："],
         'sText_statusOverride':               ['Status Override:',                      u"状态位覆盖："],
         'sText_dummyCycles':                  ['Dummy Cycles:',                         u"冗余周期数："],
+        'button_completeFdcb':                ['Complete FDCB Configuration (512bytes)', u"完整FDCB配置(512字节)"],
         'button_flexspinor_ok':               ['Ok',                                    u"确定"],
         'button_flexspinor_cancel':           ['Cancel',                                u"取消"],
 
@@ -538,6 +540,7 @@ kRevision_2_3_0_en =  "【v2.3.0】 \n" + \
                       "  Feature: \n" + \
                       "     1. [RTxxx] Support i.MXRT5xx B0/1 \n" + \
                       "     2. [RTxxx] Add more selections of FlexSPI NOR model \n" + \
+                      "     3. Support complete FDCB as FlexSPI NOR device model \n" + \
                       "  Improvement: \n" + \
                       "     1. Can show ROM/Flashloader version info in device status window \n" + \
                       "     2. Provide option to keep FDCB from source image file \n" + \
@@ -551,10 +554,11 @@ kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                      u"  特性: \n" + \
                      u"     1. [RTxxx] 支持i.MXRT5xx B0/1 \n" + \
                      u"     2. [RTxxx] 在FlexSPI NOR模型参数里增加更多选项 \n" + \
+                     u"     3. 支持512字节完整的FDCB配置作为FlexSPI NOR模型 \n" + \
                      u"  改进: \n" + \
                      u"     1. 可以在目标器件状态窗口显示ROM/Flashloader的版本信息 \n" + \
-                      "     2. 提供保留源image文件里的FDCB头的选项设置 \n" + \
-                      "     3. [RTyyyy] 加密启动模式下，提供烧进fuse的用户密钥锁定设置 \n" + \
+                     u"     2. 提供保留源image文件里的FDCB头的选项设置 \n" + \
+                     u"     3. [RTyyyy] 加密启动模式下，提供烧进fuse的用户密钥锁定设置 \n" + \
                      u"  修复: \n" + \
                      u"     1. 有时候烧写fuse/otp时会返回错误状态 \n" + \
                      u"     2. 有时候配置flash时无法显示其Page/Sector/Block Size信息 \n" + \

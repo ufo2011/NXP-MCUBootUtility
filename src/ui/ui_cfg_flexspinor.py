@@ -54,6 +54,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         runtimeSettings = uivar.getRuntimeSettings()
         langIndex = runtimeSettings[3]
         self.m_staticText_deviceModel.SetLabel(uilang.kSubLanguageContentDict['sText_deviceModel'][langIndex])
+        self.m_checkBox_keepFdcb.SetLabel(uilang.kSubLanguageContentDict['cBox_keepFdcb'][langIndex])
         self.m_notebook_norOpt0.SetPageText(0, uilang.kSubLanguageContentDict['panel_norOpt0'][langIndex])
         self.m_staticText_deviceType.SetLabel(uilang.kSubLanguageContentDict['sText_deviceType'][langIndex])
         self.m_staticText_queryPads.SetLabel(uilang.kSubLanguageContentDict['sText_queryPads'][langIndex])
@@ -69,6 +70,7 @@ class secBootUiCfgFlexspiNor(bootDeviceWin_FlexspiNor.bootDeviceWin_FlexspiNor):
         self.m_staticText_enableSecondPinmux.SetLabel(uilang.kSubLanguageContentDict['sText_enableSecondPinmux'][langIndex])
         self.m_staticText_statusOverride.SetLabel(uilang.kSubLanguageContentDict['sText_statusOverride'][langIndex])
         self.m_staticText_dummyCycles.SetLabel(uilang.kSubLanguageContentDict['sText_dummyCycles'][langIndex])
+        self.m_button_completeFdcb.SetLabel(uilang.kSubLanguageContentDict['button_completeFdcb'][langIndex])
         self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_flexspinor_ok'][langIndex])
         self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_flexspinor_cancel'][langIndex])
 

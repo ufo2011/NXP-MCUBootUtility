@@ -55,7 +55,7 @@ class secBootUiEfuseBootCfg0FlexspiNor3bits(RT10yy_efuseWin_BootCfg0_FlexspiNor_
 
     def _getEfuseWord( self ):
         self.efuseDict['0x450_bootCfg0'] = (self.efuseDict['0x450_bootCfg0'] & 0xfffffffe) | self.m_choice_bit0.GetSelection()
-        self.efuseDict['0x450_bootCfg0'] = (self.efuseDict['0x450_bootCfg0'] & 0xfffffff9) | (self.m_choice_bit3_1.GetSelection() << 1)
+        self.efuseDict['0x450_bootCfg0'] = (self.efuseDict['0x450_bootCfg0'] & 0xfffffff9) | (self.m_choice_bit2_1.GetSelection() << 1)
 
     def callbackOk( self, event ):
         self._getEfuseWord()

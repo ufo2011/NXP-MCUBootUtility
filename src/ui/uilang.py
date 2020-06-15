@@ -127,7 +127,7 @@ kMainLanguageContentDict = {
 
         'panel_memView':                      ['Boot Device Memory',                    u"       通用Flash编程       "],
         'sText_memStart':                     ['Start / Offset:',                       u"首地址/偏移："],
-        'sText_memLength':                    ['Byte Length (For Read/Write):',         u"字节长度（回读/擦除）："],
+        'sText_memLength':                    ['Byte Length (For Read/Erase):',         u"字节长度（回读/擦除）："],
         'sText_memBinFile':                   ['Bin File:',                             u"源文件："],
         'button_readMem':                     ['Read',                                  u"回读"],
         'button_eraseMem':                    ['Erase',                                 u"擦除"],

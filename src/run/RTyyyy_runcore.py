@@ -636,9 +636,11 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             self.printDeviceStatus("Page Size   = " + self.showAsOptimalMemoryUnit(pageByteSize))
             self.printDeviceStatus("Sector Size = " + self.showAsOptimalMemoryUnit(sectorByteSize))
             self.printDeviceStatus("Block Size  = " + self.showAsOptimalMemoryUnit(blockByteSize))
-            self.comMemWriteUnit = pageByteSize
-            self.comMemEraseUnit = sectorByteSize
-            self.comMemReadUnit = pageByteSize
+            if pageByteSize != 0 and pageByteSize != 0xffffffff:
+                self.comMemWriteUnit = pageByteSize
+                self.comMemReadUnit = pageByteSize
+            if sectorByteSize != 0 and sectorByteSize != 0xffffffff:
+                self.comMemEraseUnit = sectorByteSize
         else:
             if not useDefault:
                 self.printDeviceStatus("Page Size   = --------")

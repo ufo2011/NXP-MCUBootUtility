@@ -570,14 +570,16 @@ kRevision_2_4_0_en =  "【v2.4.0】 \n" + \
                       "  Improvement: \n" + \
                       "     1.  \n" + \
                       "  Bugfix: \n" + \
-                      "     1. [RTyyyy] Cannot edit fuse cfg0 for RT1011 in friendly way \n\n"
+                      "     1. Read or Erase does sometimes not use correct parameters \n" + \
+                      "     2. [RTyyyy] Cannot edit fuse cfg0 for RT1011 in friendly way \n\n"
 kRevision_2_4_0_zh = u"【v2.4.0】 \n" + \
                      u"  特性: \n" + \
                      u"     1.  \n" + \
                      u"  改进: \n" + \
                      u"     1.  \n" + \
                      u"  修复: \n" + \
-                     u"     1. [RTyyyy] 在RT1011下，无法确认fuse cfg0区域的可视化设置 \n\n"
+                     u"     1. 当连接得到的flash Page/Sector/Block Size信息有误时，无法做进一步下载 \n" + \
+                     u"     2. [RTyyyy] 在RT1011下，无法确认fuse cfg0区域的可视化设置 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

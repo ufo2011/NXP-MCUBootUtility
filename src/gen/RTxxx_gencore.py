@@ -37,7 +37,7 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
         self.isConvertedAppUsed = False
         self.isFdcbFromSrcApp = False
 
-        self.destAppInitialLoadSize = memdef.kMemBlockSize_FDCB
+        self.destAppInitialLoadSize = RTxxx_gendef.kBootImageOffset_NOR_SD_EEPROM
         self.destAppVectorAddress = 0
         self.destAppVectorOffset = None
         self.destAppBinaryBytes = 0
@@ -64,11 +64,18 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
         self.isConvertedAppUsed = True
 
     def _RTxxx_isSrcAppBootableImage( self, initialLoadAppBytes ):
-        fdcbTag = self.getVal32FromByteArray(initialLoadAppBytes, 0)
-        if fdcbTag != rundef.kFlexspiNorCfgTag_Flexspi:
-            return False
-        self.printLog('Origianl image file is a bootable image file')
-        return True
+        fdcbOffset = None
+        fdcb1Tag = self.getVal32FromByteArray(initialLoadAppBytes, 0)
+        fdcb2Tag = self.getVal32FromByteArray(initialLoadAppBytes, self.tgt.xspiNorCfgInfoOffset)
+        if fdcb1Tag == rundef.kFlexspiNorCfgTag_Flexspi:
+            fdcbOffset = 0
+        if fdcb2Tag == rundef.kFlexspiNorCfgTag_Flexspi:
+            fdcbOffset = self.tgt.xspiNorCfgInfoOffset
+        if fdcbOffset == None:
+            return False, None
+        else:
+            self.printLog('Origianl image file is a bootable image file')
+            return True, fdcbOffset
 
     def _RTxxx_getImageInfo( self, srcAppFilename ):
         startAddress = None
@@ -84,14 +91,16 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
                     srecObj = bincopy.BinFile(str(srcAppFilename))
                     startAddress = srecObj.minimum_address
                     initialLoadAppBytes = srecObj.as_binary(startAddress, startAddress + self.destAppInitialLoadSize)
-                    if (self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor or self.bootDevice == RTxxx_uidef.kBootDevice_QuadspiNor) and \
-                       self._RTxxx_isSrcAppBootableImage(initialLoadAppBytes):
-                        self.extractFdcbDataFromSrcApp(initialLoadAppBytes)
-                        startAddress += RTxxx_gendef.kBootImageOffset_NOR_SD_EEPROM - RTxxx_memdef.kMemBlockOffset_FDCB
-                        entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
-                        lengthInByte = len(srecObj.as_binary()) - memdef.kMemBlockSize_FDCB
-                        self._RTxxx_generatePlainImageBinary(srecObj.as_binary(startAddress, startAddress + lengthInByte), appName, startAddress, lengthInByte)
-                    else:
+                    if (self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor or self.bootDevice == RTxxx_uidef.kBootDevice_QuadspiNor):
+                        isSrcAppBootableImage, fdcbOffsetInApp = self._RTxxx_isSrcAppBootableImage(initialLoadAppBytes)
+                        if isSrcAppBootableImage:
+                            self.extractFdcbDataFromSrcApp(initialLoadAppBytes, fdcbOffsetInApp)
+                            startAddress += RTxxx_gendef.kBootImageOffset_NOR_SD_EEPROM - fdcbOffsetInApp
+                            entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
+                            lengthInByte = len(srecObj.as_binary()) - (RTxxx_gendef.kBootImageOffset_NOR_SD_EEPROM - fdcbOffsetInApp)
+                            self._RTxxx_generatePlainImageBinary(srecObj.as_binary(startAddress, startAddress + lengthInByte), appName, startAddress, lengthInByte)
+                            isConvSuccessed = True
+                    if not isConvSuccessed:
                         entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
                         lengthInByte = len(srecObj.as_binary())
                         self._RTxxx_generatePlainImageBinary(srecObj.as_binary(), appName, startAddress, lengthInByte)

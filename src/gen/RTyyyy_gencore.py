@@ -334,8 +334,8 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         ivtSelf= self.getVal32FromByteArray(ivtBlockBytes[RTyyyy_memdef.kMemberOffsetInIvt_Self:RTyyyy_memdef.kMemberOffsetInIvt_Self + 4])
         return ivtEntry, ivtDcd, ivtBd, ivtSelf
 
-    def _extractDcdDataFromSrcApp(self, initialLoadAppBytes ):
-        destAppIvtOffset = self.destAppIvtOffset - self.tgt.xspiNorCfgInfoOffset
+    def _extractDcdDataFromSrcApp(self, initialLoadAppBytes, fdcbOffset ):
+        destAppIvtOffset = self.destAppIvtOffset - (self.tgt.xspiNorCfgInfoOffset - fdcbOffset)
         ivtEntry, ivtDcd, ivtBd, ivtSelf = self._getIvtInfoFromIvtBlockBytes(initialLoadAppBytes[destAppIvtOffset:destAppIvtOffset + RTyyyy_memdef.kMemBlockSize_IVT])
         dcdCtrlDict, dcdSettingsDict = uivar.getBootDeviceConfiguration(RTyyyy_uidef.kBootDevice_Dcd)
         if ivtDcd != 0 and ivtDcd < ivtEntry and (not dcdCtrlDict['isDcdEnabled']):
@@ -345,7 +345,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             dcdHoleBytes = 0x0
             if ivtDcd - ivtSelf < RTyyyy_memdef.kMemBlockOffsetToIvt_DCD:
                 dcdHoleBytes = RTyyyy_memdef.kMemBlockOffsetToIvt_DCD - (ivtDcd - ivtSelf)
-            dcdDataBytes = initialLoadAppBytes[dcdDataOffset:(len(initialLoadAppBytes) - self.tgt.xspiNorCfgInfoOffset) - dcdHoleBytes]
+            dcdDataBytes = initialLoadAppBytes[dcdDataOffset:(len(initialLoadAppBytes) - (self.tgt.xspiNorCfgInfoOffset - fdcbOffset)) - dcdHoleBytes]
             dcdDataTag = dcdDataBytes[RTyyyy_memdef.kMemberOffsetInDcd_Tag]
             if dcdDataTag == RTyyyy_memdef.kBootHeaderTag_DCD:
                 with open(self.dcdBinFilename, 'wb') as fileObj:
@@ -357,8 +357,8 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         else:
             self.destAppDcdLength = 0
 
-    def _extractImageDataFromSrcApp(self, wholeSrcAppBytes, appName ):
-        destAppIvtOffset = self.destAppIvtOffset - self.tgt.xspiNorCfgInfoOffset
+    def _extractImageDataFromSrcApp(self, wholeSrcAppBytes, fdcbOffset, appName ):
+        destAppIvtOffset = self.destAppIvtOffset - (self.tgt.xspiNorCfgInfoOffset - fdcbOffset)
         ivtEntry, ivtDcd, ivtBd, ivtSelf = self._getIvtInfoFromIvtBlockBytes(wholeSrcAppBytes[destAppIvtOffset:destAppIvtOffset + RTyyyy_memdef.kMemBlockSize_IVT])
         imageDataOffset = destAppIvtOffset + ivtEntry - ivtSelf
         imageDataBytes = wholeSrcAppBytes[imageDataOffset:len(wholeSrcAppBytes)]
@@ -374,21 +374,27 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
 
     def _RTyyyy_isSrcAppBootableImage( self, initialLoadAppBytes ):
         try:
-            fdcbTag = self.getVal32FromByteArray(initialLoadAppBytes, 0)
-            if fdcbTag != rundef.kFlexspiNorCfgTag_Flexspi:
-                return False
-            destAppIvtOffset = self.destAppIvtOffset - self.tgt.xspiNorCfgInfoOffset
+            fdcbOffset = None
+            fdcb1Tag = self.getVal32FromByteArray(initialLoadAppBytes, 0)
+            fdcb2Tag = self.getVal32FromByteArray(initialLoadAppBytes, self.tgt.xspiNorCfgInfoOffset)
+            if fdcb1Tag == rundef.kFlexspiNorCfgTag_Flexspi:
+                fdcbOffset = 0
+            if fdcb2Tag == rundef.kFlexspiNorCfgTag_Flexspi:
+                fdcbOffset = self.tgt.xspiNorCfgInfoOffset
+            if fdcbOffset == None:
+                return False, None
+            destAppIvtOffset = self.destAppIvtOffset - (self.tgt.xspiNorCfgInfoOffset - fdcbOffset)
             ivtTag = initialLoadAppBytes[destAppIvtOffset + RTyyyy_memdef.kMemberOffsetInIvt_Tag]
             ivtLen = initialLoadAppBytes[destAppIvtOffset + RTyyyy_memdef.kMemberOffsetInIvt_Len]
             if ivtTag != RTyyyy_memdef.kBootHeaderTag_IVT or ivtLen != RTyyyy_memdef.kMemBlockSize_IVT:
-                return False
+                return False, None
             ivtEntry, ivtDcd, ivtBd, ivtSelf = self._getIvtInfoFromIvtBlockBytes(initialLoadAppBytes[destAppIvtOffset:destAppIvtOffset + RTyyyy_memdef.kMemBlockSize_IVT])
             if (ivtBd <= ivtSelf) or (ivtBd - ivtSelf != RTyyyy_memdef.kMemBlockSize_IVT):
-                return False
+                return False, None
             self.printLog('Original image file is a bootable image file')
-            return True
+            return True, fdcbOffset
         except:
-            return False
+            return False, None
 
     def _RTyyyy_getImageInfo( self, srcAppFilename, ideType=None ):
         startAddress = None
@@ -435,10 +441,11 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                     srecObj = bincopy.BinFile(str(srcAppFilename))
                     startAddress = srecObj.minimum_address
                     initialLoadAppBytes = srecObj.as_binary(startAddress, startAddress + self.destAppInitialLoadSize)
-                    if self._RTyyyy_isSrcAppBootableImage(initialLoadAppBytes):
-                        self.extractFdcbDataFromSrcApp(initialLoadAppBytes)
-                        self._extractDcdDataFromSrcApp(initialLoadAppBytes)
-                        startAddress, entryPointAddress, lengthInByte = self._extractImageDataFromSrcApp(srecObj.as_binary(), appName)
+                    isSrcAppBootableImage, fdcbOffsetInApp = self._RTyyyy_isSrcAppBootableImage(initialLoadAppBytes)
+                    if isSrcAppBootableImage:
+                        self.extractFdcbDataFromSrcApp(initialLoadAppBytes, fdcbOffsetInApp)
+                        self._extractDcdDataFromSrcApp(initialLoadAppBytes, fdcbOffsetInApp)
+                        startAddress, entryPointAddress, lengthInByte = self._extractImageDataFromSrcApp(srecObj.as_binary(), fdcbOffsetInApp, appName)
                     else:
                         self.destAppDcdLength = 0
                         #entryPointAddress = srecObj.execution_start_address

@@ -196,11 +196,11 @@ class secBootGen(uicore.secBootUi):
                 fileObj.write(byteStr)
             fileObj.close()
 
-    def extractFdcbDataFromSrcApp(self, initialLoadAppBytes ):
+    def extractFdcbDataFromSrcApp(self, initialLoadAppBytes, fdcbOffset ):
         flexspiNorOpt0, flexspiNorOpt1, flexspiDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
         self.isFdcbFromSrcApp = isFdcbKept
         if self.isFdcbFromSrcApp:
             with open(self.fdcbBinFilename, 'wb') as fileObj:
-                fileObj.write(initialLoadAppBytes[0:memdef.kMemBlockSize_FDCB])
+                fileObj.write(initialLoadAppBytes[fdcbOffset:fdcbOffset+memdef.kMemBlockSize_FDCB])
                 fileObj.close()
 

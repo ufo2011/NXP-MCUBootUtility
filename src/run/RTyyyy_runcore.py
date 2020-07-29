@@ -750,11 +750,29 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         self.sbAppBdContent += actionContent
         self.sbAppFlashBdContent += actionContent
 
+    def _isFlexspiNorConfigBlockRegionBlank( self ):
+        filename = 'flexspiNorCfg.dat'
+        filepath = os.path.join(self.blhostVectorsDir, filename)
+        status, results, cmdStr = self.blhost.readMemory(self.tgt.flexspiNorMemBase + self.tgt.xspiNorCfgInfoOffset, rundef.kFlexspiNorCfgInfo_Length, filename, rundef.kBootDeviceMemId_FlexspiNor)
+        self.printLog(cmdStr)
+        if status != boot.status.kStatus_Success:
+            return False
+        for offset in range(rundef.kFlexspiNorCfgInfo_Length):
+            value = self.getVal8FromBinFile(filepath, offset)
+            if value != rundef.kFlexspiNorContent_Blank8:
+                return False
+        try:
+            os.remove(filepath)
+        except:
+            pass
+        return True
+
     def _eraseFlexspiNorForConfigBlockLoading( self ):
         status = boot.status.kStatus_Success
         if self.RTyyyy_isDeviceEnabledToOperate:
-            status, results, cmdStr = self.blhost.flashEraseRegion(self.tgt.flexspiNorMemBase + self.tgt.xspiNorCfgInfoOffset, rundef.kFlexspiNorCfgInfo_Length, rundef.kBootDeviceMemId_FlexspiNor)
-            self.printLog(cmdStr)
+            if not self._isFlexspiNorConfigBlockRegionBlank():
+                status, results, cmdStr = self.blhost.flashEraseRegion(self.tgt.flexspiNorMemBase + self.tgt.xspiNorCfgInfoOffset, rundef.kFlexspiNorCfgInfo_Length, rundef.kBootDeviceMemId_FlexspiNor)
+                self.printLog(cmdStr)
         if self.isSbFileEnabledToGen:
             self._addFlashActionIntoSbAppBdContent("    erase " + self.sbAccessBootDeviceMagic + " " + self.convertLongIntHexText(str(hex(self.tgt.flexspiNorMemBase + self.tgt.xspiNorCfgInfoOffset))) + ".." + self.convertLongIntHexText(str(hex(self.tgt.flexspiNorMemBase + self.tgt.xspiNorCfgInfoOffset + rundef.kFlexspiNorCfgInfo_Length))) + ";\n")
         return (status == boot.status.kStatus_Success)

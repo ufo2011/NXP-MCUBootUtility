@@ -173,6 +173,17 @@ class secBootGen(uicore.secBootUi):
     def getReg32FromBinFile( self, filename, offset=0):
         return hex(self.getVal32FromBinFile(filename, offset))
 
+    def getVal8FromBinFile( self, filename, offset=0):
+        var8Vaule = 0
+        if os.path.isfile(filename):
+            var8Vaule = array.array('c', [chr(0xff)]) * 1
+            with open(filename, 'rb') as fileObj:
+                fileObj.seek(offset)
+                var8Vaule = fileObj.read(1)
+                fileObj.close()
+            var8Vaule = ord(var8Vaule[0])
+        return var8Vaule
+
     def getVal32FromBinFile( self, filename, offset=0):
         var32Vaule = 0
         if os.path.isfile(filename):

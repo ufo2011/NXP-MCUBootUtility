@@ -14,6 +14,7 @@ kBootDeviceMemId_UsdhcSd      = 0x120
 kBootDeviceMemId_UsdhcMmc     = 0x121
 
 #----------------FlexSPI NOR---------------------
+kFlexspiNorContent_Blank8 = 0xFF
 kFlexspiNorCfgTag_Flexspi = 0x42464346  # 'FCFB'
 
 #kFlexspiNorCfgInfo_StartAddr = 0x0/0x400

@@ -569,6 +569,7 @@ kRevision_2_4_0_en =  "【v2.4.0】 \n" + \
                       "     1.  \n" + \
                       "  Improvement: \n" + \
                       "     1. Can recognize source bootable image if FDCB doesn't start from offset 0 \n" + \
+                      "     2. [RTyyyy] Do some blank check if erase unit is always 64KB in flashloader \n" + \
                       "  Bugfix: \n" + \
                       "     1. Read or Erase does sometimes not use correct parameters \n" + \
                       "     2. [RTyyyy] Cannot edit fuse cfg0 for RT1011 in friendly way \n\n"
@@ -577,6 +578,7 @@ kRevision_2_4_0_zh = u"【v2.4.0】 \n" + \
                      u"     1.  \n" + \
                      u"  改进: \n" + \
                      u"     1. 可以支持FDCB位置不在偏移0地址的Bootable Image作为源文件 \n" + \
+                     u"     2. [RTyyyy] 在使用Flashloader里擦除操作时，某些情况下需要先检查目标区域是否为空 \n" + \
                      u"  修复: \n" + \
                      u"     1. 当连接得到的flash Page/Sector/Block Size信息有误时，无法做进一步下载 \n" + \
                      u"     2. [RTyyyy] 在RT1011下，无法确认fuse cfg0区域的可视化设置 \n\n"

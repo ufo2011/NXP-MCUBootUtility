@@ -572,7 +572,8 @@ kRevision_2_4_0_en =  "【v2.4.0】 \n" + \
                       "     2. [RTyyyy] Do some blank check if erase unit is always 64KB in flashloader \n" + \
                       "  Bugfix: \n" + \
                       "     1. Read or Erase does sometimes not use correct parameters \n" + \
-                      "     2. [RTyyyy] Cannot edit fuse cfg0 for RT1011 in friendly way \n\n"
+                      "     2. Setting spi speed option for 1bit SPI NOR device doesn't take effect \n" + \
+                      "     3. [RTyyyy] Cannot edit fuse cfg0 for RT1011 in friendly way \n\n"
 kRevision_2_4_0_zh = u"【v2.4.0】 \n" + \
                      u"  特性: \n" + \
                      u"     1.  \n" + \
@@ -581,7 +582,8 @@ kRevision_2_4_0_zh = u"【v2.4.0】 \n" + \
                      u"     2. [RTyyyy] 在使用Flashloader里擦除操作时，某些情况下需要先检查目标区域是否为空 \n" + \
                      u"  修复: \n" + \
                      u"     1. 当连接得到的flash Page/Sector/Block Size信息有误时，无法做进一步下载 \n" + \
-                     u"     2. [RTyyyy] 在RT1011下，无法确认fuse cfg0区域的可视化设置 \n\n"
+                     u"     2. 设置恢复启动设备(1bit SPI NOR)的速度选项不生效 \n" + \
+                     u"     3. [RTyyyy] 在RT1011下，无法确认fuse cfg0区域的可视化设置 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

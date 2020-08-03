@@ -189,7 +189,7 @@ class secBootUiCfgRecoverySpiNor(bootDeviceWin_RecoverySpiNor.bootDeviceWin_Reco
             val = 0x3
         else:
             pass
-        self.recoverySpiNorOpt0 = (self.recoverySpiNorOpt0 & 0xFFFFFFF0) | (val << 0)
+        self.recoverySpiNorOpt1 = (self.recoverySpiNorOpt1 & 0xFFFFFFF0) | (val << 0)
 
     def callbackOk(self, event):
         self._getDeviceType()
@@ -200,9 +200,9 @@ class secBootUiCfgRecoverySpiNor(bootDeviceWin_RecoverySpiNor.bootDeviceWin_Reco
         self._getSpiPcs()
         self._getSpiSpeed()
         if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
-            uivar.setBootDeviceConfiguration(RTyyyy_uidef.kBootDevice_LpspiNor, self.recoverySpiNorOpt0, self.recoverySpiNorOpt0)
+            uivar.setBootDeviceConfiguration(RTyyyy_uidef.kBootDevice_LpspiNor, self.recoverySpiNorOpt0, self.recoverySpiNorOpt1)
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
-            uivar.setBootDeviceConfiguration(RTxxx_uidef.kBootDevice_FlexcommSpiNor, self.recoverySpiNorOpt0, self.recoverySpiNorOpt0)
+            uivar.setBootDeviceConfiguration(RTxxx_uidef.kBootDevice_FlexcommSpiNor, self.recoverySpiNorOpt0, self.recoverySpiNorOpt1)
         else:
             pass
         uivar.setRuntimeSettings(False)

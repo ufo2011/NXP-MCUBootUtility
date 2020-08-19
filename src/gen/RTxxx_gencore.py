@@ -95,9 +95,9 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
                         isSrcAppBootableImage, fdcbOffsetInApp = self._RTxxx_isSrcAppBootableImage(initialLoadAppBytes)
                         if isSrcAppBootableImage:
                             self.extractFdcbDataFromSrcApp(initialLoadAppBytes, fdcbOffsetInApp)
-                            startAddress += RTxxx_gendef.kBootImageOffset_NOR_SD_EEPROM - fdcbOffsetInApp
+                            startAddress += RTxxx_gendef.kBootImageOffset_NOR_SD_EEPROM - (self.tgt.xspiNorCfgInfoOffset - fdcbOffsetInApp)
                             entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
-                            lengthInByte = len(srecObj.as_binary()) - (RTxxx_gendef.kBootImageOffset_NOR_SD_EEPROM - fdcbOffsetInApp)
+                            lengthInByte = len(srecObj.as_binary()) - (memdef.kMemBlockSize_FDCB + fdcbOffsetInApp)
                             self._RTxxx_generatePlainImageBinary(srecObj.as_binary(startAddress, startAddress + lengthInByte), appName, startAddress, lengthInByte)
                             isConvSuccessed = True
                     if not isConvSuccessed:

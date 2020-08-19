@@ -59,7 +59,8 @@ availableSecureBootTypes = [RTyyyy_uidef.kSecureBootType_Development,
                             ]
 hasRemappedFuse = False
 availableBootDevices = [RTyyyy_uidef.kBootDevice_FlexspiNor,
-                        RTyyyy_uidef.kBootDevice_SemcNand]
+                        RTyyyy_uidef.kBootDevice_SemcNand,
+                        RTyyyy_uidef.kBootDevice_LpspiNor]
 flexspiNorDevice = uidef.kFlexspiNorDevice_ISSI_IS25LP064A
 flexspiNorMemBase0 = 0x30000000
 flexspiNorMemBase1 = 0x60000000

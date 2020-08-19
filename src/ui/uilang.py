@@ -564,9 +564,7 @@ kRevision_2_3_0_zh = u"【v2.3.0】 \n" + \
                      u"     2. 有时候配置flash时无法显示其Page/Sector/Block Size信息 \n" + \
                      u"     3. [RTyyyy] 生成的.sb文件里擦除FDCB区域的长度指定有误 \n" + \
                      u"     4. [RTyyyy] Fuse Lock烧写限制不是存在于所有i.MXRT型号 \n\n"
-kRevision_2_4_0_en =  "【v2.4.0】 \n" + \
-                      "  Feature: \n" + \
-                      "     1.  \n" + \
+kRevision_2_3_1_en =  "【v2.3.1】 \n" + \
                       "  Improvement: \n" + \
                       "     1. Can recognize source bootable image if FDCB doesn't start from offset 0 \n" + \
                       "     2. [RTyyyy] Do some blank check if erase unit is always 64KB in flashloader \n" + \
@@ -574,9 +572,7 @@ kRevision_2_4_0_en =  "【v2.4.0】 \n" + \
                       "     1. Read or Erase does sometimes not use correct parameters \n" + \
                       "     2. Setting spi speed option for 1bit SPI NOR device doesn't take effect \n" + \
                       "     3. [RTyyyy] Cannot edit fuse cfg0 for RT1011 in friendly way \n\n"
-kRevision_2_4_0_zh = u"【v2.4.0】 \n" + \
-                     u"  特性: \n" + \
-                     u"     1.  \n" + \
+kRevision_2_3_1_zh = u"【v2.3.1】 \n" + \
                      u"  改进: \n" + \
                      u"     1. 可以支持FDCB位置不在偏移0地址的Bootable Image作为源文件 \n" + \
                      u"     2. [RTyyyy] 在使用Flashloader里擦除操作时，某些情况下需要先检查目标区域是否为空 \n" + \
@@ -607,7 +603,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v2_1_0':             [kRevision_2_1_0_en,                      kRevision_2_1_0_zh],
         'revisionHistory_v2_2_0':             [kRevision_2_2_0_en,                      kRevision_2_2_0_zh],
         'revisionHistory_v2_3_0':             [kRevision_2_3_0_en,                      kRevision_2_3_0_zh],
-        'revisionHistory_v2_4_0':             [kRevision_2_4_0_en,                      kRevision_2_4_0_zh],
+        'revisionHistory_v2_3_1':             [kRevision_2_3_1_en,                      kRevision_2_3_1_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

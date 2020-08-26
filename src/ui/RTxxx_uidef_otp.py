@@ -15,6 +15,12 @@ otpmapIndexDict_RTxxx    = {'kOtpIndex_START' :0x0,
                             'kOtpEntryModeRegion0IndexEnd'   :0x04,
                             'kOtpEntryModeRegion1IndexStart' :0x08,
                             'kOtpEntryModeRegion1IndexEnd'   :0x09,
+                            'kOtpEntryModeRegion2IndexStart' :0x0C,
+                            'kOtpEntryModeRegion2IndexEnd'   :0x23,
+                            'kOtpEntryModeRegion3IndexStart' :0x27,
+                            'kOtpEntryModeRegion3IndexEnd'   :0x3F,
+                            'kOtpEntryModeRegion4IndexStart' :0x5F,
+                            'kOtpEntryModeRegion4IndexEnd'   :0x9F,
                             }
 
 otpmapDefnDict_RTxxx    = {

@@ -65,6 +65,8 @@ English | [中文](./README-zh.md)
 
 > Note4: You must use Python2 x86 version, because NXP-MCUBootUtility uses the pywinusb library, which cannot be packaged by PyInstaller in Python2 x64 version. The pywinusb author has no plan to fix the problem.  
 
+> Note5: You cannot make any frequency adjustments in the encrypted code area, if your code includes calling of BOARD_BootClockRUN or any other frequency adjustment function, you should allocate those functions and the function called inside into non encrypted code area.  
+
 #### 1.3 Installation
 　　NXP-MCUBootUtility is a pure green free installation tool. After downloading the source code package, double-click "\NXP-MCUBootUtility\bin\NXP-MCUBootUtility.exe" to use it. No additional software is required.  
 　　Before the NXP-MCUBootUtility.exe graphical interface is displayed, a console window will pop up first. The console will work along with the NXP-MCUBootUtility.exe graphical interface. The console is mainly for the purpose of showing error information of NXP-MCUBootUtility.exe. At present, NXP-MCUBootUtility is still in development stage, and the console will be removed when the NXP-MCUBootUtility is fully validated.

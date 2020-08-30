@@ -1563,14 +1563,16 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             destHwCryptoKeySel = 0
             if setHwCryptoKey0Sel != None:
                 destHwCryptoKeySel = getHwCryptoKeySel | (setHwCryptoKey0Sel << self.tgt.efusemapDefnDict['kEfuseShift_HwCryptoKey0Sel'])
-                if ((getHwCryptoKeySel & self.tgt.efusemapDefnDict['kEfuseMask_HwCryptoKey0Sel']) >> self.tgt.efusemapDefnDict['kEfuseShift_HwCryptoKey0Sel']) != setHwCryptoKey0Sel:
+                currHwCryptoKey0Sel = ((getHwCryptoKeySel & self.tgt.efusemapDefnDict['kEfuseMask_HwCryptoKey0Sel']) >> self.tgt.efusemapDefnDict['kEfuseShift_HwCryptoKey0Sel'])
+                if currHwCryptoKey0Sel and currHwCryptoKey0Sel != setHwCryptoKey0Sel:
                     self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_hwCryptoKey0SelHasBeenBurned'][self.languageIndex])
                     return False
             else:
                 destHwCryptoKeySel = getHwCryptoKeySel
             if setHwCryptoKey1Sel != None:
                 destHwCryptoKeySel = destHwCryptoKeySel | (setHwCryptoKey1Sel << self.tgt.efusemapDefnDict['kEfuseShift_HwCryptoKey1Sel'])
-                if ((getHwCryptoKeySel & self.tgt.efusemapDefnDict['kEfuseMask_HwCryptoKey1Sel']) >> self.tgt.efusemapDefnDict['kEfuseShift_HwCryptoKey1Sel']) != setHwCryptoKey1Sel:
+                currHwCryptoKey1Sel = ((getHwCryptoKeySel & self.tgt.efusemapDefnDict['kEfuseMask_HwCryptoKey1Sel']) >> self.tgt.efusemapDefnDict['kEfuseShift_HwCryptoKey1Sel'])
+                if currHwCryptoKey1Sel and currHwCryptoKey1Sel != setHwCryptoKey1Sel:
                     self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_hwCryptoKey1SelHasBeenBurned'][self.languageIndex])
                     return False
             destHwCryptoKeySel = destHwCryptoKeySel ^ getHwCryptoKeySel

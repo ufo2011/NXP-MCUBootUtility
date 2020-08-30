@@ -1264,7 +1264,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             fileObj.write(imageData)
             fileObj.close()
 
-    def _programFlexspiNorOtfadKeyBlob( self ):
+    def _programFlexspiNorOtfadKeyBlob( self, imageLoadAddr ):
         otfadKeyblobLoadAddr = self.bootDeviceMemBase + RTyyyy_memdef.kMemBlockOffset_HwCryptoKeyBlob
         status = boot.status.kStatus_Success
         if self.isSbFileEnabledToGen:
@@ -1342,7 +1342,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                     self.printLog(cmdStr)
                 if self.secureBootType == RTyyyy_uidef.kSecureBootType_OtfadCrypto:
                     self._extractOtfadKeyblobFromDestEncAppFile()
-                    if not self._programFlexspiNorOtfadKeyBlob():
+                    if not self._programFlexspiNorOtfadKeyBlob(self.bootDeviceMemBase):
                         self.isFlexspiNorErasedForImage = False
                         self.isFdcbFromSrcApp = False
                         return False

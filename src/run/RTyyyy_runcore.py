@@ -1111,6 +1111,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         lock = self.RTyyyy_readMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], '', False)
         if lock != None:
             lock = ((RTyyyy_fusedef.kEfuseMask_WLockSwGp2 | RTyyyy_fusedef.kEfuseMask_RLockSwGp2) | lock) ^ lock
+            if self.isSbFileEnabledToGen:
+                lock = (RTyyyy_fusedef.kEfuseMask_WLockSwGp2 | RTyyyy_fusedef.kEfuseMask_RLockSwGp2)
             burnResult = self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], lock)
             if not burnResult:
                 #self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnSwgp2Lock'][self.languageIndex])
@@ -1124,6 +1126,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         lock = self.RTyyyy_readMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], '', False)
         if lock != None:
             lock = ((RTyyyy_fusedef.kEfuseMask_WLockGp4 | RTyyyy_fusedef.kEfuseMask_RLockGp4) | lock) ^ lock
+            if self.isSbFileEnabledToGen:
+                lock = (RTyyyy_fusedef.kEfuseMask_WLockGp4 | RTyyyy_fusedef.kEfuseMask_RLockGp4)
             burnResult = self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_LOCK'], lock)
             if not burnResult:
                 #self.popupMsgBox(uilang.kMsgLanguageContentDict['burnFuseError_failToBurnGp4Lock'][self.languageIndex])
@@ -1172,8 +1176,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         keyWords = RTyyyy_gendef.kSecKeyLengthInBits_DEK / 32
         if needToBurnSwGp2:
             isReady, isBlank = self._isDeviceFuseSwGp2RegionReadyForBurn(swgp2DekFilename)
-            if isReady:
-                if isBlank:
+            if isReady or self.isSbFileEnabledToGen:
+                if isBlank or self.isSbFileEnabledToGen:
                     for i in range(keyWords):
                         val32 = self.getVal32FromBinFile(swgp2DekFilename, (i * 4))
                         burnResult = self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_SW_GP2_0'] + i, val32)
@@ -1188,8 +1192,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             pass
         if needToBurnGp4:
             isReady, isBlank = self._isDeviceFuseGp4RegionReadyForBurn(gp4DekFilename)
-            if isReady:
-                if isBlank:
+            if isReady or self.isSbFileEnabledToGen:
+                if isBlank or self.isSbFileEnabledToGen:
                     for i in range(keyWords):
                         val32 = self.getVal32FromBinFile(gp4DekFilename, (i * 4))
                         burnResult = self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_GP4_0'] + i, val32)
@@ -1204,8 +1208,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             pass
         if needToBurnUserKey5:
             isReady, isBlank = self._isDeviceFuseUserKey5RegionReadyForBurn(userkey5DekFilename)
-            if isReady:
-                if isBlank:
+            if isReady or self.isSbFileEnabledToGen:
+                if isBlank or self.isSbFileEnabledToGen:
                     for i in range(keyWords):
                         val32 = self.getVal32FromBinFile(userkey5DekFilename, (i * 4))
                         burnResult = self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_USER_KEY5_0'] + i, val32)

@@ -1197,6 +1197,8 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             bdContent += "    myBinFile = extern (0);\n"
             if self.secureBootType == RTyyyy_uidef.kSecureBootType_HabCrypto:
                 bdContent += "    dekFile = extern (1);\n"
+            elif self.secureBootType == RTyyyy_uidef.kSecureBootType_OtfadCrypto:
+                bdContent += "    otfadKeyblobFile = extern (1);\n"
         else:
             pass
         bdContent += "}\n"

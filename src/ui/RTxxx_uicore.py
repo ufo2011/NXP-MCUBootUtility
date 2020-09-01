@@ -631,11 +631,63 @@ class secBootRTxxxUi(RTyyyy_main.secBootRTyyyyMain):
             color = wx.SYS_COLOUR_GRAYTEXT
             if self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
                 if self.efuseGroupSel == 0:
+                    self.m_textCtrl_fuse400.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse410.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse420.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse430.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+
+                    self.m_textCtrl_fuse450.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse460.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse470.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+
+                    self.m_textCtrl_fuse4a0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse4b0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+
+                    self.m_textCtrl_fuse640.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse650.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse660.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+
+                    self.m_textCtrl_fuse800.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse810.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse820.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse830.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse840.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse850.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse860.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse870.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse880.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse890.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse8a0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse8b0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse8c0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse8d0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse8e0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse8f0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                elif self.efuseGroupSel == 1:
+                    self.m_textCtrl_fuse400.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse410.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse420.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse430.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
                     self.m_textCtrl_fuse440.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse450.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse460.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse470.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
                     self.m_textCtrl_fuse480.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
                     self.m_textCtrl_fuse490.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
-                elif self.efuseGroupSel == 1:
-                    pass
+                    self.m_textCtrl_fuse4a0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse4b0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse4c0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse4d0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse4e0.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+
+                    self.m_textCtrl_fuse600.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse610.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse620.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse630.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse640.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse650.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse660.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
+                    self.m_textCtrl_fuse670.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )
                 elif self.efuseGroupSel == 2:
                     pass
                 elif self.efuseGroupSel == 3:

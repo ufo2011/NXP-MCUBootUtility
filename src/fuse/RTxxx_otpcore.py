@@ -39,7 +39,10 @@ class secBootRTxxxOtp(RTxxx_runcore.secBootRTxxxRun):
             for i in range(RTxxx_otpdef.kTotalOtpWords):
                 idx = i + self.tgt.otpmapIndexDict['kOtpIndex_START']
                 if (idx >= self.tgt.otpmapIndexDict['kOtpEntryModeRegion0IndexStart'] and idx <= self.tgt.otpmapIndexDict['kOtpEntryModeRegion0IndexEnd']) or \
-                   (idx >= self.tgt.otpmapIndexDict['kOtpEntryModeRegion1IndexStart'] and idx <= self.tgt.otpmapIndexDict['kOtpEntryModeRegion1IndexEnd']) :
+                   (idx >= self.tgt.otpmapIndexDict['kOtpEntryModeRegion1IndexStart'] and idx <= self.tgt.otpmapIndexDict['kOtpEntryModeRegion1IndexEnd']) or \
+                   (idx >= self.tgt.otpmapIndexDict['kOtpEntryModeRegion2IndexStart'] and idx <= self.tgt.otpmapIndexDict['kOtpEntryModeRegion2IndexEnd']) or \
+                   (idx >= self.tgt.otpmapIndexDict['kOtpEntryModeRegion3IndexStart'] and idx <= self.tgt.otpmapIndexDict['kOtpEntryModeRegion3IndexEnd']) or \
+                   (idx >= self.tgt.otpmapIndexDict['kOtpEntryModeRegion4IndexStart'] and idx <= self.tgt.otpmapIndexDict['kOtpEntryModeRegion4IndexEnd']) :
                     self.runModeOtpFlagList[i] = True
                 else:
                     self.runModeOtpFlagList[i] = False

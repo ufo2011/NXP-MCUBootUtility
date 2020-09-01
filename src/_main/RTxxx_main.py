@@ -246,5 +246,5 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
         self._RTxxx_doViewMem()
 
     def RTxxx_switchToolRunMode( self ):
-        pass
+        self.applyOtpOperToRunMode()
 

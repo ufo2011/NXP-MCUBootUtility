@@ -63,6 +63,8 @@
 
 > Note4: 必须使用Python2 x86版本去打包NXP-MCUBootUtility，因为NXP-MCUBootUtility使用了pywinusb库，该库在Python2 x64版本下无法用PyInstaller打包，pywinusb作者没有计划修复该问题。  
 
+> Note5: 改变芯片工作频率的代码不能被加密，如果你的代码有使用到 BOARD_BootClockRUN 或 其他改变芯片工作频率的函数，你应该把那些代码放到非加密的区域。
+
 #### 1.3 安装
 　　NXP-MCUBootUtility是一个是纯绿色免安装的工具，下载了源代码包之后，直接双击\NXP-MCUBootUtility\bin\NXP-MCUBootUtility.exe即可使用。使用NXP-MCUBootUtility没有任何软件依赖，不需要额外安装任何软件。  
 　　在NXP-MCUBootUtility.exe图形界面显示之前，会首先弹出一个控制台窗口，该控制台会伴随着NXP-MCUBootUtility.exe图形界面一起工作，很多图形界面的操作都会在控制台窗口看到对应的底层命令执行，保留控制台主要是为了便于定位NXP-MCUBootUtility.exe的问题，目前NXP-MCUBootUtility尚处于早期阶段，等后期软件成熟会考虑移除控制台。  

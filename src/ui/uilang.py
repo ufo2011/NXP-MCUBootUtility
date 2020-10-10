@@ -580,6 +580,16 @@ kRevision_2_3_1_zh = u"【v2.3.1】 \n" + \
                      u"     1. 当连接得到的flash Page/Sector/Block Size信息有误时，无法做进一步下载 \n" + \
                      u"     2. 设置恢复启动设备(1bit SPI NOR)的速度选项不生效 \n" + \
                      u"     3. [RTyyyy] 在RT1011下，无法确认fuse cfg0区域的可视化设置 \n\n"
+kRevision_2_4_0_en =  "【v2.4.0】 \n" + \
+                      "  Improvement: \n" + \
+                      "     1. [RTyyyy] Can recognize custom compiled flashloader to use \n" + \
+                      "  Bugfix: \n" + \
+                      "     1. [RTyyyy] Fix issue when using FlexibleUserKeys for OTFAD encryption \n\n"
+kRevision_2_4_0_zh = u"【v2.4.0】 \n" + \
+                     u"  改进: \n" + \
+                     u"     1. [RTyyyy] 可以自动识别使用由用户生成的Flashloader \n" + \
+                     u"  修复: \n" + \
+                     u"     1. [RTyyyy] 解决OTFAD加密模式下使用Flexible User Keys报错的问题 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
@@ -604,6 +614,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v2_2_0':             [kRevision_2_2_0_en,                      kRevision_2_2_0_zh],
         'revisionHistory_v2_3_0':             [kRevision_2_3_0_en,                      kRevision_2_3_0_zh],
         'revisionHistory_v2_3_1':             [kRevision_2_3_1_en,                      kRevision_2_3_1_zh],
+        'revisionHistory_v2_4_0':             [kRevision_2_4_0_en,                      kRevision_2_4_0_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

@@ -620,6 +620,8 @@ kMsgLanguageContentDict = {
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],
         'connectError_cannotSetOneStep':      ['One Step mode cannot be set under Entry Mode, Please switch to Master Mode and try again!',
                                               u"在软件入门级模式下，[一键连接]模式不可改，请切换到软件专家级模式下再试！"],
+        'connectError_InvalidUserFl':         ['Cannot recognise user flashloader file, please check linker address of flashloader!',
+                                              u"无法识别flashloader_user.srec文件，请检查该flashloader地址链接是否合法！"],
         'connectError_failToJumpToFl':        ['MCU has entered ROM SDP mode but failed to jump to Flashloader, Please reset board and try again!',
                                               u"微控制器已成功进入ROM SDP模式，但是未能跳转进入Flashloader，请复位板子再试！"],
         'connectError_doubleCheckBmod':       ['Make sure that you have put MCU in SDP (Serial Downloader Programming) mode (BMOD[1:0] pins = 2\'b01)!',

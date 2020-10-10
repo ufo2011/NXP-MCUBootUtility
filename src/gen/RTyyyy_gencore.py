@@ -103,8 +103,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         self.flBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_flashloader_gen.bd')
         self.flBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_flashloader_gen.bat')
         self.destFlFilename = os.path.join(self.exeTopRoot, 'gen', 'bootable_image', 'ivt_flashloader_signed.bin')
-
-        self.destFlUserFilename = os.path.join(self.cpuDir, 'ivt_flashloader.bin')
+        self.destUserFlFilename = os.path.join(self.exeTopRoot, 'gen', 'bootable_image', 'ivt_flashloader_user.bin')
 
         self.isConvertedAppUsed = False
         self.isFdcbFromSrcApp = False
@@ -1103,11 +1102,6 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         else:
             pass
 
-    def _createUnSignedFlBdfile( self, srcFlFilename):
-        self._setDestAppInitialBootHeaderInfo(RTyyyy_uidef.kBootDevice_RamFlashloader)   #self.destAppIvtOffset = RTyyyy_gendef.kIvtOffset_NOR  self.destAppInitialLoadSize = RTyyyy_gendef.kInitialLoadSize_NOR
-        imageStartAddr, imageEntryAddr, imageLength = self._RTyyyy_getImageInfo(srcFlFilename)
-        return self._updateBdfileContent(RTyyyy_uidef.kSecureBootType_Development, RTyyyy_uidef.kBootDevice_RamFlashloader, imageStartAddr, imageEntryAddr), imageStartAddr
-
     def _createSignedFlBdfile( self, srcFlFilename):
         self._setDestAppInitialBootHeaderInfo(RTyyyy_uidef.kBootDevice_RamFlashloader)
         imageStartAddr, imageEntryAddr, imageLength = self._RTyyyy_getImageInfo(srcFlFilename)
@@ -1119,36 +1113,12 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             return False
         return self._updateBdfileContent(RTyyyy_uidef.kSecureBootType_HabAuth, RTyyyy_uidef.kBootDevice_RamFlashloader, imageStartAddr, imageEntryAddr)
 
-    def _updateFlUserBdBatfileContent( self, srcFlFilename ):
-        batContent = "\"" + self.elftosbPath + "\""
-        self.destFlUserFilename = os.path.join(self.cpuDir, 'ivt_flashloader.bin')
-        batContent += " -f imx -V -c " + "\"" + self.flBdFilename + "\"" + ' -o ' + "\"" + self.destFlUserFilename + "\"" + ' ' + "\"" + srcFlFilename + "\""
-        with open(self.flBdBatFilename, 'wb') as fileObj:
-            fileObj.write(batContent)
-            fileObj.close()
-
     def _updateFlBdBatfileContent( self, srcFlFilename ):
         batContent = "\"" + self.elftosbPath + "\""
         batContent += " -f imx -V -c " + "\"" + self.flBdFilename + "\"" + ' -o ' + "\"" + self.destFlFilename + "\"" + ' ' + "\"" + srcFlFilename + "\""
         with open(self.flBdBatFilename, 'wb') as fileObj:
             fileObj.write(batContent)
             fileObj.close()
-
-    def genUnSignedFlashloader(self, srcFlFilename):
-        Flag, imageStartAddr = self._createUnSignedFlBdfile(srcFlFilename)
-        if Flag:
-            self._updateFlUserBdBatfileContent(srcFlFilename)
-            startAddress = imageStartAddr - self.destAppInitialLoadSize
-            jumpAddress = startAddress
-            curdir = os.getcwd()
-            os.chdir(os.path.split(self.elftosbPath)[0])
-            process = subprocess.Popen(self.flBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            os.chdir(curdir)
-            commandOutput = process.communicate()[0]
-            print commandOutput
-            return self.destFlUserFilename, startAddress, jumpAddress
-        else:
-            return None
 
     def genSignedFlashloader( self, srcFlFilename ):
         if self._createSignedFlBdfile(srcFlFilename):
@@ -1162,6 +1132,34 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             return self.destFlFilename
         else:
             return None
+
+    def _createUserFlBdfile( self, srcFlFilename):
+        self._setDestAppInitialBootHeaderInfo(RTyyyy_uidef.kBootDevice_RamFlashloader)
+        imageStartAddr, imageEntryAddr, imageLength = self._RTyyyy_getImageInfo(srcFlFilename)
+        return self._updateBdfileContent(RTyyyy_uidef.kSecureBootType_Development, RTyyyy_uidef.kBootDevice_RamFlashloader, imageStartAddr, imageEntryAddr), imageStartAddr
+
+    def _updateUserFlBdBatfileContent( self, srcFlFilename ):
+        batContent = "\"" + self.elftosbPath + "\""
+        batContent += " -f imx -V -c " + "\"" + self.flBdFilename + "\"" + ' -o ' + "\"" + self.destUserFlFilename + "\"" + ' ' + "\"" + srcFlFilename + "\""
+        with open(self.flBdBatFilename, 'wb') as fileObj:
+            fileObj.write(batContent)
+            fileObj.close()
+
+    def genUserFlashloader(self, srcFlFilename):
+        Result, imageStartAddr = self._createUserFlBdfile(srcFlFilename)
+        if Result:
+            self._updateUserFlBdBatfileContent(srcFlFilename)
+            startAddress = imageStartAddr - self.destAppInitialLoadSize
+            jumpAddress = startAddress
+            curdir = os.getcwd()
+            os.chdir(os.path.split(self.elftosbPath)[0])
+            process = subprocess.Popen(self.flBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            os.chdir(curdir)
+            commandOutput = process.communicate()[0]
+            print commandOutput
+            return self.destFlUserFilename, startAddress, jumpAddress
+        else:
+            return None, None, None
 
     def getDek128ContentFromBinFile( self, filename ):
         if os.path.isfile(filename):

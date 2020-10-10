@@ -1274,11 +1274,11 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
             fileObj.write(imageData)
             fileObj.close()
 
-    def _programFlexspiNorOtfadKeyBlob( self, imageLoadAddr ):
+    def _programFlexspiNorOtfadKeyBlob( self ):
         otfadKeyblobLoadAddr = self.bootDeviceMemBase + RTyyyy_memdef.kMemBlockOffset_HwCryptoKeyBlob
         status = boot.status.kStatus_Success
         if self.isSbFileEnabledToGen:
-            self._addFlashActionIntoSbAppBdContent("    load " + self.sbAccessBootDeviceMagic + " otfadKeyblobFile > " + self.convertLongIntHexText(str(hex(imageLoadAddr))) + ";\n")
+            self._addFlashActionIntoSbAppBdContent("    load " + self.sbAccessBootDeviceMagic + " otfadKeyblobFile > " + self.convertLongIntHexText(str(hex(otfadKeyblobLoadAddr))) + ";\n")
             status = boot.status.kStatus_Success
         else:
             status, results, cmdStr = self.blhost.writeMemory(otfadKeyblobLoadAddr, self.otfadKeyblobFilenname, self.bootDeviceMemId)
@@ -1352,7 +1352,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                     self.printLog(cmdStr)
                 if self.secureBootType == RTyyyy_uidef.kSecureBootType_OtfadCrypto:
                     self._extractOtfadKeyblobFromDestEncAppFile()
-                    if not self._programFlexspiNorOtfadKeyBlob(self.bootDeviceMemBase):
+                    if not self._programFlexspiNorOtfadKeyBlob():
                         self.isFlexspiNorErasedForImage = False
                         self.isFdcbFromSrcApp = False
                         return False

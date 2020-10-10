@@ -322,7 +322,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         flJumpAddr = None
         flSrecFile = os.path.join(self.cpuDir, 'flashloader_user.srec')
         if os.path.isfile(flSrecFile):
-            pass
+            flBinFile, flLoadAddr, flJumpAddr = self.genUserFlashloader(flSrecFile)
         else:
             if self.flashloaderResident == None:
                 flSrecFile = os.path.join(self.cpuDir, 'flashloader.srec')
@@ -345,14 +345,15 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
 
     def RTyyyy_jumpToFlashloader( self ):
         flashloaderSrecFile, flashloaderBinFile, flashloaderLoadAddr, flashloaderJumpAddr = self._selectFlashloader()
+        if flashloaderBinFile == None or flashloaderLoadAddr == None or flashloaderJumpAddr == None:
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_InvalidUserFl'][self.languageIndex])
+            return False
         if self.mcuDeviceHabStatus == RTyyyy_fusedef.kHabStatus_Closed0 or self.mcuDeviceHabStatus == RTyyyy_fusedef.kHabStatus_Closed1:
             flashloaderBinFile = self.genSignedFlashloader(flashloaderSrecFile)
             if flashloaderBinFile == None:
                 return False
         elif self.mcuDeviceHabStatus == RTyyyy_fusedef.kHabStatus_FAB or self.mcuDeviceHabStatus == RTyyyy_fusedef.kHabStatus_Open:
-            flashloaderBinFile, flashloaderLoadAddr, flashloaderJumpAddr = self.genUnSignedFlashloader(flashloaderSrecFile)
-            if flashloaderBinFile == None:
-                return False
+            pass
         else:
             pass
         if self.mcuSeries == uidef.kMcuSeries_iMXRT10yy:

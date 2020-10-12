@@ -1149,15 +1149,15 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         Result, imageStartAddr = self._createUserFlBdfile(srcFlFilename)
         if Result:
             self._updateUserFlBdBatfileContent(srcFlFilename)
-            startAddress = imageStartAddr - self.destAppInitialLoadSize
-            jumpAddress = startAddress
+            loadAddress = imageStartAddr - self.destAppInitialLoadSize
+            jumpAddress = loadAddress
             curdir = os.getcwd()
             os.chdir(os.path.split(self.elftosbPath)[0])
             process = subprocess.Popen(self.flBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             os.chdir(curdir)
             commandOutput = process.communicate()[0]
             print commandOutput
-            return self.destFlUserFilename, startAddress, jumpAddress
+            return self.destUserFlFilename, loadAddress, jumpAddress
         else:
             return None, None, None
 

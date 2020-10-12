@@ -345,7 +345,7 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
 
     def RTyyyy_jumpToFlashloader( self ):
         flashloaderSrecFile, flashloaderBinFile, flashloaderLoadAddr, flashloaderJumpAddr = self._selectFlashloader()
-        if flashloaderBinFile == None or flashloaderLoadAddr == None or flashloaderJumpAddr == None:
+        if flashloaderBinFile == None:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_InvalidUserFl'][self.languageIndex])
             return False
         if self.mcuDeviceHabStatus == RTyyyy_fusedef.kHabStatus_Closed0 or self.mcuDeviceHabStatus == RTyyyy_fusedef.kHabStatus_Closed1:

@@ -334,3 +334,7 @@ define symbol m_data2_end              = 0x202BFFFF;
 　　进入Master模式下，可以点击【Read】、【Erase】、【Write】按钮实现已配置Flash的任意读/擦/写操作，这样可以将NXP-MCUBootUtility工具当做通用Flash编程器。  
 
 ![NXP-MCUBootUtility_flashProgrammer](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_5_0_flashProgrammer_e.png)
+
+#### 4.5 更换Flashloader文件
+　　NXP-MCUBootUtility软件核心功能都是通过i.MXRT ROM Flashloader和blhost工具来实现的，由于Flashloader（SDK/middleware/mcu-boot）本身会随着SDK版本而更新，因此用户可以按需为NXP-MCUBootUtility更新Flashloader，更新方法非常简单，在SDK包中新编一个srec格式的Flashloader文件（源工程在 SDK/boards/evkmimxrtxxxx/bootloader_examples/flashloader），然后将其命名为flashloader_user.srec并放入软件目录 /src/targets/MIMXRTxxxx/ 下即可。  
+

@@ -313,3 +313,6 @@ define symbol m_data2_end              = 0x202BFFFF;
 　　In the Master Mode, you can click the [Read], [Erase], [Write] button to implement any read and write operations of the configured Flash, so that the NXP-MCUBootUtility tool can be used as a general-purpose Flash programmer.
 
 ![NXP-MCUBootUtility_flashProgrammer](http://henjay724.com/image/cnblogs/nxpSecBoot_v1_5_0_flashProgrammer_e.png)
+
+#### 4.5 Update flashloader
+　　NXP-MCUBootUtility mainly depends on i.MXRT ROM Flashloader and blhost, As Flashloader is often updated with SDK, so we may need to update flashloader for NXP-MCUBootUtility. it is easy to update flashloader, we need to build new flashloader from SDK (middleware/mcu-boot) and rename it to 'flashloader_user.srec' and then put it into /src/targets/MIMXRTxxxx/. 

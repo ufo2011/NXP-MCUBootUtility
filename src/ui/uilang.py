@@ -232,6 +232,7 @@ kSubLanguageContentDict = {
         #usdhcsd
         'usdhcsd_title':                      ['uSDHC SD Device Configuration',         u"配置uSDHC接口SD卡启动设备"],
         'panel_sdOpt':                        ['SD Option',                             u"SD卡选项"],
+        'sText_instance':                     ['Instance:',                             u"uSDHC序号："],
         'sText_busWidth':                     ['Bus Width:',                            u"总线宽度："],
         'sText_timingInterface':              ['Timing Interface:',                     u"总线时序模式："],
         'sText_enablePowerCycle':             ['Enable Power Cycle:',                   u"使能供电时序："],

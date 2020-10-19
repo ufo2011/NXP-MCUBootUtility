@@ -15,6 +15,7 @@ class secBootUiUsdhcSd(bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd):
     def __init__(self, parent):
         bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd.__init__(self, parent)
         self._setLanguage()
+        self.hasMultiUsdhcBootInstance = None
         usdhcSdOpt = uivar.getBootDeviceConfiguration(RTyyyy_uidef.kBootDevice_UsdhcSd)
         self.usdhcSdOpt = usdhcSdOpt
         self._recoverLastSettings()
@@ -23,6 +24,7 @@ class secBootUiUsdhcSd(bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd):
         runtimeSettings = uivar.getRuntimeSettings()
         langIndex = runtimeSettings[3]
         self.m_notebook_sdOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_sdOpt'][langIndex])
+        self.m_staticText_instance.SetLabel(uilang.kSubLanguageContentDict['sText_instance'][langIndex])
         self.m_staticText_busWidth.SetLabel(uilang.kSubLanguageContentDict['sText_busWidth'][langIndex])
         self.m_staticText_timingInterface.SetLabel(uilang.kSubLanguageContentDict['sText_timingInterface'][langIndex])
         self.m_staticText_enablePowerCycle.SetLabel(uilang.kSubLanguageContentDict['sText_enablePowerCycle'][langIndex])
@@ -32,7 +34,22 @@ class secBootUiUsdhcSd(bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd):
         self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_usdhcsd_ok'][langIndex])
         self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_usdhcsd_cancel'][langIndex])
 
+    def setNecessaryInfo( self, hasMultiUsdhcBootInstance ):
+        self.hasMultiUsdhcBootInstance = hasMultiUsdhcBootInstance
+        self._recoverLastSettings()
+
+    def _updateInstanceField ( self, isEnabled ):
+        if isEnabled:
+            self.m_choice_instance.Enable( True )
+        else:
+            self.m_choice_instance.Enable( False )
+
     def _recoverLastSettings ( self ):
+        self._updateInstanceField(self.hasMultiUsdhcBootInstance)
+        if self.hasMultiUsdhcBootInstance:
+            instance = self.usdhcSdOpt & 0x0000000F
+            self.m_choice_instance.SetSelection(instance)
+
         busWidth = (self.usdhcSdOpt & 0x00000100) >> 8
         self.m_choice_busWidth.SetSelection(busWidth)
 
@@ -50,6 +67,10 @@ class secBootUiUsdhcSd(bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd):
 
         powerDownTime = (self.usdhcSdOpt & 0x03000000) >> 24
         self.m_choice_powerDownTime.SetSelection(powerDownTime)
+
+    def _getInstance( self ):
+        val = self.m_choice_instance.GetSelection()
+        self.usdhcSdOpt = (self.usdhcSdOpt & 0xFFFFFFF0) | val
 
     def _getBusWidth( self ):
         txt = self.m_choice_busWidth.GetString(self.m_choice_busWidth.GetSelection())
@@ -122,6 +143,8 @@ class secBootUiUsdhcSd(bootDeviceWin_UsdhcSd.bootDeviceWin_UsdhcSd):
         self.usdhcSdOpt = (self.usdhcSdOpt & 0xFCFFFFFF) | (val << 24)
 
     def callbackOk( self, event ):
+        if self.hasMultiUsdhcBootInstance:
+            self._getInstance()
         self._getBusWidth()
         self._getTimingInterface()
         self._getEnablePowerCycle()

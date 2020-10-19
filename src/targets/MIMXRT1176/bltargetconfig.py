@@ -60,6 +60,8 @@ availableSecureBootTypes = [RTyyyy_uidef.kSecureBootType_Development,
 hasRemappedFuse = False
 availableBootDevices = [RTyyyy_uidef.kBootDevice_FlexspiNor,
                         RTyyyy_uidef.kBootDevice_SemcNand,
+                        RTyyyy_uidef.kBootDevice_UsdhcSd,
+                        RTyyyy_uidef.kBootDevice_UsdhcMmc,
                         RTyyyy_uidef.kBootDevice_LpspiNor]
 flexspiNorDevice = uidef.kFlexspiNorDevice_ISSI_IS25LP064A
 flexspiNorMemBase0 = 0x30000000
@@ -71,6 +73,7 @@ isNonXipImageAppliableForXipableDeviceUnderClosedHab = True
 isSipFlexspiNorDevice = False
 isEccTypeSetInFuseMiscConf = True
 isSwEccSetAsDefaultInNandOpt = False
+hasMultiUsdhcBootInstance = True
 
 quadspiNorDevice = None
 quadspiNorMemBase = None

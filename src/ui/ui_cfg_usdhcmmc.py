@@ -15,6 +15,7 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
     def __init__(self, parent):
         bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc.__init__(self, parent)
         self._setLanguage()
+        self.hasMultiUsdhcBootInstance = None
         usdhcMmcOpt0, usdhcMmcOpt1 = uivar.getBootDeviceConfiguration(RTyyyy_uidef.kBootDevice_UsdhcMmc)
         self.usdhcMmcOpt0 = usdhcMmcOpt0
         self.usdhcMmcOpt1 = usdhcMmcOpt1
@@ -34,6 +35,7 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
         self.m_staticText_enableBootAck.SetLabel(uilang.kSubLanguageContentDict['sText_enableBootAck'][langIndex])
         self.m_staticText_resetBootBusConditions.SetLabel(uilang.kSubLanguageContentDict['sText_resetBootBusConditions'][langIndex])
         self.m_notebook_mmcOpt1.SetPageText(0, uilang.kSubLanguageContentDict['panel_mmcOpt1'][langIndex])
+        self.m_staticText_instance.SetLabel(uilang.kSubLanguageContentDict['sText_instance'][langIndex])
         self.m_staticText_enable1V8.SetLabel(uilang.kSubLanguageContentDict['sText_enable1V8'][langIndex])
         self.m_staticText_enablePowerCycle.SetLabel(uilang.kSubLanguageContentDict['sText_enablePowerCycle'][langIndex])
         self.m_staticText_powerPolarity.SetLabel(uilang.kSubLanguageContentDict['sText_powerPolarity'][langIndex])
@@ -41,6 +43,16 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
         self.m_staticText_powerDownTime.SetLabel(uilang.kSubLanguageContentDict['sText_powerDownTime'][langIndex])
         self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_usdhcmmc_ok'][langIndex])
         self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_usdhcmmc_cancel'][langIndex])
+
+    def setNecessaryInfo( self, hasMultiUsdhcBootInstance ):
+        self.hasMultiUsdhcBootInstance = hasMultiUsdhcBootInstance
+        self._recoverLastSettings()
+
+    def _updateInstanceField ( self, isEnabled ):
+        if isEnabled:
+            self.m_choice_instance.Enable( True )
+        else:
+            self.m_choice_instance.Enable( False )
 
     def _updateBootCfgField ( self, isEnabled ):
         if isEnabled:
@@ -98,6 +110,11 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
             resetBootBusConditions = (self.usdhcMmcOpt0 & 0x00000008) >> 3
             self.m_choice_resetBootBusConditions.SetSelection(resetBootBusConditions)
 
+        self._updateInstanceField(self.hasMultiUsdhcBootInstance)
+        if self.hasMultiUsdhcBootInstance:
+            instance = self.usdhcMmcOpt1 & 0x0000000F
+            self.m_choice_instance.SetSelection(instance)
+
         enable1V8 = (self.usdhcMmcOpt1 & 0x00040000) >> 18
         self.m_choice_enable1V8.SetSelection(enable1V8)
 
@@ -112,6 +129,22 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
 
         powerDownTime = (self.usdhcMmcOpt1 & 0x03000000) >> 24
         self.m_choice_powerDownTime.SetSelection(powerDownTime)
+
+        enablePermConfig = 0
+        if self.hasMultiUsdhcBootInstance:
+            enablePermConfig = (self.usdhcMmcOpt1 & 0x00000030) >> 4
+        else:
+            enablePermConfig = self.usdhcMmcOpt1 & 0x00000003
+        self.m_textCtrl_enablePermConfig.Clear()
+        self.m_textCtrl_enablePermConfig.write(str(enablePermConfig))
+
+        permBootConfigProt = (self.usdhcMmcOpt1 & 0x00030000) >> 16
+        self.m_textCtrl_permBootConfigProt.Clear()
+        self.m_textCtrl_permBootConfigProt.write(str(permBootConfigProt))
+
+        driverStrength = (self.usdhcMmcOpt1 & 0xF0000000) >> 28
+        self.m_textCtrl_driverStrength.Clear()
+        self.m_textCtrl_driverStrength.write(str(driverStrength))
 
     def _getBusWidth( self ):
         txt = self.m_choice_busWidth.GetString(self.m_choice_busWidth.GetSelection())
@@ -239,6 +272,10 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
             pass
         self.usdhcMmcOpt0 = (self.usdhcMmcOpt0 & 0xFFFFFFF7) | (val << 3)
 
+    def _getInstance( self ):
+        val = self.m_choice_instance.GetSelection()
+        self.usdhcMmcOpt1 = (self.usdhcMmcOpt1 & 0xFFFFFFF0) | val
+
     def _getEnable1V8( self ):
         txt = self.m_choice_enable1V8.GetString(self.m_choice_enable1V8.GetSelection())
         if txt == 'No':
@@ -293,6 +330,17 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
             pass
         self.usdhcMmcOpt1 = (self.usdhcMmcOpt1 & 0xFCFFFFFF) | (val << 24)
 
+    def _getRsvFields(self):
+        val = int(self.m_textCtrl_enablePermConfig.GetLineText(0))
+        if self.hasMultiUsdhcBootInstance:
+            self.usdhcMmcOpt1 = (self.usdhcMmcOpt1 & 0xFFFFFFCF) | (val << 4)
+        else:
+            self.usdhcMmcOpt1 = (self.usdhcMmcOpt1 & 0xFFFFFFFC) | val
+        val = int(self.m_textCtrl_permBootConfigProt.GetLineText(0))
+        self.usdhcMmcOpt1 = (self.usdhcMmcOpt1 & 0xFFFCFFFF) | (val << 16)
+        val = int(self.m_textCtrl_driverStrength.GetLineText(0))
+        self.usdhcMmcOpt1 = (self.usdhcMmcOpt1 & 0x0FFFFFFF) | (val << 28)
+
     def callbackEnableBootConfig( self, event ):
         txt = self.m_choice_enableBootConfig.GetString(self.m_choice_enableBootConfig.GetSelection())
         if txt == 'No':
@@ -314,11 +362,14 @@ class secBootUiUsdhcMmc(bootDeviceWin_UsdhcMmc.bootDeviceWin_UsdhcMmc):
             self._getEnableBootPartition()
             self._getEnableBootAck()
             self._getResetBootBusConditions()
+        if self.hasMultiUsdhcBootInstance:
+            self._getInstance()
         self._getEnable1V8()
         self._getEnablePowerCycle()
         self._getPowerPolarity()
         self._getPowerUpTime()
         self._getPowerDownTime()
+        self._getRsvFields()
         uivar.setBootDeviceConfiguration(RTyyyy_uidef.kBootDevice_UsdhcMmc, self.usdhcMmcOpt0, self.usdhcMmcOpt1)
         uivar.setRuntimeSettings(False)
         self.Show(False)

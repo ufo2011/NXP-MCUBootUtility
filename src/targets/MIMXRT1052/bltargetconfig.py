@@ -67,6 +67,7 @@ isSipFlexspiNorDevice = False
 isNonXipImageAppliableForXipableDeviceUnderClosedHab = True
 isEccTypeSetInFuseMiscConf = False
 isSwEccSetAsDefaultInNandOpt = True
+hasMultiUsdhcBootInstance = False
 
 quadspiNorDevice = None
 quadspiNorMemBase = None

@@ -126,10 +126,12 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_UsdhcSd:
             usdhcSdFrame = ui_cfg_usdhcsd.secBootUiUsdhcSd(None)
             usdhcSdFrame.SetTitle(uilang.kSubLanguageContentDict['usdhcsd_title'][self.languageIndex])
+            usdhcSdFrame.setNecessaryInfo(self.tgt.hasMultiUsdhcBootInstance)
             usdhcSdFrame.Show(True)
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_UsdhcMmc:
             usdhcMmcFrame = ui_cfg_usdhcmmc.secBootUiUsdhcMmc(None)
             usdhcMmcFrame.SetTitle(uilang.kSubLanguageContentDict['usdhcmmc_title'][self.languageIndex])
+            usdhcMmcFrame.setNecessaryInfo(self.tgt.hasMultiUsdhcBootInstance)
             usdhcMmcFrame.Show(True)
         elif self.bootDevice == RTyyyy_uidef.kBootDevice_LpspiNor or \
              self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:

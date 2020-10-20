@@ -277,6 +277,15 @@ define symbol m_data2_end              = 0x202BFFFF;
 
 　　kek即全局密钥，kek是存放在efuse里的；用户密钥个数与保护区间一致，所有用户密钥均在OTFAD DEK KeyBlob，KeyBlob是存放在外部NOR Flash里的，kek就是用来保护OTFAD DEK KeyBlob的。  
 
+##### 3.3.2 对于RT三位数系列
+###### 3.3.2.1 模式一：不启用任何安全措施
+　　第一种模式是最简单的模式，即不启动任何安全措施，一般用于产品开发调试阶段。  
+　　【Secure Boot Type】选择“Plain Unsigned Image Boot”，然后点击【Browse】按钮选择一个原始image文件（使用IDE生成的裸image文件即可，不需要包含任何i.MXRT启动所需的boot image header），点击【All-In-One Action】按钮即可完成bootable image生成与下载所有操作。  
+
+###### 3.3.2.2 模式二：启用CRC验证完整性
+　　第二种模式是初级的安全模式，即仅对image进行CRC完整性验证，一般用于对产品安全性要求较高的场合。CRC验证主要是对image完整性进行校验，检测image是否被异常破坏或篡改，如果检测发现image不合法，那么MCU便不会启动执行该image。  
+　　【Secure Boot Type】选择“Plain CRC Image Boot”，再点击【Browse】按钮选择一个原始image文件，最后点击【All-In-One Action】按钮即可完成bootable image生成与下载所有操作。  
+
 #### 3.4 生成.sb格式文件
 　　在菜单栏Tools/Generate .sb file选项里勾选"Yes"，此时点击【All-In-One Action】按钮便会在\NXP-MCUBootUtility\gen\sb_image\目录下生成.sb格式的文件，该文件可用于MfgTool或者RT-Flash工具中。注意此时【All-In-One Action】按钮并不会在MCU上真正地执行3.3节里的各种操作，而只是将所有命令操作记录在\NXP-MCUBootUtility\gen\bd_file\imx_application_sb_gen.bd里，最终用于生成.sb格式文件。  
 
@@ -286,15 +295,6 @@ define symbol m_data2_end              = 0x202BFFFF;
 > Note2: 当.sb文件中包含必要的efuse操作时，会一次性生成3个.sb格式文件，其中application_device.sb包含全部的操作（flash+efuse操作），application_device_flash.sb仅包含flash操作，application_device_efuse.sb仅包含efuse操作，这样做的目的是为了方便工厂量产。  
 > Note3: 对于NOR Flash（FlexSPI NOR、LPSPI NOR）型的启动设备生成.sb文件而言，既可连接板子在线操作（推荐），也可以不用连接板子离线操作。  
 > Note4: eFuse Operation Utility窗口里的【Scan】、【Burn】按钮可用于生成仅含自定义efuse操作的.sb文件，需要先点【Scan】按钮，然后填入想烧写的efuse值，最后再点【Burn】按钮便可在\NXP-MCUBootUtility\gen\sb_image\下生成burn_efuse.sb文件。  
-
-##### 3.3.2 对于RT三位数系列
-###### 3.3.2.1 模式一：不启用任何安全措施
-　　第一种模式是最简单的模式，即不启动任何安全措施，一般用于产品开发调试阶段。  
-　　【Secure Boot Type】选择“Plain Unsigned Image Boot”，然后点击【Browse】按钮选择一个原始image文件（使用IDE生成的裸image文件即可，不需要包含任何i.MXRT启动所需的boot image header），点击【All-In-One Action】按钮即可完成bootable image生成与下载所有操作。  
-
-###### 3.3.2.2 模式二：启用CRC验证完整性
-　　第二种模式是初级的安全模式，即仅对image进行CRC完整性验证，一般用于对产品安全性要求较高的场合。CRC验证主要是对image完整性进行校验，检测image是否被异常破坏或篡改，如果检测发现image不合法，那么MCU便不会启动执行该image。  
-　　【Secure Boot Type】选择“Plain CRC Image Boot”，再点击【Browse】按钮选择一个原始image文件，最后点击【All-In-One Action】按钮即可完成bootable image生成与下载所有操作。  
 
 ### 4 软件进阶
 　　NXP-MCUBootUtility软件打开默认工作在Entry Mode下，可通过功能菜单栏Tools->Option选择进入Master Mode，在Master模式下开放了一些高级功能，适用于对NXP MCU芯片以及Boot ROM非常熟悉的用户。  

@@ -33,7 +33,7 @@ class bootDeviceWin_UsdhcSd ( wx.Frame ):
 
         gSizer_sdOpt.Add( self.m_staticText_instance, 0, wx.ALL, 5 )
 
-        m_choice_instanceChoices = [ u"0", u"1" ]
+        m_choice_instanceChoices = [ u"0", u"1", u"2" ]
         self.m_choice_instance = wx.Choice( self.m_panel_sdOpt, wx.ID_ANY, wx.DefaultPosition, wx.Size( 140,-1 ), m_choice_instanceChoices, 0 )
         self.m_choice_instance.SetSelection( 0 )
         gSizer_sdOpt.Add( self.m_choice_instance, 0, wx.ALL, 5 )

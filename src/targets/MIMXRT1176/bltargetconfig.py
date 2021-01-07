@@ -92,6 +92,8 @@ otpmapIndexDict = None
 otpmapDefnDict  = None
 otpDescDiffDict = None
 
+ftfxNorMemBase = None
+
 # memory map
 memoryRange = {
     # ITCM_CM7, 512KByte

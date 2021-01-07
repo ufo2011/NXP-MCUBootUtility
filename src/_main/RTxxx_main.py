@@ -45,6 +45,8 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
         self.RTxxx_initUi()
         self.RTxxx_initGen()
         self.RTxxx_initRun()
+        self.RTxxx_initOtp()
+        self.RTxxx_initMem()
         self._RTxxx_initMain()
         self.RTxxx_setTargetSetupValue()
 

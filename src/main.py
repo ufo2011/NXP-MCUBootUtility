@@ -61,10 +61,7 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
         self.deinitGauge()
         self.updateCostTime()
 
-    def callbackSetMcuSeries( self, event ):
-        pass
-
-    def callbackSetMcuDevice( self, event ):
+    def _setupMcuTargets( self ):
         self.setTargetSetupValue()
         self._switchEfuseGroup()
         self._setUartUsbPort()
@@ -73,6 +70,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
                 self.RTyyyy_callbackSetMcuSeries()
             elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
                 self.RTxxx_callbackSetMcuSeries()
+            elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+                pass
             else:
                 pass
             self.isMcuSeriesChanged = False
@@ -80,8 +79,16 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_callbackSetMcuDevice()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackSetMcuDevice()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            pass
         else:
             pass
+
+    def callbackSetMcuSeries( self, event ):
+        self._setupMcuTargets()
+
+    def callbackSetMcuDevice( self, event ):
+        self._setupMcuTargets()
 
     def callbackSetBootDevice( self, event ):
         if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:

@@ -230,7 +230,7 @@ def initVar(cfgFilename):
                           'isEnglishLanguage':True,
                           'secBootType':0,
                           'mcuSeries':0,
-                          'mcuDevice':5,
+                          'mcuDevice':0,
                           'bootDevice':0,
                           'isUsbhidPortSelected':True,
                           'isOneStepChecked':True,

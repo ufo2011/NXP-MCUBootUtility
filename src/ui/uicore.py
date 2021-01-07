@@ -353,15 +353,42 @@ class secBootUi(secBootWin.secBootWin):
         else:
             return True
 
+    def _refreshMcuDeviceList( self, mcuSeries ):
+        self.m_choice_mcuDevice.Clear()
+        if mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.m_choice_mcuDevice.SetItems(uidef.kMcuDevice_Kinetis_Latest)
+        elif mcuSeries == uidef.kMcuSeries_iMXRT:
+            self.m_choice_mcuDevice.SetItems(uidef.kMcuDevice_iMXRT_Latest)
+        else:
+            pass
+
+    def _detectImxrtSeries( self ):
+        mcuDevice = self.m_choice_mcuDevice.GetString(self.m_choice_mcuDevice.GetSelection())
+        mcuSeries = uidef.kMcuSeries_iMXRT10yy
+        if mcuDevice in uidef.kMcuDevice_iMXRT11yy:
+            mcuSeries = uidef.kMcuSeries_iMXRT11yy
+        elif mcuDevice in uidef.kMcuDevice_iMXRTxxx:
+            mcuSeries = uidef.kMcuSeries_iMXRTxxx
+        elif mcuDevice in uidef.kMcuDevice_iMXRT10yy:
+            mcuSeries = uidef.kMcuSeries_iMXRT10yy
+        else:
+            pass
+        if self.mcuSeries != None and self.mcuSeries != mcuSeries:
+            self.isMcuSeriesChanged = True
+        self.mcuSeries = mcuSeries
+
     def _initTargetSetupValue( self ):
         self.m_choice_mcuSeries.Clear()
         self.m_choice_mcuSeries.SetItems(uidef.kMcuSeries_Latest)
-        self.toolCommDict['mcuSeries'] = 0
         self.m_choice_mcuSeries.SetSelection(self.toolCommDict['mcuSeries'])
 
-        self.m_choice_mcuDevice.Clear()
-        self.m_choice_mcuDevice.SetItems(uidef.kMcuDevice_Latest)
+        mcuSeries = self.m_choice_mcuSeries.GetString(self.m_choice_mcuSeries.GetSelection())
+        self._refreshMcuDeviceList(mcuSeries)
         self.m_choice_mcuDevice.SetSelection(self.toolCommDict['mcuDevice'])
+        if mcuSeries == uidef.kMcuSeries_iMXRT:
+            self._detectImxrtSeries()
+        else:
+            self.mcuSeries = mcuSeries
 
     def setFlexspiNorDeviceForEvkBoard( self ):
         try:
@@ -411,23 +438,27 @@ class secBootUi(secBootWin.secBootWin):
             else:
                 self.m_choice_bootDevice.SetSelection(0)
 
-    def _detectMcuSeries( self ):
-        mcuDevice = self.m_choice_mcuDevice.GetString(self.m_choice_mcuDevice.GetSelection())
-        mcuSeries = uidef.kMcuSeries_iMXRT10yy
-        if mcuDevice in uidef.kMcuDevice_iMXRT11yy:
-            mcuSeries = uidef.kMcuSeries_iMXRT11yy
-        elif mcuDevice in uidef.kMcuDevice_iMXRTxxx:
-            mcuSeries = uidef.kMcuSeries_iMXRTxxx
-        elif mcuDevice in uidef.kMcuDevice_iMXRT10yy:
-            mcuSeries = uidef.kMcuSeries_iMXRT10yy
-        else:
-            pass
-        if self.mcuSeries != None and self.mcuSeries != mcuSeries:
-            self.isMcuSeriesChanged = True
-        self.mcuSeries = mcuSeries
-
     def setTargetSetupValue( self ):
-        self._detectMcuSeries()
+        mcuSeries = self.m_choice_mcuSeries.GetString(self.m_choice_mcuSeries.GetSelection())
+        if mcuSeries != self.mcuSeries:
+            self.toolCommDict['mcuSeries'] = self.m_choice_mcuSeries.GetSelection()
+            # from i.MXRT to Kinetis
+            if mcuSeries == uidef.kMcuSeries_Kinetis:
+                self.mcuSeries = mcuSeries
+                self.isMcuSeriesChanged = True
+                self._refreshMcuDeviceList(mcuSeries)
+                self.m_choice_mcuDevice.SetSelection(0)
+            # from Kinetis to i.MXRT
+            elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+                self._refreshMcuDeviceList(mcuSeries)
+                self.m_choice_mcuDevice.SetSelection(0)
+                self._detectImxrtSeries()
+            else:
+                pass
+        else:
+            if mcuSeries == uidef.kMcuSeries_iMXRT:
+                self._detectImxrtSeries()
+
         self.mcuDevice = self.m_choice_mcuDevice.GetString(self.m_choice_mcuDevice.GetSelection())
         self.toolCommDict['mcuDevice'] = self.m_choice_mcuDevice.GetSelection()
 

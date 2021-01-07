@@ -85,6 +85,8 @@ class Target(object):
         self.otpmapDefnDict = misc.get_dict_default(kwargs, 'otpmapDefnDict', None)
         self.otpDescDiffDict = misc.get_dict_default(kwargs, 'otpDescDiffDict', None)
 
+        self.ftfxNorMemBase = misc.get_dict_default(kwargs, 'ftfxNorMemBase', None)
+
     ##
     # @brief Check if a command is supported by the target.
     #

@@ -79,6 +79,8 @@ otpmapIndexDict = RTxxx_uidef_otp.otpmapIndexDict_RTxxx
 otpmapDefnDict  = RTxxx_uidef_otp.otpmapDefnDict_RTxxx
 otpDescDiffDict = None
 
+ftfxNorMemBase = None
+
 # memory map
 memoryRange = {
     # SRAM, 3MByte

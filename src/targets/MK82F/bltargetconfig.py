@@ -31,39 +31,38 @@
 import sys, os
 sys.path.append(os.path.abspath(".."))
 from boot.memoryrange import MemoryRange
-from ui import RTxxx_uidef
-from ui import RTxxx_uidef_otp
+from ui import Kinetis_uidef
 from ui import uidef
 
-cpu = 'MIMXRT685'
-board = 'EVK'
+cpu = 'MK82F'
+board = 'FRDM'
 compiler = 'iar'
 build = 'Release'
 
-availablePeripherals = 0x11
-romUsbVid = '0x1FC9'
-romUsbPid = '0x0020'
+availablePeripherals = 0x17
+romUsbVid = '0x15a2'
+romUsbPid = '0x0073'
 hasSdpReadRegisterCmd = None
 flashloaderUsbVid = None
 flashloaderUsbPid = None
 flashloaderLoadAddr = None
 flashloaderJumpAddr = None
-availableCommands = 0x5EFDF
+availableCommands = 0x1ffff
 supportedPeripheralSpeed_uart = [4800, 9600, 19200, 57600, 115200] # @todo Verify
-availableSecureBootTypes = RTxxx_uidef.kSecureBootType_Latest
+availableSecureBootTypes = Kinetis_uidef.kSecureBootType_Latest
 hasRemappedFuse = None
-availableBootDevices = RTxxx_uidef.kBootDevice_Latest
-flexspiNorDevice = uidef.kFlexspiNorDevice_MXIC_MX25UM51345G_2nd
-flexspiNorMemBase0 = 0x08000000
+availableBootDevices = Kinetis_uidef.kBootDevice_Latest
+flexspiNorDevice = None
+flexspiNorMemBase0 = None
 flexspiNorMemBase1 = None
-flexspiFreqs = ['30MHz', '50MHz', '60MHz', '80MHz', '100MHz', '120MHz', '133MHz', '166MHz', '200MHz']
-xspiNorCfgInfoOffset = 0x400
+flexspiFreqs = None
+xspiNorCfgInfoOffset = None
 flexspiNorEfuseBootCfg0Bits = None
-isSipFlexspiNorDevice = False
+isSipFlexspiNorDevice = None
 isNonXipImageAppliableForXipableDeviceUnderClosedHab = None
 isEccTypeSetInFuseMiscConf = None
 isSwEccSetAsDefaultInNandOpt = None
-hasMultiUsdhcBootInstance = False
+hasMultiUsdhcBootInstance = None
 
 quadspiNorDevice = None
 quadspiNorMemBase = None
@@ -75,22 +74,22 @@ efusemapIndexDict = None
 efusemapDefnDict  = None
 efuseDescDiffDict = None
 
-otpmapIndexDict = RTxxx_uidef_otp.otpmapIndexDict_RTxxx
-otpmapDefnDict  = RTxxx_uidef_otp.otpmapDefnDict_RTxxx
+otpmapIndexDict = None
+otpmapDefnDict  = None
 otpDescDiffDict = None
 
-ftfxNorMemBase = None
+ftfxNorMemBase = 0x00000000
 
 # memory map
 memoryRange = {
-    # SRAM, 3MByte
-    'sram' : MemoryRange(0x00000000, 0x480000, 'state_mem0.dat'),
+    # SRAM, 256KByte
+    'sram' : MemoryRange(0x1fff0000, 0x40000, 'state_mem0.dat'),
 
-    # FLASH, 64KByte / 512MByte
-    'flash': MemoryRange(0x00000000, 0x20000000, 'state_flash_mem.dat', True, 0x10000)
+    # FLASH, 4KByte / 256KByte
+    'flash': MemoryRange(0x00000000, 0x40000, 'state_flash_mem.dat', True, 4096, 4, 4, 16)
 }
 
 reservedRegionDict = {
-    # SRAM, 512KB
-    'sram' : [0x20203800, 0x20207EF8]
+    # SRAM
+    'sram' : [0x1fff0000, 0x1fff1d90]
 }

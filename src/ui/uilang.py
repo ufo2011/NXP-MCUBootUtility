@@ -597,6 +597,18 @@ kRevision_2_4_0_zh = u"【v2.4.0】 \n" + \
                      u"     1. [RTxxx] 完善OTP烧写范围支持 \n" + \
                      u"  修复: \n" + \
                      u"     1. [RTyyyy] 解决OTFAD加密模式下使用Flexible User Keys报错的问题 \n\n"
+kRevision_3_0_0_en =  "【v3.0.0】 \n" + \
+                      "  Feature: \n" + \
+                      "     1. Support Kinetis MK8xF \n" + \
+                      "  Improvement: \n" + \
+                      "  Bugfix: \n" + \
+                      "     1.  \n\n"
+kRevision_3_0_0_zh = u"【v3.0.0】 \n" + \
+                     u"  特性: \n" + \
+                     u"     1. 支持Kinetis K80系列 \n" + \
+                     u"  改进: \n" + \
+                     u"  修复: \n" + \
+                     u"     1.  \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
@@ -622,6 +634,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v2_3_0':             [kRevision_2_3_0_en,                      kRevision_2_3_0_zh],
         'revisionHistory_v2_3_1':             [kRevision_2_3_1_en,                      kRevision_2_3_1_zh],
         'revisionHistory_v2_4_0':             [kRevision_2_4_0_en,                      kRevision_2_4_0_zh],
+        'revisionHistory_v3_0_0':             [kRevision_3_0_0_en,                      kRevision_3_0_0_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

@@ -485,6 +485,8 @@ class secBootUi(secBootWin.secBootWin):
             usbIdList = self.RTyyyy_getUsbid()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             usbIdList = self.RTxxx_getUsbid()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            usbIdList = self.Kinetis_getUsbid()
         else:
             pass
         self.setPortSetupValue(uidef.kConnectStage_Rom, usbIdList)

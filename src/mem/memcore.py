@@ -184,7 +184,8 @@ class secBootMem(runcore.secBootRun):
         status, memStart, memLength = self._getUserComMemParameters(False)
         if status:
             if (self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy and self.isInTheRangeOfFlexram(memStart, memLength)) or \
-               (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, memLength)):
+                (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, memLength)) or \
+                (self.mcuSeries == uidef.kMcuSeries_Kinetis and self.isInTheRangeOfSram(memStart, memLength)):
                 alignedMemStart = misc.align_down(memStart, 0x10)
                 alignedMemLength = misc.align_up(memLength, 0x10)
                 if memLength + memStart > alignedMemStart + alignedMemLength:
@@ -220,7 +221,8 @@ class secBootMem(runcore.secBootRun):
         if status:
             memLength = os.path.getsize(memBinFile)
             if (self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy and self.isInTheRangeOfFlexram(memStart, memLength)) or \
-               (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, memLength)):
+                (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, memLength)) or \
+                (self.mcuSeries == uidef.kMcuSeries_Kinetis and self.isInTheRangeOfSram(memStart, memLength)):
                 shutil.copy(memBinFile, self.userFilename)
                 status, results, cmdStr = self.blhost.writeMemory(memStart, self.userFilename)
                 try:
@@ -242,7 +244,8 @@ class secBootMem(runcore.secBootRun):
         status, memStart, memBinFile = self._getUserComMemParameters(False)
         if status:
             if (self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy and self.isInTheRangeOfFlexram(memStart, 1)) or \
-               (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, 1)):
+                (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, 1)) or \
+                (self.mcuSeries == uidef.kMcuSeries_Kinetis and self.isInTheRangeOfSram(memStart, 1)):
                 vectorFilename = 'vectorDataFromRam.dat'
                 vectorFilepath = os.path.join(self.blhostVectorsDir, vectorFilename)
                 status, results, cmdStr = self.blhost.readMemory(memStart, 8, vectorFilename)

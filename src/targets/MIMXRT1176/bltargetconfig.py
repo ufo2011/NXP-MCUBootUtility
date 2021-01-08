@@ -93,6 +93,7 @@ otpmapDefnDict  = None
 otpDescDiffDict = None
 
 ftfxNorMemBase = None
+c040hdNorMemBase = None
 
 # memory map
 memoryRange = {

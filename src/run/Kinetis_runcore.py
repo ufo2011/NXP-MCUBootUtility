@@ -115,13 +115,46 @@ class secBootKinetisRun(Kinetis_gencore.secBootKinetisGen):
         self.printLog(cmdStr)
         return (status == boot.status.kStatus_Success)
 
+    def _Kinetis_getMcuDeviceIds( self ):
+        status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_SystemDeviceIdent)
+        self.printLog(cmdStr)
+        if status == boot.status.kStatus_Success:
+            self.printDeviceStatus("SIM->SDID = " + self.convertLongIntHexText(str(hex(results[0]))))
+        else:
+            pass
+        status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_UniqueDeviceIdent)
+        self.printLog(cmdStr)
+        if status == boot.status.kStatus_Success:
+            self.printDeviceStatus("SIM->UIDL  = " + self.convertLongIntHexText(str(hex(results[0]))))
+            self.printDeviceStatus("SIM->UIDML = " + self.convertLongIntHexText(str(hex(results[1]))))
+            self.printDeviceStatus("SIM->UIDMH = " + self.convertLongIntHexText(str(hex(results[2]))))
+            self.printDeviceStatus("SIM->UIDH  = " + self.convertLongIntHexText(str(hex(results[3]))))
+        else:
+            pass
+
     def Kinetis_getMcuDeviceInfoViaRom( self ):
         self.printDeviceStatus("----------MCU ROM info-----------")
         self.getMcuDeviceBootloaderVersion()
+        self._Kinetis_getMcuDeviceIds()
+
+    def _Kinetis_getFtfxFlashProperties( self ):
+        status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_FlashSectorSize)
+        self.printLog(cmdStr)
+        if status == boot.status.kStatus_Success:
+            self.printDeviceStatus("Sector Size = " + self.showAsOptimalMemoryUnit(results[0]))
+        else:
+            pass
+        status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_FlashSizeInBytes)
+        self.printLog(cmdStr)
+        if status == boot.status.kStatus_Success:
+            self.printDeviceStatus("Total Size = " + self.showAsOptimalMemoryUnit(results[0]))
+        else:
+            pass
 
     def Kinetis_getBootDeviceInfoViaRom ( self ):
         if self.bootDevice == Kinetis_uidef.kBootDevice_InternalNor:
             self.printDeviceStatus("--------FTFx NOR memory--------")
+            self._Kinetis_getFtfxFlashProperties()
         else:
             pass
 

@@ -440,6 +440,9 @@ class secBootUi(secBootWin.secBootWin):
 
     def setTargetSetupValue( self ):
         mcuSeries = self.m_choice_mcuSeries.GetString(self.m_choice_mcuSeries.GetSelection())
+        # Case1: i.MXRT -> i.MXRT
+        # Case2: Kinetis -> i.MXRT
+        # Case3: i.MXRT -> Kinetis
         if mcuSeries != self.mcuSeries:
             self.toolCommDict['mcuSeries'] = self.m_choice_mcuSeries.GetSelection()
             # from i.MXRT to Kinetis
@@ -453,11 +456,12 @@ class secBootUi(secBootWin.secBootWin):
                 self._refreshMcuDeviceList(mcuSeries)
                 self.m_choice_mcuDevice.SetSelection(0)
                 self._detectImxrtSeries()
+            # from i.MXRT to i.MXRT
             else:
-                pass
-        else:
-            if mcuSeries == uidef.kMcuSeries_iMXRT:
                 self._detectImxrtSeries()
+        # Case4: Kinetis -> Kinetis
+        else:
+            pass
 
         self.mcuDevice = self.m_choice_mcuDevice.GetString(self.m_choice_mcuDevice.GetSelection())
         self.toolCommDict['mcuDevice'] = self.m_choice_mcuDevice.GetSelection()

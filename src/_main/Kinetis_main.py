@@ -45,6 +45,7 @@ class secBootKinetisMain(Kinetis_memcore.secBootKinetisMem):
         self.Kinetis_initUi()
         self.Kinetis_initGen()
         self.Kinetis_initRun()
+        self.Kinetis_initMem()
         self._Kinetis_initMain()
         self.Kinetis_setTargetSetupValue()
 

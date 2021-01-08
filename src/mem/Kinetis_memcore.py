@@ -24,12 +24,14 @@ class secBootKinetisMem(Kinetis_runcore.secBootKinetisRun):
 
     def Kinetis_initMem( self ):
 
-        self.needToShowCfgIntr = None
+        self.needToShowBcaIntr = None
+        self.needToShowFcfIntr = None
         self.needToShowImageIntr = None
         self._Kinetis_initShowIntr()
 
     def _Kinetis_initShowIntr( self ):
-        self.needToShowCfgIntr = True
+        self.needToShowBcaIntr = True
+        self.needToShowFcfIntr = True
         self.needToShowImageIntr = True
 
     def Kinetis_readProgrammedMemoryAndShow( self ):
@@ -62,7 +64,32 @@ class secBootKinetisMem(Kinetis_runcore.secBootKinetisRun):
                 contentToShow, memContent = self.getOneLineContentToShow(addr, memLeft, fileObj)
                 memLeft -= len(memContent)
                 addr += len(memContent)
-                self.printMem(contentToShow)
+                if addr <= imageMemBase + Kinetis_memdef.kMemBlockOffset_BCA:
+                    if self.needToShowImageIntr:
+                        self.printMem('-----------------------------------Image----------------------------------------------', Kinetis_uidef.kMemBlockColor_Image)
+                        self.needToShowImageIntr = False
+                    self.printMem(contentToShow, Kinetis_uidef.kMemBlockColor_Image)
+                elif addr <= imageMemBase + Kinetis_memdef.kMemBlockOffset_BCA + Kinetis_memdef.kMemBlockSize_BCA:
+                    if self.bootDevice == Kinetis_uidef.kBootDevice_InternalNor:
+                        if self.needToShowBcaIntr:
+                            self.printMem('-------------------------------------BCA----------------------------------------------', Kinetis_uidef.kMemBlockColor_BCA)
+                            self.needToShowBcaIntr = False
+                        self.printMem(contentToShow, Kinetis_uidef.kMemBlockColor_BCA)
+                    else:
+                        self.printMem(contentToShow)
+                elif addr <= imageMemBase + Kinetis_memdef.kMemBlockOffset_FCF + Kinetis_memdef.kMemBlockSize_FCF:
+                    if self.bootDevice == Kinetis_uidef.kBootDevice_InternalNor:
+                        if self.needToShowFcfIntr:
+                            self.printMem('-------------------------------------FCF----------------------------------------------', Kinetis_uidef.kMemBlockColor_FCF)
+                            self.needToShowFcfIntr = False
+                        self.printMem(contentToShow, Kinetis_uidef.kMemBlockColor_FCF)
+                    else:
+                        self.printMem(contentToShow)
+                elif addr <= imageMemBase + self.destAppBinaryBytes:
+                    self.printMem(contentToShow, Kinetis_uidef.kMemBlockColor_Image)
+                else:
+                    pass
+
             fileObj.close()
         self._Kinetis_initShowIntr()
         self.tryToSaveImageDataFile(memFilepath)

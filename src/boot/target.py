@@ -86,6 +86,7 @@ class Target(object):
         self.otpDescDiffDict = misc.get_dict_default(kwargs, 'otpDescDiffDict', None)
 
         self.ftfxNorMemBase = misc.get_dict_default(kwargs, 'ftfxNorMemBase', None)
+        self.c040hdNorMemBase = misc.get_dict_default(kwargs, 'c040hdNorMemBase', None)
 
     ##
     # @brief Check if a command is supported by the target.

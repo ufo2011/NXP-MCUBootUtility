@@ -80,6 +80,7 @@ otpmapDefnDict  = RTxxx_uidef_otp.otpmapDefnDict_RTxxx
 otpDescDiffDict = None
 
 ftfxNorMemBase = None
+c040hdNorMemBase = None
 
 # memory map
 memoryRange = {

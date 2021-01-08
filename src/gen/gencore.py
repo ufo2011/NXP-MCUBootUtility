@@ -45,6 +45,13 @@ class secBootGen(uicore.secBootUi):
         else:
             return False
 
+    def isInTheRangeOfSramx( self, start, length ):
+        if ((start >= self.tgt.memoryRange['sram'].start) and (start + length <= self.tgt.memoryRange['sram'].start + self.tgt.memoryRange['sram'].length)) or \
+           ((start >= self.tgt.memoryRange['sramx'].start) and (start + length <= self.tgt.memoryRange['sramx'].start + self.tgt.memoryRange['sramx'].length)):
+            return True
+        else:
+            return False
+
     def _convertElfOrAxfToSrec( self, appFilename, destSrecAppFilename, appFormat):
         batContent = ''
         # below are conv results:

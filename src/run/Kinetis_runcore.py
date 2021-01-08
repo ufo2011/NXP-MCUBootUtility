@@ -142,6 +142,7 @@ class secBootKinetisRun(Kinetis_gencore.secBootKinetisGen):
         self.printLog(cmdStr)
         if status == boot.status.kStatus_Success:
             self.printDeviceStatus("Sector Size = " + self.showAsOptimalMemoryUnit(results[0]))
+            self.comMemEraseUnit = results[0]
         else:
             pass
         status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_FlashSizeInBytes)

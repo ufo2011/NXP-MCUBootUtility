@@ -40,7 +40,7 @@ compiler = 'iar'
 build = 'Release'
 
 availablePeripherals = 0x17
-romUsbVid = '0x15a2'
+romUsbVid = '0x15A2'
 romUsbPid = '0x0073'
 hasSdpReadRegisterCmd = None
 flashloaderUsbVid = None

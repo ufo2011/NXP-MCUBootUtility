@@ -9,10 +9,12 @@ import time
 import threading
 import inspect
 import ctypes
+from _main import Kinetis_main
 from _main import RTxxx_main
 from _main import RTyyyy_main
 from ui import RTyyyy_uidef
 from ui import RTxxx_uidef
+from ui import Kinetis_uidef
 from ui import uidef
 from ui import uivar
 from ui import uilang
@@ -31,6 +33,7 @@ g_task_increaseGauge = None
 g_task_accessMem = None
 g_RTyyyy_task_allInOneAction = None
 g_RTxxx_task_allInOneAction = None
+g_Kinetis_task_allInOneAction = None
 g_RTyyyy_task_showSettedEfuse = None
 
 def _async_raise(tid, exctype):
@@ -44,10 +47,10 @@ def _async_raise(tid, exctype):
         ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
         raise SystemError("PyThreadState_SetAsyncExc failed")
 
-class secBootMain(RTxxx_main.secBootRTxxxMain):
+class secBootMain(Kinetis_main.secBootKinetisMain):
 
     def __init__(self, parent):
-        RTxxx_main.secBootRTxxxMain.__init__(self, parent)
+        Kinetis_main.secBootKinetisMain.__init__(self, parent)
 
         self.isAccessMemTaskPending = False
         self.accessMemType = ''
@@ -71,7 +74,7 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
                 self.RTxxx_callbackSetMcuSeries()
             elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
-                pass
+                self.Kinetis_callbackSetMcuSeries()
             else:
                 pass
             self.isMcuSeriesChanged = False
@@ -80,7 +83,7 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackSetMcuDevice()
         elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
-            pass
+            self.Kinetis_callbackSetMcuDevice()
         else:
             pass
 
@@ -95,6 +98,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_callbackSetBootDevice()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackSetBootDevice()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_callbackSetBootDevice()
         else:
             pass
 
@@ -158,6 +163,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             usbIdList = self.RTyyyy_getUsbid()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             usbIdList = self.RTxxx_getUsbid()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            usbIdList = self.Kinetis_getUsbid()
         else:
             pass
         retryToDetectUsb = False
@@ -182,6 +189,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_callbackConnectToDevice()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackConnectToDevice()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_callbackConnectToDevice()
         else:
             pass
 
@@ -190,6 +199,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_callbackSetSecureBootType()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackSetSecureBootType()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_callbackSetSecureBootType()
         else:
             pass
 
@@ -198,6 +209,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_callbackAllInOneAction()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackAllInOneAction()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_callbackAllInOneAction()
         else:
             pass
 
@@ -208,6 +221,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_setSecureBootButtonColor()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_setSecureBootButtonColor()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_setSecureBootButtonColor()
         else:
             pass
 
@@ -219,6 +234,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_callbackGenImage()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackGenImage()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_callbackGenImage()
         else:
             pass
 
@@ -227,6 +244,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_callbackFlashImage()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackFlashImage()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_callbackFlashImage()
         else:
             pass
 
@@ -318,6 +337,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_callbackViewMem()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackViewMem()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_callbackViewMem()
         else:
             pass
 
@@ -400,6 +421,7 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
         self._stopTask(g_task_accessMem)
         self._stopTask(g_RTyyyy_task_allInOneAction)
         self._stopTask(g_RTxxx_task_allInOneAction)
+        self._stopTask(g_Kinetis_task_allInOneAction)
         self._stopTask(g_RTyyyy_task_showSettedEfuse)
         global g_main_win
         g_main_win.Show(False)
@@ -419,6 +441,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_switchToolRunMode()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_switchToolRunMode()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_switchToolRunMode()
         else:
             pass
         self.enableOneStepForEntryMode()
@@ -478,6 +502,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_updateOtpGroupText()
             self.RTxxx_updateOtpRegionField()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            pass
         else:
             pass
 
@@ -514,6 +540,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_updateFlexspiNorMemBase()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             pass
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            pass
         else:
             pass
 
@@ -529,6 +557,8 @@ class secBootMain(RTxxx_main.secBootRTxxxMain):
             self.RTyyyy_setLanguage()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_setLanguage()
+        elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            self.Kinetis_setLanguage()
         else:
             pass
 
@@ -598,6 +628,9 @@ if __name__ == '__main__':
     g_RTxxx_task_allInOneAction = threading.Thread(target=g_main_win.RTxxx_task_doAllInOneAction)
     g_RTxxx_task_allInOneAction.setDaemon(True)
     g_RTxxx_task_allInOneAction.start()
+    g_Kinetis_task_allInOneAction = threading.Thread(target=g_main_win.Kinetis_task_doAllInOneAction)
+    g_Kinetis_task_allInOneAction.setDaemon(True)
+    g_Kinetis_task_allInOneAction.start()
 
     g_RTyyyy_task_showSettedEfuse = threading.Thread(target=g_main_win.RTyyyy_task_doShowSettedEfuse)
     g_RTyyyy_task_showSettedEfuse.setDaemon(True)

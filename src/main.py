@@ -73,6 +73,8 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
                 self.RTyyyy_callbackSetMcuSeries()
             elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
                 self.RTxxx_callbackSetMcuSeries()
+            elif self.mcuSeries == uidef.kMcuSeries_LPC:
+                pass
             elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
                 self.Kinetis_callbackSetMcuSeries()
             else:
@@ -82,6 +84,8 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
             self.RTyyyy_callbackSetMcuDevice()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             self.RTxxx_callbackSetMcuDevice()
+        elif self.mcuSeries == uidef.kMcuSeries_LPC:
+            pass
         elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
             self.Kinetis_callbackSetMcuDevice()
         else:

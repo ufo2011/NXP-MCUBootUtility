@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import Kinetis_uicore
+import Kinetis_uidef
 import RTxxx_uicore
 import RTxxx_uidef
 import RTyyyy_uicore
@@ -34,7 +36,9 @@ import RT10yy_ui_efuse_bootcfg2
 import RT10yy_ui_efuse_miscconf0
 import RT10yy_ui_efuse_miscconf1_flexspinor
 
-__all__ = ["RTxxx_uicore",
+__all__ = ["Kinetis_uicore",
+           "Kinetis_uidef",
+           "RTxxx_uicore",
            "RTxxx_uidef",
            "RTyyyy_uicore",
            "RTyyyy_uidef",

@@ -791,4 +791,7 @@ kMsgLanguageContentDict = {
         'burnOtpError_failToBurnBootCfg0':   ['Otp BOOT_CFG0[19:17] REDUNDANT_SPI_PORT region was not burned successfully!',
                                               u"Otp BOOT_CFG0[19:17]区域未成功烧录！"],
 
+        'connectError_doubleCheckFopt':       ['Make sure that you have put MCU in ROM boot mode (FOPT(FCF - 0x40d) = 0x3D, BOOTCFG0(NMI) pin is asserted)!',
+                                              u"请检查FOPT(FCF区域0x40d)是否为0x3D以及上电时BOOTCFG0有没有按住以确认微控制器处于ROM启动模式！"],
+
 }

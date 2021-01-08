@@ -599,13 +599,13 @@ kRevision_2_4_0_zh = u"【v2.4.0】 \n" + \
                      u"     1. [RTyyyy] 解决OTFAD加密模式下使用Flexible User Keys报错的问题 \n\n"
 kRevision_3_0_0_en =  "【v3.0.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. Support Kinetis MK8xF \n" + \
+                      "     1. Support Kinetis with ROM \n" + \
                       "  Improvement: \n" + \
                       "  Bugfix: \n" + \
                       "     1.  \n\n"
 kRevision_3_0_0_zh = u"【v3.0.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. 支持Kinetis K80系列 \n" + \
+                     u"     1. 支持所有含ROM的Kinetis系列 \n" + \
                      u"  改进: \n" + \
                      u"  修复: \n" + \
                      u"     1.  \n\n"

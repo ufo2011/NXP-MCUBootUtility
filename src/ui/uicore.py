@@ -357,6 +357,8 @@ class secBootUi(secBootWin.secBootWin):
         self.m_choice_mcuDevice.Clear()
         if mcuSeries == uidef.kMcuSeries_Kinetis:
             self.m_choice_mcuDevice.SetItems(uidef.kMcuDevice_Kinetis_Latest)
+        elif mcuSeries == uidef.kMcuSeries_LPC:
+            self.m_choice_mcuDevice.SetItems(uidef.kMcuDevice_LPC_Latest)
         elif mcuSeries == uidef.kMcuSeries_iMXRT:
             self.m_choice_mcuDevice.SetItems(uidef.kMcuDevice_iMXRT_Latest)
         else:
@@ -440,26 +442,34 @@ class secBootUi(secBootWin.secBootWin):
 
     def setTargetSetupValue( self ):
         mcuSeries = self.m_choice_mcuSeries.GetString(self.m_choice_mcuSeries.GetSelection())
-        # Case1: i.MXRT -> i.MXRT
+        # Case1: i.MXRT  -> i.MXRT
         # Case2: Kinetis -> i.MXRT
-        # Case3: i.MXRT -> Kinetis
+        # Case3: i.MXRT  -> Kinetis
+        # Case4: LPC     -> i.MXRT
+        # Case5: i.MXRT  -> LPC
+        # Case6: Kinetis -> LPC
+        # Case7: LPC     -> Kinetis
         if mcuSeries != self.mcuSeries:
             self.toolCommDict['mcuSeries'] = self.m_choice_mcuSeries.GetSelection()
-            # from i.MXRT to Kinetis
-            if mcuSeries == uidef.kMcuSeries_Kinetis:
+            # from i.MXRT/LPC to Kinetis
+            # from i.MXRT/Kinetis to LPC
+            if mcuSeries == uidef.kMcuSeries_Kinetis or \
+               mcuSeries == uidef.kMcuSeries_LPC:
                 self.mcuSeries = mcuSeries
                 self.isMcuSeriesChanged = True
                 self._refreshMcuDeviceList(mcuSeries)
                 self.m_choice_mcuDevice.SetSelection(0)
-            # from Kinetis to i.MXRT
-            elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
+            # from Kinetis/LPC to i.MXRT
+            elif self.mcuSeries == uidef.kMcuSeries_Kinetis or \
+                 self.mcuSeries == uidef.kMcuSeries_LPC:
                 self._refreshMcuDeviceList(mcuSeries)
                 self.m_choice_mcuDevice.SetSelection(0)
                 self._detectImxrtSeries()
             # from i.MXRT to i.MXRT
             else:
                 self._detectImxrtSeries()
-        # Case4: Kinetis -> Kinetis
+        # Case8: Kinetis -> Kinetis
+        # Case9: LPC     -> LPC
         else:
             pass
 
@@ -485,6 +495,8 @@ class secBootUi(secBootWin.secBootWin):
             usbIdList = self.RTyyyy_getUsbid()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             usbIdList = self.RTxxx_getUsbid()
+        elif self.mcuSeries == uidef.kMcuSeries_LPC:
+            pass
         elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
             usbIdList = self.Kinetis_getUsbid()
         else:

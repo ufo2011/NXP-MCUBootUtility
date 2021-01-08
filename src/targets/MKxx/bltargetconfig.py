@@ -34,7 +34,7 @@ from boot.memoryrange import MemoryRange
 from ui import Kinetis_uidef
 from ui import uidef
 
-cpu = 'MK82F'
+cpu = 'MKxx'
 board = 'FRDM'
 compiler = 'iar'
 build = 'Release'
@@ -82,11 +82,11 @@ ftfxNorMemBase = 0x00000000
 
 # memory map
 memoryRange = {
-    # SRAM, 256KByte
-    'sram' : MemoryRange(0x1fff0000, 0x40000, 'state_mem0.dat'),
+    # SRAM, 1MByte
+    'sram' : MemoryRange(0x1fff0000, 0x100000, 'state_mem0.dat'),
 
-    # FLASH, 4KByte / 256KByte
-    'flash': MemoryRange(0x00000000, 0x40000, 'state_flash_mem.dat', True, 4096, 4, 4, 16)
+    # FLASH, 4KByte / 2MByte
+    'flash': MemoryRange(0x00000000, 0x200000, 'state_flash_mem.dat', True, 4096, 4, 4, 16)
 }
 
 reservedRegionDict = {

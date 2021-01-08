@@ -20,9 +20,9 @@ from utils import misc
 
 def Kinetis_createTarget(device, exeBinRoot):
     # Build path to target directory and config file.
-    cpu = "MK82F"
-    if device == uidef.kMcuDevice_MK80:
-        cpu = "MK82F"
+    cpu = "MKxx"
+    if device in uidef.kMcuDevice_Kinetis:
+        cpu = "MKxx"
     else:
         pass
     targetBaseDir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'targets', cpu)

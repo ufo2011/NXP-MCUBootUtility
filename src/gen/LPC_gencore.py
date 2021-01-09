@@ -7,27 +7,27 @@ import json
 import subprocess
 import bincopy
 import gendef
-import Kinetis_gendef
+import LPC_gendef
 sys.path.append(os.path.abspath(".."))
-from ui import Kinetis_uicore
-from ui import Kinetis_uidef
+from ui import LPC_uicore
+from ui import LPC_uidef
 from ui import uidef
 from ui import uivar
 from ui import uilang
 from run import rundef
-from run import Kinetis_rundef
+from run import LPC_rundef
 from mem import memdef
-from mem import Kinetis_memdef
+from mem import LPC_memdef
 from utils import elf
 
-class secBootKinetisGen(Kinetis_uicore.secBootKinetisUi):
+class secBootLpcGen(LPC_uicore.secBootLpcUi):
 
     def __init__(self, parent):
-        Kinetis_uicore.secBootKinetisUi.__init__(self, parent)
-        if self.mcuSeries == uidef.kMcuSeries_Kinetis:
-            self.Kinetis_initGen()
+        LPC_uicore.secBootLpcUi.__init__(self, parent)
+        if self.mcuSeries == uidef.kMcuSeries_LPC:
+            self.LPC_initGen()
 
-    def Kinetis_initGen( self ):
+    def LPC_initGen( self ):
         self.srcAppFilename = None
         self.destAppFilename = os.path.join(self.exeTopRoot, 'gen', 'bootable_image', 'bt_application.bin')
 
@@ -38,7 +38,7 @@ class secBootKinetisGen(Kinetis_uicore.secBootKinetisUi):
         self.destAppBinaryBytes = 0
         self.isXipApp = False
 
-    def _Kinetis_generatePlainImageBinary( self, binaryArray, appName, startAddress, lengthInByte ):
+    def _LPC_generatePlainImageBinary( self, binaryArray, appName, startAddress, lengthInByte ):
         destBinAppFilename = os.path.join(self.userFileFolder, appName + gendef.kAppImageFileExtensionList_Bin[0])
         self.srcAppFilename = destBinAppFilename
         with open(self.srcAppFilename, 'wb') as fileObj:
@@ -46,7 +46,7 @@ class secBootKinetisGen(Kinetis_uicore.secBootKinetisUi):
             fileObj.close()
         self.isConvertedAppUsed = True
 
-    def _Kinetis_getImageInfo( self, srcAppFilename ):
+    def _LPC_getImageInfo( self, srcAppFilename ):
         startAddress = None
         entryPointAddress = None
         lengthInByte = 0
@@ -61,7 +61,7 @@ class secBootKinetisGen(Kinetis_uicore.secBootKinetisUi):
                     startAddress = srecObj.minimum_address
                     entryPointAddress = self.getVal32FromByteArray(srecObj.as_binary(startAddress + 0x4, startAddress  + 0x8))
                     lengthInByte = len(srecObj.as_binary())
-                    self._Kinetis_generatePlainImageBinary(srecObj.as_binary(), appName, startAddress, lengthInByte)
+                    self._LPC_generatePlainImageBinary(srecObj.as_binary(), appName, startAddress, lengthInByte)
                     isConvSuccessed = True
                 except:
                     pass
@@ -74,46 +74,46 @@ class secBootKinetisGen(Kinetis_uicore.secBootKinetisUi):
                 self.popupMsgBox(uilang.kMsgLanguageContentDict['genImgError_formatNotValid'][self.languageIndex] + srcAppFilename.encode('utf-8'))
         return startAddress, entryPointAddress, lengthInByte
 
-    def _Kinetis_isValidNonXipAppImage( self, imageStartAddr ):
-        if self.isInTheRangeOfSram(imageStartAddr, 1):
+    def _LPC_isValidNonXipAppImage( self, imageStartAddr ):
+        if self.isInTheRangeOfSramx(imageStartAddr, 1):
             return True
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_invalidNonXipRange2'][self.languageIndex])
             return False
 
-    def _Kinetis_isValidAppImage( self, imageStartAddr ):
+    def _LPC_isValidAppImage( self, imageStartAddr ):
         if self.isXipApp:
             return True
         else:
-            return self._Kinetis_isValidNonXipAppImage(imageStartAddr)
+            return self._LPC_isValidNonXipAppImage(imageStartAddr)
 
     def createFinalBtAppfile( self ):
         self.srcAppFilename = self.getUserAppFilePath()
-        imageStartAddr, imageEntryAddr, imageLength = self._Kinetis_getImageInfo(self.srcAppFilename)
+        imageStartAddr, imageEntryAddr, imageLength = self._LPC_getImageInfo(self.srcAppFilename)
         if imageStartAddr == None or imageEntryAddr == None:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_notFound'][self.languageIndex])
             return False
         self.isXipApp = False
         self.destAppVectorAddress = imageStartAddr
-        if self.bootDevice == Kinetis_uidef.kBootDevice_InternalNor:
-            if ((imageStartAddr >= self.tgt.ftfxNorMemBase) and (imageStartAddr < self.tgt.ftfxNorMemBase + Kinetis_rundef.kBootDeviceMemXipSize_FtfxNor)):
-                if (imageStartAddr + imageLength <= self.tgt.ftfxNorMemBase + Kinetis_rundef.kBootDeviceMemXipSize_FtfxNor):
+        if self.bootDevice == LPC_uidef.kBootDevice_InternalNor:
+            if ((imageStartAddr >= self.tgt.c040hdNorMemBase) and (imageStartAddr < self.tgt.c040hdNorMemBase + LPC_rundef.kBootDeviceMemXipSize_C040hdNor)):
+                if (imageStartAddr + imageLength <= self.tgt.c040hdNorMemBase + LPC_rundef.kBootDeviceMemXipSize_C040hdNor):
                     self.isXipApp = True
-                    self.destAppVectorOffset = imageStartAddr - self.tgt.ftfxNorMemBase
+                    self.destAppVectorOffset = imageStartAddr - self.tgt.c040hdNorMemBase
                 else:
-                    self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_xipSizeTooLarge'][self.languageIndex] + u"0x%s !" %(Kinetis_rundef.kBootDeviceMemXipSize_FtfxNor))
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_xipSizeTooLarge'][self.languageIndex] + u"0x%s !" %(LPC_rundef.kBootDeviceMemXipSize_C040hdNor))
                     return False
             else:
                 pass
         else:
             pass
-        if not self._Kinetis_isValidAppImage(imageStartAddr):
+        if not self._LPC_isValidAppImage(imageStartAddr):
             return False
         self.destAppBinaryBytes = imageLength
         return True
 
-    def Kinetis_genBootableImage( self ):
-        if self.secureBootType != Kinetis_uidef.kSecureBootType_PlainUnsigned:
+    def LPC_genBootableImage( self ):
+        if self.secureBootType != LPC_uidef.kSecureBootType_PlainUnsigned:
             return False
         else:
             shutil.copy(self.srcAppFilename, self.destAppFilename)

@@ -496,7 +496,7 @@ class secBootUi(secBootWin.secBootWin):
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
             usbIdList = self.RTxxx_getUsbid()
         elif self.mcuSeries == uidef.kMcuSeries_LPC:
-            pass
+            usbIdList = self.LPC_getUsbid()
         elif self.mcuSeries == uidef.kMcuSeries_Kinetis:
             usbIdList = self.Kinetis_getUsbid()
         else:

@@ -83,7 +83,7 @@ class secBootLpcUi(RTxxx_main.secBootRTxxxMain):
             self.soundEffectFilenameForTask = uidef.kSoundEffectFilename_Restart
 
     def _LPC_getImgName( self ):
-        memType = 'ftfx_'
+        memType = 'c040hd_'
         return memType
 
     def LPC_setSecureBootSeqColor( self , needToPlaySound=True ):
@@ -100,7 +100,7 @@ class secBootLpcUi(RTxxx_main.secBootRTxxxMain):
             self.m_panel_flashImage1_showImage.Enable( True )
             self.m_panel_flashImage1_showImage.SetBackgroundColour( uidef.kBootSeqColor_Active )
             strMemType = self._LPC_getImgName()
-            imgPath = "../img/Kinetis/" + strMemType + "image_unsigned.png"
+            imgPath = "../img/LPC/" + strMemType + "image_unsigned.png"
             self.showImageLayout(imgPath.encode('utf-8'))
             self.m_button_flashImage.SetLabel(uilang.kMainLanguageContentDict['button_flashImage_u'][self.languageIndex])
         else:

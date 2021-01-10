@@ -606,10 +606,7 @@ kRevision_3_0_0_en =  "【v3.0.0】 \n" + \
                       "     5. Support LPC5500 Series \n" + \
                       "     6. [LPC] Support both UART and USB-HID download modes \n" + \
                       "     7. [LPC] Support for loading bootable image into C040HD NOR Flash \n" + \
-                      "     8. [LPC] Support development boot case (Unsigned) \n" + \
-                      "  Improvement: \n" + \
-                      "  Bugfix: \n" + \
-                      "     1.  \n\n"
+                      "     8. [LPC] Support development boot case (Unsigned) \n\n"
 kRevision_3_0_0_zh = u"【v3.0.0】 \n" + \
                      u"  特性: \n" + \
                      u"     1. 支持所有含ROM的Kinetis系列 \n" + \
@@ -619,10 +616,7 @@ kRevision_3_0_0_zh = u"【v3.0.0】 \n" + \
                      u"     5. 支持LPC5500系列 \n" + \
                      u"     6. [LPC] 支持UART和USB-HID两种下载方式（COM端口/USB设备自动识别） \n" + \
                      u"     7. [LPC] 支持下载Bootable image进内部Flash \n" + \
-                     u"     8. [LPC] 支持用于开发阶段的非安全加密启动（未签名） \n" + \
-                     u"  改进: \n" + \
-                     u"  修复: \n" + \
-                     u"     1.  \n\n"
+                     u"     8. [LPC] 支持用于开发阶段的非安全加密启动（未签名） \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

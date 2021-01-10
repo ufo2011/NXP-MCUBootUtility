@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v2.4.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v2.4.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v3.0.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v3.0.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 [English](./README.md) | 中文
 
@@ -12,7 +12,7 @@
 
 ### 1 软件概览
 #### 1.1 介绍
-　　NXP-MCUBootUtility是一个专为NXP MCU安全加密启动而设计的工具，其特性与NXP MCU里BootROM功能相对应，目前主要支持i.MXRT系列MCU芯片，与NXP官方的标准安全加密配套工具集（OpenSSL, CST, sdphost, blhost, elftosb, BD, MfgTool2）相比，NXP-MCUBootUtility是一个真正的一站式工具，一个工具包含NXP官方所有加密配套工具的功能，并且是全图形用户界面操作。借助于NXP-MCUBootUtility，你可以轻松上手NXP MCU安全加密启动。  
+　　NXP-MCUBootUtility是一个专为NXP MCU安全加密启动而设计的工具，其特性与NXP MCU里BootROM功能相对应，目前主要支持i.MXRT、LPC、Kinetis系列MCU芯片，与NXP官方的标准安全加密配套工具集（OpenSSL, CST, sdphost, blhost, elftosb, BD, MfgTool2）相比，NXP-MCUBootUtility是一个真正的一站式工具，一个工具包含NXP官方所有加密配套工具的功能，并且是全图形用户界面操作。借助于NXP-MCUBootUtility，你可以轻松上手NXP MCU安全加密启动。  
 　　NXP-MCUBootUtility主要功能如下：  
 
 -------------------------------------------------------
@@ -46,6 +46,14 @@
 > * 支持MCU芯片内部OTP的回读和烧写操作（即专用OTP烧写器）  
 > * 支持MCU芯片内部SRAM的读/写/执行操作（即专用SRAM编程器，可用于ISP启动）  
 > * 支持从外部启动设备回读Bootable image，并对其组成部分（OTFAD KeyBlob/FDCB/KeyStore/Image）进行标注  
+-------------------------------------------------------
+> * 支持LPC5500系列MCU，包含LPC550x/S0x、LPC551x/S1x、LPC552x/S2x、LPC55S6x  
+> * 支持下载Bootable image进内部C040HD Flash  
+> * 支持用于开发阶段的非安全加密启动（未签名）  
+-------------------------------------------------------
+> * 支持第二代Kinetis系列MCU（含BootROM即可，如MKL03Z，MK8xF等）  
+> * 支持下载Bootable image进内部FTFx Flash  
+> * 支持用于开发阶段的非安全加密启动（未签名）  
 
 #### 1.2 下载
 　　NXP-MCUBootUtility完全基于Python语言开发，并且源代码全部开源，其具体开发环境为Python 2.7.15 (32bit)、wxPython 4.0.3、pySerial 3.4、pywinusb 0.4.2、bincopy 15.0.0、PyAudio 0.2.11、PyInstaller 3.3.1（或更高）。  

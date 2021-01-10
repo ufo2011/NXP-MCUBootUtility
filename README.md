@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v2.4.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v2.4.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v3.0.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v3.0.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 English | [中文](./README-zh.md)
 
@@ -12,7 +12,7 @@ English | [中文](./README-zh.md)
 
 ### 1 Overview
 #### 1.1 Introduction
-　　NXP-MCUBootUtility is a GUI tool specially designed for NXP MCU secure boot. Its features correspond to the BootROM function in NXP MCU. Currently, it mainly supports i.MXRT series MCU chips, Compared to NXP official security enablement toolset (OpenSSL, CST, sdphost, blhost, elftosb, BD, MfgTool2), NXP-MCUBootUtility is a real one-stop tool, a tool that includes all the features of NXP's official security enablement toolset, and what's more, it supports full graphical user interface operation. With NXP-MCUBootUtility, you can easily get started with NXP MCU secure boot.  
+　　NXP-MCUBootUtility is a GUI tool specially designed for NXP MCU secure boot. Its features correspond to the BootROM function in NXP MCU. Currently, it mainly supports i.MXRT, LPC, Kinetis series MCU chips, Compared to NXP official security enablement toolset (OpenSSL, CST, sdphost, blhost, elftosb, BD, MfgTool2), NXP-MCUBootUtility is a real one-stop tool, a tool that includes all the features of NXP's official security enablement toolset, and what's more, it supports full graphical user interface operation. With NXP-MCUBootUtility, you can easily get started with NXP MCU secure boot.  
 　　The main features of NXP-MCUBootUtility include：  
 
 -------------------------------------------------------
@@ -48,6 +48,14 @@ English | [中文](./README-zh.md)
 > * Support common OTP memory operation (OTP Programmer)  
 > * Support common SRAM memory operation (ISP Boot)  
 > * Support for reading back and marking bootable image(OTFAD KeyBlob/FDCB/KeyStore/Image) from boot device  
+-------------------------------------------------------
+> * Support LPC550x/S0x, LPC551x/S1x, LPC552x/S2x, LPC55S69  
+> * Support for loading bootable image into C040HD Flash  
+> * Support development boot case (Unsigned)  
+-------------------------------------------------------
+> * Support 2nd gen Kinetis Series (With BootROM, eg: MKL03Z, MK8xF)  
+> * Support for loading bootable image into FTFx Flash  
+> * Support development boot case (Unsigned)  
 
 #### 1.2 Download
 　　NXP-MCUBootUtility is developed in Python, and it is open source. The development environment is Python 2.7.15 (32bit), wxPython 4.0.3, pySerial 3.4, pywinusb 0.4.2, bincopy 15.0.0, PyAudio 0.2.11, PyInstaller 3.3.1 (or higher).  

@@ -21,9 +21,9 @@ from utils import misc
 def LPC_createTarget(device, exeBinRoot):
     # Build path to target directory and config file.
     cpu = "LPC55S69"
-    if device == uidef.kMcuDevice_Niobe4mini:
+    if device in uidef.kMcuDevice_Niobe4minis:
         cpu = "LPC55S16"
-    elif device == uidef.kMcuDevice_Niobe4:
+    elif device in uidef.kMcuDevice_Niobe4s:
         cpu = "LPC55S69"
     else:
         pass

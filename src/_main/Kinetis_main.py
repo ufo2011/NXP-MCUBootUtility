@@ -178,7 +178,7 @@ class secBootKinetisMain(Kinetis_memcore.secBootKinetisMem):
         status = False
         self._Kinetis_startGaugeTimer()
         self.printLog("'Generate Bootable Image' button is clicked")
-        if self.createFinalBtAppfile():
+        if self.Kinetis_createFinalBtAppfile():
             if self.Kinetis_genBootableImage():
                 status = True
         self._Kinetis_stopGaugeTimer()

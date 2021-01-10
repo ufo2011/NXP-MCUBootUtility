@@ -197,7 +197,7 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
         status = False
         self._RTxxx_startGaugeTimer()
         self.printLog("'Generate Bootable Image' button is clicked")
-        if self.createMatchedAppJsonfile():
+        if self.RTxxx_createMatchedAppJsonfile():
             if self.RTxxx_genBootableImage():
                 status = True
         self._RTxxx_stopGaugeTimer()

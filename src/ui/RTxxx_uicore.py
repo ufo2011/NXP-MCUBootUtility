@@ -62,6 +62,12 @@ class secBootRTxxxUi(RTyyyy_main.secBootRTyyyyMain):
             self.m_choice_secureBootType.SetSelection(self.toolCommDict['secBootType'])
         else:
             self.m_choice_secureBootType.SetSelection(0)
+        if self.toolCommDict['appFilename'] != None:
+            self.m_filePicker_appPath.SetPath(self.toolCommDict['appFilename'])
+        self.m_choice_appFormat.SetSelection(self.toolCommDict['appFormat'])
+        self._setUserBinaryBaseField()
+        self.m_textCtrl_appBaseAddr.Clear()
+        self.m_textCtrl_appBaseAddr.write(self.toolCommDict['appBinBaseAddr'])
 
     def _RTxxx_initSecureBootSeqColor ( self ):
         self.secureBootType = self.m_choice_secureBootType.GetString(self.m_choice_secureBootType.GetSelection())

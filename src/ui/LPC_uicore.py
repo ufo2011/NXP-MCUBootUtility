@@ -35,6 +35,12 @@ class secBootLpcUi(RTxxx_main.secBootRTxxxMain):
             self.m_choice_bootDevice.SetSelection(self.toolCommDict['bootDevice'])
         else:
             self.m_choice_bootDevice.SetSelection(0)
+        if self.toolCommDict['appFilename'] != None:
+            self.m_filePicker_appPath.SetPath(self.toolCommDict['appFilename'])
+        self.m_choice_appFormat.SetSelection(self.toolCommDict['appFormat'])
+        self._setUserBinaryBaseField()
+        self.m_textCtrl_appBaseAddr.Clear()
+        self.m_textCtrl_appBaseAddr.write(self.toolCommDict['appBinBaseAddr'])
 
     def LPC_setTargetSetupValue( self ):
         self.bootDevice = self.m_choice_bootDevice.GetString(self.m_choice_bootDevice.GetSelection())

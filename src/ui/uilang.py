@@ -622,6 +622,17 @@ kRevision_3_0_0_zh = u"【v3.0.0】 \n" + \
                      u"  修复: \n" + \
                      u"     1. [RTxxx] 不能恢复上一次用户源应用程序设置(文件路径、基地址、格式) \n\n"
 
+kRevision_3_1_0_en =  "【v3.1.0】 \n" + \
+                      "  Feature: \n" + \
+                      "     1. Support Kinetis K32L \n" + \
+                      "  Bugfix: \n" + \
+                      "     1. \n\n"
+kRevision_3_1_0_zh = u"【v3.1.0】 \n" + \
+                     u"  特性: \n" + \
+                     u"     1. 支持Kinetis K32L系列 \n" + \
+                     u"  修复: \n" + \
+                     u"     1.  \n\n"
+
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
         'homePage_info':                      ['https://github.com/JayHeng/NXP-MCUBootUtility.git \n',                             u"https://github.com/JayHeng/NXP-MCUBootUtility.git \n"],
@@ -647,6 +658,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v2_3_1':             [kRevision_2_3_1_en,                      kRevision_2_3_1_zh],
         'revisionHistory_v2_4_0':             [kRevision_2_4_0_en,                      kRevision_2_4_0_zh],
         'revisionHistory_v3_0_0':             [kRevision_3_0_0_en,                      kRevision_3_0_0_zh],
+        'revisionHistory_v3_1_0':             [kRevision_3_1_0_en,                      kRevision_3_1_0_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

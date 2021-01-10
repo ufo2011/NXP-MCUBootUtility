@@ -167,7 +167,7 @@ class secBootLpcRun(LPC_gencore.secBootLpcGen):
         else:
             pass
 
-    def _eraseFtfxNorForImageLoading( self ):
+    def _eraseC040hdNorForImageLoading( self ):
         imageLen = os.path.getsize(self.destAppFilename)
         memEraseLen = misc.align_up(imageLen, self.comMemEraseUnit)
         status, results, cmdStr = self.blhost.flashEraseRegion(self.tgt.c040hdNorMemBase, memEraseLen)
@@ -178,7 +178,7 @@ class secBootLpcRun(LPC_gencore.secBootLpcGen):
         self._LPC_prepareForBootDeviceOperation()
         imageLen = os.path.getsize(self.destAppFilename)
         if self.bootDevice == LPC_uidef.kBootDevice_InternalNor:
-            if not self._eraseFtfxNorForImageLoading():
+            if not self._eraseC040hdNorForImageLoading():
                 return False
             if self.secureBootType == LPC_uidef.kSecureBootType_PlainUnsigned:
                 pass

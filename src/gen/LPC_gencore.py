@@ -87,7 +87,7 @@ class secBootLpcGen(LPC_uicore.secBootLpcUi):
         else:
             return self._LPC_isValidNonXipAppImage(imageStartAddr)
 
-    def createFinalBtAppfile( self ):
+    def LPC_createFinalBtAppfile( self ):
         self.srcAppFilename = self.getUserAppFilePath()
         imageStartAddr, imageEntryAddr, imageLength = self._LPC_getImageInfo(self.srcAppFilename)
         if imageStartAddr == None or imageEntryAddr == None:

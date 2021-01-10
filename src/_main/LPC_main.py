@@ -178,7 +178,7 @@ class secBootLpcMain(LPC_memcore.secBootLpcMem):
         status = False
         self._LPC_startGaugeTimer()
         self.printLog("'Generate Bootable Image' button is clicked")
-        if self.createFinalBtAppfile():
+        if self.LPC_createFinalBtAppfile():
             if self.LPC_genBootableImage():
                 status = True
         self._LPC_stopGaugeTimer()

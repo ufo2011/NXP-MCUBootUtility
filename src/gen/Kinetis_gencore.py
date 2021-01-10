@@ -87,7 +87,7 @@ class secBootKinetisGen(Kinetis_uicore.secBootKinetisUi):
         else:
             return self._Kinetis_isValidNonXipAppImage(imageStartAddr)
 
-    def createFinalBtAppfile( self ):
+    def Kinetis_createFinalBtAppfile( self ):
         self.srcAppFilename = self.getUserAppFilePath()
         imageStartAddr, imageEntryAddr, imageLength = self._Kinetis_getImageInfo(self.srcAppFilename)
         if imageStartAddr == None or imageEntryAddr == None:

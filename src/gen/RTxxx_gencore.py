@@ -209,7 +209,7 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
         else:
             return self._RTxxx_isValidNonXipAppImage(imageStartAddr)
 
-    def createMatchedAppJsonfile( self ):
+    def RTxxx_createMatchedAppJsonfile( self ):
         self.srcAppFilename = self.getUserAppFilePath()
         imageStartAddr, imageEntryAddr, imageLength = self._RTxxx_getImageInfo(self.srcAppFilename)
         if imageStartAddr == None or imageEntryAddr == None:

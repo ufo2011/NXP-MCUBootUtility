@@ -127,10 +127,10 @@ class secBootLpcRun(LPC_gencore.secBootLpcGen):
         status, results, cmdStr = self.blhost.getProperty(boot.properties.kPropertyTag_UniqueDeviceIdent)
         self.printLog(cmdStr)
         if status == boot.status.kStatus_Success:
-            self.printDeviceStatus("FFR UUID0  = " + self.convertLongIntHexText(str(hex(results[0]))))
-            self.printDeviceStatus("FFR UUID1 = " + self.convertLongIntHexText(str(hex(results[1]))))
-            self.printDeviceStatus("FFR UUID2 = " + self.convertLongIntHexText(str(hex(results[2]))))
-            self.printDeviceStatus("FFR UUID3  = " + self.convertLongIntHexText(str(hex(results[3]))))
+            self.printDeviceStatus("PFR UUID0  = " + self.convertLongIntHexText(str(hex(results[0]))))
+            self.printDeviceStatus("PFR UUID1 = " + self.convertLongIntHexText(str(hex(results[1]))))
+            self.printDeviceStatus("PFR UUID2 = " + self.convertLongIntHexText(str(hex(results[2]))))
+            self.printDeviceStatus("PFR UUID3  = " + self.convertLongIntHexText(str(hex(results[3]))))
         else:
             pass
 
@@ -156,7 +156,7 @@ class secBootLpcRun(LPC_gencore.secBootLpcGen):
 
     def LPC_getBootDeviceInfoViaRom ( self ):
         if self.bootDevice == LPC_uidef.kBootDevice_InternalNor:
-            self.printDeviceStatus("-------C040HD NOR memory-------")
+            self.printDeviceStatus("-------On-chip NOR memory------")
             self._LPC_getC040hdFlashProperties()
         else:
             pass

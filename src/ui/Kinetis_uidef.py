@@ -3,7 +3,7 @@ import sys, os
 
 kConnectStep_Normal = 1
 
-kBootDevice_InternalNor    = 'FTFx NOR'
+kBootDevice_InternalNor    = 'On-chip NOR' #'FTFx NOR'
 kBootDevice_QuadspiNor     = 'QUADSPI NOR'
 
 kBootDevice_v3_0_0 = [kBootDevice_InternalNor]

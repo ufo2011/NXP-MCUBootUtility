@@ -154,7 +154,7 @@ class secBootKinetisRun(Kinetis_gencore.secBootKinetisGen):
 
     def Kinetis_getBootDeviceInfoViaRom ( self ):
         if self.bootDevice == Kinetis_uidef.kBootDevice_InternalNor:
-            self.printDeviceStatus("--------FTFx NOR memory--------")
+            self.printDeviceStatus("-------On-chip NOR memory------")
             self._Kinetis_getFtfxFlashProperties()
         else:
             pass

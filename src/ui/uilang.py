@@ -624,14 +624,12 @@ kRevision_3_0_0_zh = u"【v3.0.0】 \n" + \
 
 kRevision_3_1_0_en =  "【v3.1.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. Support Kinetis K32L \n" + \
-                      "  Bugfix: \n" + \
-                      "     1. \n\n"
+                      "     1. Support i.MXRT1024 SIP \n" + \
+                      "     2. Support Kinetis K32L \n\n"
 kRevision_3_1_0_zh = u"【v3.1.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. 支持Kinetis K32L系列 \n" + \
-                     u"  修复: \n" + \
-                     u"     1.  \n\n"
+                     u"     1. 支持i.MXRT1024 SIP \n" + \
+                     u"     2. 支持Kinetis K32L系列 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],

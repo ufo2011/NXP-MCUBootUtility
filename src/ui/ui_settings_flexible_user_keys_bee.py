@@ -95,6 +95,9 @@ class secBootUiSettingsFlexibleUserKeysBee(advSettingsWin_FlexibleUserKeys_Bee.a
             elif mcuDevice == uidef.kMcuDevice_iMXRT102x:
                 keySource = RTyyyy_uidef.kSupportedKeySource_iMXRT102x
                 engineSel = RTyyyy_uidef.kSupportedEngineSel_iMXRT102x
+            elif mcuDevice == uidef.kMcuDevice_iMXRT1024:
+                keySource = RTyyyy_uidef.kSupportedKeySource_iMXRT1024
+                engineSel = RTyyyy_uidef.kSupportedEngineSel_iMXRT1024
             elif mcuDevice == uidef.kMcuDevice_iMXRT105x:
                 keySource = RTyyyy_uidef.kSupportedKeySource_iMXRT105x
                 engineSel = RTyyyy_uidef.kSupportedEngineSel_iMXRT105x

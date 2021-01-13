@@ -28,6 +28,8 @@ def RTyyyy_createTarget(device, exeBinRoot, flexspiXipRegionSel ):
         cpu = "MIMXRT1015"
     elif device == uidef.kMcuDevice_iMXRT102x:
         cpu = "MIMXRT1021"
+    elif device == uidef.kMcuDevice_iMXRT1024:
+        cpu = "MIMXRT1024"
     elif device == uidef.kMcuDevice_iMXRT105x:
         cpu = "MIMXRT1052"
     elif device == uidef.kMcuDevice_iMXRT106x:

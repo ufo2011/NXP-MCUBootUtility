@@ -91,6 +91,9 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
             if bootType == kBootloaderType_Rom:
                 pingStatus = self.RTyyyy_pingRom()
             elif bootType == kBootloaderType_Flashloader:
+                # This is mainly for RT1170 flashloader, but it is also ok for other RT devices
+                if (self.isOneStepConnectMode and (not self.isUsbhidPortSelected)):
+                    time.sleep(3)
                 pingStatus = self.RTyyyy_pingFlashloader()
             else:
                 pass

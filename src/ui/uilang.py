@@ -631,6 +631,13 @@ kRevision_3_1_0_zh = u"【v3.1.0】 \n" + \
                      u"     1. 支持i.MXRT1024 SIP \n" + \
                      u"     2. 支持Kinetis K32L系列 \n\n"
 
+kRevision_3_1_1_en =  "【v3.1.1】 \n" + \
+                      "  Bugfix: \n" + \
+                      "     1. [RTyyyy] Fix UART download issue for RT1170 \n\n"
+kRevision_3_1_1_zh = u"【v3.1.1】 \n" + \
+                     u"  修复: \n" + \
+                     u"     1. [RTyyyy] 修复RT1170下UART口无法正常下载问题 \n\n"
+
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
         'homePage_info':                      ['https://github.com/JayHeng/NXP-MCUBootUtility.git \n',                             u"https://github.com/JayHeng/NXP-MCUBootUtility.git \n"],
@@ -657,6 +664,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v2_4_0':             [kRevision_2_4_0_en,                      kRevision_2_4_0_zh],
         'revisionHistory_v3_0_0':             [kRevision_3_0_0_en,                      kRevision_3_0_0_zh],
         'revisionHistory_v3_1_0':             [kRevision_3_1_0_en,                      kRevision_3_1_0_zh],
+        'revisionHistory_v3_1_1':             [kRevision_3_1_1_en,                      kRevision_3_1_1_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],

@@ -203,6 +203,9 @@ efusemapIndexDict_RT11yy = {'kEfuseIndex_START' :0x0,
                             'kEfuseIndex_LOCK'  :0x8,
                             'kEfuseIndex_LOCK2' :0x9,
 
+                            'kEfuseIndex_BOOT_CFG0' :0x14,
+                            'kEfuseIndex_BOOT_CFG1' :0x15,
+
                             'kEfuseLocation_SecConfig0'     :0xE,
                             'kEfuseLocation_SecConfig1'     :0x16,
                             'kEfuseLocation_BtFuseSel'      :0x16,

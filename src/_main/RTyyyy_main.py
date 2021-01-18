@@ -196,7 +196,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
         else:
             if not self.isThereBoardConnection:
                 if self.connectStage == uidef.kConnectStage_Rom:
-                    self.initSbAppBdfilesContent()
+                    self.RTyyyy_initSbAppBdfilesContent()
                 else:
                     # It means there is board connection
                     self.isThereBoardConnection = True
@@ -279,7 +279,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
                     break
             allInOneSeqCnt -= 1
         if self.isSbFileEnabledToGen:
-            status = self.genSbAppImages()
+            status = self.RTyyyy_genSbAppImages()
         else:
             if status and self.isAutomaticImageReadback:
                 self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)

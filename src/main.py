@@ -279,7 +279,7 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
                     if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
                         self.RTyyyy_scanAllFuseRegions()
                         if self.isSbFileEnabledToGen:
-                            self.initSbEfuseBdfileContent()
+                            self.RTyyyy_initSbEfuseBdfileContent()
                     elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
                         self.RTxxx_scanAllOtpRegions()
                     else:
@@ -288,7 +288,7 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
                     if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
                         self.RTyyyy_burnAllFuseRegions()
                         if self.isSbFileEnabledToGen:
-                            self.genSbEfuseImage()
+                            self.RTyyyy_genSbEfuseImage()
                     elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
                         self.RTxxx_burnAllOtpRegions()
                     else:

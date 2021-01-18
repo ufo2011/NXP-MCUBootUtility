@@ -139,7 +139,7 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
         else:
             if not self.isThereBoardConnection:
                 if self.connectStage == uidef.kConnectStage_Rom:
-                    self.initSbAppBdfilesContent()
+                    self.RTxxx_initSbAppBdfilesContent()
                 else:
                     # It means there is board connection
                     self.isThereBoardConnection = True
@@ -184,9 +184,12 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
             if not status:
                 break
             allInOneSeqCnt -= 1
-        if status and self.isAutomaticImageReadback:
-            self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)
-            self._RTxxx_doViewMem()
+        if self.isSbFileEnabledToGen:
+            status = self.RTxxx_genSbAppImages()
+        else:
+            if status and self.isAutomaticImageReadback:
+                self.showPageInMainBootSeqWin(uidef.kPageIndex_BootDeviceMemory)
+                self._RTxxx_doViewMem()
         self.invalidateStepButtonColor(uidef.kSecureBootSeqStep_AllInOne, status)
 
     def RTxxx_callbackAllInOneAction( self ):

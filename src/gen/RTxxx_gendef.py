@@ -25,3 +25,7 @@ kBootImageTypeVal_PlainSignedKeyStore  = 0x8001
 kBootImageTypeVal_CryptoSignedKeyStore = 0x8003
 
 kBootImageOffset_NOR_SD_EEPROM = 0x1000
+
+kSbFileType_All   = 0x0
+kSbFileType_Flash = 0x1
+kSbFileType_Otp   = 0x2

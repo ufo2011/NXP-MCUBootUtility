@@ -33,6 +33,11 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
         self.appJsonFilename = os.path.join(self.exeTopRoot, 'gen', 'json_file', 'imx_application_gen.json')
         self.elftosbPath = os.path.join(self.exeTopRoot, 'tools', 'elftosb5', 'win', 'elftosb.exe')
         self.appJsonBatFilename = os.path.join(self.exeTopRoot, 'gen', 'json_file', 'imx_application_gen.bat')
+        self.destSbAppFilename = os.path.join(self.exeTopRoot, 'gen', 'sb_image', 'application_device.sb')
+        self.sbAppBdContent = ''
+        self.sbAppBdFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_sb_gen.bd')
+        self.sbAppBdBatFilename = os.path.join(self.exeTopRoot, 'gen', 'bd_file', 'imx_application_sb_gen.bat')
+        self.isOtpOperationInSbApp = False
 
         self.isConvertedAppUsed = False
         self.isFdcbFromSrcApp = False
@@ -301,3 +306,171 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
         else:
             shutil.copy(self.srcAppFilename, self.destAppFilename)
             return True
+
+    def _RTxxx_initSbAppBdfileContent( self, sbType=RTxxx_gendef.kSbFileType_All ):
+        bdContent = ""
+        ############################################################################
+        bdContent += "sources {\n"
+        if sbType == RTxxx_gendef.kSbFileType_All or sbType == RTxxx_gendef.kSbFileType_Flash:
+            bdContent += "    myBinFile = extern (0);\n"
+        else:
+            pass
+        bdContent += "}\n"
+        ############################################################################
+        bdContent += "\nsection (0) {\n"
+        ############################################################################
+        if sbType == RTxxx_gendef.kSbFileType_All:
+            self.sbAppBdContent = bdContent
+        elif sbType == RTxxx_gendef.kSbFileType_Flash:
+            pass
+        elif sbType == RTxxx_gendef.kSbFileType_Otp:
+            pass
+        else:
+            pass
+
+    def RTxxx_initSbAppBdfilesContent( self ):
+        self._RTxxx_initSbAppBdfileContent(RTxxx_gendef.kSbFileType_All)
+        self.isOtpOperationInSbApp = False
+
+    def _RTxxx_doneSbAppBdfileContent( self, sbType=RTxxx_gendef.kSbFileType_All ):
+        bdContent = ""
+        bdFilename = None
+        if sbType == RTxxx_gendef.kSbFileType_All:
+            self.sbAppBdContent += "}\n"
+            bdContent = self.sbAppBdContent
+            bdFilename = self.sbAppBdFilename
+        elif sbType == RTxxx_gendef.kSbFileType_Flash:
+            pass
+        elif sbType == RTxxx_gendef.kSbFileType_Otp:
+            pass
+        else:
+            pass
+        with open(bdFilename, 'wb') as fileObj:
+            fileObj.write(bdContent)
+            fileObj.close()
+
+    def _RTxxx_adjustDestSbAppFilenameForBd( self, sbType=RTxxx_gendef.kSbFileType_All ):
+        if sbType == RTxxx_gendef.kSbFileType_All:
+            srcAppName = os.path.splitext(os.path.split(self.srcAppFilename)[1])[0]
+            destSbAppPath, destSbAppFile = os.path.split(self.destSbAppFilename)
+            destSbAppName, destSbAppType = os.path.splitext(destSbAppFile)
+            destSbAppName = srcAppName
+            if self.secureBootType == RTxxx_uidef.kSecureBootType_PlainUnsigned:
+                destSbAppName += '_unsigned'
+            if self.secureBootType == RTxxx_uidef.kSecureBootType_PlainCrc:
+                destSbAppName += '_crc'
+            else:
+                pass
+            destSbAppName += '_' + self.sbEnableBootDeviceMagic
+            if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor:
+                flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(self.bootDevice)
+                if flexspiNorDeviceModel == 'No':
+                    destSbAppName += '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(flexspiNorOpt1)))
+                else:
+                    destSbAppName += '_' + flexspiNorDeviceModel
+            elif self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
+                flexcommSpiNorOpt0, flexcommSpiNorOpt1 = uivar.getBootDeviceConfiguration(self.bootDevice)
+                destSbAppName += '_' + self.convertLongIntHexText(str(hex(flexcommSpiNorOpt0))) + '_' + self.convertLongIntHexText(str(hex(flexcommSpiNorOpt1)))
+            elif self.bootDevice == RTxxx_uidef.kBootDevice_UsdhcSd:
+                pass
+            elif self.bootDevice == RTxxx_uidef.kBootDevice_UsdhcMmc:
+                pass
+            else:
+                pass
+            self.destSbAppFilename = os.path.join(destSbAppPath, destSbAppName + destSbAppType)
+        elif sbType == RTxxx_gendef.kSbFileType_Flash:
+            pass
+        elif sbType == RTxxx_gendef.kSbFileType_Otp:
+            pass
+        else:
+            pass
+
+    def _RTxxx_updateSbAppBdBatfileContent( self, sbType=RTxxx_gendef.kSbFileType_All ):
+        destAppFilename = None
+        sbAppBdFilename = None
+        destSbAppFilename = None
+        sbAppBdBatFilename = None
+        self._RTxxx_adjustDestSbAppFilenameForBd(sbType)
+        if sbType == RTxxx_gendef.kSbFileType_All:
+            sbAppBdFilename = self.sbAppBdFilename
+            destSbAppFilename = self.destSbAppFilename
+            sbAppBdBatFilename = self.sbAppBdBatFilename
+        elif sbType == RTxxx_gendef.kSbFileType_Flash:
+            pass
+        elif sbType == RTxxx_gendef.kSbFileType_Otp:
+            pass
+        else:
+            pass
+        if sbType == RTxxx_gendef.kSbFileType_All or sbType == RTxxx_gendef.kSbFileType_Flash:
+            if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor:
+                destAppFilename = self.destAppFilename
+            elif self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
+                pass
+            elif self.bootDevice == RTxxx_uidef.kBootDevice_UsdhcSd or \
+                 self.bootDevice == RTxxx_uidef.kBootDevice_UsdhcMmc:
+                pass
+            destAppFilename = ' ' + "\"" + destAppFilename + "\""
+        else:
+            destAppFilename = ''
+        sbBatContent = "\"" + self.elftosbPath + "\""
+        sbBatContent += " -f kinetis -V -c " + "\"" + sbAppBdFilename + "\"" + ' -o ' + "\"" + destSbAppFilename + "\"" + destAppFilename
+        if sbType == RTxxx_gendef.kSbFileType_All or sbType == RTxxx_gendef.kSbFileType_Flash:
+            if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor:
+                flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)
+                if flexspiNorDeviceModel == uidef.kFlexspiNorDevice_FDCB:
+                    sbBatContent += ' ' + "\"" + self.cfgFdcbBinFilename + "\""
+        with open(sbAppBdBatFilename, 'wb') as fileObj:
+            fileObj.write(sbBatContent)
+            fileObj.close()
+
+    def _RTxxx_parseSbImageGenerationResult( self, output ):
+        # elftosb ouput template:
+        #Boot Section 0x00000000:
+        #  FILL | adr=0x00002000 | len=0x00000004 | ptn=0xc0233007
+        #  FILL | adr=0x00002004 | len=0x00000004 | ptn=0x00000000
+        #  ENA  | adr=0x00002000 | cnt=0x00000004 | flg=0x0900
+        #  ERAS | adr=0x60000000 | cnt=0x00040000 | flg=0x0000
+        #  FILL | adr=0x00003000 | len=0x00000004 | ptn=0xf000000f
+        #  ENA  | adr=0x00003000 | cnt=0x00000004 | flg=0x0900
+        #  LOAD | adr=0x60001000 | len=0x00002b34 | crc=0x0388f030 | flg=0x0000
+        info = 'Boot Section'
+        if output.find(info) != -1:
+            self.printLog('.sb image is generated: ' + self.destSbAppFilename)
+            return True
+        else:
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_failToGenSb'][self.languageIndex])
+            return False
+
+    def _RTxxx_genSbAppImage( self, sbType=RTxxx_gendef.kSbFileType_All ):
+        self._RTxxx_doneSbAppBdfileContent(sbType)
+        self._RTxxx_updateSbAppBdBatfileContent(sbType)
+        # We have to change system dir to the path of elftosb.exe, or elftosb.exe may not be ran successfully
+        curdir = os.getcwd()
+        os.chdir(os.path.split(self.elftosbPath)[0])
+        sbAppBdBatFilename = None
+        if sbType == RTxxx_gendef.kSbFileType_All:
+            sbAppBdBatFilename = self.sbAppBdBatFilename
+        elif sbType == RTxxx_gendef.kSbFileType_Flash:
+            pass
+        elif sbType == RTxxx_gendef.kSbFileType_Otp:
+            pass
+        else:
+            pass
+        process = subprocess.Popen(sbAppBdBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        os.chdir(curdir)
+        commandOutput = process.communicate()[0]
+        print commandOutput
+        if self._RTxxx_parseSbImageGenerationResult(commandOutput):
+            return True
+        else:
+            return False
+
+    def RTxxx_genSbAppImages( self ):
+        if not self._RTxxx_genSbAppImage(RTxxx_gendef.kSbFileType_All):
+            return False
+        if self.isOtpOperationInSbApp:
+            if not self._RTxxx_genSbAppImage(RTxxx_gendef.kSbFileType_Flash):
+                return False
+            if not self._RTxxx_genSbAppImage(RTxxx_gendef.kSbFileType_Otp):
+                return False
+        return True

@@ -1187,7 +1187,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                 fileObj.write(halfbyteStr)
             fileObj.close()
 
-    def _initSbAppBdfileContent( self, sbType=RTyyyy_gendef.kSbFileType_All ):
+    def _RTyyyy_initSbAppBdfileContent( self, sbType=RTyyyy_gendef.kSbFileType_All ):
         bdContent = ""
         ############################################################################
         bdContent += "sources {\n"
@@ -1212,13 +1212,13 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         else:
             pass
 
-    def initSbAppBdfilesContent( self ):
-        self._initSbAppBdfileContent(RTyyyy_gendef.kSbFileType_All)
-        self._initSbAppBdfileContent(RTyyyy_gendef.kSbFileType_Flash)
-        self._initSbAppBdfileContent(RTyyyy_gendef.kSbFileType_Efuse)
+    def RTyyyy_initSbAppBdfilesContent( self ):
+        self._RTyyyy_initSbAppBdfileContent(RTyyyy_gendef.kSbFileType_All)
+        self._RTyyyy_initSbAppBdfileContent(RTyyyy_gendef.kSbFileType_Flash)
+        self._RTyyyy_initSbAppBdfileContent(RTyyyy_gendef.kSbFileType_Efuse)
         self.isEfuseOperationInSbApp = False
 
-    def _doneSbAppBdfileContent( self, sbType=RTyyyy_gendef.kSbFileType_All ):
+    def _RTyyyy_doneSbAppBdfileContent( self, sbType=RTyyyy_gendef.kSbFileType_All ):
         bdContent = ""
         bdFilename = None
         if sbType == RTyyyy_gendef.kSbFileType_All:
@@ -1239,7 +1239,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             fileObj.write(bdContent)
             fileObj.close()
 
-    def _adjustDestSbAppFilenameForBd( self, sbType=RTyyyy_gendef.kSbFileType_All ):
+    def _RTyyyy_adjustDestSbAppFilenameForBd( self, sbType=RTyyyy_gendef.kSbFileType_All ):
         if sbType == RTyyyy_gendef.kSbFileType_All:
             srcAppName = os.path.splitext(os.path.split(self.srcAppFilename)[1])[0]
             destSbAppPath, destSbAppFile = os.path.split(self.destSbAppFilename)
@@ -1300,12 +1300,12 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         else:
             pass
 
-    def _updateSbAppBdBatfileContent( self, sbType=RTyyyy_gendef.kSbFileType_All ):
+    def _RTyyyy_updateSbAppBdBatfileContent( self, sbType=RTyyyy_gendef.kSbFileType_All ):
         destAppFilename = None
         sbAppBdFilename = None
         destSbAppFilename = None
         sbAppBdBatFilename = None
-        self._adjustDestSbAppFilenameForBd(sbType)
+        self._RTyyyy_adjustDestSbAppFilenameForBd(sbType)
         if sbType == RTyyyy_gendef.kSbFileType_All:
             sbAppBdFilename = self.sbAppBdFilename
             destSbAppFilename = self.destSbAppFilename
@@ -1357,7 +1357,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             fileObj.write(sbBatContent)
             fileObj.close()
 
-    def _parseSbImageGenerationResult( self, output ):
+    def _RTyyyy_parseSbImageGenerationResult( self, output ):
         # elftosb ouput template:
         #Boot Section 0x00000000:
         #  FILL | adr=0x00002000 | len=0x00000004 | ptn=0xc0233007
@@ -1375,9 +1375,9 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_failToGenSb'][self.languageIndex])
             return False
 
-    def _genSbAppImage( self, sbType=RTyyyy_gendef.kSbFileType_All ):
-        self._doneSbAppBdfileContent(sbType)
-        self._updateSbAppBdBatfileContent(sbType)
+    def _RTyyyy_genSbAppImage( self, sbType=RTyyyy_gendef.kSbFileType_All ):
+        self._RTyyyy_doneSbAppBdfileContent(sbType)
+        self._RTyyyy_updateSbAppBdBatfileContent(sbType)
         # We have to change system dir to the path of elftosb.exe, or elftosb.exe may not be ran successfully
         curdir = os.getcwd()
         os.chdir(os.path.split(self.elftosbPath)[0])
@@ -1394,22 +1394,22 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         os.chdir(curdir)
         commandOutput = process.communicate()[0]
         print commandOutput
-        if self._parseSbImageGenerationResult(commandOutput):
+        if self._RTyyyy_parseSbImageGenerationResult(commandOutput):
             return True
         else:
             return False
 
-    def genSbAppImages( self ):
-        if not self._genSbAppImage(RTyyyy_gendef.kSbFileType_All):
+    def RTyyyy_genSbAppImages( self ):
+        if not self._RTyyyy_genSbAppImage(RTyyyy_gendef.kSbFileType_All):
             return False
         if self.isEfuseOperationInSbApp:
-            if not self._genSbAppImage(RTyyyy_gendef.kSbFileType_Flash):
+            if not self._RTyyyy_genSbAppImage(RTyyyy_gendef.kSbFileType_Flash):
                 return False
-            if not self._genSbAppImage(RTyyyy_gendef.kSbFileType_Efuse):
+            if not self._RTyyyy_genSbAppImage(RTyyyy_gendef.kSbFileType_Efuse):
                 return False
         return True
 
-    def initSbEfuseBdfileContent( self ):
+    def RTyyyy_initSbEfuseBdfileContent( self ):
         self.sbUserEfuseBdContent = ""
         ############################################################################
         self.sbUserEfuseBdContent += "sources {\n"
@@ -1418,7 +1418,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         self.sbUserEfuseBdContent += "\nsection (0) {\n"
         ############################################################################
 
-    def _doneSbEfuseBdfileContent( self ):
+    def _RTyyyy_doneSbEfuseBdfileContent( self ):
         ############################################################################
         self.sbUserEfuseBdContent += "}\n"
         ############################################################################
@@ -1426,16 +1426,16 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             fileObj.write(self.sbUserEfuseBdContent)
             fileObj.close()
 
-    def _updateSbEfuseBdBatfileContent( self ):
+    def _RTyyyy_updateSbEfuseBdBatfileContent( self ):
         sbBatContent = "\"" + self.elftosbPath + "\""
         sbBatContent += " -f kinetis -V -c " + "\"" + self.sbUserEfuseBdFilename + "\"" + ' -o ' + "\"" + self.destSbUserEfuseFilename + "\""
         with open(self.sbUserEfuseBdBatFilename, 'wb') as fileObj:
             fileObj.write(sbBatContent)
             fileObj.close()
 
-    def genSbEfuseImage( self ):
-        self._doneSbEfuseBdfileContent()
-        self._updateSbEfuseBdBatfileContent()
+    def RTyyyy_genSbEfuseImage( self ):
+        self._RTyyyy_doneSbEfuseBdfileContent()
+        self._RTyyyy_updateSbEfuseBdBatfileContent()
         # We have to change system dir to the path of elftosb.exe, or elftosb.exe may not be ran successfully
         curdir = os.getcwd()
         os.chdir(os.path.split(self.elftosbPath)[0])
@@ -1443,7 +1443,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         os.chdir(curdir)
         commandOutput = process.communicate()[0]
         print commandOutput
-        if self._parseSbImageGenerationResult(commandOutput):
+        if self._RTyyyy_parseSbImageGenerationResult(commandOutput):
             return True
         else:
             return False

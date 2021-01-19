@@ -27,8 +27,6 @@ class secBootRTyyyyUi(memcore.secBootMem):
         self.isXipableDevice = False
         self.isNandDevice = False
         self.isSdmmcCard = False
-        self.sbEnableBootDeviceMagic = None
-        self.sbAccessBootDeviceMagic = None
         self._RTyyyy_initTargetSetupValue()
         self.RTyyyy_setTargetSetupValue()
 

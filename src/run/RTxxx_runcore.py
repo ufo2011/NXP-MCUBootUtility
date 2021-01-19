@@ -389,11 +389,11 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         status = boot.status.kStatus_Success
         if self.isSbFileEnabledToGen:
             if actionFrom == RTxxx_rundef.kActionFrom_AllInOne:
-                sbAppBdContent = "    load fuse 0x" + self.getFormattedFuseValue(otpValue) + " > " + self.convertLongIntHexText(str(hex(otpIndex))) + ";\n"
+                sbAppBdContent = "    load ifr 0x" + self.getFormattedFuseValue(otpValue) + " > " + self.convertLongIntHexText(str(hex(otpIndex))) + ";\n"
                 self.sbAppBdContent += sbAppBdContent
                 self.isOtpOperationInSbApp = True
             elif actionFrom == RTxxx_rundef.kActionFrom_BurnOtp:
-                self.sbUserEfuseBdContent += "    load fuse 0x" + self.getFormattedFuseValue(otpValue) + " > " + self.convertLongIntHexText(str(hex(otpIndex))) + ";\n"
+                self.sbUserEfuseBdContent += "    load ifr 0x" + self.getFormattedFuseValue(otpValue) + " > " + self.convertLongIntHexText(str(hex(otpIndex))) + ";\n"
             else:
                 pass
         else:

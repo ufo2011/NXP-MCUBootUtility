@@ -81,6 +81,9 @@ class secBootUi(secBootWin.secBootWin):
 
         self.updateConnectStatus()
 
+        self.sbEnableBootDeviceMagic = None
+        self.sbAccessBootDeviceMagic = None
+
         self.mcuSeries = None
         self.mcuDevice = None
         self.bootDevice = None

@@ -43,6 +43,8 @@ class secBootRTxxxUi(RTyyyy_main.secBootRTyyyyMain):
         self.bootDevice = self.m_choice_bootDevice.GetString(self.m_choice_bootDevice.GetSelection())
         self.toolCommDict['bootDevice'] = self.m_choice_bootDevice.GetSelection()
         if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor:
+            self.sbEnableBootDeviceMagic = '@0x9'
+            self.sbAccessBootDeviceMagic = ''
             self.setFlexspiNorDeviceForEvkBoard()
         elif self.bootDevice == RTxxx_uidef.kBootDevice_FlexcommSpiNor:
             pass

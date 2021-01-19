@@ -33,6 +33,7 @@ sys.path.append(os.path.abspath(".."))
 from boot.memoryrange import MemoryRange
 from ui import LPC_uidef
 from ui import uidef
+from gen import gendef
 
 cpu = 'LPC55S69'
 board = 'LPCXpresso'
@@ -80,6 +81,8 @@ otpDescDiffDict = None
 
 ftfxNorMemBase = None
 c040hdNorMemBase = 0x00000000
+
+sbLoaderVersion = gendef.kSbLoaderVersion_v2_1
 
 # memory map
 memoryRange = {

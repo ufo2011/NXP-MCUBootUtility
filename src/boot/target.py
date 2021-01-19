@@ -88,6 +88,8 @@ class Target(object):
         self.ftfxNorMemBase = misc.get_dict_default(kwargs, 'ftfxNorMemBase', None)
         self.c040hdNorMemBase = misc.get_dict_default(kwargs, 'c040hdNorMemBase', None)
 
+        self.sbLoaderVersion = misc.get_dict_default(kwargs, 'sbLoaderVersion', None)
+
     ##
     # @brief Check if a command is supported by the target.
     #

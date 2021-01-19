@@ -35,6 +35,7 @@ from ui import RTyyyy_uidef
 from ui import RTyyyy_uidef_efuse
 from ui import uidef
 from run import RTyyyy_rundef
+from gen import gendef
 
 cpu = 'MIMXRT1062'
 board = 'EVK'
@@ -225,6 +226,8 @@ otpDescDiffDict = None
 
 ftfxNorMemBase = None
 c040hdNorMemBase = None
+
+sbLoaderVersion = gendef.kSbLoaderVersion_v1_0
 
 # memory map
 memoryRange = {

@@ -33,6 +33,7 @@ sys.path.append(os.path.abspath(".."))
 from boot.memoryrange import MemoryRange
 from ui import Kinetis_uidef
 from ui import uidef
+from gen import gendef
 
 cpu = 'MKxx'
 board = 'FRDM'
@@ -80,6 +81,8 @@ otpDescDiffDict = None
 
 ftfxNorMemBase = 0x00000000
 c040hdNorMemBase = None
+
+sbLoaderVersion = gendef.kSbLoaderVersion_v1_0
 
 # memory map
 memoryRange = {

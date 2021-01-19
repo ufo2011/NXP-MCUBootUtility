@@ -12,5 +12,7 @@ kIdeType_MCUX = 0
 kIdeType_IAR  = 1
 kIdeType_MDK  = 2
 
-
+kSbLoaderVersion_v1_0 = 0
+kSbLoaderVersion_v2_0 = 1
+kSbLoaderVersion_v2_1 = 2
 

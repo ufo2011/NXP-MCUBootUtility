@@ -34,6 +34,7 @@ from boot.memoryrange import MemoryRange
 from ui import RTxxx_uidef
 from ui import RTxxx_uidef_otp
 from ui import uidef
+from gen import gendef
 
 cpu = 'MIMXRT685'
 board = 'EVK'
@@ -81,6 +82,8 @@ otpDescDiffDict = None
 
 ftfxNorMemBase = None
 c040hdNorMemBase = None
+
+sbLoaderVersion = gendef.kSbLoaderVersion_v2_0
 
 # memory map
 memoryRange = {

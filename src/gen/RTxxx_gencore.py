@@ -495,6 +495,16 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
             return False
 
     def RTxxx_genSbAppImages( self ):
+        if (self.secureBootType == RTxxx_uidef.kSecureBootType_PlainUnsigned) or \
+           (self.secureBootType == RTxxx_uidef.kSecureBootType_PlainSigned) or \
+           (self.secureBootType == RTxxx_uidef.kSecureBootType_PlainCrc) or \
+           (self.secureBootType == RTxxx_uidef.kSecureBootType_PlainSignedKeyStore):
+            return False
+        elif (self.secureBootType == RTxxx_uidef.kSecureBootType_CryptoSigned) or \
+             (self.secureBootType == RTxxx_uidef.kSecureBootType_CryptoSignedKeyStore):
+            pass
+        else:
+            pass
         if not self._RTxxx_genSbAppImage(RTxxx_gendef.kSbFileType_All):
             return False
         if self.isOtpOperationInSbApp:

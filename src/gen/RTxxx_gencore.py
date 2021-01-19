@@ -310,6 +310,26 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
     def _RTxxx_initSbAppBdfileContent( self, sbType=RTxxx_gendef.kSbFileType_All ):
         bdContent = ""
         ############################################################################
+        flags = ''
+        bdContent += "options {\n"
+        if (self.secureBootType == RTxxx_uidef.kSecureBootType_PlainUnsigned) or \
+           (self.secureBootType == RTxxx_uidef.kSecureBootType_PlainCrc):
+            flags = RTxxx_gendef.kBootImageTypeFlag_Unsigned
+        elif (self.secureBootType == RTxxx_uidef.kSecureBootType_PlainSigned) or \
+             (self.secureBootType == RTxxx_uidef.kSecureBootType_PlainSignedKeyStore):
+            flags = RTxxx_gendef.kBootImageTypeFlag_Signed
+        elif (self.secureBootType == RTxxx_uidef.kSecureBootType_CryptoSigned) or \
+             (self.secureBootType == RTxxx_uidef.kSecureBootType_CryptoSignedKeyStore):
+            flags = RTxxx_gendef.kBootImageTypeFlag_Encrypted
+        else:
+            pass
+        bdContent += "    flags = " + flags + ";\n"
+        bdContent += "    buildNumber = 0x1;\n"
+        bdContent += "    productVersion = \"1.00.00\";\n"
+        bdContent += "    componentVersion = \"1.00.00\";\n"
+        bdContent += "    secureBinaryVersion = \"2.1\";\n"
+        bdContent += "}\n"
+        ############################################################################
         bdContent += "sources {\n"
         if sbType == RTxxx_gendef.kSbFileType_All or sbType == RTxxx_gendef.kSbFileType_Flash:
             bdContent += "    myBinFile = extern (0);\n"
@@ -412,8 +432,17 @@ class secBootRTxxxGen(RTxxx_uicore.secBootRTxxxUi):
             destAppFilename = ' ' + "\"" + destAppFilename + "\""
         else:
             destAppFilename = ''
+        familyStr = ''
+        if self.mcuDevice == uidef.kMcuDevice_iMXRT500 or \
+           self.mcuDevice == uidef.kMcuDevice_iMXRT500S:
+            familyStr = RTxxx_gendef.kMcuDeviceFamily_RT500
+        elif self.mcuDevice == uidef.kMcuDevice_iMXRT600 or \
+             self.mcuDevice == uidef.kMcuDevice_iMXRT600S:
+            familyStr = RTxxx_gendef.kMcuDeviceFamily_RT600
+        else:
+            pass
         sbBatContent = "\"" + self.elftosbPath + "\""
-        sbBatContent += " -f kinetis -V -c " + "\"" + sbAppBdFilename + "\"" + ' -o ' + "\"" + destSbAppFilename + "\"" + destAppFilename
+        sbBatContent += " -d -V -f " + familyStr + " -c " + "\"" + sbAppBdFilename + "\"" + ' -o ' + "\"" + destSbAppFilename + "\"" + destAppFilename
         if sbType == RTxxx_gendef.kSbFileType_All or sbType == RTxxx_gendef.kSbFileType_Flash:
             if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor:
                 flexspiNorOpt0, flexspiNorOpt1, flexspiNorDeviceModel, isFdcbKept = uivar.getBootDeviceConfiguration(uidef.kBootDevice_XspiNor)

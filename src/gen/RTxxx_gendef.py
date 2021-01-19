@@ -3,6 +3,10 @@ import sys, os
 kMcuDeviceFamily_RT500 = 'rt5xx'
 kMcuDeviceFamily_RT600 = 'rt6xx'
 
+kBootImageTypeFlag_Unsigned  = '0x0'
+kBootImageTypeFlag_Signed    = '0x8'
+kBootImageTypeFlag_Encrypted = '0x4'
+
 kBootImageExecTarget_Ram      = 'RAM'
 kBootImageExecTarget_XipFlash = 'External flash (XIP)'
 

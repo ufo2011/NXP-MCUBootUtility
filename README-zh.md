@@ -1,6 +1,6 @@
 # NXP MCU Boot Utility
 
-[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v3.1.1.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v3.1.1...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/JayHeng/NXP-MCUBootUtility/v3.2.0.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/compare/v3.2.0...master) ![GitHub All Releases](https://img.shields.io/github/downloads/JayHeng/NXP-MCUBootUtility/total.svg) [![GitHub license](https://img.shields.io/github/license/JayHeng/NXP-MCUBootUtility.svg)](https://github.com/JayHeng/NXP-MCUBootUtility/blob/master/LICENSE)
 
 [English](./README.md) | 中文
 
@@ -22,7 +22,7 @@
 > * 支持下载Bootable image进外部启动设备
 > * 支持外部启动设备的任意读/写/擦操作（即通用Flash编程器）  
 -------------------------------------------------------
-> * 支持i.MXRTyyyy全系列MCU，包含i.MXRT1011、i.MXRT1015、i.MXRT1021、i.MXRT1024 SIP、i.MXRT1051/1052、i.MXRT1061/1062、i.MXRT1064 SIP、i.MXRT1171/1172/1173/1174/1175/1176  
+> * 支持i.MXRTyyyy全系列MCU，包含i.MXRT1011、i.MXRT1015、i.MXRT1021、i.MXRT1024 SIP、i.MXRT105x、i.MXRT106x、i.MXRT1064 SIP、i.MXRT116x、i.MXRT117x  
 > * 源image文件既可以是裸源image文件，也可以是含启动文件头的bootable image文件  
 > * 支持将裸源image文件自动转换成MfgTool和RT-Flash工具能下载的.sb格式文件  
 > * 支持下载Bootable image进主动启动设备 - FlexSPI接口NOR Flash  
@@ -39,7 +39,7 @@
 > * 支持MCU芯片内部FlexRAM的读/写/执行操作（即专用FlexRAM编程器，可用于ISP启动）  
 > * 支持从外部启动设备回读Bootable image，并对其组成部分（NFCB/DBBT/FDCB/EKIB/EPRDB/IVT/Boot Data/DCD/Image/CSF/DEK KeyBlob）进行标注  
 -------------------------------------------------------
-> * 支持i.MXRTxxx全系列MCU，包含i.MXRT533/535/553/555/583/585/593/595、i.MXRT633/635/685  
+> * 支持i.MXRTxxx全系列MCU，包含i.MXRT5xx、i.MXRT6xx   
 > * 支持下载Bootable image进主动启动设备 - FlexSPI/QuadSPI接口NOR Flash  
 > * 支持下载Bootable image进备份启动设备 - Flexcomm SPI接口NOR Flash  
 > * 支持用于开发阶段的非安全加密启动（未签名，CRC校验）  

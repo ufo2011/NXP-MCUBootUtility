@@ -637,12 +637,14 @@ kRevision_3_1_1_zh = u"【v3.1.1】 \n" + \
                      u"     1. [RTyyyy] 修复RT1170下UART口无法正常下载问题 \n\n"
 kRevision_3_2_0_en =  "【v3.2.0】 \n" + \
                       "  Feature: \n" + \
-                      "     1. [RTxxx] Support SB file generation for RT500/600 \n" + \
+                      "     1. Support i.MXRT116x \n" + \
+                      "     2. [RTxxx] Support SB file generation for RT500/600 \n" + \
                       "  Bugfix: \n" + \
                       "     1. [RTyyyy] Fix .SB file generation issue for RT1170 \n\n"
 kRevision_3_2_0_zh = u"【v3.2.0】 \n" + \
                      u"  特性: \n" + \
-                     u"     1. [RTxxx] 支持RT500/600下SB文件生成 \n" + \
+                      "     1. 支持i.MXRT116x \n" + \
+                     u"     2. [RTxxx] 支持RT500/600下SB文件生成 \n" + \
                      u"  修复: \n" + \
                      u"     1. [RTyyyy] 修复RT1170下SB文件无法正常生成问题 \n\n"
 

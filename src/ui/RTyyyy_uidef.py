@@ -70,6 +70,7 @@ kSupportedKeySource_iMXRT1024 = [kUserKeySource_SW_GP2]
 kSupportedKeySource_iMXRT105x = [kUserKeySource_SW_GP2]
 kSupportedKeySource_iMXRT106x = [kUserKeySource_SW_GP2, kUserKeySource_GP4]
 kSupportedKeySource_iMXRT1064 = [kUserKeySource_SW_GP2, kUserKeySource_GP4]
+kSupportedKeySource_iMXRT116x = [kUserKeySource_USER_KEY5]
 kSupportedKeySource_iMXRT117x = [kUserKeySource_USER_KEY5]
 
 kMaxHwCryptoCount_Bee   = 2

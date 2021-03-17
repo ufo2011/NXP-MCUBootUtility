@@ -73,6 +73,8 @@ class secBootUiSettingsFlexibleUserKeysOtfad(advSettingsWin_FlexibleUserKeys_Otf
             kekSource = None
             if mcuDevice == uidef.kMcuDevice_iMXRT1011:
                 kekSource = RTyyyy_uidef.kSupportedKeySource_iMXRT1011
+            elif mcuDevice == uidef.kMcuDevice_iMXRT116x:
+                kekSource = RTyyyy_uidef.kSupportedKeySource_iMXRT116x
             elif mcuDevice == uidef.kMcuDevice_iMXRT117x:
                 kekSource = RTyyyy_uidef.kSupportedKeySource_iMXRT117x
             else:

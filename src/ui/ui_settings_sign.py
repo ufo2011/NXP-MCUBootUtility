@@ -30,17 +30,60 @@ class secBootUiSettingsSign(advSettingsWin_Sign.advSettingsWin_Sign):
         self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_sign_ok'][langIndex])
         self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_sign_cancel'][langIndex])
 
+    def _updateSignRegionField ( self, isEnabled ):
+        if isEnabled:
+            self.m_textCtrl_signStart.Enable( True )
+            self.m_textCtrl_signSize.Enable( True )
+        else:
+            self.m_textCtrl_signStart.Enable( False )
+            self.m_textCtrl_signSize.Enable( False )
+
     def _recoverLastSettings ( self ):
-        pass
+        self.m_textCtrl_signStart.Clear()
+        self.m_textCtrl_signStart.write(str(hex(self.signSettingsDict['signedStart'])))
+        self.m_textCtrl_signSize.Clear()
+        self.m_textCtrl_signSize.write(str(hex(self.signSettingsDict['signedSize'])))
+        if self.signSettingsDict['isPartSigned']:
+            self.m_choice_signPart.SetSelection(1)
+        else:
+            self.m_choice_signPart.SetSelection(0)
+        self._updateSignRegionField(self.signSettingsDict['isPartSigned'])
 
     def callbackSignPart( self, event ):
-        pass
+        isPartSigned = False
+        if self.m_choice_signPart.GetString(self.m_choice_signPart.GetSelection()) == 'Yes':
+            isPartSigned = True
+        self.signSettingsDict['isPartSigned'] = isPartSigned
+        self._updateSignRegionField(isPartSigned)
+
+    def popupMsgBox( self, msgStr ):
+        messageText = (msgStr)
+        wx.MessageBox(messageText, "Error", wx.OK | wx.ICON_INFORMATION)
+
+    def _convertRegionInfoToVal32( self, regionInfoStr ):
+        status = False
+        val32 = None
+        if len(regionInfoStr) > 2 and regionInfoStr[0:2] == '0x':
+            try:
+                val32 = int(regionInfoStr[2:len(regionInfoStr)], 16)
+                status = True
+            except:
+                pass
+        if not status:
+            self.popupMsgBox('Illegal input detected! You should input like this format: 0x5000')
+        return status, val32
 
     def _getSignedStart( self ):
-        pass
+        convertStatus, val = self._convertRegionInfoToVal32(self.m_textCtrl_signStart.GetLineText(0))
+        if not convertStatus:
+            return False
+        self.signSettingsDict['signedStart'] = val
 
     def _getSignedSize( self ):
-        pass
+        convertStatus, val = self._convertRegionInfoToVal32(self.m_textCtrl_signSize.GetLineText(0))
+        if not convertStatus:
+            return False
+        self.signSettingsDict['signedSize'] = val
 
     def callbackOk( self, event ):
         self._getSignedStart()

@@ -15,6 +15,7 @@ from ui import uilang
 from fuse import RTyyyy_fusedef
 from ui import ui_cfg_dcd
 from ui import ui_settings_cert
+from ui import ui_settings_sign
 from ui import ui_settings_fixed_otpmk_key
 from ui import ui_settings_flexible_user_keys_bee
 from ui import ui_settings_flexible_user_keys_otfad
@@ -373,6 +374,18 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
             self._doGenCert()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
+
+    def callbackAdvSignSettings( self, event ):
+        if self.secureBootType == RTyyyy_uidef.kSecureBootType_HabAuth or \
+            self.secureBootType == RTyyyy_uidef.kSecureBootType_HabCrypto or \
+            ((self.secureBootType in RTyyyy_uidef.kSecureBootType_HwCrypto) and (self.isCertEnabledForHwCrypto)):
+            if self.checkIfSubWinHasBeenOpened():
+                return
+            signSettingsFrame = ui_settings_sign.secBootUiSettingsSign(None)
+            signSettingsFrame.SetTitle(uilang.kSubLanguageContentDict['sign_title'][self.languageIndex])
+            signSettingsFrame.Show(True)
+        else:
+            pass
 
     def _RTyyyy_doGenImage( self ):
         status = False

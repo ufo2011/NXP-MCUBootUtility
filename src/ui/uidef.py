@@ -125,9 +125,10 @@ kSemcNorOpt0_Micron_MT28UG128ABA       = 0xD0000601
 
 kAdvancedSettings_Tool      = 0
 kAdvancedSettings_Cert      = 1
-kAdvancedSettings_BD        = 2
-kAdvancedSettings_OtpmkKey  = 3
-kAdvancedSettings_UserKeys  = 4
+kAdvancedSettings_Sign      = 2
+kAdvancedSettings_BD        = 3
+kAdvancedSettings_OtpmkKey  = 4
+kAdvancedSettings_UserKeys  = 5
 
 kAppImageFormat_AutoDetect  = 'Auto-detect image format'
 kAppImageFormat_AxfFromMdk  = '.out(axf) from Keil MDK'

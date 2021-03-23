@@ -479,6 +479,9 @@ class secBootWin ( wx.Frame ):
 
 		sbSizer_browseApp.Add( self.m_textCtrl_appBaseAddr, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
 
+		self.m_button_advSignSettings = wx.Button( sbSizer_browseApp.GetStaticBox(), wx.ID_ANY, u"Advanced Signature Settings", wx.DefaultPosition, wx.Size( 200,-1 ), 0 )
+		sbSizer_browseApp.Add( self.m_button_advSignSettings, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
+
 
 		self.m_panel_genImage1_browseApp.SetSizer( sbSizer_browseApp )
 		self.m_panel_genImage1_browseApp.Layout()
@@ -1903,6 +1906,7 @@ class secBootWin ( wx.Frame ):
 		self.m_button_genCert.Bind( wx.EVT_BUTTON, self.callbackGenCert )
 		self.m_filePicker_appPath.Bind( wx.EVT_FILEPICKER_CHANGED, self.callbackChangedAppFile )
 		self.m_choice_appFormat.Bind( wx.EVT_CHOICE, self.callbackSetAppFormat )
+		self.m_button_advSignSettings.Bind( wx.EVT_BUTTON, self.callbackAdvSignSettings )
 		self.m_choice_enableCertForHwCrypto.Bind( wx.EVT_CHOICE, self.callbackSetCertForHwCrypto )
 		self.m_button_genImage.Bind( wx.EVT_BUTTON, self.callbackGenImage )
 		self.m_choice_keyStorageRegion.Bind( wx.EVT_CHOICE, self.callbackSetKeyStorageRegion )
@@ -2090,6 +2094,9 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetAppFormat( self, event ):
+		event.Skip()
+
+	def callbackAdvSignSettings( self, event ):
 		event.Skip()
 
 	def callbackSetCertForHwCrypto( self, event ):

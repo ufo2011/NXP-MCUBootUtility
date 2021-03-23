@@ -95,7 +95,7 @@ g_certSettingsDict = {'cstVersion':None,
 
 g_signSettingsDict = {'isPartSigned':None,
                       'signedStart':None,
-                      'SignedSize':None}
+                      'signedSize':None}
 
 g_otpmkKeyCommDict = {'secureBootType':None,
                       'opt':None,

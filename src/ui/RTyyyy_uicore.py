@@ -1243,6 +1243,7 @@ class secBootRTyyyyUi(memcore.secBootMem):
         self.m_staticText_hashAlgo.SetLabel(uilang.kMainLanguageContentDict['sText_hashAlgo'][langIndex])
         self.m_staticText_appPath.SetLabel(uilang.kMainLanguageContentDict['sText_appPath'][langIndex])
         self.m_staticText_appBaseAddr.SetLabel(uilang.kMainLanguageContentDict['sText_appBaseAddr'][langIndex])
+        self.m_button_advSignSettings.SetLabel(uilang.kMainLanguageContentDict['button_advSignSettings'][langIndex])
         self.m_staticText_habCryptoAlgo.SetLabel(uilang.kMainLanguageContentDict['sText_habCryptoAlgo'][langIndex])
         self.m_staticText_enableCertForHwCrypto.SetLabel(uilang.kMainLanguageContentDict['sText_enableCertForHwCrypto'][langIndex])
         self.m_staticText_keyStorageRegion.SetLabel(uilang.kMainLanguageContentDict['sText_keyStorageRegion'][langIndex])

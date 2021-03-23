@@ -93,6 +93,10 @@ g_certSettingsDict = {'cstVersion':None,
                       'SRKs':None,
                       'caFlagSet':None}
 
+g_signSettingsDict = {'isPartSigned':None,
+                      'signedStart':None,
+                      'SignedSize':None}
+
 g_otpmkKeyCommDict = {'secureBootType':None,
                       'opt':None,
                       'regionStartList':[None] * 4,
@@ -168,6 +172,7 @@ def initVar(cfgFilename):
     global g_dcdSettingsDict
 
     global g_certSettingsDict
+    global g_signSettingsDict
 
     global g_otpmkKeyCommDict
 
@@ -212,6 +217,7 @@ def initVar(cfgFilename):
         g_dcdSettingsDict = cfgDict["cfgDcd"][1]
 
         g_certSettingsDict = cfgDict["cfgCertificate"][0]
+        g_signSettingsDict = cfgDict["cfgSignature"][0]
 
         g_otpmkKeyCommDict = cfgDict["cfgSnvsKey"][0]
 
@@ -291,6 +297,10 @@ def initVar(cfgFilename):
         g_certSettingsDict['SRKs'] = 4
         g_certSettingsDict['caFlagSet'] = 'y'
 
+        g_signSettingsDict['isPartSigned'] = False
+        g_signSettingsDict['signedStart'] = 0x0
+        g_signSettingsDict['signedSize'] = 0x0
+
         g_otpmkKeyCommDict['opt'] = 0xe0100000
         g_otpmkKeyCommDict['regionStartList'] = [None] * 4
         g_otpmkKeyCommDict['regionLengthList'] = [None] * 4
@@ -341,6 +351,7 @@ def deinitVar(cfgFilename=None):
         global g_dcdCtrlDict
         global g_dcdSettingsDict
         global g_certSettingsDict
+        global g_signSettingsDict
         global g_otpmkKeyCommDict
         global g_userKeyCtrlDict
         global g_userKeyCmdDict
@@ -355,6 +366,7 @@ def deinitVar(cfgFilename=None):
             "cfgUsdhcMmc": [g_usdhcMmcOpt0, g_usdhcMmcOpt1],
             "cfgDcd": [g_dcdCtrlDict, g_dcdSettingsDict],
             "cfgCertificate": [g_certSettingsDict],
+            "cfgSignature": [g_signSettingsDict],
             "cfgSnvsKey": [g_otpmkKeyCommDict],
             "cfgUserKey": [g_userKeyCtrlDict, g_userKeyCmdDict]
         }
@@ -482,6 +494,9 @@ def getAdvancedSettings( group ):
     elif group == uidef.kAdvancedSettings_Cert:
         global g_certSettingsDict
         return g_certSettingsDict
+    elif group == uidef.kAdvancedSettings_Sign:
+        global g_signSettingsDict
+        return g_signSettingsDict
     elif group == uidef.kAdvancedSettings_OtpmkKey:
         global g_otpmkKeyCommDict
         return g_otpmkKeyCommDict
@@ -499,6 +514,9 @@ def setAdvancedSettings( group, *args ):
     elif group == uidef.kAdvancedSettings_Cert:
         global g_certSettingsDict
         g_certSettingsDict = args[0]
+    elif group == uidef.kAdvancedSettings_Sign:
+        global g_signSettingsDict
+        g_signSettingsDict = args[0]
     elif group == uidef.kAdvancedSettings_OtpmkKey:
         global g_otpmkKeyCommDict
         g_otpmkKeyCommDict = args[0]

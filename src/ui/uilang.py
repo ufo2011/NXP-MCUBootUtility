@@ -94,6 +94,7 @@ kMainLanguageContentDict = {
         'button_genCert':                     ['Generate Certificate,SRK',              u"生成证书和SRK"],
         'sText_appPath':                      ['Application Image File:',               u"源应用程序镜像文件："],
         'sText_appBaseAddr':                  ['Base Address for Raw Binary Image:',    u"程序链接起始地址（仅Bin格式）："],
+        'button_advSignSettings':             ['Advanced Signature Settings',           u"配置签名区域"],
         'sText_habCryptoAlgo':                ['HAB Encryption Algorithm:',             u"HAB加密算法："],
         'sText_enableCertForHwCrypto':        ['Enable Certificate for HW (BEE/OTFAD) Encryption:',                                           u"是否为硬件加密添加认证："],
         'button_genImage_u':                  ['Generate Unsigned Bootable Image',      u"生成裸启动程序"],
@@ -156,6 +157,15 @@ kSubLanguageContentDict = {
         'sText_caFlagSet':                    ['SRK Cert to have CA flag Set:',         u"证书CA标志选项："],
         'button_cert_ok':                     ['Ok',                                    u"确定"],
         'button_cert_cancel':                 ['Cancel',                                u"取消"],
+
+        #sign
+        'sign_title':                         ['Advanced Signature Settings',           u"配置签名区域"],
+        'panel_signOpt':                      ['Signature Option',                      u"签名选项"],
+        'sText_signPart':                     ['Sign Part of Image:',                   u"签名部分程序："],
+        'sText_signStart':                    ['Signed Start Address:',                 u"签名起始地址："],
+        'sText_signSize':                     ['Signed Region Size:',                   u"签名区域长度："],
+        'button_sign_ok':                     ['Ok',                                    u"确定"],
+        'button_sign_cancel':                 ['Cancel',                                u"取消"],
 
         #dcd
         'dcd_title':                          ['Device Configuration Data',             u"配置DCD参数"],

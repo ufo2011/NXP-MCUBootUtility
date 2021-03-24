@@ -44,6 +44,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         self.crtImgUsrPemFileList = [None] * 4
         self.certBackupFolder = os.path.join(self.exeTopRoot, 'gen', 'hab_cert', 'backup')
         self.srkBatFilename = os.path.join(self.exeTopRoot, 'gen', 'hab_cert', 'imx_srk_gen.bat')
+        self.signPartBatFilename = os.path.join(self.exeTopRoot, 'gen', 'hab_cert', 'imx_sign_part_of_code.bat')
         self.cstBinToElftosbPath = '../../cst/mingw32/bin'
         self.cstCrtsToElftosbPath = '../../cst/crts/'
         self.genCertToElftosbPath = '../../../gen/hab_cert/'
@@ -899,14 +900,21 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         dcdCtrlDict, dcdSettingsDict = uivar.getBootDeviceConfiguration(RTyyyy_uidef.kBootDevice_Dcd)
         if dcdCtrlDict['isDcdEnabled']:
             destAppName += '_dcd'
+        signSettingsDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_Sign)
         if self.secureBootType == RTyyyy_uidef.kSecureBootType_Development:
             destAppName += '_unsigned'
         elif self.secureBootType == RTyyyy_uidef.kSecureBootType_HabAuth:
+            if signSettingsDict['isPartSigned']:
+                destAppName += '_part'
             destAppName += '_signed'
         elif self.secureBootType == RTyyyy_uidef.kSecureBootType_HabCrypto:
+            if signSettingsDict['isPartSigned']:
+                destAppName += '_part'
             destAppName += '_signed_hab_encrypted'
         elif self.secureBootType in RTyyyy_uidef.kSecureBootType_HwCrypto:
             if self.isCertEnabledForHwCrypto:
+                if signSettingsDict['isPartSigned']:
+                    destAppName += '_part'
                 destAppName += '_signed'
             else:
                 destAppName += '_unsigned'
@@ -949,6 +957,104 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['srcImgError_failToGen'][self.languageIndex])
             return False
 
+    def _getInputCsfRegionValue( self, regionContent, idx=0 ):
+        value = 0
+        idx += 1
+        loc0 = 0
+        while (idx):
+            loc0 = regionContent.find("0x", loc0+1)
+            loc1 = regionContent.find(" ", loc0)
+            value = int(regionContent[loc0+2:loc1], 16)
+            idx -= 1
+        return value
+
+    def _RTyyyy_parsePartSignGenerationResult( self, output ):
+        # cst ouput template:
+        #     CSF Processed successfully and signed data available in xxx.bin
+        info = 'CSF Processed successfully and signed data available in'
+        if output.find(info) != -1:
+            return True
+        else:
+            self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_failToGen'][self.languageIndex])
+            return False
+
+    def _RTyyyy_signPartOfImage( self ):
+        if self.secureBootType == RTyyyy_uidef.kSecureBootType_HabAuth or \
+            self.secureBootType == RTyyyy_uidef.kSecureBootType_HabCrypto or \
+            ((self.secureBootType in RTyyyy_uidef.kSecureBootType_HwCrypto) and (self.isCertEnabledForHwCrypto)):
+            signSettingsDict = uivar.getAdvancedSettings(uidef.kAdvancedSettings_Sign)
+            if signSettingsDict['isPartSigned']:
+                curdir = os.getcwd()
+                rootPath = os.path.split(self.elftosbPath)[0]
+                tempBinStr = 'temp.bin'
+                inputCsfFilename = os.path.join(rootPath, 'input.csf')
+                inputCsfContent = ''
+                with open(inputCsfFilename, 'r') as fileObj:
+                    inputCsfContent = fileObj.read()
+                    fileObj.close()
+                newInputCsfContent = ''
+                loc0Str = "\"" + tempBinStr + "\",\\"
+                loc1Str = " \"" + tempBinStr + "\""
+                loc0 = inputCsfContent.find(loc0Str)
+                if loc0 != -1:
+                    loc1 = inputCsfContent.find(loc1Str, loc0)
+                    if loc1 != -1:
+                        regionContent = inputCsfContent[loc0+len(loc0Str):loc1+1]
+                        start = self._getInputCsfRegionValue(regionContent, 0)
+                        offset = self._getInputCsfRegionValue(regionContent, 1)
+                        size = self._getInputCsfRegionValue(regionContent, 2)
+                        if start <= signSettingsDict['signedStart'] < start + size:
+                            offset += signSettingsDict['signedStart'] - start
+                        else:
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidStart'][self.languageIndex])
+                            return False
+                        if signSettingsDict['signedStart'] - start + signSettingsDict['signedSize'] <= size:
+                            size = signSettingsDict['signedSize']
+                        else:
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidSize'][self.languageIndex])
+                            return False
+                        newRegionContent = "\r\n             " + str(hex(start)) + ' ' + str(hex(offset)) + ' ' + str(hex(size))
+                        newInputCsfContent = inputCsfContent[0:loc0+len(loc0Str)]
+                        newInputCsfContent += newRegionContent
+                        newInputCsfContent += inputCsfContent[loc1:len(inputCsfContent)]
+                    else:
+                        return False
+                else:
+                    return False
+                newInputCsfStr = 'input_sign_part_of_code.csf'
+                newInputCsfFilename = os.path.join(rootPath, newInputCsfStr)
+                with open(newInputCsfFilename, 'wb') as fileObj:
+                    fileObj.write(newInputCsfContent)
+                    fileObj.close()
+                shutil.copy(newInputCsfFilename, os.path.split(self.signPartBatFilename)[0])
+                outputCsfBinStr = 'csf_sign_part_of_code.bin'
+                batContent = "cst.exe -o " + outputCsfBinStr + " -i " + newInputCsfStr
+                with open(self.signPartBatFilename, 'wb') as fileObj:
+                    fileObj.write(batContent)
+                    fileObj.close()
+                os.chdir(rootPath)
+                process = subprocess.Popen(self.signPartBatFilename, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                os.chdir(curdir)
+                commandOutput = process.communicate()[0]
+                print commandOutput
+                if not self._RTyyyy_parsePartSignGenerationResult(commandOutput):
+                    return False
+                tempBinFilename = os.path.join(rootPath, tempBinStr)
+                csfBinFilename = os.path.join(rootPath, outputCsfBinStr)
+                #while (not os.path.exists(csfBinFilename)):
+                #    pass
+                tempData = open(tempBinFilename, "rb").read()
+                csfData = open(csfBinFilename, "rb").read()
+                with open(self.destAppFilename, 'wb') as fileObj:
+                    fileObj.write(tempData)
+                    fileObj.write(csfData)
+                    fileObj.close()
+                with open(self.destAppNoPaddingFilename, 'wb') as fileObj:
+                    fileObj.write(tempData[self.destAppIvtOffset:len(tempData)])
+                    fileObj.write(csfData)
+                    fileObj.close()
+        return True
+
     def RTyyyy_genBootableImage( self ):
         self._updateBdBatfileContent()
         # We have to change system dir to the path of elftosb.exe, or elftosb.exe may not be ran successfully
@@ -960,7 +1066,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
         print commandOutput
         self._recoverDcdBecauseOfSrcApp()
         if self._RTyyyy_parseBootableImageGenerationResult(commandOutput):
-            return True
+            return self._RTyyyy_signPartOfImage()
         else:
             return False
 

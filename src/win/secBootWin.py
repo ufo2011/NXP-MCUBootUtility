@@ -138,6 +138,15 @@ class secBootWin ( wx.Frame ):
 
 		self.m_menu_tools.AppendSubMenu( self.m_menu_flexspiXipRegion, u"FlexSPI XIP Region" )
 
+		self.m_menu_ivtEntryType = wx.Menu()
+		self.m_menuItem_ivtEntryResetHandler = wx.MenuItem( self.m_menu_ivtEntryType, wx.ID_ANY, u"Reset Handler", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_ivtEntryType.Append( self.m_menuItem_ivtEntryResetHandler )
+
+		self.m_menuItem_ivtEntryVectorTable = wx.MenuItem( self.m_menu_ivtEntryType, wx.ID_ANY, u"Vector Table", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_ivtEntryType.Append( self.m_menuItem_ivtEntryVectorTable )
+
+		self.m_menu_tools.AppendSubMenu( self.m_menu_ivtEntryType, u"IVT Entry Type" )
+
 		self.m_menubar.Append( self.m_menu_tools, u"Tools" )
 
 		self.m_menu_window = wx.Menu()
@@ -1883,6 +1892,8 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetEfuseLockerAsManual, id = self.m_menuItem_efuseLockerManual.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo0, id = self.m_menuItem_flexspiXipRegion0.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetFlexspiXipRegionTo1, id = self.m_menuItem_flexspiXipRegion1.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetIvtEntryToResetHandler, id = self.m_menuItem_ivtEntryResetHandler.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetIvtEntryToVectorTable, id = self.m_menuItem_ivtEntryVectorTable.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsContra, id = self.m_menuItem_soundEffectContra.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsMario, id = self.m_menuItem_soundEffectMario.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetSoundEffectAsQuiet, id = self.m_menuItem_soundEffectQuiet.GetId() )
@@ -2025,6 +2036,12 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetFlexspiXipRegionTo1( self, event ):
+		event.Skip()
+
+	def callbackSetIvtEntryToResetHandler( self, event ):
+		event.Skip()
+
+	def callbackSetIvtEntryToVectorTable( self, event ):
 		event.Skip()
 
 	def callbackSetSoundEffectAsContra( self, event ):

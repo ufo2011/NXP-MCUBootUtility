@@ -103,6 +103,10 @@ class secBootUi(secBootWin.secBootWin):
         self._initFlexspiXipRegion()
         self.setFlexspiXipRegion()
 
+        self.isIvtEntryResetHandler = None
+        self._initIvtEntryType()
+        self.setIvtEntryType()
+
         self.isUartPortSelected = None
         self.isUsbhidPortSelected = None
         self.uartComPort = None
@@ -347,6 +351,28 @@ class secBootUi(secBootWin.secBootWin):
             self.m_menuItem_flexspiXipRegion0.Check(True)
             self.m_menuItem_flexspiXipRegion1.Check(False)
         self.toolCommDict['flexspiXipRegionSel'] = self.flexspiXipRegionSel
+
+    def _initIvtEntryType( self ):
+        if self.toolCommDict['isIvtEntryResetHandler']:
+            self.m_menuItem_ivtEntryResetHandler.Check(True)
+            self.m_menuItem_ivtEntryVectorTable.Check(False)
+        else:
+            self.m_menuItem_ivtEntryResetHandler.Check(False)
+            self.m_menuItem_ivtEntryVectorTable.Check(True)
+
+    def setIvtEntryType( self ):
+        if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
+            if self.m_menuItem_ivtEntryResetHandler.IsChecked():
+                self.isIvtEntryResetHandler = True
+            elif self.m_menuItem_ivtEntryVectorTable.IsChecked():
+                self.isIvtEntryResetHandler = False
+            else:
+                pass
+        else:
+            self.isIvtEntryResetHandler = True
+            self.m_menuItem_ivtEntryResetHandler.Check(True)
+            self.m_menuItem_ivtEntryVectorTable.Check(False)
+        self.toolCommDict['isIvtEntryResetHandler'] = self.isIvtEntryResetHandler
 
     def checkIfSubWinHasBeenOpened( self ):
         runtimeSettings = uivar.getRuntimeSettings()
@@ -1258,6 +1284,9 @@ class secBootUi(secBootWin.secBootWin):
         self.m_menuItem_efuseLockerAutomatic.SetItemLabel(uilang.kMainLanguageContentDict['mItem_efuseLockerAutomatic'][langIndex])
         self.m_menuItem_efuseLockerManual.SetItemLabel(uilang.kMainLanguageContentDict['mItem_efuseLockerManual'][langIndex])
         self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_flexspiXipRegion'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_flexspiXipRegion'][langIndex])
+        self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_ivtEntryType'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_ivtEntryType'][langIndex])
+        self.m_menuItem_ivtEntryResetHandler.SetItemLabel(uilang.kMainLanguageContentDict['mItem_ivtEntryReset'][langIndex])
+        self.m_menuItem_ivtEntryVectorTable.SetItemLabel(uilang.kMainLanguageContentDict['mItem_ivtEntryVector'][langIndex])
         self.m_menubar.SetMenuLabel(uilang.kMenuPosition_Window, uilang.kMainLanguageContentDict['menu_window'][langIndex])
         self.m_menu_window.SetLabel(self.m_menu_window.FindItem(uilang.kMainLanguageContentDict['subMenu_soundEffect'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_soundEffect'][langIndex])
         self.m_menuItem_soundEffectContra.SetItemLabel(uilang.kMainLanguageContentDict['mItem_soundEffectContra'][langIndex])

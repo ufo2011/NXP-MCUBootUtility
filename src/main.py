@@ -583,6 +583,12 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
     def callbackSetFlexspiXipRegionTo1( self, event ):
         self._switchFlexspiXipRegion()
 
+    def callbackSetIvtEntryToResetHandler( self, event ):
+        self.setIvtEntryType()
+
+    def callbackSetIvtEntryToVectorTable( self, event ):
+        self.setIvtEntryType()
+
     def _doSetLanguage( self ):
         self.setLanguage()
         if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:

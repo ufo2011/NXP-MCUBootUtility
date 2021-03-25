@@ -636,7 +636,12 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
             pass
         else:
             pass
-        bdContent += "    entryPointAddress = " + self.convertLongIntHexText(str(hex(entryPointAddress))) + ";\n"
+        ivtEntryValue = 0
+        if self.isIvtEntryResetHandler:
+            ivtEntryValue = entryPointAddress
+        else:
+            ivtEntryValue = vectorAddress
+        bdContent += "    entryPointAddress = " + self.convertLongIntHexText(str(hex(ivtEntryValue))) + ";\n"
         bdContent += "}\n"
         ############################################################################
         bdContent += "\nsources {\n"

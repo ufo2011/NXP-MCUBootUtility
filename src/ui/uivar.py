@@ -234,7 +234,7 @@ def initVar(cfgFilename):
                           'efuseGroupSel':0,
                           'isAutomaticEfuseLocker':True,
                           'flexspiXipRegionSel':0,
-                          'isIvtEntryResetHandler':True,
+                          'isIvtEntryResetHandler':False,
                           'isEnglishLanguage':True,
                           'secBootType':0,
                           'mcuSeries':0,

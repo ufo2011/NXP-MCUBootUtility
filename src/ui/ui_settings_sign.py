@@ -100,30 +100,39 @@ class secBootUiSettingsSign(advSettingsWin_Sign.advSettingsWin_Sign):
         convertStatus, size0 = self._convertRegionInfoToVal32(self.m_textCtrl_signSize0.GetLineText(0))
         if not convertStatus:
             return False
+        if start0 == 0x0 or size0 == 0x0:
+            self.popupMsgBox('Sign Region 0 start address or size shouldn\'t be 0x0')
+            return False
+        self.signSettingsDict['signedStart0'] = start0
+        self.signSettingsDict['signedSize0'] = size0
+        self.signSettingsDict['signedStart1'] = 0x0
+        self.signSettingsDict['signedSize1'] = 0x0
+        self.signSettingsDict['signedStart2'] = 0x0
+        self.signSettingsDict['signedSize2'] = 0x0
         convertStatus, start1 = self._convertRegionInfoToVal32(self.m_textCtrl_signStart1.GetLineText(0))
         if not convertStatus:
             return False
         convertStatus, size1 = self._convertRegionInfoToVal32(self.m_textCtrl_signSize1.GetLineText(0))
         if not convertStatus:
             return False
-        if start1 < start0 + size0:
-            self.popupMsgBox('Sign Region 1 start address shouldn\'t less than Sign region 0 end address 0x%x' %(start0 + size0))
-            return False
-        convertStatus, start2 = self._convertRegionInfoToVal32(self.m_textCtrl_signStart2.GetLineText(0))
-        if not convertStatus:
-            return False
-        convertStatus, size2 = self._convertRegionInfoToVal32(self.m_textCtrl_signSize2.GetLineText(0))
-        if not convertStatus:
-            return False
-        if start2 < start1 + size1:
-            self.popupMsgBox('Sign Region 2 start address shouldn\'t less than Sign region 1 end address 0x%x' %(start1 + size1))
-            return False
-        self.signSettingsDict['signedStart0'] = start0
-        self.signSettingsDict['signedSize0'] = size0
-        self.signSettingsDict['signedStart1'] = start1
-        self.signSettingsDict['signedSize1'] = size1
-        self.signSettingsDict['signedStart2'] = start2
-        self.signSettingsDict['signedSize2'] = size2
+        if start1 != 0x0 and size1 != 0x0:
+            if start1 < start0 + size0:
+                self.popupMsgBox('Sign Region 1 start address shouldn\'t less than Sign region 0 end address 0x%x' %(start0 + size0))
+                return False
+            self.signSettingsDict['signedStart1'] = start1
+            self.signSettingsDict['signedSize1'] = size1
+            convertStatus, start2 = self._convertRegionInfoToVal32(self.m_textCtrl_signStart2.GetLineText(0))
+            if not convertStatus:
+                return False
+            convertStatus, size2 = self._convertRegionInfoToVal32(self.m_textCtrl_signSize2.GetLineText(0))
+            if not convertStatus:
+                return False
+            if start2 != 0x0 and size2 != 0x0:
+                if start2 < start1 + size1:
+                    self.popupMsgBox('Sign Region 2 start address shouldn\'t less than Sign region 1 end address 0x%x' %(start1 + size1))
+                    return False
+                self.signSettingsDict['signedStart2'] = start2
+                self.signSettingsDict['signedSize2'] = size2
         return True
 
     def callbackOk( self, event ):

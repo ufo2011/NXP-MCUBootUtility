@@ -17,7 +17,7 @@ import wx.xrc
 class advSettingsWin_Sign ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 303,228 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 303,371 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
@@ -38,21 +38,53 @@ class advSettingsWin_Sign ( wx.Frame ):
 		self.m_choice_signPart.SetSelection( 0 )
 		gSizer_signOpt.Add( self.m_choice_signPart, 0, wx.ALL, 5 )
 
-		self.m_staticText_signStart = wx.StaticText( self.m_panel_signOpt, wx.ID_ANY, u"Signed Start Address:", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText_signStart.Wrap( -1 )
+		self.m_staticText_signStart0 = wx.StaticText( self.m_panel_signOpt, wx.ID_ANY, u"Signed Region 0 Start:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_signStart0.Wrap( -1 )
 
-		gSizer_signOpt.Add( self.m_staticText_signStart, 0, wx.ALL, 5 )
+		gSizer_signOpt.Add( self.m_staticText_signStart0, 0, wx.ALL, 5 )
 
-		self.m_textCtrl_signStart = wx.TextCtrl( self.m_panel_signOpt, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
-		gSizer_signOpt.Add( self.m_textCtrl_signStart, 0, wx.ALL, 5 )
+		self.m_textCtrl_signStart0 = wx.TextCtrl( self.m_panel_signOpt, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
+		gSizer_signOpt.Add( self.m_textCtrl_signStart0, 0, wx.ALL, 5 )
 
-		self.m_staticText_signSize = wx.StaticText( self.m_panel_signOpt, wx.ID_ANY, u"Signed Region Size:", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText_signSize.Wrap( -1 )
+		self.m_staticText_signSize0 = wx.StaticText( self.m_panel_signOpt, wx.ID_ANY, u"Signed Region 0 Size:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_signSize0.Wrap( -1 )
 
-		gSizer_signOpt.Add( self.m_staticText_signSize, 0, wx.ALL, 5 )
+		gSizer_signOpt.Add( self.m_staticText_signSize0, 0, wx.ALL, 5 )
 
-		self.m_textCtrl_signSize = wx.TextCtrl( self.m_panel_signOpt, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
-		gSizer_signOpt.Add( self.m_textCtrl_signSize, 0, wx.ALL, 5 )
+		self.m_textCtrl_signSize0 = wx.TextCtrl( self.m_panel_signOpt, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
+		gSizer_signOpt.Add( self.m_textCtrl_signSize0, 0, wx.ALL, 5 )
+
+		self.m_staticText_signStart1 = wx.StaticText( self.m_panel_signOpt, wx.ID_ANY, u"Signed Region 1 Start:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_signStart1.Wrap( -1 )
+
+		gSizer_signOpt.Add( self.m_staticText_signStart1, 0, wx.ALL, 5 )
+
+		self.m_textCtrl_signStart1 = wx.TextCtrl( self.m_panel_signOpt, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
+		gSizer_signOpt.Add( self.m_textCtrl_signStart1, 0, wx.ALL, 5 )
+
+		self.m_staticText_signSize1 = wx.StaticText( self.m_panel_signOpt, wx.ID_ANY, u"Signed Region 1 Size:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_signSize1.Wrap( -1 )
+
+		gSizer_signOpt.Add( self.m_staticText_signSize1, 0, wx.ALL, 5 )
+
+		self.m_textCtrl_signSize1 = wx.TextCtrl( self.m_panel_signOpt, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
+		gSizer_signOpt.Add( self.m_textCtrl_signSize1, 0, wx.ALL, 5 )
+
+		self.m_staticText_signStart2 = wx.StaticText( self.m_panel_signOpt, wx.ID_ANY, u"Signed Region 2 Start:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_signStart2.Wrap( -1 )
+
+		gSizer_signOpt.Add( self.m_staticText_signStart2, 0, wx.ALL, 5 )
+
+		self.m_textCtrl_signStart2 = wx.TextCtrl( self.m_panel_signOpt, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
+		gSizer_signOpt.Add( self.m_textCtrl_signStart2, 0, wx.ALL, 5 )
+
+		self.m_staticText_signSize2 = wx.StaticText( self.m_panel_signOpt, wx.ID_ANY, u"Signed Region 2 Size:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_signSize2.Wrap( -1 )
+
+		gSizer_signOpt.Add( self.m_staticText_signSize2, 0, wx.ALL, 5 )
+
+		self.m_textCtrl_signSize2 = wx.TextCtrl( self.m_panel_signOpt, wx.ID_ANY, u"0x0", wx.DefaultPosition, wx.Size( 120,-1 ), 0 )
+		gSizer_signOpt.Add( self.m_textCtrl_signSize2, 0, wx.ALL, 5 )
 
 
 		self.m_panel_signOpt.SetSizer( gSizer_signOpt )

@@ -95,8 +95,12 @@ g_certSettingsDict = {'cstVersion':None,
                       'caFlagSet':None}
 
 g_signSettingsDict = {'isPartSigned':None,
-                      'signedStart':None,
-                      'signedSize':None}
+                      'signedStart0':None,
+                      'signedSize0':None,
+                      'signedStart1':None,
+                      'signedSize1':None,
+                      'signedStart2':None,
+                      'signedSize2':None}
 
 g_otpmkKeyCommDict = {'secureBootType':None,
                       'opt':None,
@@ -300,8 +304,12 @@ def initVar(cfgFilename):
         g_certSettingsDict['caFlagSet'] = 'y'
 
         g_signSettingsDict['isPartSigned'] = False
-        g_signSettingsDict['signedStart'] = 0x0
-        g_signSettingsDict['signedSize'] = 0x0
+        g_signSettingsDict['signedStart0'] = 0x0
+        g_signSettingsDict['signedSize0'] = 0x0
+        g_signSettingsDict['signedStart1'] = 0x0
+        g_signSettingsDict['signedSize1'] = 0x0
+        g_signSettingsDict['signedStart2'] = 0x0
+        g_signSettingsDict['signedSize2'] = 0x0
 
         g_otpmkKeyCommDict['opt'] = 0xe0100000
         g_otpmkKeyCommDict['regionStartList'] = [None] * 4

@@ -25,24 +25,44 @@ class secBootUiSettingsSign(advSettingsWin_Sign.advSettingsWin_Sign):
         langIndex = runtimeSettings[3]
         self.m_notebook_signOpt.SetPageText(0, uilang.kSubLanguageContentDict['panel_signOpt'][langIndex])
         self.m_staticText_signPart.SetLabel(uilang.kSubLanguageContentDict['sText_signPart'][langIndex])
-        self.m_staticText_signStart.SetLabel(uilang.kSubLanguageContentDict['sText_signStart'][langIndex])
-        self.m_staticText_signSize.SetLabel(uilang.kSubLanguageContentDict['sText_signSize'][langIndex])
+        self.m_staticText_signStart0.SetLabel(uilang.kSubLanguageContentDict['sText_signStart0'][langIndex])
+        self.m_staticText_signSize0.SetLabel(uilang.kSubLanguageContentDict['sText_signSize0'][langIndex])
+        self.m_staticText_signStart1.SetLabel(uilang.kSubLanguageContentDict['sText_signStart1'][langIndex])
+        self.m_staticText_signSize1.SetLabel(uilang.kSubLanguageContentDict['sText_signSize1'][langIndex])
+        self.m_staticText_signStart2.SetLabel(uilang.kSubLanguageContentDict['sText_signStart2'][langIndex])
+        self.m_staticText_signSize2.SetLabel(uilang.kSubLanguageContentDict['sText_signSize2'][langIndex])
         self.m_button_ok.SetLabel(uilang.kSubLanguageContentDict['button_sign_ok'][langIndex])
         self.m_button_cancel.SetLabel(uilang.kSubLanguageContentDict['button_sign_cancel'][langIndex])
 
     def _updateSignRegionField ( self, isEnabled ):
         if isEnabled:
-            self.m_textCtrl_signStart.Enable( True )
-            self.m_textCtrl_signSize.Enable( True )
+            self.m_textCtrl_signStart0.Enable( True )
+            self.m_textCtrl_signSize0.Enable( True )
+            self.m_textCtrl_signStart1.Enable( True )
+            self.m_textCtrl_signSize1.Enable( True )
+            self.m_textCtrl_signStart2.Enable( True )
+            self.m_textCtrl_signSize2.Enable( True )
         else:
-            self.m_textCtrl_signStart.Enable( False )
-            self.m_textCtrl_signSize.Enable( False )
+            self.m_textCtrl_signStart0.Enable( False )
+            self.m_textCtrl_signSize0.Enable( False )
+            self.m_textCtrl_signStart1.Enable( False )
+            self.m_textCtrl_signSize1.Enable( False )
+            self.m_textCtrl_signStart2.Enable( False )
+            self.m_textCtrl_signSize2.Enable( False )
 
     def _recoverLastSettings ( self ):
-        self.m_textCtrl_signStart.Clear()
-        self.m_textCtrl_signStart.write(str(hex(self.signSettingsDict['signedStart'])))
-        self.m_textCtrl_signSize.Clear()
-        self.m_textCtrl_signSize.write(str(hex(self.signSettingsDict['signedSize'])))
+        self.m_textCtrl_signStart0.Clear()
+        self.m_textCtrl_signStart0.write(str(hex(self.signSettingsDict['signedStart0'])))
+        self.m_textCtrl_signSize0.Clear()
+        self.m_textCtrl_signSize0.write(str(hex(self.signSettingsDict['signedSize0'])))
+        self.m_textCtrl_signStart1.Clear()
+        self.m_textCtrl_signStart1.write(str(hex(self.signSettingsDict['signedStart1'])))
+        self.m_textCtrl_signSize1.Clear()
+        self.m_textCtrl_signSize1.write(str(hex(self.signSettingsDict['signedSize1'])))
+        self.m_textCtrl_signStart2.Clear()
+        self.m_textCtrl_signStart2.write(str(hex(self.signSettingsDict['signedStart2'])))
+        self.m_textCtrl_signSize2.Clear()
+        self.m_textCtrl_signSize2.write(str(hex(self.signSettingsDict['signedSize2'])))
         if self.signSettingsDict['isPartSigned']:
             self.m_choice_signPart.SetSelection(1)
         else:
@@ -73,21 +93,43 @@ class secBootUiSettingsSign(advSettingsWin_Sign.advSettingsWin_Sign):
             self.popupMsgBox('Illegal input detected! You should input like this format: 0x5000')
         return status, val32
 
-    def _getSignedStart( self ):
-        convertStatus, val = self._convertRegionInfoToVal32(self.m_textCtrl_signStart.GetLineText(0))
+    def _getSignRegionInfo( self ):
+        convertStatus, start0 = self._convertRegionInfoToVal32(self.m_textCtrl_signStart0.GetLineText(0))
         if not convertStatus:
             return False
-        self.signSettingsDict['signedStart'] = val
-
-    def _getSignedSize( self ):
-        convertStatus, val = self._convertRegionInfoToVal32(self.m_textCtrl_signSize.GetLineText(0))
+        convertStatus, size0 = self._convertRegionInfoToVal32(self.m_textCtrl_signSize0.GetLineText(0))
         if not convertStatus:
             return False
-        self.signSettingsDict['signedSize'] = val
+        convertStatus, start1 = self._convertRegionInfoToVal32(self.m_textCtrl_signStart1.GetLineText(0))
+        if not convertStatus:
+            return False
+        convertStatus, size1 = self._convertRegionInfoToVal32(self.m_textCtrl_signSize1.GetLineText(0))
+        if not convertStatus:
+            return False
+        if start1 < start0 + size0:
+            self.popupMsgBox('Sign Region 1 start address shouldn\'t less than Sign region 0 end address 0x%x' %(start0 + size0))
+            return False
+        convertStatus, start2 = self._convertRegionInfoToVal32(self.m_textCtrl_signStart2.GetLineText(0))
+        if not convertStatus:
+            return False
+        convertStatus, size2 = self._convertRegionInfoToVal32(self.m_textCtrl_signSize2.GetLineText(0))
+        if not convertStatus:
+            return False
+        if start2 < start1 + size1:
+            self.popupMsgBox('Sign Region 2 start address shouldn\'t less than Sign region 1 end address 0x%x' %(start1 + size1))
+            return False
+        self.signSettingsDict['signedStart0'] = start0
+        self.signSettingsDict['signedSize0'] = size0
+        self.signSettingsDict['signedStart1'] = start1
+        self.signSettingsDict['signedSize1'] = size1
+        self.signSettingsDict['signedStart2'] = start2
+        self.signSettingsDict['signedSize2'] = size2
+        return True
 
     def callbackOk( self, event ):
-        self._getSignedStart()
-        self._getSignedSize()
+        if self.signSettingsDict['isPartSigned']:
+            if not self._getSignRegionInfo():
+                return
         uivar.setAdvancedSettings(uidef.kAdvancedSettings_Sign, self.signSettingsDict)
         uivar.setRuntimeSettings(False)
         self.Show(False)

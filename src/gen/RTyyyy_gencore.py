@@ -1011,7 +1011,7 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                         region0Start = signSettingsDict['signedStart0']
                         region0Offset = 0
                         region0Size = signSettingsDict['signedSize0']
-                        if regionStart <= region0Start < regionStart + regionSize:
+                        if regionStart == region0Start:
                             region0Offset = regionOffset + region0Start - regionStart
                         else:
                             self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidStart0'][self.languageIndex])

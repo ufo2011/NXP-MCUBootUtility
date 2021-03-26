@@ -868,8 +868,8 @@ kMsgLanguageContentDict = {
         'srcImgError_invalidNonXipRange2':     ['Non-XIP Application is detected but it is not in the range of SRAM!',
                                                u"检测到非XIP应用程序,但它没有链接到SRAM范围内!"],
 
-        'signImgError_invalidStart0':         ['Signed Region 0 start address is invalid!',
-                                              u"签名区域0起始地址设置无效!"],
+        'signImgError_invalidStart0':         ['Signed Region 0 start address is invalid, it should be image start address!',
+                                              u"签名区域0起始地址设置无效，它应该等于image起始链接地址!"],
         'signImgError_invalidSize0':          ['Signed Region 0 size is invalid!',
                                               u"签名区域0长度设置无效!"],
         'signImgError_invalidRegion1':        ['Signed Region 1 start address or size is invalid!',

@@ -1005,20 +1005,39 @@ class secBootRTyyyyGen(RTyyyy_uicore.secBootRTyyyyUi):
                     loc1 = inputCsfContent.find(loc1Str, loc0)
                     if loc1 != -1:
                         regionContent = inputCsfContent[loc0+len(loc0Str):loc1+1]
-                        start = self._getInputCsfRegionValue(regionContent, 0)
-                        offset = self._getInputCsfRegionValue(regionContent, 1)
-                        size = self._getInputCsfRegionValue(regionContent, 2)
-                        if start <= signSettingsDict['signedStart'] < start + size:
-                            offset += signSettingsDict['signedStart'] - start
+                        regionStart = self._getInputCsfRegionValue(regionContent, 0)
+                        regionOffset = self._getInputCsfRegionValue(regionContent, 1)
+                        regionSize = self._getInputCsfRegionValue(regionContent, 2)
+                        region0Start = signSettingsDict['signedStart0']
+                        region0Offset = 0
+                        region0Size = signSettingsDict['signedSize0']
+                        if regionStart <= region0Start < regionStart + regionSize:
+                            region0Offset = regionOffset + region0Start - regionStart
                         else:
-                            self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidStart'][self.languageIndex])
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidStart0'][self.languageIndex])
                             return False
-                        if signSettingsDict['signedStart'] - start + signSettingsDict['signedSize'] <= size:
-                            size = signSettingsDict['signedSize']
-                        else:
-                            self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidSize'][self.languageIndex])
+                        if region0Start - regionStart + region0Size > regionSize:
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidSize0'][self.languageIndex])
                             return False
-                        newRegionContent = "\r\n             " + str(hex(start)) + ' ' + str(hex(offset)) + ' ' + str(hex(size))
+                        newRegionContent = "\r\n             " + str(hex(region0Start)) + ' ' + str(hex(region0Offset)) + ' ' + str(hex(region0Size))
+                        region1Start = signSettingsDict['signedStart1']
+                        region1Offset = 0
+                        region1Size = signSettingsDict['signedSize1']
+                        if region1Start != 0x0 and region1Size != 0x0:
+                            if region1Start + region1Size > regionStart + regionSize:
+                                self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidRegion1'][self.languageIndex])
+                                return False
+                            region1Offset = regionOffset + region1Start - regionStart
+                            newRegionContent += " \""+ tempBinStr + "\",\\\r\n             " + str(hex(region1Start)) + ' ' + str(hex(region1Offset)) + ' ' + str(hex(region1Size))
+                        region2Start = signSettingsDict['signedStart2']
+                        region2Offset = 0
+                        region2Size = signSettingsDict['signedSize2']
+                        if region2Start != 0x0 and region2Size != 0x0:
+                            if region2Start + region2Size > regionStart + regionSize:
+                                self.popupMsgBox(uilang.kMsgLanguageContentDict['signImgError_invalidRegion2'][self.languageIndex])
+                                return False
+                            region2Offset = regionOffset + region2Start - regionStart
+                            newRegionContent += " \""+ tempBinStr + "\",\\\r\n             " + str(hex(region2Start)) + ' ' + str(hex(region2Offset)) + ' ' + str(hex(region2Size))
                         newInputCsfContent = inputCsfContent[0:loc0+len(loc0Str)]
                         newInputCsfContent += newRegionContent
                         newInputCsfContent += inputCsfContent[loc1:len(inputCsfContent)]

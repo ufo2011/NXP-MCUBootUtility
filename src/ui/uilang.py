@@ -719,6 +719,8 @@ kMsgLanguageContentDict = {
                                               u"请检查BMOD[1:0]引脚状态是否为2\'b01以确认微控制器处于ROM SDP模式！"],
         'connectError_failToPingFl':          ['Failed to ping Flashloader, Please reset board and consider updating flashloader.srec file under /src/targets/ then try again!',
                                               u"微控制器未能与Flashloader建立连接，请复位板子并考虑更新/src/targets/目录下相应的flashloader.srec文件再试！"],
+        'connectError_failToPingSblIsp':      ['Failed to ping SBL ISP component, Please double check it is SBL target !',
+                                              u"微控制器未能与SBL ISP组件建立连接，请确认当前设备已集成SBL功能！"],
         'connectError_failToCfgBootDevice':   ['MCU has entered Flashloader but failed to configure external memory, Please reset board and set proper boot device then try again!',
                                               u"微控制器已与Flashloader建立连接，但是未能识别启动设备。请复位板子并配置正确的启动设备再试！"],
         'connectError_hasnotCfgBootDevice':   ['Please configure boot device via Flashloader first!',

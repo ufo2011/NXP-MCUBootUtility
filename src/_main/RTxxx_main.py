@@ -24,7 +24,15 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
             self._RTxxx_initMain()
 
     def _RTxxx_initMain( self ):
-        self.connectStage = uidef.kConnectStage_Rom
+        if self.toolRunMode != uidef.kToolRunMode_SblOta:
+            self.connectStage = uidef.kConnectStage_Rom
+            self.updateConnectStatus('black')
+        else:
+            self.connectStage = uidef.kConnectStage_Flashloader
+            self.updateConnectStatus('yellow_ota')
+        usbIdList = self.RTxxx_getUsbid()
+        self.setPortSetupValue(self.connectStage, usbIdList, False, False)
+
         self.isBootableAppAllowedToView = False
         self.lastTime = None
         self.isAccessMemTaskPending = False
@@ -73,7 +81,10 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
         return pingStatus
 
     def _RTxxx_connectFailureHandler( self ):
-        self.connectStage = uidef.kConnectStage_Rom
+        if self.toolRunMode != uidef.kToolRunMode_SblOta:
+            self.connectStage = uidef.kConnectStage_Rom
+        else:
+            self.connectStage = uidef.kConnectStage_Flashloader
         self.updateConnectStatus('red')
         usbIdList = self.RTxxx_getUsbid()
         self.setPortSetupValue(self.connectStage, usbIdList, False, False)
@@ -83,7 +94,7 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
         connectSteps = RTxxx_uidef.kConnectStep_Normal
         self.getOneStepConnectMode()
         retryToDetectUsb = False
-        if self.isOneStepConnectMode:
+        if ((self.toolRunMode != uidef.kToolRunMode_SblOta) and self.isOneStepConnectMode):
             if self.connectStage == uidef.kConnectStage_Reset or self.connectStage == uidef.kConnectStage_ExternalMemory:
                 connectSteps = RTxxx_uidef.kConnectStep_Fast - 1
             elif self.connectStage == uidef.kConnectStage_Rom:
@@ -109,6 +120,18 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
                     if showError:
                         self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_doubleCheckIsp'][self.languageIndex])
                     return
+            elif self.connectStage == uidef.kConnectStage_Flashloader:
+                # It is only for SBL OTA mode
+                self.RTxxx_connectToDevice(self.connectStage)
+                if self._RTxxx_retryToPingBootloader():
+                    self.RTxxx_getBootDeviceInfoViaRom()
+                    self.connectStage = uidef.kConnectStage_Reset
+                    self.updateConnectStatus('blue')
+                else:
+                    if showError:
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToPingSblIsp'][self.languageIndex])
+                    self._RTxxx_connectFailureHandler()
+                    return
             elif self.connectStage == uidef.kConnectStage_ExternalMemory:
                 if self.RTxxx_configureBootDevice():
                     self.RTxxx_getBootDeviceInfoViaRom()
@@ -122,8 +145,12 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
             elif self.connectStage == uidef.kConnectStage_Reset:
                 self.RTxxx_resetMcuDevice()
                 self.isBootableAppAllowedToView = False
-                self.connectStage = uidef.kConnectStage_Rom
-                self.updateConnectStatus('black')
+                if self.toolRunMode != uidef.kToolRunMode_SblOta:
+                    self.connectStage = uidef.kConnectStage_Rom
+                    self.updateConnectStatus('black')
+                else:
+                    self.connectStage = uidef.kConnectStage_Flashloader
+                    self.updateConnectStatus('yellow_ota')
                 usbIdList = self.RTxxx_getUsbid()
                 self.setPortSetupValue(self.connectStage, usbIdList, True, True)
                 self.RTxxx_connectToDevice(self.connectStage)

@@ -83,7 +83,7 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
 
     def RTxxx_getUsbid( self ):
         self.RTxxx_createMcuTarget()
-        return [self.tgt.romUsbVid, self.tgt.romUsbPid]
+        return [self.tgt.romUsbVid, self.tgt.romUsbPid, self.tgt.flashloaderUsbVid, self.tgt.flashloaderUsbPid]
 
     def RTxxx_connectToDevice( self , connectStage):
         if connectStage == uidef.kConnectStage_Rom:
@@ -219,6 +219,8 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         return True
 
     def RTxxx_getBootDeviceInfoViaRom ( self ):
+        if self.toolRunMode == uidef.kToolRunMode_SblOta:
+            self._RTxxx_prepareForBootDeviceOperation()
         if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor or \
            self.bootDevice == RTxxx_uidef.kBootDevice_QuadspiNor:
             if self.bootDevice == RTxxx_uidef.kBootDevice_FlexspiNor:

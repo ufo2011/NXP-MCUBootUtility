@@ -179,7 +179,10 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
                         self.updateConnectStatus('blue')
                 else:
                     if showError:
-                        self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToPingFl'][self.languageIndex])
+                        if self.toolRunMode != uidef.kToolRunMode_SblOta:
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToPingFl'][self.languageIndex])
+                        else:
+                            self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToPingSblIsp'][self.languageIndex])
                     self._RTyyyy_connectFailureHandler()
                     return
             elif self.connectStage == uidef.kConnectStage_ExternalMemory:

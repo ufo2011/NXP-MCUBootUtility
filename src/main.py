@@ -58,6 +58,7 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
         self.isAccessMemTaskPending = False
         self.accessMemType = ''
         self.lastTime = None
+        self._previousToolRunMode = None
 
     def _startGaugeTimer( self ):
         self.lastTime = time.time()
@@ -71,6 +72,8 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
         self.setTargetSetupValue()
         self._switchEfuseGroup()
         self._setUartUsbPort()
+        if self._isRunModeRelatedToOta():
+            self.isMcuSeriesChanged = True
         if self.isMcuSeriesChanged:
             if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
                 self.RTyyyy_callbackSetMcuSeries()
@@ -462,7 +465,13 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
     def callbackClose( self, event ):
         self._deinitToolToExit()
 
+    def _isRunModeRelatedToOta( self ):
+        normalRunModeList = [uidef.kToolRunMode_Entry, uidef.kToolRunMode_Master]
+        return (not ((self._previousToolRunMode in normalRunModeList) and (self.toolRunMode in normalRunModeList)))
+
     def _switchToolRunMode( self ):
+        if self._isRunModeRelatedToOta():
+            self._setupMcuTargets()
         if self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy:
             self.RTyyyy_switchToolRunMode()
         elif self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
@@ -476,10 +485,17 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
         self.enableOneStepForEntryMode()
 
     def callbackSetRunModeAsEntry( self, event ):
+        self._previousToolRunMode = self.toolRunMode
         self.setToolRunMode()
         self._switchToolRunMode()
 
     def callbackSetRunModeAsMaster( self, event ):
+        self._previousToolRunMode = self.toolRunMode
+        self.setToolRunMode()
+        self._switchToolRunMode()
+
+    def callbackSetRunModeAsOta( self, event ):
+        self._previousToolRunMode = self.toolRunMode
         self.setToolRunMode()
         self._switchToolRunMode()
 

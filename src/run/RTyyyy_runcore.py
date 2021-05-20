@@ -731,6 +731,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
         return True
 
     def getBootDeviceInfoViaFlashloader ( self ):
+        if self.toolRunMode == uidef.kToolRunMode_SblOta:
+            self._RTyyyy_prepareForBootDeviceOperation()
         if self.bootDevice == RTyyyy_uidef.kBootDevice_SemcNand:
             self.printDeviceStatus("--------SEMC NAND memory----------")
             self._getSemcNandDeviceInfo()

@@ -79,7 +79,7 @@ class secBootKinetisRun(Kinetis_gencore.secBootKinetisGen):
 
     def Kinetis_getUsbid( self ):
         self.Kinetis_createMcuTarget()
-        return [self.tgt.romUsbVid, self.tgt.romUsbPid]
+        return [self.tgt.romUsbVid, self.tgt.romUsbPid, self.tgt.flashloaderUsbVid, self.tgt.flashloaderUsbPid]
 
     def Kinetis_connectToDevice( self , connectStage):
         if connectStage == uidef.kConnectStage_Rom:

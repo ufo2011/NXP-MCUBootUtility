@@ -24,7 +24,15 @@ class secBootLpcMain(LPC_memcore.secBootLpcMem):
             self._LPC_initMain()
 
     def _LPC_initMain( self ):
-        self.connectStage = uidef.kConnectStage_Rom
+        if self.toolRunMode != uidef.kToolRunMode_SblOta:
+            self.connectStage = uidef.kConnectStage_Rom
+            self.updateConnectStatus('black')
+        else:
+            self.connectStage = uidef.kConnectStage_Flashloader
+            self.updateConnectStatus('yellow_ota')
+        usbIdList = self.LPC_getUsbid()
+        self.setPortSetupValue(self.connectStage, usbIdList, False, False)
+
         self.isBootableAppAllowedToView = False
         self.lastTime = None
         self.isAccessMemTaskPending = False
@@ -72,7 +80,10 @@ class secBootLpcMain(LPC_memcore.secBootLpcMem):
         return pingStatus
 
     def _LPC_connectFailureHandler( self ):
-        self.connectStage = uidef.kConnectStage_Rom
+        if self.toolRunMode != uidef.kToolRunMode_SblOta:
+            self.connectStage = uidef.kConnectStage_Rom
+        else:
+            self.connectStage = uidef.kConnectStage_Flashloader
         self.updateConnectStatus('red')
         usbIdList = self.LPC_getUsbid()
         self.setPortSetupValue(self.connectStage, usbIdList, False, False)
@@ -101,11 +112,26 @@ class secBootLpcMain(LPC_memcore.secBootLpcMem):
                     if showError:
                         self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_doubleCheckIspBoot'][self.languageIndex])
                     return
+            elif self.connectStage == uidef.kConnectStage_Flashloader:
+                # It is only for SBL OTA mode
+                self.LPC_connectToDevice(self.connectStage)
+                if self._LPC_retryToPingBootloader():
+                    self.connectStage = uidef.kConnectStage_Reset
+                    self.updateConnectStatus('blue')
+                else:
+                    if showError:
+                        self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_failToPingSblIsp'][self.languageIndex])
+                    self._LPC_connectFailureHandler()
+                    return
             elif self.connectStage == uidef.kConnectStage_Reset:
                 self.LPC_resetMcuDevice()
                 self.isBootableAppAllowedToView = False
-                self.connectStage = uidef.kConnectStage_Rom
-                self.updateConnectStatus('black')
+                if self.toolRunMode != uidef.kToolRunMode_SblOta:
+                    self.connectStage = uidef.kConnectStage_Rom
+                    self.updateConnectStatus('black')
+                else:
+                    self.connectStage = uidef.kConnectStage_Flashloader
+                    self.updateConnectStatus('yellow_ota')
                 usbIdList = self.LPC_getUsbid()
                 self.setPortSetupValue(self.connectStage, usbIdList, True, True)
                 self.LPC_connectToDevice(self.connectStage)

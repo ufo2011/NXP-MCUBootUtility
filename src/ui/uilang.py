@@ -669,11 +669,13 @@ kRevision_3_2_0_zh = u"【v3.2.0】 \n" + \
 kRevision_3_3_0_en =  "【v3.3.0】 \n" + \
                       "  Feature: \n" + \
                       "     1. [RTyyyy] Can sign part of user application \n" + \
+                      "     2. [RT/LPC] Support ISP downloading for SBL target \n" + \
                       "  Improvement: \n" + \
                       "     1. [RTyyyy] Both entry point address and vector table address can be set as IVT.entry \n\n"
 kRevision_3_3_0_zh = u"【v3.3.0】 \n" + \
                      u"  特性: \n" + \
                       "     1. [RTyyyy] 支持对源image文件进行部分签名 \n" + \
+                      "     2. [RT/LPC] 支持SBL设备的ISP下载 \n" + \
                      u"  改进: \n" + \
                      u"     1. [RTyyyy] 启动头IVT中entry参数既支持设为复位函数也支持中断向量表 \n\n"
 

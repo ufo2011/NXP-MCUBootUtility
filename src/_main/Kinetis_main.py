@@ -25,6 +25,7 @@ class secBootKinetisMain(Kinetis_memcore.secBootKinetisMem):
 
     def _Kinetis_initMain( self ):
         self.connectStage = uidef.kConnectStage_Rom
+        self.updateConnectStatus('black')
         self.isBootableAppAllowedToView = False
         self.lastTime = None
         self.isAccessMemTaskPending = False

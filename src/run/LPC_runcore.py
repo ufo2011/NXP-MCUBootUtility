@@ -81,7 +81,7 @@ class secBootLpcRun(LPC_gencore.secBootLpcGen):
 
     def LPC_getUsbid( self ):
         self.LPC_createMcuTarget()
-        return [self.tgt.romUsbVid, self.tgt.romUsbPid]
+        return [self.tgt.romUsbVid, self.tgt.romUsbPid, self.tgt.flashloaderUsbVid, self.tgt.flashloaderUsbPid]
 
     def LPC_connectToDevice( self , connectStage):
         if connectStage == uidef.kConnectStage_Rom:

@@ -52,6 +52,9 @@ class secBootWin ( wx.Frame ):
 		self.m_menuItem_runModeMaster = wx.MenuItem( self.m_menu_runMode, wx.ID_ANY, u"Master", wx.EmptyString, wx.ITEM_RADIO )
 		self.m_menu_runMode.Append( self.m_menuItem_runModeMaster )
 
+		self.m_menuItem_runModeOta = wx.MenuItem( self.m_menu_runMode, wx.ID_ANY, u"SBL OTA", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menu_runMode.Append( self.m_menuItem_runModeOta )
+
 		self.m_menu_tools.AppendSubMenu( self.m_menu_runMode, u"Run Mode" )
 
 		self.m_menu_usbDetection = wx.Menu()
@@ -1871,6 +1874,7 @@ class secBootWin ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.callbackSetLanguageAsChinese, id = self.m_menuItem_chinese.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsEntry, id = self.m_menuItem_runModeEntry.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsMaster, id = self.m_menuItem_runModeMaster.GetId() )
+		self.Bind( wx.EVT_MENU, self.callbackSetRunModeAsOta, id = self.m_menuItem_runModeOta.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsDynamic, id = self.m_menuItem_usbDetectionDynamic.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetUsbDetectionAsStatic, id = self.m_menuItem_usbDetectionStatic.GetId() )
 		self.Bind( wx.EVT_MENU, self.callbackSetGenSbFileAsYes, id = self.m_menuItem_genSbFileYes.GetId() )
@@ -1973,6 +1977,9 @@ class secBootWin ( wx.Frame ):
 		event.Skip()
 
 	def callbackSetRunModeAsMaster( self, event ):
+		event.Skip()
+
+	def callbackSetRunModeAsOta( self, event ):
 		event.Skip()
 
 	def callbackSetUsbDetectionAsDynamic( self, event ):

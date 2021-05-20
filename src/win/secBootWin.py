@@ -1707,7 +1707,7 @@ class secBootWin ( wx.Frame ):
 		self.m_textCtrl_memLength = wx.TextCtrl( self.m_panel_memView, wx.ID_ANY, u"0x2000", wx.DefaultPosition, wx.Size( 90,-1 ), 0 )
 		wSizer_memView.Add( self.m_textCtrl_memLength, 0, wx.ALL, 5 )
 
-		self.m_staticText_memBinFile = wx.StaticText( self.m_panel_memView, wx.ID_ANY, u"Bin File:", wx.DefaultPosition, wx.Size( 50,-1 ), 0 )
+		self.m_staticText_memBinFile = wx.StaticText( self.m_panel_memView, wx.ID_ANY, u"bin/s19/hex:", wx.DefaultPosition, wx.Size( 70,-1 ), 0 )
 		self.m_staticText_memBinFile.Wrap( -1 )
 
 		wSizer_memView.Add( self.m_staticText_memBinFile, 0, wx.ALL, 5 )

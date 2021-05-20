@@ -134,7 +134,7 @@ kMainLanguageContentDict = {
         'panel_memView':                      ['Boot Device Memory',                    u"       通用Flash编程       "],
         'sText_memStart':                     ['Start / Offset:',                       u"首地址/偏移："],
         'sText_memLength':                    ['Byte Length (For Read/Erase):',         u"字节长度（回读/擦除）："],
-        'sText_memBinFile':                   ['Bin File:',                             u"源文件："],
+        'sText_memBinFile':                   ['bin/s19/hex:',                          u"源文件："],
         'button_readMem':                     ['Read',                                  u"回读"],
         'button_eraseMem':                    ['Erase',                                 u"擦除"],
         'button_writeMem':                    ['Write (Auto Erase)',                    u"下载（含自动擦除）"],
@@ -670,12 +670,14 @@ kRevision_3_3_0_en =  "【v3.3.0】 \n" + \
                       "  Feature: \n" + \
                       "     1. [RTyyyy] Can sign part of user application \n" + \
                       "     2. [RT/LPC] Support ISP downloading for SBL target \n" + \
+                      "     3. Support more image formats (hex/s19) in Programmer \n" + \
                       "  Improvement: \n" + \
                       "     1. [RTyyyy] Both entry point address and vector table address can be set as IVT.entry \n\n"
 kRevision_3_3_0_zh = u"【v3.3.0】 \n" + \
                      u"  特性: \n" + \
                       "     1. [RTyyyy] 支持对源image文件进行部分签名 \n" + \
                       "     2. [RT/LPC] 支持SBL设备的ISP下载 \n" + \
+                      "     3. 通用编程器模式下增加支持带格式源image文件(hex/s19) \n" + \
                      u"  改进: \n" + \
                      u"     1. [RTyyyy] 启动头IVT中entry参数既支持设为复位函数也支持中断向量表 \n\n"
 

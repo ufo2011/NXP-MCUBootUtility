@@ -487,8 +487,11 @@ class Bootloader(object):
 
     ##
     # @brief flash-image command
-    def flashImage(self, filename, erase=1, memoryid=0):
-        return self._executeCommand('flash-image', filename, erase, memoryid)
+    def flashImage(self, filename, erase='erase', memoryid=0):
+        if erase == '':
+            return self._executeCommand('flash-image', filename)
+        else:
+            return self._executeCommand('flash-image', filename, erase, memoryid)
 
     ##
     # @brief list-memory command

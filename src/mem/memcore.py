@@ -9,6 +9,7 @@ from run import runcore
 from ui import uidef
 from ui import uivar
 from ui import uilang
+from gen import gendef
 from utils import misc
 
 s_visibleAsciiStart = ' '
@@ -70,19 +71,25 @@ class secBootMem(runcore.secBootRun):
         memLength = 0
         memBinFile = None
         memFlexibleArg = None
-        status, memStart = self.getComMemStartAddress()
-        if status:
-            if isMemWrite:
-                memBinFile = self.getComMemBinFile()
-                if not os.path.isfile(memBinFile):
-                    status = False
-                else:
-                    memFlexibleArg = memBinFile
+        useFlashImageCmd = False
+        if isMemWrite:
+            memBinFile = self.getComMemBinFile()
+            if not os.path.isfile(memBinFile):
+                status = False
             else:
-                status, memLength = self.getComMemByteLength()
-                if status:
-                    memFlexibleArg = memLength
-        return status, memStart, memFlexibleArg
+                memFlexibleArg = memBinFile
+                extType = os.path.splitext(memBinFile)[-1]
+                if (extType in gendef.kAppImageFileExtensionList_S19) or \
+                   (extType in gendef.kAppImageFileExtensionList_Hex):
+                    useFlashImageCmd = True
+                    status = True
+                else:
+                    status, memStart = self.getComMemStartAddress()
+        else:
+            status, memStart = self.getComMemStartAddress()
+            if status:
+                status, memFlexibleArg = self.getComMemByteLength()
+        return status, memStart, memFlexibleArg, useFlashImageCmd
 
     def _convertComMemStart( self, memStart ):
         if memStart < self.bootDeviceMemBase:
@@ -90,7 +97,7 @@ class secBootMem(runcore.secBootRun):
         return memStart
 
     def readBootDeviceMemory( self ):
-        status, memStart, memLength = self._getUserComMemParameters(False)
+        status, memStart, memLength, dummyArg = self._getUserComMemParameters(False)
         if status:
             memStart = self._convertComMemStart(memStart)
             alignedMemStart = misc.align_down(memStart, self.comMemReadUnit)
@@ -124,7 +131,7 @@ class secBootMem(runcore.secBootRun):
                     pass
 
     def eraseBootDeviceMemory( self ):
-        status, memStart, memLength = self._getUserComMemParameters(False)
+        status, memStart, memLength, dummyArg = self._getUserComMemParameters(False)
         if status:
             memStart = self._convertComMemStart(memStart)
             alignedMemStart = misc.align_down(memStart, self.comMemEraseUnit)
@@ -142,46 +149,64 @@ class secBootMem(runcore.secBootRun):
                     pass
 
     def writeBootDeviceMemory( self ):
-        status, memStart, memBinFile = self._getUserComMemParameters(True)
+        status, memStart, memBinFile, useFlashImageCmd = self._getUserComMemParameters(True)
         if status:
-            memStart = self._convertComMemStart(memStart)
-            if memStart % self.comMemWriteUnit:
-                if self.languageIndex == uilang.kLanguageIndex_English:
-                    self.popupMsgBox('Start Address should be aligned with 0x%x !' %(self.comMemWriteUnit))
-                elif self.languageIndex == uilang.kLanguageIndex_Chinese:
-                    self.popupMsgBox(u"起始地址应该以 0x%x 对齐！" %(self.comMemWriteUnit))
-                else:
+            if useFlashImageCmd:
+                memBinFilepath, memBinfilename = os.path.split(memBinFile)
+                userFormatFile = os.path.join(self.userFolder, memBinfilename)
+                shutil.copy(memBinFile, userFormatFile)
+                status, results, cmdStr = self.blhost.flashImage(userFormatFile, 'erase', self.bootDeviceMemId)
+                try:
+                    os.remove(userFormatFile)
+                except:
                     pass
-                return
-            eraseMemStart = misc.align_down(memStart, self.comMemEraseUnit)
-            eraseMemEnd = misc.align_up(memStart + os.path.getsize(memBinFile), self.comMemEraseUnit)
-            status, results, cmdStr = self.blhost.flashEraseRegion(eraseMemStart, eraseMemEnd - eraseMemStart, self.bootDeviceMemId)
-            self.printLog(cmdStr)
-            if status != boot.status.kStatus_Success:
-                if self.languageIndex == uilang.kLanguageIndex_English:
-                    self.popupMsgBox('Failed to erase boot device, error code is %d !' %(status))
-                elif self.languageIndex == uilang.kLanguageIndex_Chinese:
-                    self.popupMsgBox(u"擦除启动设备失败，错误的代码是 %d ！" %(status))
-                else:
+                self.printLog(cmdStr)
+                if status != boot.status.kStatus_Success:
+                    if self.languageIndex == uilang.kLanguageIndex_English:
+                        self.popupMsgBox('Failed to flash boot device, error code is %d, double check image address first!' %(status))
+                    elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                        self.popupMsgBox(u"烧录启动设备失败，错误的代码是 %d ，请确认程序地址是否合法！" %(status))
+                    else:
+                        pass
+            else:
+                memStart = self._convertComMemStart(memStart)
+                if memStart % self.comMemWriteUnit:
+                    if self.languageIndex == uilang.kLanguageIndex_English:
+                        self.popupMsgBox('Start Address should be aligned with 0x%x !' %(self.comMemWriteUnit))
+                    elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                        self.popupMsgBox(u"起始地址应该以 0x%x 对齐！" %(self.comMemWriteUnit))
+                    else:
+                        pass
+                    return
+                eraseMemStart = misc.align_down(memStart, self.comMemEraseUnit)
+                eraseMemEnd = misc.align_up(memStart + os.path.getsize(memBinFile), self.comMemEraseUnit)
+                status, results, cmdStr = self.blhost.flashEraseRegion(eraseMemStart, eraseMemEnd - eraseMemStart, self.bootDeviceMemId)
+                self.printLog(cmdStr)
+                if status != boot.status.kStatus_Success:
+                    if self.languageIndex == uilang.kLanguageIndex_English:
+                        self.popupMsgBox('Failed to erase boot device, error code is %d !' %(status))
+                    elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                        self.popupMsgBox(u"擦除启动设备失败，错误的代码是 %d ！" %(status))
+                    else:
+                        pass
+                    return
+                shutil.copy(memBinFile, self.userFilename)
+                status, results, cmdStr = self.blhost.writeMemory(memStart, self.userFilename, self.bootDeviceMemId)
+                try:
+                    os.remove(self.userFilename)
+                except:
                     pass
-                return
-            shutil.copy(memBinFile, self.userFilename)
-            status, results, cmdStr = self.blhost.writeMemory(memStart, self.userFilename, self.bootDeviceMemId)
-            try:
-                os.remove(self.userFilename)
-            except:
-                pass
-            self.printLog(cmdStr)
-            if status != boot.status.kStatus_Success:
-                if self.languageIndex == uilang.kLanguageIndex_English:
-                    self.popupMsgBox('Failed to write boot device, error code is %d, You may forget to erase boot device first!' %(status))
-                elif self.languageIndex == uilang.kLanguageIndex_Chinese:
-                    self.popupMsgBox(u"写入启动设备失败，错误的代码是 %d ，请确认是否先擦除了启动设备！" %(status))
-                else:
-                    pass
+                self.printLog(cmdStr)
+                if status != boot.status.kStatus_Success:
+                    if self.languageIndex == uilang.kLanguageIndex_English:
+                        self.popupMsgBox('Failed to write boot device, error code is %d, You may forget to erase boot device first!' %(status))
+                    elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                        self.popupMsgBox(u"写入启动设备失败，错误的代码是 %d ，请确认是否先擦除了启动设备！" %(status))
+                    else:
+                        pass
 
     def readRamMemory( self ):
-        status, memStart, memLength = self._getUserComMemParameters(False)
+        status, memStart, memLength, dummyArg = self._getUserComMemParameters(False)
         if status:
             if (self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy and self.isInTheRangeOfFlexram(memStart, memLength)) or \
                 (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, memLength)) or \
@@ -218,17 +243,15 @@ class secBootMem(runcore.secBootRun):
                 self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_notInRam'][self.languageIndex])
 
     def writeRamMemory( self ):
-        status, memStart, memBinFile = self._getUserComMemParameters(True)
+        status, memStart, memBinFile, useFlashImageCmd = self._getUserComMemParameters(True)
         if status:
-            memLength = os.path.getsize(memBinFile)
-            if (self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy and self.isInTheRangeOfFlexram(memStart, memLength)) or \
-                (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, memLength)) or \
-                (self.mcuSeries == uidef.kMcuSeries_LPC and self.isInTheRangeOfSramx(memStart, memLength)) or \
-                (self.mcuSeries == uidef.kMcuSeries_Kinetis and self.isInTheRangeOfSram(memStart, memLength)):
-                shutil.copy(memBinFile, self.userFilename)
-                status, results, cmdStr = self.blhost.writeMemory(memStart, self.userFilename)
+            if useFlashImageCmd:
+                memBinFilepath, memBinfilename = os.path.split(memBinFile)
+                userFormatFile = os.path.join(self.userFolder, memBinfilename)
+                shutil.copy(memBinFile, userFormatFile)
+                status, results, cmdStr = self.blhost.flashImage(userFormatFile, '')
                 try:
-                    os.remove(self.userFilename)
+                    os.remove(userFormatFile)
                 except:
                     pass
                 self.printLog(cmdStr)
@@ -240,10 +263,30 @@ class secBootMem(runcore.secBootRun):
                     else:
                         pass
             else:
-                self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_notInRam'][self.languageIndex])
+                memLength = os.path.getsize(memBinFile)
+                if (self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy and self.isInTheRangeOfFlexram(memStart, memLength)) or \
+                    (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, memLength)) or \
+                    (self.mcuSeries == uidef.kMcuSeries_LPC and self.isInTheRangeOfSramx(memStart, memLength)) or \
+                    (self.mcuSeries == uidef.kMcuSeries_Kinetis and self.isInTheRangeOfSram(memStart, memLength)):
+                    shutil.copy(memBinFile, self.userFilename)
+                    status, results, cmdStr = self.blhost.writeMemory(memStart, self.userFilename)
+                    try:
+                        os.remove(self.userFilename)
+                    except:
+                        pass
+                    self.printLog(cmdStr)
+                    if status != boot.status.kStatus_Success:
+                        if self.languageIndex == uilang.kLanguageIndex_English:
+                            self.popupMsgBox('Failed to write RAM, error code is %d .' %(status))
+                        elif self.languageIndex == uilang.kLanguageIndex_Chinese:
+                            self.popupMsgBox(u"写入FlexRAM失败，错误的代码是 %d 。" %(status))
+                        else:
+                            pass
+                else:
+                    self.popupMsgBox(uilang.kMsgLanguageContentDict['operImgError_notInRam'][self.languageIndex])
 
     def executeAppInRam( self ):
-        status, memStart, memBinFile = self._getUserComMemParameters(False)
+        status, memStart, memBinFile, dummyArg = self._getUserComMemParameters(False)
         if status:
             if (self.mcuSeries in uidef.kMcuSeries_iMXRTyyyy and self.isInTheRangeOfFlexram(memStart, 1)) or \
                 (self.mcuSeries == uidef.kMcuSeries_iMXRTxxx and self.isInTheRangeOfSram(memStart, 1)) or \

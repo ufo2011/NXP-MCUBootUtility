@@ -126,9 +126,15 @@ class secBootUi(secBootWin.secBootWin):
         if self.toolCommDict['toolRunMode'] == uidef.kToolRunMode_Entry:
             self.m_menuItem_runModeEntry.Check(True)
             self.m_menuItem_runModeMaster.Check(False)
+            self.m_menuItem_runModeOta.Check(False)
         elif self.toolCommDict['toolRunMode'] == uidef.kToolRunMode_Master:
             self.m_menuItem_runModeEntry.Check(False)
             self.m_menuItem_runModeMaster.Check(True)
+            self.m_menuItem_runModeOta.Check(False)
+        elif self.toolCommDict['toolRunMode'] == uidef.kToolRunMode_SblOta:
+            self.m_menuItem_runModeEntry.Check(False)
+            self.m_menuItem_runModeMaster.Check(False)
+            self.m_menuItem_runModeOta.Check(True)
         else:
             pass
 
@@ -137,6 +143,8 @@ class secBootUi(secBootWin.secBootWin):
             self.toolRunMode = uidef.kToolRunMode_Entry
         elif self.m_menuItem_runModeMaster.IsChecked():
             self.toolRunMode = uidef.kToolRunMode_Master
+        elif self.m_menuItem_runModeOta.IsChecked():
+            self.toolRunMode = uidef.kToolRunMode_SblOta
         else:
             pass
         self.toolCommDict['toolRunMode'] = self.toolRunMode
@@ -667,6 +675,9 @@ class secBootUi(secBootWin.secBootWin):
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_black.png", wx.BITMAP_TYPE_ANY ))
         elif color == 'yellow':
             self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_yellow'][self.languageIndex])
+            self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_yellow.png", wx.BITMAP_TYPE_ANY ))
+        elif color == 'yellow_ota':
+            self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_yellow_ota'][self.languageIndex])
             self.m_bitmap_connectLed.SetBitmap(wx.Bitmap( u"../img/led_yellow.png", wx.BITMAP_TYPE_ANY ))
         elif color == 'green':
             self.m_button_connect.SetLabel(uilang.kMainLanguageContentDict['button_connect_green'][self.languageIndex])
@@ -1272,6 +1283,7 @@ class secBootUi(secBootWin.secBootWin):
         self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_runMode'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_runMode'][langIndex])
         self.m_menuItem_runModeEntry.SetItemLabel(uilang.kMainLanguageContentDict['mItem_runModeEntry'][langIndex])
         self.m_menuItem_runModeMaster.SetItemLabel(uilang.kMainLanguageContentDict['mItem_runModeMaster'][langIndex])
+        self.m_menuItem_runModeOta.SetItemLabel(uilang.kMainLanguageContentDict['mItem_runModeOta'][langIndex])
         self.m_menu_tools.SetLabel(self.m_menu_tools.FindItem(uilang.kMainLanguageContentDict['subMenu_usbDetection'][lastIndex]), uilang.kMainLanguageContentDict['subMenu_usbDetection'][langIndex])
         self.m_menuItem_usbDetectionDynamic.SetItemLabel(uilang.kMainLanguageContentDict['mItem_usbDetectionDynamic'][langIndex])
         self.m_menuItem_usbDetectionStatic.SetItemLabel(uilang.kMainLanguageContentDict['mItem_usbDetectionStatic'][langIndex])

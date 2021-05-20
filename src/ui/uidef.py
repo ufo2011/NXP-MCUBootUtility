@@ -3,6 +3,7 @@ import sys, os
 
 kToolRunMode_Entry  = 0
 kToolRunMode_Master = 1
+kToolRunMode_SblOta = 2
 
 kBootSeqColor_Invalid  = wx.Colour( 64, 64, 64 )
 kBootSeqColor_Optional = wx.Colour( 166, 255, 255 )

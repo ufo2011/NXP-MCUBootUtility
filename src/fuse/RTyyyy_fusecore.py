@@ -37,7 +37,7 @@ class secBootRTyyyyFuse(RTyyyy_runcore.secBootRTyyyyRun):
         self.RTyyyy_updateFuseGroupText()
 
     def _initEntryModeFuseFlag( self ):
-        if self.isToolRunAsEntryMode:
+        if self.toolRunMode == uidef.kToolRunMode_Entry:
             for i in range(RTyyyy_fusedef.kTotalEfuseWords):
                 idx = i + self.tgt.efusemapIndexDict['kEfuseIndex_START']
                 if (idx >= self.tgt.efusemapIndexDict['kEfuseEntryModeRegion0IndexStart'] and idx <= self.tgt.efusemapIndexDict['kEfuseEntryModeRegion0IndexEnd']) or \

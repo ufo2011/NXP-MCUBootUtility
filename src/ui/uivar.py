@@ -20,7 +20,7 @@ g_efuseDict = {'0x400_lock':0x00000000,
                }
 
 g_cfgFilename = None
-g_toolCommDict = {'isToolRunAsEntryMode':None,
+g_toolCommDict = {'toolRunMode':None,
                   'isDymaticUsbDetection':None,
                   'soundEffectType':None,
                   'isSbFileEnabledToGen':None,
@@ -229,7 +229,7 @@ def initVar(cfgFilename):
         g_userKeyCtrlDict = cfgDict["cfgUserKey"][0]
         g_userKeyCmdDict = cfgDict["cfgUserKey"][1]
     else:
-        g_toolCommDict = {'isToolRunAsEntryMode':True,
+        g_toolCommDict = {'toolRunMode':uidef.kToolRunMode_Master,
                           'isDymaticUsbDetection':True,
                           'soundEffectType':'contra',
                           'isSbFileEnabledToGen':False,

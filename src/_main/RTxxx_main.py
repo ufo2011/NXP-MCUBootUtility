@@ -208,7 +208,7 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
         return status
 
     def RTxxx_callbackGenImage( self ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._RTxxx_doGenImage()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -231,7 +231,7 @@ class secBootRTxxxMain(RTxxx_memcore.secBootRTxxxMem):
         return status
 
     def RTxxx_callbackFlashImage( self ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._RTxxx_doFlashImage()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])

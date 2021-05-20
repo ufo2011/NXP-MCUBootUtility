@@ -186,7 +186,7 @@ class secBootKinetisMain(Kinetis_memcore.secBootKinetisMem):
         return status
 
     def Kinetis_callbackGenImage( self ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._Kinetis_doGenImage()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -208,7 +208,7 @@ class secBootKinetisMain(Kinetis_memcore.secBootKinetisMem):
         return status
 
     def Kinetis_callbackFlashImage( self ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._Kinetis_doFlashImage()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])

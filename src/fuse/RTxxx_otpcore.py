@@ -35,7 +35,7 @@ class secBootRTxxxOtp(RTxxx_runcore.secBootRTxxxRun):
         self.RTxxx_updateOtpGroupText()
 
     def _initEntryModeOtpFlag( self ):
-        if self.isToolRunAsEntryMode:
+        if self.toolRunMode == uidef.kToolRunMode_Entry:
             for i in range(RTxxx_otpdef.kTotalOtpWords):
                 idx = i + self.tgt.otpmapIndexDict['kOtpIndex_START']
                 if (idx >= self.tgt.otpmapIndexDict['kOtpEntryModeRegion0IndexStart'] and idx <= self.tgt.otpmapIndexDict['kOtpEntryModeRegion0IndexEnd']) or \

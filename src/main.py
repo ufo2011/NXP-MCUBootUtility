@@ -189,7 +189,7 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
         self._setUartUsbPort()
 
     def callbackSetOneStep( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self.getOneStepConnectMode()
         else:
             self.initOneStepConnectMode()
@@ -380,7 +380,7 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
 
     def callbackReadMem( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doReadMem()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operMemError_notAvailUnderEntry'][self.languageIndex])
@@ -394,7 +394,7 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotCfgBootDevice'][self.languageIndex])
 
     def callbackEraseMem( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doEraseMem()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operMemError_notAvailUnderEntry'][self.languageIndex])
@@ -409,7 +409,7 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
 
     def callbackWriteMem( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doWriteMem()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operMemError_notAvailUnderEntry'][self.languageIndex])
@@ -422,7 +422,7 @@ class secBootMain(Kinetis_main.secBootKinetisMain):
             self.popupMsgBox(uilang.kMsgLanguageContentDict['connectError_hasnotEnterFl'][self.languageIndex])
 
     def callbackExecuteApp( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doExecuteApp()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['operMemError_notAvailUnderEntry'][self.languageIndex])

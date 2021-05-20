@@ -131,13 +131,14 @@ class secBootRTyyyyUi(memcore.secBootMem):
         activeColor = None
         optionalColor = None
         setEnable = None
-        if self.isToolRunAsEntryMode:
+        if self.toolRunMode == uidef.kToolRunMode_Entry:
             activeColor = uidef.kBootSeqColor_Invalid
             optionalColor = uidef.kBootSeqColor_Invalid
+            setEnable = False
         else:
             activeColor = uidef.kBootSeqColor_Active
             optionalColor = uidef.kBootSeqColor_Optional
-        setEnable = not self.isToolRunAsEntryMode
+            setEnable = True
         self.secureBootType = self.m_choice_secureBootType.GetString(self.m_choice_secureBootType.GetSelection())
         if self.secureBootType == RTyyyy_uidef.kSecureBootType_Development:
             self.m_button_genImage.Enable( setEnable )
@@ -864,7 +865,7 @@ class secBootRTyyyyUi(memcore.secBootMem):
     def RTyyyy_updateFuseRegionField( self ):
         self.resetFuseOtpRegionField()
         color = None
-        if self.isToolRunAsEntryMode:
+        if self.toolRunMode == uidef.kToolRunMode_Entry:
             color = wx.SYS_COLOUR_GRAYTEXT
             if self.mcuSeries == uidef.kMcuSeries_iMXRT10yy:
                 self.m_textCtrl_fuse400.SetBackgroundColour( wx.SystemSettings.GetColour( color ) )

@@ -370,7 +370,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
         return status
 
     def callbackGenCert( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doGenCert()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -410,7 +410,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
         return status
 
     def RTyyyy_callbackGenImage( self ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._RTyyyy_doGenImage()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -472,7 +472,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
         return status
 
     def callbackDoHwEncryption( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doHwEncryption()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -504,7 +504,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
         return status
 
     def callbackProgramSrk( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doProgramSrk()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -529,7 +529,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
         return status
 
     def callbackProgramHwCryptoDek( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doProgramHwCryptoDek()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -568,7 +568,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
         return status
 
     def RTyyyy_callbackFlashImage( self ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._RTyyyy_doFlashImage()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -604,7 +604,7 @@ class secBootRTyyyyMain(RTyyyy_memcore.secBootRTyyyyMem):
         return status
 
     def callbackFlashHabDek( self, event ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._doFlashHabDek()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])

@@ -67,13 +67,14 @@ class secBootKinetisUi(LPC_main.secBootLpcMain):
         activeColor = None
         optionalColor = None
         setEnable = None
-        if self.isToolRunAsEntryMode:
+        if self.toolRunMode == uidef.kToolRunMode_Entry:
             activeColor = uidef.kBootSeqColor_Invalid
             optionalColor = uidef.kBootSeqColor_Invalid
+            setEnable = False
         else:
             activeColor = uidef.kBootSeqColor_Active
             optionalColor = uidef.kBootSeqColor_Optional
-        setEnable = not self.isToolRunAsEntryMode
+            setEnable = True
         self.secureBootType = self.m_choice_secureBootType.GetString(self.m_choice_secureBootType.GetSelection())
         if self.secureBootType == Kinetis_uidef.kSecureBootType_PlainUnsigned:
             self.m_button_genImage.Enable( setEnable )

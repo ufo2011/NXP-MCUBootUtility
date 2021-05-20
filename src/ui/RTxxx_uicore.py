@@ -79,13 +79,14 @@ class secBootRTxxxUi(RTyyyy_main.secBootRTyyyyMain):
         activeColor = None
         optionalColor = None
         setEnable = None
-        if self.isToolRunAsEntryMode:
+        if self.toolRunMode == uidef.kToolRunMode_Entry:
             activeColor = uidef.kBootSeqColor_Invalid
             optionalColor = uidef.kBootSeqColor_Invalid
+            setEnable = False
         else:
             activeColor = uidef.kBootSeqColor_Active
             optionalColor = uidef.kBootSeqColor_Optional
-        setEnable = not self.isToolRunAsEntryMode
+            setEnable = True
         self.secureBootType = self.m_choice_secureBootType.GetString(self.m_choice_secureBootType.GetSelection())
         if self.secureBootType == RTxxx_uidef.kSecureBootType_PlainUnsigned or \
            self.secureBootType == RTxxx_uidef.kSecureBootType_PlainCrc:
@@ -635,7 +636,7 @@ class secBootRTxxxUi(RTyyyy_main.secBootRTyyyyMain):
     def RTxxx_updateOtpRegionField( self ):
         self.resetFuseOtpRegionField()
         color = None
-        if self.isToolRunAsEntryMode:
+        if self.toolRunMode == uidef.kToolRunMode_Entry:
             color = wx.SYS_COLOUR_GRAYTEXT
             if self.mcuSeries == uidef.kMcuSeries_iMXRTxxx:
                 if self.efuseGroupSel == 0:

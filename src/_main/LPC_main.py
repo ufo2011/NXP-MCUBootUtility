@@ -186,7 +186,7 @@ class secBootLpcMain(LPC_memcore.secBootLpcMem):
         return status
 
     def LPC_callbackGenImage( self ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._LPC_doGenImage()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])
@@ -208,7 +208,7 @@ class secBootLpcMain(LPC_memcore.secBootLpcMem):
         return status
 
     def LPC_callbackFlashImage( self ):
-        if not self.isToolRunAsEntryMode:
+        if self.toolRunMode != uidef.kToolRunMode_Entry:
             self._LPC_doFlashImage()
         else:
             self.popupMsgBox(uilang.kMsgLanguageContentDict['separActnError_notAvailUnderEntry'][self.languageIndex])

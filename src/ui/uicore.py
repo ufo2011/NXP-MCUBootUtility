@@ -55,7 +55,7 @@ class secBootUi(secBootWin.secBootWin):
         self._initLanguage()
         self.setLanguage()
 
-        self.isToolRunAsEntryMode = None
+        self.toolRunMode = None
         self._initToolRunMode()
         self.setToolRunMode()
 
@@ -123,16 +123,23 @@ class secBootUi(secBootWin.secBootWin):
         self.initOneStepConnectMode()
 
     def _initToolRunMode( self ):
-        if self.toolCommDict['isToolRunAsEntryMode']:
+        if self.toolCommDict['toolRunMode'] == uidef.kToolRunMode_Entry:
             self.m_menuItem_runModeEntry.Check(True)
             self.m_menuItem_runModeMaster.Check(False)
-        else:
+        elif self.toolCommDict['toolRunMode'] == uidef.kToolRunMode_Master:
             self.m_menuItem_runModeEntry.Check(False)
             self.m_menuItem_runModeMaster.Check(True)
+        else:
+            pass
 
     def setToolRunMode( self ):
-        self.isToolRunAsEntryMode = self.m_menuItem_runModeEntry.IsChecked()
-        self.toolCommDict['isToolRunAsEntryMode'] = self.isToolRunAsEntryMode
+        if self.m_menuItem_runModeEntry.IsChecked():
+            self.toolRunMode = uidef.kToolRunMode_Entry
+        elif self.m_menuItem_runModeMaster.IsChecked():
+            self.toolRunMode = uidef.kToolRunMode_Master
+        else:
+            pass
+        self.toolCommDict['toolRunMode'] = self.toolRunMode
 
     def _initUsbDetection( self ):
         if self.toolCommDict['isDymaticUsbDetection']:
@@ -683,7 +690,7 @@ class secBootUi(secBootWin.secBootWin):
         self.toolCommDict['isOneStepChecked'] = self.isOneStepConnectMode
 
     def enableOneStepForEntryMode( self ):
-        if self.isToolRunAsEntryMode:
+        if self.toolRunMode == uidef.kToolRunMode_Entry:
             self.m_checkBox_oneStepConnect.SetValue(True)
             self.toolCommDict['isOneStepChecked'] = True
 

@@ -1655,7 +1655,8 @@ class secBootRTyyyyRun(RTyyyy_gencore.secBootRTyyyyGen):
                 getOtfadCfg = self.RTyyyy_readMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_OTFAD_CFG'], '', False)
                 if getOtfadCfg != None:
                     destOtfadCfg = getOtfadCfg | (0x1 << self.tgt.efusemapDefnDict['kEfuseShift_OtfadKeyScrambleEnable'])
-                    destOtfadCfg = (destOtfadCfg & (~self.tgt.efusemapDefnDict['kEfuseMask_OtfadKeyScrambleAlign'])) | (scrambleAlignment << self.tgt.efusemapDefnDict['kEfuseShift_OtfadKeyScrambleAlign'])
+                    if self.tgt.efusemapDefnDict['kEfuseMask_OtfadKeyScrambleAlign'] != None:
+                        destOtfadCfg = (destOtfadCfg & (~self.tgt.efusemapDefnDict['kEfuseMask_OtfadKeyScrambleAlign'])) | (scrambleAlignment << self.tgt.efusemapDefnDict['kEfuseShift_OtfadKeyScrambleAlign'])
                     destOtfadCfg = destOtfadCfg ^ getOtfadCfg
                     burnResult = self.RTyyyy_burnMcuDeviceFuseByBlhost(self.tgt.efusemapIndexDict['kEfuseIndex_OTFAD_CFG'], destOtfadCfg)
                     if not burnResult:

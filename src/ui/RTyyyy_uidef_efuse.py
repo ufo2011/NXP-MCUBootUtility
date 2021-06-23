@@ -262,6 +262,8 @@ efusemapDefnDict_RT11yy = {
                            'kEfuseShift_HwCryptoKey0Sel' :4,
                            'kEfuseShift_HwCryptoKey1Sel' :6,
 
+                           'kEfuseMask_OtfadKeyScrambleAlign'   :None,
+                           'kEfuseShift_OtfadKeyScrambleAlign'  :None,
                            'kEfuseMask_OtfadKeyScrambleEnable'  :0x00000001,
                            'kEfuseShift_OtfadKeyScrambleEnable' :0,
                            'kEfuseMask_OtfadKeyblobEnable'      :0x00000002,

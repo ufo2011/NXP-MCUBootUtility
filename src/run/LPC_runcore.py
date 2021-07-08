@@ -84,7 +84,7 @@ class secBootLpcRun(LPC_gencore.secBootLpcGen):
         return [self.tgt.romUsbVid, self.tgt.romUsbPid, self.tgt.flashloaderUsbVid, self.tgt.flashloaderUsbPid]
 
     def LPC_connectToDevice( self , connectStage):
-        if connectStage == uidef.kConnectStage_Rom:
+        if connectStage == uidef.kConnectStage_Rom or connectStage == uidef.kConnectStage_Flashloader:
             # Create the target object.
             self.LPC_createMcuTarget()
             if self.isUartPortSelected:

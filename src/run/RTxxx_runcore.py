@@ -86,7 +86,7 @@ class secBootRTxxxRun(RTxxx_gencore.secBootRTxxxGen):
         return [self.tgt.romUsbVid, self.tgt.romUsbPid, self.tgt.flashloaderUsbVid, self.tgt.flashloaderUsbPid]
 
     def RTxxx_connectToDevice( self , connectStage):
-        if connectStage == uidef.kConnectStage_Rom:
+        if connectStage == uidef.kConnectStage_Rom or connectStage == uidef.kConnectStage_Flashloader:
             # Create the target object.
             self.RTxxx_createMcuTarget()
             if self.isUartPortSelected:

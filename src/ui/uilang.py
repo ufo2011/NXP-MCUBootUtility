@@ -680,6 +680,12 @@ kRevision_3_3_0_zh = u"【v3.3.0】 \n" + \
                       "     3. 通用编程器模式下增加支持带格式源image文件(hex/s19) \n" + \
                      u"  改进: \n" + \
                      u"     1. [RTyyyy] 启动头IVT中entry参数既支持设为复位函数也支持中断向量表 \n\n"
+kRevision_3_3_1_en =  "【v3.3.1】 \n" + \
+                      "  Bugfix: \n" + \
+                      "     1. [RTxxx/LPC] Cannot connect to SBL target \n\n"
+kRevision_3_3_1_zh = u"【v3.3.1】 \n" + \
+                     u"  修复: \n" + \
+                     u"     1. [RTxxx/LPC] 修复SBL设备无法连接的问题 \n\n"
 
 kMsgLanguageContentDict = {
         'homePage_title':                     ['Home Page',                             u"项目主页"],
@@ -710,6 +716,7 @@ kMsgLanguageContentDict = {
         'revisionHistory_v3_1_1':             [kRevision_3_1_1_en,                      kRevision_3_1_1_zh],
         'revisionHistory_v3_2_0':             [kRevision_3_2_0_en,                      kRevision_3_2_0_zh],
         'revisionHistory_v3_3_0':             [kRevision_3_3_0_en,                      kRevision_3_3_0_zh],
+        'revisionHistory_v3_3_1':             [kRevision_3_3_1_en,                      kRevision_3_3_1_zh],
 
         'bootDeviceInfo_hasOnchipSerialNor':  ['MCU has on-chip QSPI NOR Flash (4MB, 133MHz), so you don\'t need to configure this boot device!',
                                               u"微控制器内置4MB的QSPI NOR Flash，所以无需配置该启动设备！"],
